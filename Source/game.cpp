@@ -339,6 +339,7 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// BossTime
 		enemyManager.SetBossActive(true);
 		currentSong = bossMusic;
+		PlayMusicStream(currentSong);
 		//isBossActive = true;
 		return false;
 	}
