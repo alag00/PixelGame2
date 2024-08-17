@@ -1,0 +1,588 @@
+#include "player.h"
+
+void Player::Unload()
+{
+	// Texture
+	UnloadTexture(idleAtlas);
+	UnloadTexture(walkAtlas);
+	UnloadTexture(fallAtlas);
+	UnloadTexture(jumpAtlas);
+	UnloadTexture(ledgeAtlas);
+
+	UnloadTexture(attackOneAtlas);
+	UnloadTexture(attackTwoAtlas);
+	UnloadTexture(deflectAtlas);
+	UnloadTexture(successDeflectAtlas);
+	UnloadTexture(damagedAtlas);
+	UnloadTexture(loseAdvantageAtlas);
+
+	UnloadTexture(deflectParticleAtlas);
+
+	// Audio
+	UnloadSound(hitSound);
+	UnloadSound(deathSound);
+	UnloadSound(jumpSound);
+}
+
+void Player::Setup()
+{
+	idleAtlas = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
+	walkAtlas = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+	fallAtlas = LoadTexture("Assets/PlayerTextures/FallAtlas.png");
+	jumpAtlas = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
+	ledgeAtlas = LoadTexture("Assets/PlayerTextures/LedgeClimbAtlasAlter.png");
+
+	attackOneAtlas = LoadTexture("Assets/PlayerTextures/FirstSliceAtlasAlter.png");
+	attackTwoAtlas = LoadTexture("Assets/PlayerTextures/SecondSliceAtlas.png");
+	deflectAtlas = LoadTexture("Assets/PlayerTextures/DeflectAtlas.png");
+	successDeflectAtlas = LoadTexture("Assets/PlayerTextures/SuccessfulDeflectAtlas.png");
+	damagedAtlas = LoadTexture("Assets/PlayerTextures/DamagedAtlas.png");
+	loseAdvantageAtlas = LoadTexture("Assets/PlayerTextures/AdvantageLostAtlas.png");
+
+	deflectParticleAtlas = LoadTexture("Assets/Particles/DeflectParticleAtlasAlter.png");
+
+
+	hitSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
+	deathSound = LoadSound("Assets/Audio/SFX/PlayerDeath.mp3");
+	jumpSound = LoadSound("Assets/Audio/SFX/Jump.mp3");
+
+	anim.SetAnimation(idleAtlas, 8, true);
+	particleAnim.SetAnimation(deflectParticleAtlas, 5, true);
+
+	size.x = 48.f * scale;
+	size.y = 48.f * scale;
+
+	pos.x = 1.f;
+	pos.y = 1.f;
+
+	maxHealth = 30;
+	health = maxHealth;
+}
+
+void Player::Update(float dt)
+{
+	UpdateParticles(dt);
+	
+	switch (status)
+	{
+	case STATUS::ATTACK: 
+		Attack(dt);
+		break;
+	case STATUS::DAMAGED:
+		DamageRecovery(dt);
+		break;
+	case STATUS::LOSTADVANTAGE:
+
+		if (anim.GetCurrentFrame() >= 6)
+		{
+			status = STATUS::IDLE;
+		}
+		break;
+	default:
+		Control(dt);
+		Movement(dt);
+		break;
+	}
+	
+}
+
+void Player::Render()
+{
+	Rectangle dst = { pos.x, pos.y, size.x, size.y };
+	dst = { pos.x * 64.f +  32.f, pos.y * 64.f + 40.f, size.x, size.y };
+	//dst.x = (lookRight) ? dst.x  : dst.x ;
+	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+	
+	if (status == STATUS::ATTACK)
+	{
+		Color color = YELLOW;
+		color.a = 50;
+		DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
+		//DrawCircle(hitRadiusPos.x * 64.f, hitRadiusPos.y * 64.f, hitRadius * 64, color);
+	}
+	
+
+	hitBox = { pos.x, pos.y, 1, 1 };
+	//DrawRectangleRec(hitBox, BLACK);
+	RenderParticles();
+}
+
+void Player::Movement(float dt)
+{	
+	
+	if (vel.y > 0.f && status != STATUS::FALLING)
+	{
+		anim.SetAnimation(fallAtlas, 4, true);
+		status = STATUS::FALLING;
+		//vel.x = 0.f;
+	}
+
+	vel.y += 20.f * dt;
+
+	jumpTimer += dt;
+	fallingTimer += dt;
+
+}
+
+void Player::Control(float dt)
+{
+	
+
+	vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
+	if (fabs(vel.x) <= 10.0f)
+	{
+		vel.x = 0.f;
+	}
+	if (status == STATUS::DEFLECT)
+	{
+		if (anim.GetCurrentFrame() < 4)
+		{
+			return;
+		}
+		//deflectTimer += dt;
+		//if (deflectTimer < 0.3f)
+		//{
+		//	return;
+	//	}
+		//deflectTimer = 0.f;
+		anim.SetAnimation(idleAtlas, 8, true);
+		status = STATUS::IDLE;
+	}
+
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		if (onGround)
+		{
+
+			Jump();
+		}
+		else {
+
+			if (fallingTimer > 0.f && fallingTimer < 0.1f)
+			{
+				Jump();
+			}
+
+			jumpTimer = 0.f;
+		}
+	}
+	if (IsKeyDown(KEY_A))
+	{
+		vel.x = -10.f;
+		if (status == STATUS::IDLE && onGround)
+		{
+			status = STATUS::MOVING;
+			anim.SetAnimation(walkAtlas, 8, true);
+		}
+		if (lookRight)
+		{
+			anim.FlipAnimationHorizontal();
+			particleAnim.FlipAnimationHorizontal();
+			lookRight = !lookRight;
+		}
+	}
+	if (IsKeyDown(KEY_D))
+	{
+		vel.x = 10.f;
+		if (status == STATUS::IDLE && onGround)
+		{
+			status = STATUS::MOVING;
+			anim.SetAnimation(walkAtlas, 8, true);
+		}
+		if (!lookRight)
+		{
+			anim.FlipAnimationHorizontal();
+			particleAnim.FlipAnimationHorizontal();
+			lookRight = !lookRight;
+		}
+	}
+	if (status != STATUS::IDLE && onGround && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
+	{
+		anim.SetAnimation(idleAtlas, 8, true);
+		status = STATUS::IDLE;
+	}
+	if (IsKeyPressed(KEY_O))
+	{
+		InitAttack();
+	
+	}
+	if (IsKeyPressed(KEY_P) && status != STATUS::JUMPING && status != STATUS::FALLING)
+	{
+		anim.SetAnimation(deflectAtlas, 5, true);
+		status = STATUS::DEFLECT;
+	}
+}
+
+void Player::LedgeJump(Vector2 edgePoint)
+{
+	anim.SetAnimation(ledgeAtlas, 7, true);
+	onGround = false;
+	status = STATUS::JUMPING;
+
+	float dx = edgePoint.x - pos.x;
+	float dy = edgePoint.y - pos.y;
+
+	float mag = sqrtf((dx * dx) + (dy * dy));
+	dx /= mag;
+	dy /= mag;
+
+	vel.x = dx * ledgeJumpPower;
+	vel.y = -ledgeJumpPower;
+
+	if (lookRight &&  pos.x > edgePoint.x || !lookRight && pos.x < edgePoint.x)
+	{
+		anim.FlipAnimationHorizontal();
+		particleAnim.FlipAnimationHorizontal();
+		lookRight = !lookRight;
+	}
+}
+
+void Player::Jump()
+{
+	anim.SetAnimation(jumpAtlas, 8, true);
+	onGround = false;
+	status = STATUS::JUMPING;
+	vel.y = -maxJumpPower / 5.f;
+	PlaySound(jumpSound);
+	
+}
+void Player::SetOnGround(bool newValue)
+{
+	onGround = newValue;
+	
+	if (onGround)
+	{
+		jumpCounter = 0.f;
+		fallingTimer = 0.f;
+		if (jumpTimer > 0.f && jumpTimer <= 0.1f)
+		{
+			Jump();
+		}
+		if (status != STATUS::MOVING && status != STATUS::DEFLECT && status != STATUS::ATTACK)
+		{
+			vel.y = 0.f;
+			anim.SetAnimation(idleAtlas, 8, true);
+			status = STATUS::IDLE;
+		}
+	}
+}
+void Player::Attack(float dt)
+{
+	vel.y += 20.f * dt;
+	if (IsKeyPressed(KEY_O))
+	{
+		queuedAttack = true;
+	}
+	switch (anim.GetCurrentFrame())
+	{
+	case 0:
+		vel.x = (lookRight) ? 1.f : -1.f;
+		break;
+	case 1:
+		vel.x = (lookRight) ? 4.f : -4.f;
+		break;
+	case 2:
+		vel.x = (lookRight) ? 4.f : -4.f;
+		break;
+	case 3:
+		vel.x = (lookRight) ? 1.f : -1.f;
+		break;
+	case 4:
+		attackBox = { pos.x, pos.y, 1, 1 };
+		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
+
+		break;
+	case 5:
+		attackBox = { pos.x, pos.y, 1, 1 };
+		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
+
+		break;
+	case 6:
+		vel.x = 0.f;
+		status = STATUS::IDLE;
+		attackBox.width = 0.f;
+		attackBox.height = 0.f;
+
+		if (queuedAttack)
+		{
+			InitAttack();
+		}
+
+		break;
+	}
+	
+	/*	/*
+		if (IsKeyPressed(KEY_O))
+		{
+			currentAttackId++;
+			currentSlice++;
+			switch (currentSlice)
+			{
+			case 2:
+				anim.SetAnimation(attackOneAtlas, 7, false);
+				break;
+			case 3:
+				currentSlice = 1;
+				anim.SetAnimation(attackTwoAtlas, 7, false);
+				break;
+			}
+			//anim.SetAnimation(attackTwoAtlas, 7, false);
+			status = STATUS::ATTACK;
+			return;
+		}
+		Control(dt);
+		
+		return;
+	}
+	if (anim.GetCurrentFrame() == 5)
+	{
+		attackWindowTimer = 0.f;
+
+	}
+	if (anim.GetCurrentFrame() >= 0)
+	{
+		//hitRadiusPos.x = (!lookRight) ? pos.x - 0.5f : pos.x + 1.5f;
+		//hitRadiusPos.y = pos.y + 0.5f;
+		attackBox = { pos.x, pos.y, 1, 1 };
+		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
+	}
+	*/
+	/*
+	switch (anim.GetCurrentFrame())
+	{
+	case 0:
+	case 1:
+	case 2:
+		if (currentSlice == 1)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x +1  : pos.x ;
+			hitRadiusPos.y = pos.y +1 ;
+		}
+		else if (currentSlice == 2)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x  : pos.x + 1;
+			hitRadiusPos.y = pos.y;
+		}
+		break;
+	case 3:
+		if (currentSlice == 1)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x : pos.x + 1;
+			hitRadiusPos.y = pos.y + 1;
+		}
+		else if (currentSlice == 2)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x : pos.x + 1;
+			hitRadiusPos.y = pos.y + 0.5f;
+		}
+		break;
+	case 4:
+		if (currentSlice == 1)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x - 1 : pos.x + 2;
+			hitRadiusPos.y = pos.y + 0.5f;
+		}
+		else if (currentSlice == 2)
+		{
+			hitRadiusPos.x = (!lookRight) ? pos.x + 1  : pos.x ;
+			hitRadiusPos.y = pos.y + 0.5f;
+		}
+		break;
+	}
+	if (anim.GetCurrentFrame() < 6)
+	{
+		vel.x = (lookRight) ? 6.f : -6.f;
+	}
+	if (anim.GetCurrentFrame() == 5)
+	{
+		attackWindowTimer = 0.f;
+	}
+	if (anim.GetCurrentFrame() >= 6)
+	{
+		// end attack
+		// set player in Wait Mode ( player can either move/jump or attack again which trigger second slice animation )
+		attackWindowTimer += dt;
+		if (attackWindowTimer >= attackWindowTime)
+		{
+			status = STATUS::IDLE;
+			currentSlice = 1;
+			return;
+		}
+		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
+		{
+			currentSlice++;
+			switch (currentSlice)
+			{
+			case 2: 
+				anim.SetAnimation(attackTwoAtlas, 7, false);
+				break;
+			case 3: 
+				anim.SetAnimation(attackOneAtlas, 7, false);
+				currentSlice = 1;
+				break;
+			}
+			//anim.SetAnimation(attackTwoAtlas, 7, false);
+			status = STATUS::ATTACK;
+			return;
+		}
+		Control(dt);
+		
+	}*/
+	
+}
+
+
+void Player::CollisionCheck(Entity& enemy)
+{
+	if (status == STATUS::ATTACK && anim.GetCurrentFrame() <= 5 && anim.GetCurrentFrame() >= 4)
+	{
+
+		if (CheckCollisionRecs(attackBox, enemy.hitBox))
+		{
+			status = STATUS::IDLE;
+			playParticle = true;
+
+			vel.x = (lookRight) ? -15.f : 15.f;
+
+			enemy.GetHit(pos, 10, currentAttackId);
+		
+			attackBox.width = 0.f;
+			attackBox.height = 0.f;
+			PlaySound(hitSound);
+		}
+
+	}
+}
+
+bool Player::IsInAttackMode()
+{
+	if (status != STATUS::ATTACK)
+	{
+		return false;
+	}
+	return true;
+}
+
+bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
+{
+	if (status == STATUS::DAMAGED)
+	{
+		return true;
+	}
+	PlaySound(hitSound);
+	if (status != STATUS::DEFLECT)
+	{
+		//Jump();// Take damage
+		health -= 10;
+		vel.x = (sourcePos.x > pos.x) ? -10.f : 10.f;
+		vel.y -= 5.f;
+		status = STATUS::DAMAGED;
+		anim.SetAnimation(damagedAtlas, 8, false);
+		if (!lookRight && vel.x < 0.f || lookRight && vel.x > 0.f)
+		{
+			anim.FlipAnimationHorizontal();
+			lookRight = !lookRight;
+		}
+		return true;
+	}
+	anim.SetAnimation(successDeflectAtlas, 5, false);
+	vel.x = (sourcePos.x > pos.x) ? -15.f : 15.f;
+	playParticle = true;
+
+	return false;
+}
+
+
+
+
+
+
+void Player::UpdateParticles(float dt)
+{
+	if (!playParticle)
+	{
+		return;
+	}
+	if (particleAnim.GetCurrentFrame() == 4)
+	{
+		playParticle = false;
+	}
+}
+
+void Player::RenderParticles()
+{
+	if (!playParticle)
+	{
+		return;
+	}
+	Rectangle dst = { pos.x, pos.y, size.x, size.y };
+	dst = { pos.x * 64.f + 32.f, pos.y * 64.f + 40.f, size.x, size.y };
+	//dst.x = (lookRight) ? dst.x  : dst.x ;
+	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+
+	dst.x = (lookRight) ? dst.x + 16.f : dst.x - 16.f;
+	particleAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+}
+
+Vector2 Player::GetCenter()
+{
+	return Vector2(pos.x + 0.5f, pos.y + 0.5f);
+}
+
+void Player::DamageRecovery(float dt)
+{
+	vel.y += 20.f * dt;
+
+	jumpTimer += dt;
+	fallingTimer += dt;
+
+	if (anim.GetCurrentFrame() >= 7)
+	{
+		status = STATUS::IDLE;
+	}
+}
+
+void Player::InitAttack()
+{
+	if (onGround)
+	{
+		
+		vel.x = 0.f;
+		vel.y = 0.f;
+		status = STATUS::ATTACK;
+		currentAttackId++;
+		queuedAttack = false;
+		switch (currentSlice)
+		{
+		case 1:
+			anim.SetAnimation(attackTwoAtlas, 7, false);
+			currentSlice = 2;
+			break;
+		case 2:
+			anim.SetAnimation(attackOneAtlas, 7, false);
+			currentSlice = 1;
+			break;
+		}
+		
+	}
+	else
+	{
+		// Air Attack
+	}
+}
+
+void Player::LoseAdvantage()
+{
+	anim.SetAnimation(loseAdvantageAtlas, 7, false);
+	status = STATUS::LOSTADVANTAGE;
+	vel.x = (lookRight) ? -2 : 2 ;
+	// Play Particles
+}
+
+void  Player::Die()
+{
+	PlaySound(deathSound);
+}
