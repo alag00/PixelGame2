@@ -16,8 +16,7 @@ void Game::Run()
 	player.Setup();
 	enemyManager.LoadEnemyTextures();
 	enemyManager.GetPlayerRef(player);
-	//enemy.Setup();
-	//enemy.SetPlayerRef(player);
+
 
 	LevelSetup();
 
@@ -85,12 +84,7 @@ void Game::Update()
 			player.CollisionCheck(*enemyManager.GetEnemyList().at(i));
 		}
 	}
-	/*
-	if ( boss != nullptr && !boss->IsAlive())
-	{
-		isBossActive = false;
-	}
-	*/
+
 	float percent = (float)player.health / (float)player.maxHealth;
 	if (percent <= 0.f)
 	{
@@ -117,16 +111,10 @@ void Game::CheckEvent()
 		filter.StartEffect(FADE_FROM_BLACK);
 		player.SetPosition(currentCheckPoint.x, currentCheckPoint.y);
 		player.health = player.maxHealth;
-		/*
-		for (int i = 0; i < enemyList.size(); i++)
-		{
-			enemyList.at(i)->Reset();
-			
-		}
-		*/
+	
 		enemyManager.Reset();
 		enemyManager.SetBossActive(false);
-		//isBossActive = false;
+		
 		break;
 	}
 
@@ -143,46 +131,9 @@ void Game::AdjustPlayer(float dt)
 	float fNewPlayerPosX = player.GetPosition().x + player.GetVelocity().x * dt;
 	float fNewPlayerPosY = player.GetPosition().y + player.GetVelocity().y * dt;
 
-	/*
-	if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 0.0f) == L'+')
-	{
-		//currentLevel++;
-		//LevelSetup();
-		filter.StartEffect(FADE_TO_BLACK);
-		goNextLevel = true;
-		return;
-	}
-
-	if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f) == L'+')
-	{
-		//currentLevel++;
-		//LevelSetup();
-		filter.StartEffect(FADE_TO_BLACK);
-		goNextLevel = true;
-		return;
-	}
-
-	if (GetTile(fNewPlayerPosX + 1.0f, fNewPlayerPosY + 0.0f) == L'+')
-	{
-		//currentLevel++;
-		//LevelSetup();
-		filter.StartEffect(FADE_TO_BLACK);
-		goNextLevel = true;
-		return;
-	}
-
-	if (GetTile(fNewPlayerPosX + 1.0f, fNewPlayerPosY + 1.0f) == L'+')
-	{
-		//currentLevel++;
-		//LevelSetup();
-		filter.StartEffect(FADE_TO_BLACK);
-		goNextLevel = true;
-		return;
-	}
-	*/
-
+	
 	// Check for Collision
-	if (player.GetVelocity().x < 0) // Moving Left
+	if (player.GetVelocity().x < 0) 
 	{
 
 		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.0f);
@@ -196,35 +147,8 @@ void Game::AdjustPlayer(float dt)
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
-		/*
-		if (tileTypeOne == L'D' || tileTypeTwo == L'D')
-		{
-			//
-			LevelSetup();
-			return;
-		}
-		if (tileTypeOne == L'+' || tileTypeTwo == L'+')
-		{
-			filter.StartEffect(FADE_TO_BLACK);
-			goNextLevel = true;
-			return;
-		}
-		*/
-		/*
-		if (GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.9f) != L'.')
-		{
-			if (GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.0f) == L'C' || GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.9f) == L'C')
-			{
-				player.SetOnGround(true);
-			}
-			fNewPlayerPosX = (int)fNewPlayerPosX + 1;
-			player.SetVelocity(0.f, player.GetVelocity().y);
-			
-			//fPlayerVelX = 0;
-		}
-		*/
 	}
-	else if (player.GetVelocity().x > 0)// Moving Right
+	else if (player.GetVelocity().x > 0)
 	{
 		char tileTypeOne = GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.0f);
 		char tileTypeTwo = GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.9f);
@@ -237,19 +161,11 @@ void Game::AdjustPlayer(float dt)
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
-		/*
-		if (GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.0f) != L'.' || GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.9f) != L'.')
-		{
-			fNewPlayerPosX = (int)fNewPlayerPosX;
-			player.SetVelocity(0.f, player.GetVelocity().y);
-			//fPlayerVelX = 0;
-		}
-		*/
+
 	}
 
 	player.SetOnGround(false);
-	//bPlayerOnGround = false;
-	if (player.GetVelocity().y < 0) // Moving Up
+	if (player.GetVelocity().y < 0) 
 	{
 		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY);
 		char tileTypeTwo = GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY);
@@ -262,16 +178,9 @@ void Game::AdjustPlayer(float dt)
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 			}
 		}
-		/*
-		if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY) != L'.')
-		{
-			fNewPlayerPosY = (int)fNewPlayerPosY + 1;
-			//	fPlayerVelY = 0;
-			player.SetVelocity(player.GetVelocity().x, 0.f);
-		}
-		*/
+	
 	}
-	else if (player.GetVelocity().y > 0) // Moving Down
+	else if (player.GetVelocity().y > 0) 
 	{
 		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f);
 		char tileTypeTwo = GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f);
@@ -285,25 +194,14 @@ void Game::AdjustPlayer(float dt)
 				player.SetOnGround(true);
 			}
 		}
-		/*
-		if (GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f) != L'.' || GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f) != L'.')
-		{
-			fNewPlayerPosY = (int)fNewPlayerPosY;
-			player.SetVelocity(player.GetVelocity().x, 0.f);
-			//fPlayerVelY = 0;
-			//bPlayerOnGround = true; // Player has a solid surface underfoot
-			
-			player.SetOnGround(true);
-		}
-		*/
+	
 	}
 
-	// Apply new position
+	
 	player.SetPosition(fNewPlayerPosX, fNewPlayerPosY);
-	//fPlayerPosX = fNewPlayerPosX;
-	//fPlayerPosY = fNewPlayerPosY;
+
 	background.Update(player.GetVelocity());
-	// Link camera to player position
+
 	fCameraPosX = player.GetPosition().x;
 	fCameraPosY = player.GetPosition().y;
 	
@@ -340,19 +238,14 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		enemyManager.SetBossActive(true);
 		currentSong = bossMusic;
 		PlayMusicStream(currentSong);
-		//isBossActive = true;
 		return false;
 	}
 
 	if (tileTypeOne == L'C' || tileTypeTwo == L'C')
 	{
-		// CheckPoint
-		// Set current checkpoint pos to this tile
-		// when setting up new level, set spawn to current checkpoint
 		
-
 		currentCheckPoint = player.GetPosition();
-		//SetTile(currentCheckPoint.x, currentCheckPoint.y, L'?');
+	
 		
 		return false;
 	}
@@ -368,8 +261,6 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		filter.StartEffect(FADE_TO_BLACK);
 		currentEvent = NextLevel;
 
-		//goNextLevel = true;
-		// NextLevel();
 		return false;
 	}
 	if (tileTypeOne == L'-' || tileTypeTwo == L'-')
@@ -429,23 +320,13 @@ void Game::Render()
 	{
 		RenderTutorial();
 	}
-	//DrawText(TextFormat("Player Pos Y: %f", player.pos.y), 0, 20, 20, YELLOW);
 	EndDrawing();
 }
 
 void Game::RenderUI()
 {
 	enemyManager.RenderUI();
-	/*
-	for (int i = 0; i < enemyList.size(); i++)
-	{
-		if (!enemyList.at(i)->IsAlive())
-		{
-			continue;
-		}
-		enemyList.at(i)->RenderUI();
-	}
-	*/
+
 }
 void Game::RenderBackground()
 {
@@ -477,13 +358,13 @@ void Game::LevelSetup()
 	}
 	
 	
-	//boss = nullptr;
+	
 
 	sLevel = levels.GetLevel();
 	nLevelWidth = levels.GetLevelWidth();
 	nLevelHeight = levels.GetLevelHeight();
 
-	//goNextLevel = false;
+	
 
 	background.SetLevelBackground(currentLevel);
 
@@ -510,42 +391,16 @@ void Game::LevelSetup()
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
 				enemyManager.CreateKnight(Vector2(x, y), isBoss);
 				SetTile(x, y, L'.');
-				/*
-				KnightEnemy* newEnemy = new KnightEnemy();
-				newEnemy->SetPlayerRef(player);
-				newEnemy->pos = Vector2(x,y);
-				newEnemy->SetStartPos(Vector2(x, y));
-				newEnemy->Setup();
-				if (GetTile(x, y) == levels.GetBossChar())
-				{
-					boss = newEnemy;
-					newEnemy->isBoss = true;
-				}
-				enemyList.push_back(newEnemy);
-				SetTile(x, y, L'.');
-				*/
+			
 				continue;
 			}
 			if (GetTile(x, y) == L'Z')
 			{
-				/*
-				SkeletonEnemy* newEnemy = new SkeletonEnemy();
-				newEnemy->SetPlayerRef(player);
-				newEnemy->pos = Vector2(x, y);
-				newEnemy->SetStartPos(Vector2(x, y));
-				newEnemy->Setup();
-				*/
+			
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false ;
 				enemyManager.CreateSkeleton(Vector2(x, y), isBoss);
 				SetTile(x, y, L'.');
-				/*
-				if (GetTile(x, y) == levels.GetBossChar())
-				{
-					boss = newEnemy;
-					newEnemy->isBoss = true;
-				}
-				enemyList.push_back(newEnemy);
-				*/
+			
 				continue;
 			}
 			if (GetTile(x, y) == L'N')
@@ -553,19 +408,6 @@ void Game::LevelSetup()
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
 				enemyManager.CreateNecromancer(Vector2(x, y), isBoss);
 				SetTile(x, y, L'.');
-				/*
-				NecromancerEnemy* newEnemy = new NecromancerEnemy();
-				newEnemy->SetPlayerRef(player);
-				newEnemy->pos = Vector2(x, y);
-				newEnemy->SetStartPos(Vector2(x, y));
-				newEnemy->Setup();
-				if (GetTile(x, y) == levels.GetBossChar())
-				{
-					boss = newEnemy;
-					newEnemy->isBoss = true;
-				}
-				enemyList.push_back(newEnemy);
-				SetTile(x, y, L'.');*/
 				continue;
 			}
 			if(currentLevel != 1)
@@ -606,7 +448,7 @@ void Game::LevelRender()
 
 
 	cam.target = { fCameraPosX * nTileWidth, fCameraPosY * nTileHeight };
-	// Clamp Camera
+
 	float halfWidth = screenWidth / 2.f;
 	float halfHeight = screenHeight / 2.f;
 	
@@ -631,21 +473,19 @@ void Game::LevelRender()
 			switch (sTileID)
 			{
 			case L'.': // Sky
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, SKYBLUE);
-				//DrawRectangle(x * nTileWidth, y * nTileHeight,  nTileWidth,  nTileHeight , SKYBLUE);
+
 				break;
 			case L'#':
 				 src = {0.f,0.f, 16.f, 16.f};
 				 dst = { (float)x * nTileWidth,(float) y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, RED);
+	
 				break;
 			case L'_':
 				src = {64.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, RED);
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, DARKBROWN);
+
 				break;
 			case L'%':
 				src = { 32.f,0.f, 16.f, 16.f };
@@ -699,73 +539,16 @@ void Game::LevelRender()
 				break;
 			
 			default:
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, BLACK);
 				DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, BLACK);
 				break;
 			}
 		}
 	}
 
-	/*
-	for (int i = 0; i < enemyList.size(); i++)
-	{
-		enemyList.at(i)->Render();
-	}
-	*/
+
 	enemyManager.Render();
 	player.Render();
-	//Color color = GREEN;
-	//color.a = 70;
-	//DrawRectangle(player.GetPosition().x * nTileWidth , player.GetPosition().y * nTileHeight, nTileWidth, nTileHeight, color);
 
-	/*
-	// Draw Level
-	int nTileWidth =  64;
-	int nTileHeight = 64;
-	int nVisibleTilesX = screenWidth / nTileWidth;
-	int nVisibleTilesY = screenHeight / nTileHeight;
-
-	// Calculate Top-Leftmost visible tile
-	float fOffsetX = fCameraPosX - (float)nVisibleTilesX / 2.0f;
-	float fOffsetY = fCameraPosY - (float)nVisibleTilesY / 2.0f;
-
-	// Clamp camera to game boundaries
-	if (fOffsetX < 0) fOffsetX = 0;
-	if (fOffsetY < 0) fOffsetY = 0;
-	if (fOffsetX > nLevelWidth - nVisibleTilesX) fOffsetX = nLevelWidth - nVisibleTilesX;
-	if (fOffsetY > nLevelHeight - nVisibleTilesY) fOffsetY = nLevelHeight - nVisibleTilesY;
-
-	// Get offsets for smooth movement
-	float fTileOffsetX = (fOffsetX - (int)fOffsetX) * nTileWidth;
-	float fTileOffsetY = (fOffsetY - (int)fOffsetY) * nTileHeight;
-
-	// Draw visible tile map
-	for (int x = -1; x < nVisibleTilesX + 1; x++)
-	{
-		for (int y = -1; y < nVisibleTilesY + 1; y++)
-		{
-			wchar_t sTileID = GetTile(x + fOffsetX, y + fOffsetY);
-			switch (sTileID)
-			{
-			case L'.': // Sky
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, SKYBLUE);
-				DrawRectangle(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, SKYBLUE);
-				break;
-			case L'#': 
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, RED);
-				DrawRectangle(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, nTileWidth, nTileHeight, RED);
-				break;
-			default:
-				//DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, BLACK);
-				DrawRectangle(x * nTileWidth - fTileOffsetX, y * nTileHeight - fTileOffsetY, (x + 1) * nTileWidth - fTileOffsetX, (y + 1) * nTileHeight - fTileOffsetY, BLACK);
-				break;
-			}
-		}
-	}
-
-	player.Render();
-	DrawRectangle((player.GetPosition().x - fOffsetX) * nTileWidth, (player.GetPosition().y - fOffsetY) * nTileWidth, nTileWidth, nTileHeight, GREEN);
-	*/
 }
 
 void Game::RenderTutorial()
@@ -807,18 +590,6 @@ void Game::SetTile(int x, int y, char c)
 	}
 }
 
-/*
-void Game::ClearEnemyList()
-{
-
-	for (int i = 0; i < enemyList.size(); i++)
-	{
-		delete enemyList.at(i);
-		enemyList.at(i) = nullptr;
-	}
-	enemyList.clear();
-}
-*/
 
 void Game::RenderHpBars()
 {
@@ -836,20 +607,7 @@ void Game::RenderHpBars()
 
 	}
 	enemyManager.RenderBossBar();
-	/*
-	if (isBossActive)
-	{
-		Rectangle blackBar{ screenWidth / 2.f, screenHeight - 68.f , 500.f, 48.f };
-		DrawRectangleRec(blackBar, BLACK);
 
-		float margin = 5.f;
-		Rectangle remainingHealth = { blackBar.x + margin, blackBar.y + margin, blackBar.width - margin * 2.f, blackBar.height - margin * 2.f };
-		float percent = (float)boss->health / (float)boss->maxHealth;
-		remainingHealth.width *= percent;
-
-		DrawRectangleRec(remainingHealth, RED);
-	}
-	*/
 }
 
 float Game::GetDist(Vector2 vec1, Vector2 vec2)

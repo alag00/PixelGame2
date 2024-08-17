@@ -49,10 +49,7 @@ private:
 	float scale = 3.f;
 	float speed = 10.f;
 	float MAX_VELOCITY = 80.f;
-	//Rectangle hitBox{ 0.f,0.f,0.f,0.f };
 
-	//Vector2 hitRadiusPos{ 0.f,0.f };
-	//float hitRadius = 1.f;
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 	bool lookRight = true;
 	
@@ -99,9 +96,6 @@ public:
 	void Control(float dt);
 
 
-	//void CollisionCheck(std::vector<Rectangle> recList);
-	//void OnCollision(Rectangle rec);
-	//bool OnGroundCheck(Rectangle rec);
 
 	void Jump();
 	void LedgeJump(Vector2 edgePoint);

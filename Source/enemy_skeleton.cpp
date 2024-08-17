@@ -20,12 +20,6 @@ void SkeletonEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D
 
 void SkeletonEnemy::Setup()
 {
-
-	//blockAtlas = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyDeflectAtlas.png");
-	//deathAtlas = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyDeathAtlas.png");
-	//idleAtlas = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyIdleAtlas.png");
-	//attackAtlas = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyAttackAtlas.png");
-
 	size.x = 64.f * scale;
 	size.y = 64.f * scale;
 
@@ -113,7 +107,6 @@ void SkeletonEnemy::Render() {
 void SkeletonEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		// Player Take Damage Unless player is in deflect
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
 			health -= 10;
@@ -160,14 +153,7 @@ bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	anim.SetAnimation(blockAtlas, 5, false);
 	playerRef->LoseAdvantage();
 	attackTimer = 0.f;
-	/*
-	if (id == lastAttackId)
-	{
-		return false;
-	}
-	*/
-	//UpdateAgroSwitch();
-	//pos.x = (sourcePos.x < pos.x) ? pos.x + 2.f : pos.x - 2.f;
+	
 	health -= potentialDamage;
 	lastAttackId = id;
 	return true;

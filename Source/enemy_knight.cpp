@@ -24,14 +24,6 @@ void KnightEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D w
 
 void KnightEnemy::Setup()
 {
-	/*
-	walkAtlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyWalkAtlas.png");
-	attackAtlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttackAtlas.png");
-	attack2Atlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttack2Atlas.png");
-	blockAtlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyDeflectAtlas.png");
-	deathAtlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyDeathAtlas.png");
-	idleAtlas = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyIdleAtlas.png");
-	*/
 	size.x = 80.f * scale;
 	size.y = 64.f * scale;
 
@@ -41,8 +33,7 @@ void KnightEnemy::Setup()
 	leftBorder.y = pos.y;
 	rightBorder.y = pos.y;
 
-	//pos.x = 800.f;
-	//pos.y = 500.f;
+	
 	maxHealth = 50;
 	health = maxHealth;
 }
@@ -98,8 +89,7 @@ void KnightEnemy::Decide()
 		}
 		
 		currentAttackId++;
-		//size.x = 80.f * scale;
-		//size.y = 80.f * scale;
+
 	}
 	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
 	{
@@ -146,7 +136,7 @@ void KnightEnemy::Act(float dt)
 void KnightEnemy::Render()
 {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 16.f , size.x, size.y };
-	Vector2 origin = { dst.width / 2.f, dst.height * 0.75f };//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
+	Vector2 origin = { dst.width / 2.f, dst.height * 0.75f };
 
 	Color color = WHITE;
 	switch (dec)
@@ -162,21 +152,13 @@ void KnightEnemy::Render()
 	}
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	//DrawCircle(leftBorder.x * 64, leftBorder.y * 64, 10.f, PINK);
-	//DrawCircle(rightBorder.x * 64, rightBorder.y * 64, 10.f, PINK);
-	//color.a = 50;
-	//DrawRectanglePro(dst, origin, 0.f, color);
-	//DrawCircle(static_cast<int>(pos.x * 64.f), static_cast<int>(pos.y * 64.f), 10.f, BLACK);
-	//dst = { attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64, attackBox.height *64 };
-	//dst = { hitBox.x * 64.f, hitBox.y * 64.f, hitBox.width * 64, hitBox.height * 64 };
-	//DrawRectangleRec(dst, color);
+
 }
 
 void KnightEnemy::CollisionCheck()
 {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		// Player Take Damage Unless player is in deflect
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
 			health -= 10;
@@ -210,24 +192,20 @@ void KnightEnemy::Attack(float dt)
 	switch (currentFrame)
 	{
 	case 6:
-		// place hitBox
-		// CollisionCheck
+
 		break;
 	case 7:
-		// place hitBox
-			// CollisionCheck
+
 		attackBox = { pos.x, pos.y - 1, 2, 2 };
 		attackBox.x = (!lookRight) ? pos.x : pos.x - (attackBox.width);
 		CollisionCheck();
 		break;
 	case 8:
-		// place hitBox
-			// CollisionCheck
+
 		break;
 	case 11:
 		dec = DECISION::IDLE;
-		//size.x = 48.f * scale;
-		//size.y = 48.f * scale;
+
 		break;
 	}
 }
@@ -268,17 +246,11 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	}
 	dec = DAMAGED;
 	anim.SetAnimation(blockAtlas, 5, false);
-	/*
-	if (id == lastAttackId)
-	{
-		return false;
-	}
-	*/
+
 	UpdateAgroSwitch();
 
 
-	
-	//pos.x = (sourcePos.x < pos.x) ? pos.x + 2.f : pos.x - 2.f;
+
 	health -= potentialDamage;
 	lastAttackId = id;
 

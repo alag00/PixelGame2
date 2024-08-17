@@ -16,17 +16,6 @@ NecromancerEnemy::~NecromancerEnemy()
 }
 void NecromancerEnemy::Setup()
 {
-	/*
-	pushAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyPushAtlas.png");
-	idleAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
-	blockAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyDeflectAtlas.png");
-	deathAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyDeathAtlas.png");
-	meleeAttackAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyMeleeAttackAtlas.png");
-	rangedAttackAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyRangedAttackAtlas.png");
-
-
-	projectileAtlas = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyProjectileAtlas.png");
-	*/
 	size.x = 144.f * scale;
 	size.y = 112.f * scale;
 
@@ -73,29 +62,25 @@ void NecromancerEnemy::Decide() {
 		dec = DECISION::PUSH;
 		anim.SetAnimation(pushAtlas, 8, false);
 		currentAttackId++;
-		//size.x = 80.f * scale;
-		//size.y = 80.f * scale;
+
 	}
 	else if (distance <= 4.f && attackTimer < 0.f)
 	{
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(meleeAttackAtlas, 14, false);
 		currentAttackId++;
-		//size.x = 80.f * scale;
-		//size.y = 80.f * scale;
+
 	}
 	else if (distance <= 20.f && attackTimer < 0.f)
 	{
 		dec = DECISION::RANGED;
 		anim.SetAnimation(rangedAttackAtlas, 12, false);
 		currentAttackId++;
-		//size.x = 80.f * scale;
-		//size.y = 80.f * scale;
+
 	}
 	else
 	{
 		dec = DECISION::IDLE;
-		//anim.SetAnimation(idleAtlas, 8, false);
 	}
 }
 void NecromancerEnemy::Act(float dt) {
@@ -103,7 +88,6 @@ void NecromancerEnemy::Act(float dt) {
 	attackTimer -= dt;
 	hitBox = { pos.x -0.5f , pos.y -2  , 2.f,3.f };
 	UpdateProj(dt);
-	//hitBox.x = (lookRight) ? pos.x - 0.5f : pos.x - 0.5f;
 	switch (dec)
 	{
 	case DECISION::IDLE:
@@ -153,15 +137,9 @@ void NecromancerEnemy::UpdateProj(float dt)
 void NecromancerEnemy::Render() {
 
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
-	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
+	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
-
-	//Color color = YELLOW;
-	//color.a = 50;
-	//DrawCircle( (0.5f + pos.x) * 64.f, pos.y * 64.f, 10.f, BLACK);
-	// DrawRectangle(dst.x , dst.y , dst.width , dst.height , color);
-	//DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
 
 	for (int i = 0; i < projectileList.size(); i++)
 	{
@@ -171,7 +149,6 @@ void NecromancerEnemy::Render() {
 void NecromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		// Player Take Damage Unless player is in deflect
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
 			health -= 10;
@@ -230,7 +207,6 @@ void NecromancerEnemy::Push(float dt)
 	{
 	case 3:
 		attackBox = { pos.x -1, pos.y - 3, 4, 4 };
-		//attackBox.x = (lookRight) ? pos.x - (attackBox.width) + 1 : pos.x;
 		CollisionCheck();
 		break;
 
@@ -249,14 +225,7 @@ bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	}
 	dec = DAMAGED;
 	anim.SetAnimation(blockAtlas, 5, false);
-	/*
-	if (id == lastAttackId)
-	{
-		return false;
-	}
-	*/
-	//UpdateAgroSwitch();
-	//pos.x = (sourcePos.x < pos.x) ? pos.x + 2.f : pos.x - 2.f;
+
 	health -= potentialDamage;
 	lastAttackId = id;
 	return true;
@@ -329,7 +298,7 @@ void Projectiles::CollisionCheck()
 	if (CheckCollisionRecs(playerRef->hitBox, hitBox))
 	{
 		timeAlive = 0.f;
-		// Player Take Damage Unless player is in deflect
+
 		if (!playerRef->GetHit(pos, 10, 1))
 		{
 			
@@ -340,7 +309,7 @@ void Projectiles::CollisionCheck()
 void Projectiles::Render() 
 {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
-	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
+	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 

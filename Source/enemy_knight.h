@@ -42,7 +42,6 @@ class KnightEnemy : public Enemy
 	float rDist = 0.f;
 
 	int currentSlice = 1;
-	//bool isAlive = true;
 public:
 	~KnightEnemy();
 	void SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D walkTxr, Texture2D attack1Txr, Texture2D attack2Txr, Texture2D blockTxr);

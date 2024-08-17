@@ -8,9 +8,6 @@
 #include "screen_effects.h"
 #include "background.h"
 
-//#include "enemy_knight.h"
-//#include "enemy_skeleton.h"
-//#include "enemy_necromancer.h"
 #include "enemy_manager.h"
 
 
@@ -57,13 +54,10 @@ private:
 
 	Texture2D tileTextures{};
 
-	//std::vector<Enemy*> enemyList{};
+	
 	EnemyManager enemyManager;
 	
 	Background background;
-
-	//bool isBossActive = false;
-	//Enemy* boss = nullptr;
 
 	Vector2 tutorialPos1 = { 0.f,0.f };
 	Vector2 tutorialPos2 = { 0.f,0.f };
@@ -89,7 +83,7 @@ public:
 	void AdjustPlayer(float dt);
 	bool IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo);
 	void CheckEvent();
-	//void ClearEnemyList();
+	
 
 	void RenderHpBars();
 	float GetDist(Vector2 vec1, Vector2 vec2);

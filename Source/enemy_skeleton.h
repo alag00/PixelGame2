@@ -16,7 +16,7 @@ private:
 	Entity* playerRef = nullptr;
 	Animator anim;
 
-	//bool isAlive = true;
+
 
 	float scale = 3.f;
 	Vector2 size{ 0.f,0.f };

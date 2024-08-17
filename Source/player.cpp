@@ -90,7 +90,6 @@ void Player::Render()
 {
 	Rectangle dst = { pos.x, pos.y, size.x, size.y };
 	dst = { pos.x * 64.f +  32.f, pos.y * 64.f + 40.f, size.x, size.y };
-	//dst.x = (lookRight) ? dst.x  : dst.x ;
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
@@ -100,12 +99,10 @@ void Player::Render()
 		Color color = YELLOW;
 		color.a = 50;
 		DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
-		//DrawCircle(hitRadiusPos.x * 64.f, hitRadiusPos.y * 64.f, hitRadius * 64, color);
 	}
 	
 
 	hitBox = { pos.x, pos.y, 1, 1 };
-	//DrawRectangleRec(hitBox, BLACK);
 	RenderParticles();
 }
 
@@ -116,7 +113,6 @@ void Player::Movement(float dt)
 	{
 		anim.SetAnimation(fallAtlas, 4, true);
 		status = STATUS::FALLING;
-		//vel.x = 0.f;
 	}
 
 	vel.y += 20.f * dt;
@@ -141,12 +137,6 @@ void Player::Control(float dt)
 		{
 			return;
 		}
-		//deflectTimer += dt;
-		//if (deflectTimer < 0.3f)
-		//{
-		//	return;
-	//	}
-		//deflectTimer = 0.f;
 		anim.SetAnimation(idleAtlas, 8, true);
 		status = STATUS::IDLE;
 	}
@@ -313,123 +303,6 @@ void Player::Attack(float dt)
 		break;
 	}
 	
-	/*	/*
-		if (IsKeyPressed(KEY_O))
-		{
-			currentAttackId++;
-			currentSlice++;
-			switch (currentSlice)
-			{
-			case 2:
-				anim.SetAnimation(attackOneAtlas, 7, false);
-				break;
-			case 3:
-				currentSlice = 1;
-				anim.SetAnimation(attackTwoAtlas, 7, false);
-				break;
-			}
-			//anim.SetAnimation(attackTwoAtlas, 7, false);
-			status = STATUS::ATTACK;
-			return;
-		}
-		Control(dt);
-		
-		return;
-	}
-	if (anim.GetCurrentFrame() == 5)
-	{
-		attackWindowTimer = 0.f;
-
-	}
-	if (anim.GetCurrentFrame() >= 0)
-	{
-		//hitRadiusPos.x = (!lookRight) ? pos.x - 0.5f : pos.x + 1.5f;
-		//hitRadiusPos.y = pos.y + 0.5f;
-		attackBox = { pos.x, pos.y, 1, 1 };
-		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
-	}
-	*/
-	/*
-	switch (anim.GetCurrentFrame())
-	{
-	case 0:
-	case 1:
-	case 2:
-		if (currentSlice == 1)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x +1  : pos.x ;
-			hitRadiusPos.y = pos.y +1 ;
-		}
-		else if (currentSlice == 2)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x  : pos.x + 1;
-			hitRadiusPos.y = pos.y;
-		}
-		break;
-	case 3:
-		if (currentSlice == 1)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x : pos.x + 1;
-			hitRadiusPos.y = pos.y + 1;
-		}
-		else if (currentSlice == 2)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x : pos.x + 1;
-			hitRadiusPos.y = pos.y + 0.5f;
-		}
-		break;
-	case 4:
-		if (currentSlice == 1)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x - 1 : pos.x + 2;
-			hitRadiusPos.y = pos.y + 0.5f;
-		}
-		else if (currentSlice == 2)
-		{
-			hitRadiusPos.x = (!lookRight) ? pos.x + 1  : pos.x ;
-			hitRadiusPos.y = pos.y + 0.5f;
-		}
-		break;
-	}
-	if (anim.GetCurrentFrame() < 6)
-	{
-		vel.x = (lookRight) ? 6.f : -6.f;
-	}
-	if (anim.GetCurrentFrame() == 5)
-	{
-		attackWindowTimer = 0.f;
-	}
-	if (anim.GetCurrentFrame() >= 6)
-	{
-		// end attack
-		// set player in Wait Mode ( player can either move/jump or attack again which trigger second slice animation )
-		attackWindowTimer += dt;
-		if (attackWindowTimer >= attackWindowTime)
-		{
-			status = STATUS::IDLE;
-			currentSlice = 1;
-			return;
-		}
-		if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT))
-		{
-			currentSlice++;
-			switch (currentSlice)
-			{
-			case 2: 
-				anim.SetAnimation(attackTwoAtlas, 7, false);
-				break;
-			case 3: 
-				anim.SetAnimation(attackOneAtlas, 7, false);
-				currentSlice = 1;
-				break;
-			}
-			//anim.SetAnimation(attackTwoAtlas, 7, false);
-			status = STATUS::ATTACK;
-			return;
-		}
-		Control(dt);
-		
-	}*/
 	
 }
 
@@ -474,7 +347,6 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	PlaySound(hitSound);
 	if (status != STATUS::DEFLECT)
 	{
-		//Jump();// Take damage
 		health -= 10;
 		vel.x = (sourcePos.x > pos.x) ? -10.f : 10.f;
 		vel.y -= 5.f;
@@ -519,7 +391,6 @@ void Player::RenderParticles()
 	}
 	Rectangle dst = { pos.x, pos.y, size.x, size.y };
 	dst = { pos.x * 64.f + 32.f, pos.y * 64.f + 40.f, size.x, size.y };
-	//dst.x = (lookRight) ? dst.x  : dst.x ;
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 
 	dst.x = (lookRight) ? dst.x + 16.f : dst.x - 16.f;
@@ -579,7 +450,6 @@ void Player::LoseAdvantage()
 	anim.SetAnimation(loseAdvantageAtlas, 7, false);
 	status = STATUS::LOSTADVANTAGE;
 	vel.x = (lookRight) ? -2 : 2 ;
-	// Play Particles
 }
 
 void  Player::Die()

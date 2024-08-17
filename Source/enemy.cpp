@@ -15,13 +15,3 @@ void Enemy::Update(float dt)
 	Act(dt);
 }
 
-/*
-bool Enemy::IsAlive()
-{
-	if (health <= 0)
-	{
-		return false;
-	}
-	return true;
-}
-*/

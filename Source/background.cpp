@@ -83,7 +83,6 @@ void Background::Update(Vector2 vel)
 	CheckPos(txr2pos[0].x);
 	CheckPos(txr2pos[1].x);
 	CheckPos(txr2pos[2].x);
-	//pos2.y += vel.y;
 
 	txr3pos[0].x -= vel.x / 5.f;
 	txr3pos[1].x -= vel.x / 5.f;
@@ -92,7 +91,6 @@ void Background::Update(Vector2 vel)
 	CheckPos(txr3pos[0].x);
 	CheckPos(txr3pos[1].x);
 	CheckPos(txr3pos[2].x);
-	//pos3.y += vel.y * 2.f;
 }
 void Background::Render()
 {
@@ -124,10 +122,10 @@ void Background::Render()
 
 void Background::CheckPos(float& xPos)
 {
+
 	if (xPos > screenWidth * 1.5f)
 	{
-		//float diff = xPos - screenWidth;
-		xPos = -screenWidth * 1.5f;// +diff;
+		xPos = -screenWidth * 1.5f;
 	}
 	if (xPos < -screenWidth * 1.5f)
 	{
