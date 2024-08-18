@@ -52,8 +52,8 @@ void Player::Setup()
 	size.x = 48.f * scale;
 	size.y = 48.f * scale;
 
-	pos.x = 1.f;
-	pos.y = 1.f;
+	//pos.x = 1.f;
+	//pos.y = 1.f;
 
 	maxHealth = 30;
 	health = maxHealth;
@@ -124,13 +124,21 @@ void Player::Movement(float dt)
 
 void Player::Control(float dt)
 {
+
+
+
+	
+	if (vel.x != 0.f)
+	{
+		vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
+	}
 	
 
-	vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
 	if (fabs(vel.x) <= 10.0f)
 	{
 		vel.x = 0.f;
 	}
+	
 	if (status == STATUS::DEFLECT)
 	{
 		if (anim.GetCurrentFrame() < 4)
