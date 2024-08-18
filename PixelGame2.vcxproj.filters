@@ -45,13 +45,13 @@
     <ClCompile Include="Source\enemy_necromancer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\check_point.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Source\enemy_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\background.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\check_point.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

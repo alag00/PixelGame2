@@ -33,6 +33,8 @@ void Game::Run()
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 
+	checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
+
 	currentSong = caveMusic;
 	PlayMusicStream(currentSong);
 
@@ -51,6 +53,8 @@ void Game::Run()
 	UnloadMusicStream(bossMusic);
 	UnloadMusicStream(caveMusic);
 	UnloadMusicStream(currentSong);
+
+	UnloadSound(checkPointSound);
 
 	CloseAudioDevice();
 	CloseWindow();
@@ -92,6 +96,16 @@ void Game::Update()
 		currentEvent = Die;
 		player.health = 1;
 		player.Die();
+	}
+	for (int i = 0; i < checkPointList.size(); i++)
+	{
+		if (checkPointList.at(i).Update(dt))
+		{
+			Vector2 tilePos = checkPointList.at(i).GetPos();
+			SetTile(tilePos.x, tilePos.y, L'?');
+			currentCheckPoint = tilePos;
+			PlaySound(checkPointSound);
+		}
 	}
 }
 
@@ -240,15 +254,14 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		PlayMusicStream(currentSong);
 		return false;
 	}
-
+	
 	if (tileTypeOne == L'C' || tileTypeTwo == L'C')
 	{
 		
-		currentCheckPoint = player.GetPosition();
-	
-		
+		//currentCheckPoint = player.GetPosition();	
 		return false;
 	}
+	
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
 		filter.StartEffect(FADE_TO_BLACK);
@@ -310,24 +323,28 @@ void Game::Render()
 	BeginMode2D(cam);
 
 	LevelRender();
-
 	RenderUI();
-	filter.Render();
-	EndMode2D();
-	
-	RenderHpBars();
 	if (currentLevel == 1)
 	{
 		RenderTutorial();
 	}
+	filter.Render();
+	EndMode2D();
+	
+	RenderHpBars();
+	
 	EndDrawing();
 }
 
 void Game::RenderUI()
 {
+	for (int i = 0; i < checkPointList.size(); i++)
+	{
+		checkPointList.at(i).Render();
+	}
 	enemyManager.RenderUI();
-
 }
+
 void Game::RenderBackground()
 {
 	background.Render();
@@ -371,6 +388,8 @@ void Game::LevelSetup()
 	filter.StartEffect(FADE_FROM_BLACK);
 	enemyManager.ClearEnemyList();
 
+	checkPointList.clear();
+
 	int totalEnemies = 0;
 	std::vector<Vector2> enemyPos{};
 
@@ -378,7 +397,13 @@ void Game::LevelSetup()
 	{
 		for (int x = 0; x < nLevelWidth; x++)
 		{
-			
+			if (GetTile(x, y) == L'C')
+			{
+				CheckPoint newCheckPoint;
+				newCheckPoint.Setup(Vector2(x,y), player);
+				checkPointList.push_back(newCheckPoint);
+				continue;
+			}
 			if (GetTile(x, y) == L'S')
 			{
 				currentCheckPoint = { (float)x, (float)y };
@@ -560,17 +585,17 @@ void Game::RenderTutorial()
 	float range = 5.f;
 	if (tut1Dist < range)
 	{
-		DrawText("'A and D' for Movement", screenWidth / 2.f, (screenHeight / 2.f) , 30, YELLOW);
-		DrawText("'Space' to Jump", screenWidth / 2.f, (screenHeight / 2.f) + 30, 30, YELLOW);
+		DrawText("'A and D' for Movement", tutorialPos1.x * 64.f, tutorialPos1.y * 64.f, 30, YELLOW);
+		DrawText("'Space' to Jump", tutorialPos1.x * 64.f, tutorialPos1.y * 64.f + 30, 30, YELLOW);
 	}
 	else if (tut2Dist < range)
 	{
-		DrawText("'O' for Ordinary Attacks", screenWidth / 2.f, (screenHeight / 2.f) - 80, 30, YELLOW);
-		DrawText("'P' to Parry", screenWidth / 2.f, (screenHeight / 2.f) - 50, 30, YELLOW);
+		DrawText("'O' for Ordinary Attacks", tutorialPos2.x * 64.f, tutorialPos2.y * 64.f, 30, YELLOW);
+		DrawText("'P' to Parry", tutorialPos2.x * 64.f, tutorialPos2.y * 64.f + 30, 30, YELLOW);
 	}
 	else if (tut3Dist < range)
 	{
-		DrawText("Touch Glowing Gravestone to claim Checkpoint", 80, (screenHeight / 2.f) - 80, 30, YELLOW);
+		DrawText("Touch Glowing Gravestone to claim Checkpoint", (tutorialPos3.x - 3) * 64.f, tutorialPos3.y * 64.f, 30, YELLOW);
 	}
 }
 char Game::GetTile(int x, int y)

@@ -9,7 +9,7 @@
 #include "background.h"
 
 #include "enemy_manager.h"
-
+#include "check_point.h"
 
 enum Events
 {
@@ -62,6 +62,9 @@ private:
 	Vector2 tutorialPos1 = { 0.f,0.f };
 	Vector2 tutorialPos2 = { 0.f,0.f };
 	Vector2 tutorialPos3 = { 0.f,0.f };
+
+	std::vector<CheckPoint> checkPointList{};
+	Sound checkPointSound{};
 
 public:
 	~Game();
