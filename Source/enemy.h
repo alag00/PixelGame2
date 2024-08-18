@@ -35,7 +35,13 @@ public:
 	virtual void Render(){};
 
 
-	virtual bool GetHit(Vector2 sourcePos, int potentialDamage, int id) { return true; };
+	virtual bool GetHit(Vector2 sourcePos, int potentialDamage, int id) 
+	{ 
+		(void)sourcePos;
+		(void)potentialDamage;
+		(void)id;
+		return true; 
+	};
 
 	void SetIsAlive(bool newValue) { isAlive = newValue; }
 	bool IsAlive() { return isAlive; }

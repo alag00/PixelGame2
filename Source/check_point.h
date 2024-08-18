@@ -2,6 +2,7 @@
 #include "raylib.h"
 #include "entity.h"
 #include <cmath>
+#include "config.h"
 
 class CheckPoint
 {
@@ -12,11 +13,12 @@ private:
 	bool activated = false;
 	Vector2 pos{ 0.f,0.f };
 	Entity* playerRef = nullptr;
+	Config config;
 public:
 	void SetActivated(bool newValue) { activated = newValue; }
 	bool GetActivated() { return activated; }
 	Vector2 GetPos() { return pos; }
 	void Setup(Vector2 newPos, Entity& ref);
-	bool Update(float dt);
+	bool Update();
 	void Render();
 };

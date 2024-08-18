@@ -10,6 +10,7 @@
 
 #include "enemy_manager.h"
 #include "check_point.h"
+#include "config.h"
 
 enum Events
 {
@@ -20,6 +21,7 @@ enum Events
 class Game
 {
 private:
+	Config config;
 	int screenWidth = 1080;
 	int screenHeight = 760;
 
@@ -80,6 +82,8 @@ public:
 	void RenderTutorial();
 	char GetTile(int x, int y);
 	void SetTile(int x, int y, char c);
+	char GetTile(float x, float y);
+	void SetTile(float x, float y, char c);
 
 	void CollisionCheck(float dt);
 

@@ -7,7 +7,7 @@ void CheckPoint::Setup(Vector2 newPos, Entity& ref)
 	playerRef = &ref;
 }
 
-bool CheckPoint::Update(float dt)
+bool CheckPoint::Update()
 {
 	float x = (pos.x + 0.5f) - playerRef->GetCenter().x;
 	float y = (pos.y + 0.5f) - playerRef->GetCenter().y;
@@ -32,5 +32,5 @@ void CheckPoint::Render()
 	{
 		return;
 	}
-	DrawText("Press 'E'", pos.x * 64.f, pos.y * 64.f, 20, YELLOW);
+	DrawText("Press 'E'", static_cast<int>(pos.x * config.tileSize), static_cast<int>(pos.y * config.tileSize), 20, YELLOW);
 }

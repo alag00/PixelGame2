@@ -62,11 +62,11 @@ void Background::SetSize(int width, int height)
 	screenWidth = width;
 	screenHeight = height;
 
-	txr2pos[1].x = -screenWidth;
-	txr2pos[2].x = screenWidth;
+	txr2pos[1].x = (float)-screenWidth;
+	txr2pos[2].x = (float)screenWidth;
 
-	txr3pos[1].x = -screenWidth;
-	txr3pos[2].x = screenWidth;
+	txr3pos[1].x = (float)-screenWidth;
+	txr3pos[2].x = (float)screenWidth;
 }
 
 void Background::Update(Vector2 vel)
@@ -94,8 +94,8 @@ void Background::Update(Vector2 vel)
 }
 void Background::Render()
 {
-	Rectangle src{ 0, 0, activeTxr[0].width, activeTxr[0].height };
-	Rectangle dst{ 0, 0, (float)screenWidth, (float)screenHeight };
+	Rectangle src{ 0.f, 0.f, (float)activeTxr[0].width, (float)activeTxr[0].height };
+	Rectangle dst{ 0.f, 0.f, (float)screenWidth, (float)screenHeight };
 	DrawTexturePro(activeTxr[0], src, dst, Vector2(0.f, 0.f), 0.f, WHITE);
 
 
@@ -122,13 +122,13 @@ void Background::Render()
 
 void Background::CheckPos(float& xPos)
 {
-
-	if (xPos > screenWidth * 1.5f)
+	float margin = 1.5f;
+	if (xPos > screenWidth * margin)
 	{
-		xPos = -screenWidth * 1.5f;
+		xPos = -screenWidth * margin;
 	}
-	if (xPos < -screenWidth * 1.5f)
+	if (xPos < -screenWidth * margin)
 	{
-		xPos = screenWidth * 1.5f;
+		xPos = screenWidth * margin;
 	}
 }

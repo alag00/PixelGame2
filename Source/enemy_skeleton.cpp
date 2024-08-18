@@ -149,6 +149,7 @@ bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	{
 		return false;
 	}
+	(void)sourcePos;
 	dec = DAMAGED;
 	anim.SetAnimation(blockAtlas, 5, false);
 	playerRef->LoseAdvantage();

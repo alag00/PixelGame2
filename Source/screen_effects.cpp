@@ -10,14 +10,14 @@ void Effect::Render()
 	switch (currentEffect)
 	{
 	case FADE_TO_BLACK:
-		color.a = (progress > 1.f) ? 255 : 255 * progress;
+		color.a = (progress > 1.f) ? 255 : static_cast<char>(255 * progress);
 		break;
 	case FADE_FROM_BLACK:
-		color.a = (progress > 1.f) ? 0 : 255 - (255 * progress);
+		color.a = (progress > 1.f) ? 0 : static_cast<char>(255 - (255 * progress));
 		break;
 	}
 
-	DrawRectangle(camera->target.x - camera->offset.x, camera->target.y - camera->offset.y, width, height, color);
+	DrawRectangle(static_cast<int>(camera->target.x - camera->offset.x), static_cast<int>(camera->target.y - camera->offset.y), width, height, color);
 }
 void Effect::Update(float dt)
 {

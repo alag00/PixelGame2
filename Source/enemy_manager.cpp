@@ -145,10 +145,12 @@ void EnemyManager::RenderBossBar()
 		DrawRectangleRec(remainingHealth, RED);
 	}
 }
-void EnemyManager::Update(float dt)
+void EnemyManager::Update()
 {
 	if (bossRef != nullptr && !bossRef->IsAlive())
 	{
 		isBossActive = false;
 	}
+
+
 }

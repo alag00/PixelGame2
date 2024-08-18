@@ -61,7 +61,7 @@ void Player::Setup()
 
 void Player::Update(float dt)
 {
-	UpdateParticles(dt);
+	UpdateParticles();
 	
 	switch (status)
 	{
@@ -93,14 +93,14 @@ void Player::Render()
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	
+	/*
 	if (status == STATUS::ATTACK)
 	{
 		Color color = YELLOW;
 		color.a = 50;
 		DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
 	}
-	
+	*/
 
 	hitBox = { pos.x, pos.y, 1, 1 };
 	RenderParticles();
@@ -344,10 +344,11 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	{
 		return true;
 	}
+	(void)id;
 	PlaySound(hitSound);
 	if (status != STATUS::DEFLECT)
 	{
-		health -= 10;
+		health -= potentialDamage;
 		vel.x = (sourcePos.x > pos.x) ? -10.f : 10.f;
 		vel.y -= 5.f;
 		status = STATUS::DAMAGED;
@@ -371,7 +372,7 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 
 
 
-void Player::UpdateParticles(float dt)
+void Player::UpdateParticles()
 {
 	if (!playParticle)
 	{
@@ -449,7 +450,7 @@ void Player::LoseAdvantage()
 {
 	anim.SetAnimation(loseAdvantageAtlas, 7, false);
 	status = STATUS::LOSTADVANTAGE;
-	vel.x = (lookRight) ? -2 : 2 ;
+	vel.x = (lookRight) ? -2.f : 2.f ;
 }
 
 void  Player::Die()

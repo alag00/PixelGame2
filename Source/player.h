@@ -3,6 +3,7 @@
 #include <cmath>
 #include <vector>
 #include "entity.h"
+#include "config.h"
 
 enum class STATUS
 {
@@ -18,7 +19,7 @@ enum class STATUS
 class Player : public Entity
 {
 private:
-
+	Config config;
 	// Txr
 	Texture2D idleAtlas = {};
 	Texture2D walkAtlas = {};
@@ -110,7 +111,7 @@ public:
 
 	
 
-	void UpdateParticles(float dt);
+	void UpdateParticles();
 	void RenderParticles();
 	Vector2 GetCenter();
 	void DamageRecovery(float dt);

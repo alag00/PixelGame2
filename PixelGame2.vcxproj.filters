@@ -95,5 +95,8 @@
     <ClInclude Include="Source\enemy_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

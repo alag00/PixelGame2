@@ -235,13 +235,14 @@ void KnightEnemy::UpdateAgroSwitch()
 
 bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 {
+	(void)sourcePos;
 	if (dec == DAMAGED)
 	{
 		return false;
 	}
 	if (dec == ATTACK)
 	{
-		health -= potentialDamage / 2.f;
+		health -= static_cast<int>(potentialDamage / 2);
 		return true;
 	}
 	dec = DAMAGED;

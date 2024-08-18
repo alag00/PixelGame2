@@ -75,7 +75,7 @@ void Game::Update()
 	player.Update(dt);
 	AdjustPlayer(dt);
 	
-	enemyManager.Update(dt);
+	enemyManager.Update();
 	for (int i = 0; i < enemyManager.GetEnemyList().size(); i++)
 	{
 		if (!enemyManager.GetEnemyList().at(i)->IsAlive())
@@ -99,7 +99,7 @@ void Game::Update()
 	}
 	for (int i = 0; i < checkPointList.size(); i++)
 	{
-		if (checkPointList.at(i).Update(dt))
+		if (checkPointList.at(i).Update())
 		{
 			Vector2 tilePos = checkPointList.at(i).GetPos();
 			SetTile(tilePos.x, tilePos.y, L'?');
@@ -157,7 +157,7 @@ void Game::AdjustPlayer(float dt)
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosX = (int)fNewPlayerPosX + 1;
+				fNewPlayerPosX = static_cast<float>((int)fNewPlayerPosX + 1);
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
@@ -171,7 +171,7 @@ void Game::AdjustPlayer(float dt)
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosX = (int)fNewPlayerPosX;
+				fNewPlayerPosX = static_cast<float>((int)fNewPlayerPosX);
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
@@ -188,7 +188,7 @@ void Game::AdjustPlayer(float dt)
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosY = (int)fNewPlayerPosY + 1;
+				fNewPlayerPosY = static_cast<float>((int)fNewPlayerPosY + 1);
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 			}
 		}
@@ -203,7 +203,7 @@ void Game::AdjustPlayer(float dt)
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosY = (int)fNewPlayerPosY;
+				fNewPlayerPosY = static_cast<float>((int)fNewPlayerPosY);
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 				player.SetOnGround(true);
 			}
@@ -390,7 +390,7 @@ void Game::LevelSetup()
 
 	checkPointList.clear();
 
-	int totalEnemies = 0;
+	//int totalEnemies = 0;
 	std::vector<Vector2> enemyPos{};
 
 	for (int y = 0; y < nLevelHeight; y++)
@@ -400,21 +400,21 @@ void Game::LevelSetup()
 			if (GetTile(x, y) == L'C')
 			{
 				CheckPoint newCheckPoint;
-				newCheckPoint.Setup(Vector2(x,y), player);
+				newCheckPoint.Setup(Vector2((float)x, (float)y), player);
 				checkPointList.push_back(newCheckPoint);
 				continue;
 			}
 			if (GetTile(x, y) == L'S')
 			{
 				currentCheckPoint = { (float)x, (float)y };
-				player.SetPosition(x , y );
+				player.SetPosition((float)x , (float)y );
 				SetTile(x, y, L'.');
 				continue;
 			}
 			if (GetTile(x, y) == L'K')
 			{
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreateKnight(Vector2(x, y), isBoss);
+				enemyManager.CreateKnight(Vector2((float)x, (float)y), isBoss);
 				SetTile(x, y, L'.');
 			
 				continue;
@@ -423,7 +423,7 @@ void Game::LevelSetup()
 			{
 			
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false ;
-				enemyManager.CreateSkeleton(Vector2(x, y), isBoss);
+				enemyManager.CreateSkeleton(Vector2((float)x, (float)y), isBoss);
 				SetTile(x, y, L'.');
 			
 				continue;
@@ -431,7 +431,7 @@ void Game::LevelSetup()
 			if (GetTile(x, y) == L'N')
 			{
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreateNecromancer(Vector2(x, y), isBoss);
+				enemyManager.CreateNecromancer(Vector2((float)x, (float)y), isBoss);
 				SetTile(x, y, L'.');
 				continue;
 			}
@@ -441,19 +441,19 @@ void Game::LevelSetup()
 			}
 			if (GetTile(x, y) == L'1')
 			{
-				tutorialPos1 = Vector2(x, y);
+				tutorialPos1 = Vector2((float)x, (float)y);
 				SetTile(x, y, L'.');
 				continue;
 			}
 			if (GetTile(x, y) == L'2')
 			{
-				tutorialPos2 = Vector2(x, y);
+				tutorialPos2 = Vector2((float)x, (float)y);
 				SetTile(x, y, L'.');
 				continue;
 			}
 			if (GetTile(x, y) == L'3')
 			{
-				tutorialPos3 = Vector2(x, y);
+				tutorialPos3 = Vector2((float)x, (float)y);
 				SetTile(x, y, L'.');
 				continue;
 			}
@@ -490,9 +490,9 @@ void Game::LevelRender()
 	Rectangle dst{ 0.f, 0.f,0.f,0.f };
 	Vector2 origin = { 0.f,0.f };
 	// Draw visible tile map
-	for (int y = (fCameraPosY - (nVisibleTilesY / 2.f) - 2) ; y < (fCameraPosY) +(nVisibleTilesY / 2.f) +1 ; y++)
+	for (int y = static_cast<int>((fCameraPosY - (nVisibleTilesY / 2.f) - 2)) ; y < (fCameraPosY) +(nVisibleTilesY / 2.f) +1 ; y++)
 	{
-		for (int x = (fCameraPosX - (nVisibleTilesX / 2.f) - 2) ; x < (fCameraPosX ) +(nVisibleTilesX / 2.f) + 1  ; x++)
+		for (int x = static_cast<int>((fCameraPosX - (nVisibleTilesX / 2.f) - 2)) ; x < (fCameraPosX ) +(nVisibleTilesX / 2.f) + 1  ; x++)
 		{
 			wchar_t sTileID = GetTile(x, y);
 			switch (sTileID)
@@ -585,17 +585,17 @@ void Game::RenderTutorial()
 	float range = 5.f;
 	if (tut1Dist < range)
 	{
-		DrawText("'A and D' for Movement", tutorialPos1.x * 64.f, tutorialPos1.y * 64.f, 30, YELLOW);
-		DrawText("'Space' to Jump", tutorialPos1.x * 64.f, tutorialPos1.y * 64.f + 30, 30, YELLOW);
+		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, YELLOW);
+		DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, YELLOW);
 	}
 	else if (tut2Dist < range)
 	{
-		DrawText("'O' for Ordinary Attacks", tutorialPos2.x * 64.f, tutorialPos2.y * 64.f, 30, YELLOW);
-		DrawText("'P' to Parry", tutorialPos2.x * 64.f, tutorialPos2.y * 64.f + 30, 30, YELLOW);
+		DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, YELLOW);
+		DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, YELLOW);
 	}
 	else if (tut3Dist < range)
 	{
-		DrawText("Touch Glowing Gravestone to claim Checkpoint", (tutorialPos3.x - 3) * 64.f, tutorialPos3.y * 64.f, 30, YELLOW);
+		DrawText("Touch Glowing Gravestone to claim Checkpoint", static_cast<int>((tutorialPos3.x - 3) * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, YELLOW);
 	}
 }
 char Game::GetTile(int x, int y)
@@ -613,6 +613,17 @@ void Game::SetTile(int x, int y, char c)
 	{
 		sLevel[y * nLevelWidth + x] = c;
 	}
+}
+
+char Game::GetTile(float x, float y)
+{
+	
+	return GetTile((int)x,(int)y);
+}
+
+void Game::SetTile(float x, float y, char c)
+{
+	SetTile((int)x, (int)y, c);
 }
 
 

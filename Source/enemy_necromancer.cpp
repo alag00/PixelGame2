@@ -84,7 +84,6 @@ void NecromancerEnemy::Decide() {
 	}
 }
 void NecromancerEnemy::Act(float dt) {
-	dt;
 	attackTimer -= dt;
 	hitBox = { pos.x -0.5f , pos.y -2  , 2.f,3.f };
 	UpdateProj(dt);
@@ -93,10 +92,10 @@ void NecromancerEnemy::Act(float dt) {
 	case DECISION::IDLE:
 		break;
 	case DECISION::ATTACK:
-		Attack(dt);
+		Attack();
 		break;
 	case DECISION::RANGED:
-		RangedAttack(dt);
+		RangedAttack();
 		break;
 	case DECISION::DAMAGED:
 		if (anim.GetCurrentFrame() >= 4)
@@ -112,7 +111,7 @@ void NecromancerEnemy::Act(float dt) {
 		}
 		break;
 	case DECISION::PUSH:
-		Push(dt);
+		Push();
 		break;
 	}
 }
@@ -161,8 +160,8 @@ void NecromancerEnemy::CollisionCheck() {
 }
 
 
-void NecromancerEnemy::Attack(float dt) {
-	dt;
+void NecromancerEnemy::Attack() {
+	
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
 	{
@@ -180,8 +179,8 @@ void NecromancerEnemy::Attack(float dt) {
 	}
 }
 
-void NecromancerEnemy::RangedAttack(float dt) {
-	dt;
+void NecromancerEnemy::RangedAttack() {
+	
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
 	{
@@ -200,7 +199,7 @@ void NecromancerEnemy::RangedAttack(float dt) {
 	}
 }
 
-void NecromancerEnemy::Push(float dt)
+void NecromancerEnemy::Push()
 {
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
@@ -223,6 +222,7 @@ bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	{
 		return false;
 	}
+	(void)sourcePos;
 	dec = DAMAGED;
 	anim.SetAnimation(blockAtlas, 5, false);
 
@@ -308,14 +308,14 @@ void Projectiles::CollisionCheck()
 }
 void Projectiles::Render() 
 {
-	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
+	Rectangle dst = { pos.x * config.tileSize , pos.y * config.tileSize , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	Color color = YELLOW;
-	color.a = 50;
-	DrawRectangle(hitBox.x * 64.f, hitBox.y * 64.f, hitBox.width * 64.f, hitBox.height * 64.f, color);
+	//Color color = YELLOW;
+	//color.a = 50;
+	//DrawRectangle(hitBox.x * config.tileSize, hitBox.y * config.tileSize, hitBox.width * config.tileSize, hitBox.height * config.tileSize, color);
 
 }
 bool Projectiles::IsAlive() 

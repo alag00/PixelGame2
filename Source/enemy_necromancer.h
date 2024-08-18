@@ -3,10 +3,13 @@
 #include "animation.h"
 #include <cmath>
 #include <vector>
+#include "config.h"
+
 
 class Projectiles : public Entity
 {
 private:
+	Config config;
 	Entity* playerRef = nullptr;
 	float timeAlive = 2.f;
 	int dir = 0;
@@ -73,10 +76,10 @@ public:
 	void Render();
 	void CollisionCheck();
 
-	void RangedAttack(float dt);
-	void Attack(float dt);
+	void RangedAttack();
+	void Attack();
 
-	void Push(float dt);
+	void Push();
 
 	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
 
