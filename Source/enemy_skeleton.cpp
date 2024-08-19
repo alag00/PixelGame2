@@ -77,6 +77,7 @@ void SkeletonEnemy::Decide() {
 	}
 }
 void SkeletonEnemy::Act(float dt) {
+	anim.UpdateAnimator(dt);
 	attackTimer -= dt;
 	hitBox = { pos.x, pos.y - 1.f , 1.5f,2.f };
 	hitBox.x = (lookRight) ? pos.x - 1.f : pos.x - 0.5f;
@@ -106,6 +107,10 @@ void SkeletonEnemy::Act(float dt) {
 
 void SkeletonEnemy::Render() {
 
+	if (!IsAlive())
+	{
+		anim.UpdateAnimator(GetFrameTime());
+	}
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f};//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;

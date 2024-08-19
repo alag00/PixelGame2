@@ -78,7 +78,12 @@ void Game::Update()
 		CheckEvent();
 		return;
 	}
-	
+	// Debug
+	if (IsKeyPressed(KEY_T))
+	{
+		filter.StartEffect(SCREEN_SHAKE);
+		currentEvent = ScreenShake;
+	}
 	CheckEvent();
 	player.Update(dt);
 	AdjustPlayer(dt);
@@ -103,7 +108,11 @@ void Game::Update()
 		enemyManager.GetEnemyList().at(i)->Update(dt);
 		if (player.IsInAttackMode())
 		{
-			player.CollisionCheck(*enemyManager.GetEnemyList().at(i));
+			if (player.CollisionCheck(*enemyManager.GetEnemyList().at(i)))
+			{
+				currentEvent = HitFreeze;
+				filter.StartEffect(HIT_FREEZE);
+			}
 		}
 	}
 
@@ -151,6 +160,9 @@ void Game::CheckEvent()
 			SetTile(pos.x, pos.y, L'.');
 		}
 		
+		break;
+	case ScreenShake:
+		cam.rotation = 0.f;
 		break;
 	}
 
@@ -694,7 +706,7 @@ void Game::SetTile(float x, float y, char c)
 
 void Game::RenderHpBars()
 {
-	if (currentEvent == None)
+	if (currentEvent != NextLevel && currentEvent != Die)
 	{
 		Rectangle blackBar{ 20, screenHeight - 68.f , 200.f, 48.f };
 		DrawRectangleRec(blackBar, BLACK);

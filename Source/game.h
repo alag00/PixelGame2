@@ -17,6 +17,8 @@ enum Events
 	None,
 	NextLevel,
 	Die,
+	ScreenShake,
+	HitFreeze,
 };
 class Game
 {

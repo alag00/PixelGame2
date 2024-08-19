@@ -17,4 +17,6 @@ public:
 	void DrawAnimationPro(Rectangle dest, Vector2 origin, float rotation, Color tint);
 	void FlipAnimationHorizontal();
 	int GetCurrentFrame() { return currentFrame; }
+
+	void UpdateAnimator(float dt);
 };

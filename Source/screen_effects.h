@@ -6,6 +6,8 @@ enum EFFECT_TYPE
 	NONE = 0,
 	FADE_TO_BLACK = 1,
 	FADE_FROM_BLACK = 2,
+	SCREEN_SHAKE = 3,
+	HIT_FREEZE = 4,
 };
 class Effect
 {
@@ -16,6 +18,8 @@ private:
 	int width = 0;
 	int height = 0;
 	Camera2D* camera = nullptr;
+	float magnitude = 10.f;
+	float duration = 2.f;
 public:
 	void Setup(Camera2D& camRef, int screenWidth, int screenHeight);
 	bool IsActive() { return isActive; }

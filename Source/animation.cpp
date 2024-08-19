@@ -29,7 +29,17 @@ void Animator::DrawAnimationPro(Rectangle dest, Vector2 origin, float rotation, 
 	{
 		DrawTexturePro(atlas, frameSize, dest, origin, rotation, tint);
 	}
-	frameTimer += GetFrameTime();
+
+}
+
+void Animator::FlipAnimationHorizontal()
+{
+	flippedX = !flippedX;
+}
+
+void Animator::UpdateAnimator(float dt)
+{
+	frameTimer += dt;
 	if (frameTimer >= 1.f / fps)
 	{
 		frameTimer = 0.f;
@@ -44,11 +54,6 @@ void Animator::DrawAnimationPro(Rectangle dest, Vector2 origin, float rotation, 
 		}
 
 	}
-}
-
-void Animator::FlipAnimationHorizontal()
-{
-	flippedX = !flippedX;
 }
 
 

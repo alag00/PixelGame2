@@ -116,6 +116,7 @@ void KnightEnemy::Decide()
 
 void KnightEnemy::Act(float dt)
 {
+	anim.UpdateAnimator(dt);
 	hitBox = { pos.x, pos.y - 1.f , 1.5f,2.f };
 	hitBox.x = (lookRight) ? pos.x - 1.f : pos.x - 0.5f;
 	switch (dec)
@@ -147,6 +148,10 @@ void KnightEnemy::Act(float dt)
 
 void KnightEnemy::Render()
 {
+	if (!IsAlive())
+	{
+		anim.UpdateAnimator(GetFrameTime());
+	}
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 16.f , size.x, size.y };
 	Vector2 origin = { dst.width / 2.f, dst.height * 0.75f };
 

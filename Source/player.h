@@ -103,7 +103,7 @@ public:
 
 	void Attack(float dt);
 
-	void CollisionCheck(Entity& enemy);
+	bool CollisionCheck(Entity& enemy);
 
 	bool IsInAttackMode();
 

@@ -97,6 +97,7 @@ void NecromancerEnemy::Decide() {
 	}
 }
 void NecromancerEnemy::Act(float dt) {
+	anim.UpdateAnimator(dt);
 	attackTimer -= dt;
 	hitBox = { pos.x -0.5f , pos.y -2  , 2.f,3.f };
 	UpdateProj(dt);
@@ -148,7 +149,10 @@ void NecromancerEnemy::UpdateProj(float dt)
 }
 
 void NecromancerEnemy::Render() {
-
+	if (!IsAlive())
+	{
+		anim.UpdateAnimator(GetFrameTime());
+	}
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;

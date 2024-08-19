@@ -62,7 +62,8 @@ void Player::Setup()
 void Player::Update(float dt)
 {
 	UpdateParticles();
-	
+	anim.UpdateAnimator(dt);
+	particleAnim.UpdateAnimator(dt);
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -317,7 +318,7 @@ void Player::Attack(float dt)
 }
 
 
-void Player::CollisionCheck(Entity& enemy)
+bool Player::CollisionCheck(Entity& enemy)
 {
 	if (status == STATUS::ATTACK && anim.GetCurrentFrame() <= 5 && anim.GetCurrentFrame() >= 4)
 	{
@@ -334,9 +335,11 @@ void Player::CollisionCheck(Entity& enemy)
 			attackBox.width = 0.f;
 			attackBox.height = 0.f;
 			PlaySound(hitSound);
+			return true;
 		}
 
 	}
+	return false;
 }
 
 bool Player::IsInAttackMode()
