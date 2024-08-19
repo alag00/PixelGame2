@@ -114,8 +114,10 @@ void Player::Movement(float dt)
 		anim.SetAnimation(fallAtlas, 4, true);
 		status = STATUS::FALLING;
 	}
-
-	vel.y += 20.f * dt;
+	if (dt < 0.1f)
+	{
+		vel.y += 20.f * dt;
+	}
 
 	jumpTimer += dt;
 	fallingTimer += dt;

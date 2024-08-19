@@ -52,6 +52,7 @@ private:
 	Music castleMusic{};
 	Music bossMusic{};
 
+	Music currentLevelSong{};
 	Music currentSong{};
 
 	Texture2D tileTextures{};

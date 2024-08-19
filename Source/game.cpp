@@ -18,7 +18,7 @@ void Game::Run()
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
 
-	LevelSetup();
+	
 
 	cam.offset = { screenWidth / 2.f, screenHeight / 2.f };
 	cam.target = { screenWidth / 2.f, screenHeight / 2.f };
@@ -32,11 +32,15 @@ void Game::Run()
 
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
+	plainMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
+	castleMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
 
 	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
-
 	currentSong = caveMusic;
+	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
+
+	LevelSetup();
 
 	while (!WindowShouldClose())
 	{
@@ -53,6 +57,9 @@ void Game::Run()
 
 	UnloadMusicStream(bossMusic);
 	UnloadMusicStream(caveMusic);
+	UnloadMusicStream(plainMusic);
+	UnloadMusicStream(castleMusic);
+	UnloadMusicStream(currentLevelSong);
 	UnloadMusicStream(currentSong);
 
 	//UnloadSound(checkPointSound);
@@ -79,6 +86,8 @@ void Game::Update()
 	if (enemyManager.Update() && !bossDefeated)
 	{
 		bossDefeated = true;
+		currentSong = currentLevelSong;
+		PlayMusicStream(currentSong);
 		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 		{
 			Vector2 pos = miscManager.GetBarrierList().at(i);
@@ -390,25 +399,34 @@ void Game::LevelSetup()
 	{
 	case 1:
 		levels.CreateLevelOne();
+		currentSong = caveMusic;
+		PlayMusicStream(currentSong);
 		break;
 	case 2:
 		levels.CreateLevelTwo();
+		currentSong = plainMusic;
+		PlayMusicStream(currentSong);
 		break;
 	case 3:
 		levels.CreateLevelThree();
+		currentSong = plainMusic;
+		PlayMusicStream(currentSong);
 		break;
 	case 4:
 		levels.CreateLevelFour();
+		currentSong = castleMusic;
+		PlayMusicStream(currentSong);
 		break;
 	case 5:
 		levels.CreateLevelFive();
+		currentSong = castleMusic;
+		PlayMusicStream(currentSong);
 		break;
 	default:
 		levels.CreateLevelOne();
 		break;
 	}
-	
-	
+	currentLevelSong = currentSong;
 	
 
 	sLevel = levels.GetLevel();
