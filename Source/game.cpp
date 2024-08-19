@@ -135,6 +135,12 @@ void Game::CheckEvent()
 	
 		enemyManager.Reset();
 		enemyManager.SetBossActive(false);
+
+		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
+		{
+			Vector2 pos = miscManager.GetBarrierList().at(i);
+			SetTile(pos.x, pos.y, L'.');
+		}
 		
 		break;
 	}
@@ -255,6 +261,11 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	if (tileTypeOne == L'=' || tileTypeTwo == L'=')
 	{
 		// BARRIER
+		return true;
+	}
+	if (tileTypeOne == L's' || tileTypeTwo == L's')
+	{
+		// entrance block
 		return true;
 	}
 	if (tileTypeOne == L'B' || tileTypeTwo == L'B')

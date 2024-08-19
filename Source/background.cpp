@@ -55,6 +55,11 @@ void Background::SetLevelBackground(int level)
 		activeTxr[1] = castleTxr[1];
 		activeTxr[2] = castleTxr[2];
 		break;
+	case 5:
+		activeTxr[0] = castleTxr[0];
+		activeTxr[1] = castleTxr[1];
+		activeTxr[2] = castleTxr[2];
+		break;
 	}
 }
 void Background::SetSize(int width, int height)

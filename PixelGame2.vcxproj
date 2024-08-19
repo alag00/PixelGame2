@@ -134,7 +134,6 @@
   <ItemGroup>
     <ClCompile Include="Source\animation.cpp" />
     <ClCompile Include="Source\background.cpp" />
-    <ClCompile Include="Source\barrier_point.cpp" />
     <ClCompile Include="Source\check_point.cpp" />
     <ClCompile Include="Source\enemy.cpp" />
     <ClCompile Include="Source\enemy_knight.cpp" />
@@ -151,7 +150,6 @@
   <ItemGroup>
     <ClInclude Include="Source\animation.h" />
     <ClInclude Include="Source\background.h" />
-    <ClInclude Include="Source\barrier_point.h" />
     <ClInclude Include="Source\check_point.h" />
     <ClInclude Include="Source\enemy.h" />
     <ClInclude Include="Source\enemy_knight.h" />
