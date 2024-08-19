@@ -19,7 +19,9 @@ class KnightEnemy : public Enemy
 	Texture2D attack2Atlas{};
 	Texture2D blockAtlas{};
 
-	
+	Sound deathSound{};
+	Sound initAttackSound{};
+	Sound swingAttackSound{};
 
 	DECISION dec = DECISION::IDLE;
 	float scale = 3.f;
@@ -45,6 +47,7 @@ class KnightEnemy : public Enemy
 public:
 	~KnightEnemy();
 	void SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D walkTxr, Texture2D attack1Txr, Texture2D attack2Txr, Texture2D blockTxr);
+	void SetAudio(Sound death, Sound init, Sound swing);
 	void SetPlayerRef(Entity& ref) { playerRef = &ref; }
 	void Setup();
 	void Sense();

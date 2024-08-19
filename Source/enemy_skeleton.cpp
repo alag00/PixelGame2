@@ -8,6 +8,10 @@ SkeletonEnemy::~SkeletonEnemy()
 	UnloadTexture(deathAtlas);
 	UnloadTexture(attackAtlas);
 	UnloadTexture(blockAtlas);
+
+	UnloadSound(deathSound);
+	UnloadSound(initAttackSound);
+	UnloadSound(swingAttackSound);
 }
 
 void SkeletonEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D attackTxr, Texture2D blockTxr)
@@ -16,6 +20,13 @@ void SkeletonEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D
 	deathAtlas = deathTxr;
 	attackAtlas = attackTxr;
 	blockAtlas = blockTxr;
+}
+
+void SkeletonEnemy::SetAudio(Sound death, Sound init, Sound swing)
+{
+	deathSound = death;
+	initAttackSound = init;
+	swingAttackSound = swing;
 }
 
 void SkeletonEnemy::Setup()
@@ -55,6 +66,7 @@ void SkeletonEnemy::Decide() {
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(attackAtlas, 14, false);
 		currentAttackId++;
+		PlaySound(initAttackSound);
 		//size.x = 80.f * scale;
 		//size.y = 80.f * scale;
 	}
@@ -83,6 +95,7 @@ void SkeletonEnemy::Act(float dt) {
 			attackTimer = attackCooldown;
 			if (health <= 0)
 			{
+				PlaySound(deathSound);
 				SetIsAlive(false);
 				anim.SetAnimation(deathAtlas, 8, false);
 			}
@@ -126,6 +139,9 @@ void SkeletonEnemy::Attack(float dt) {
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
 	{	
+	case 9:
+		PlaySound(swingAttackSound);
+		break;
 	case 11:
 		attackBox = { pos.x, pos.y - 1, 2, 2 };
 		attackBox.x = (lookRight) ? pos.x - (attackBox.width) : pos.x ;

@@ -36,10 +36,15 @@ void EnemyManager::Unload()
 		UnloadTexture(necromancerTextures[i]);
 	}
 	UnloadTexture(necromancerTextures[6]);
+
+	UnloadSound(initAttackSound);
+	UnloadSound(swingAttackSound);
+	UnloadSound(deathSound);
 }
 
-void EnemyManager::LoadEnemyTextures()
+void EnemyManager::LoadEnemyAssets()
 {
+	// Txr
 	skeletonTextures[0] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyIdleAtlas.png");
 	skeletonTextures[1] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyDeathAtlas.png");
 	skeletonTextures[2] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyAttackAtlas.png");
@@ -61,6 +66,11 @@ void EnemyManager::LoadEnemyTextures()
 
 	necromancerTextures[6] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyProjectileAtlas.png");
 
+
+	// Audio
+	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
+	swingAttackSound = LoadSound("Assets/Audio/SFX/EnemySwing.mp3");
+	deathSound = LoadSound("Assets/Audio/SFX/EnemyDeath.mp3");
 }
 void EnemyManager::GetPlayerRef(Entity& ref)
 {
@@ -74,6 +84,7 @@ void EnemyManager::CreateSkeleton(Vector2 pos, bool isBoss)
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
 	newEnemy->SetTextures(skeletonTextures[0], skeletonTextures[1], skeletonTextures[2], skeletonTextures[3]);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)
 	{
@@ -88,6 +99,7 @@ void EnemyManager::CreateKnight(Vector2 pos, bool isBoss)
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
 	newEnemy->SetTextures(knightTextures[0], knightTextures[1], knightTextures[2], knightTextures[3], knightTextures[4], knightTextures[5]);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)
 	{
@@ -102,6 +114,7 @@ void EnemyManager::CreateNecromancer(Vector2 pos, bool isBoss)
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
 	newEnemy->SetTextures(necromancerTextures[0], necromancerTextures[1], necromancerTextures[2], necromancerTextures[3], necromancerTextures[4], necromancerTextures[5], necromancerTextures[6]);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)
 	{

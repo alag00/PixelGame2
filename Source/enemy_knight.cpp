@@ -10,6 +10,10 @@ KnightEnemy::~KnightEnemy()
 	 UnloadTexture(attack1Atlas);
 	 UnloadTexture(attack2Atlas);
 	 UnloadTexture(blockAtlas);
+
+	 UnloadSound(deathSound);
+	 UnloadSound(initAttackSound);
+	 UnloadSound(swingAttackSound);
 }
 
 void KnightEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D walkTxr, Texture2D attack1Txr, Texture2D attack2Txr, Texture2D blockTxr)
@@ -20,6 +24,13 @@ void KnightEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D w
 	attack1Atlas = attack1Txr;
 	attack2Atlas = attack2Txr;
 	blockAtlas = blockTxr;
+}
+
+void KnightEnemy::SetAudio(Sound death, Sound init, Sound swing)
+{
+	deathSound = death;
+	initAttackSound = init;
+	swingAttackSound = swing;
 }
 
 void KnightEnemy::Setup()
@@ -75,7 +86,7 @@ void KnightEnemy::Decide()
 	if (distance <= 1.5f)
 	{
 		dec = DECISION::ATTACK;
-		
+		PlaySound(initAttackSound);
 		switch (currentSlice)
 		{
 		case 1:
@@ -124,6 +135,7 @@ void KnightEnemy::Act(float dt)
 			anim.SetAnimation(idleAtlas, 8, true);
 			if (health <= 0)
 			{
+				PlaySound(deathSound);
 				SetIsAlive(false);
 				anim.SetAnimation(deathAtlas, 8, false);
 			}
@@ -192,7 +204,7 @@ void KnightEnemy::Attack(float dt)
 	switch (currentFrame)
 	{
 	case 6:
-
+		PlaySound(swingAttackSound);
 		break;
 	case 7:
 

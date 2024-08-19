@@ -37,6 +37,10 @@ private:
 
 	Texture2D projectileAtlas{};
 
+	Sound deathSound{};
+	Sound initAttackSound{};
+	Sound swingAttackSound{};
+
 	Entity* playerRef = nullptr;
 	Animator anim;
 
@@ -66,6 +70,7 @@ public:
 	void SetPlayerRef(Entity& ref) { playerRef = &ref; }
 
 	void SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D meleeTxr, Texture2D rangedTxr, Texture2D blockTxr, Texture2D pushTxr, Texture2D projTxr);
+	void SetAudio(Sound death, Sound init, Sound swing);
 	void Setup();
 	void Sense();
 	void Decide();

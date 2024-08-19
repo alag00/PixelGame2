@@ -12,6 +12,10 @@ NecromancerEnemy::~NecromancerEnemy()
 	UnloadTexture(blockAtlas);
 	UnloadTexture(pushAtlas);
 	UnloadTexture(projectileAtlas);
+
+	UnloadSound(deathSound);
+	UnloadSound(initAttackSound);
+	UnloadSound(swingAttackSound);
 	
 }
 void NecromancerEnemy::Setup()
@@ -35,6 +39,13 @@ void NecromancerEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Textur
 	pushAtlas = pushTxr;
 	projectileAtlas = projTxr;
 	
+}
+
+void NecromancerEnemy::SetAudio(Sound death, Sound init, Sound swing)
+{
+	deathSound = death;
+	initAttackSound = init;
+	swingAttackSound = swing;
 }
 void NecromancerEnemy::Sense()
 {
@@ -66,6 +77,7 @@ void NecromancerEnemy::Decide() {
 	}
 	else if (distance <= 4.f && attackTimer < 0.f)
 	{
+		PlaySound(initAttackSound);
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(meleeAttackAtlas, 14, false);
 		currentAttackId++;
@@ -73,6 +85,7 @@ void NecromancerEnemy::Decide() {
 	}
 	else if (distance <= 20.f && attackTimer < 0.f)
 	{
+		
 		dec = DECISION::RANGED;
 		anim.SetAnimation(rangedAttackAtlas, 12, false);
 		currentAttackId++;
@@ -105,6 +118,7 @@ void NecromancerEnemy::Act(float dt) {
 			attackTimer = attackCooldown;
 			if (health <= 0)
 			{
+				PlaySound(deathSound);
 				SetIsAlive(false);
 				anim.SetAnimation(deathAtlas, 8, false);
 			}
@@ -165,6 +179,9 @@ void NecromancerEnemy::Attack() {
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
 	{
+	case 6:
+		PlaySound(swingAttackSound);
+		break;
 	case 7:
 		attackBox = { pos.x, pos.y - 3, 4, 4 };
 		attackBox.x = (lookRight) ? pos.x - (attackBox.width) + 1 : pos.x;

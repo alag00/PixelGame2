@@ -13,6 +13,10 @@ private:
 	Texture2D attackAtlas{};
 	Texture2D blockAtlas{};
 
+	Sound deathSound{};
+	Sound initAttackSound{};
+	Sound swingAttackSound{};
+
 	Entity* playerRef = nullptr;
 	Animator anim;
 
@@ -37,6 +41,7 @@ public:
 
 	~SkeletonEnemy();
 	void SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D attackTxr, Texture2D blockTxr);
+	void SetAudio(Sound death, Sound init, Sound swing);
 	void SetPlayerRef(Entity& ref) { playerRef = &ref; }
 	void Setup();
 	void Sense();

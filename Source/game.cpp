@@ -14,7 +14,7 @@ void Game::Run()
 	background.SetSize(screenWidth, screenHeight);
 	background.Setup();
 	player.Setup();
-	enemyManager.LoadEnemyTextures();
+	enemyManager.LoadEnemyAssets();
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
 

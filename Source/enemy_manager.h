@@ -13,6 +13,10 @@ private:
 	Texture2D knightTextures[6];
 	Texture2D necromancerTextures[7];
 
+	Sound initAttackSound{};
+	Sound swingAttackSound{};
+	Sound deathSound{};
+
 	std::vector<Enemy*> enemyList{};
 	Entity* playerRef = nullptr;
 	Enemy* bossRef = nullptr;
@@ -24,7 +28,7 @@ public:
 	void ClearEnemyList();
 	void Reset();
 	std::vector<Enemy*> GetEnemyList();
-	void LoadEnemyTextures();
+	void LoadEnemyAssets();
 	void GetPlayerRef(Entity& ref);
 	void CreateSkeleton(Vector2 pos, bool isBoss);
 	void CreateKnight(Vector2 pos, bool isBoss);
