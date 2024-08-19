@@ -134,6 +134,7 @@
   <ItemGroup>
     <ClCompile Include="Source\animation.cpp" />
     <ClCompile Include="Source\background.cpp" />
+    <ClCompile Include="Source\barrier_point.cpp" />
     <ClCompile Include="Source\check_point.cpp" />
     <ClCompile Include="Source\enemy.cpp" />
     <ClCompile Include="Source\enemy_knight.cpp" />
@@ -143,12 +144,14 @@
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\levels.cpp" />
     <ClCompile Include="Source\main.cpp" />
+    <ClCompile Include="Source\misc_manager.cpp" />
     <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\screen_effects.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\animation.h" />
     <ClInclude Include="Source\background.h" />
+    <ClInclude Include="Source\barrier_point.h" />
     <ClInclude Include="Source\check_point.h" />
     <ClInclude Include="Source\enemy.h" />
     <ClInclude Include="Source\enemy_knight.h" />
@@ -158,6 +161,7 @@
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\game.h" />
     <ClInclude Include="Source\levels.h" />
+    <ClInclude Include="Source\misc_manager.h" />
     <ClInclude Include="Source\player.h" />
     <ClInclude Include="Source\screen_effects.h" />
     <ClInclude Include="Source\config.h" />

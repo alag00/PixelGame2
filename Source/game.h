@@ -9,7 +9,7 @@
 #include "background.h"
 
 #include "enemy_manager.h"
-#include "check_point.h"
+#include "misc_manager.h"
 #include "config.h"
 
 enum Events
@@ -65,8 +65,10 @@ private:
 	Vector2 tutorialPos2 = { 0.f,0.f };
 	Vector2 tutorialPos3 = { 0.f,0.f };
 
-	std::vector<CheckPoint> checkPointList{};
-	Sound checkPointSound{};
+	//std::vector<CheckPoint> checkPointList{};
+	//Sound checkPointSound{};
+	MiscManager miscManager;
+	bool bossDefeated = false;
 
 public:
 	~Game();

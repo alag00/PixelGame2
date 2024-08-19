@@ -16,7 +16,7 @@ void Game::Run()
 	player.Setup();
 	enemyManager.LoadEnemyTextures();
 	enemyManager.GetPlayerRef(player);
-
+	miscManager.Setup(player);
 
 	LevelSetup();
 
@@ -33,7 +33,7 @@ void Game::Run()
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 
-	checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
+	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
 
 	currentSong = caveMusic;
 	PlayMusicStream(currentSong);
@@ -48,13 +48,14 @@ void Game::Run()
 
 	player.Unload();
 	enemyManager.Unload();
+	miscManager.Unload();
 	background.Unload();
-	
+
 	UnloadMusicStream(bossMusic);
 	UnloadMusicStream(caveMusic);
 	UnloadMusicStream(currentSong);
 
-	UnloadSound(checkPointSound);
+	//UnloadSound(checkPointSound);
 
 	CloseAudioDevice();
 	CloseWindow();
@@ -75,7 +76,15 @@ void Game::Update()
 	player.Update(dt);
 	AdjustPlayer(dt);
 	
-	enemyManager.Update();
+	if (enemyManager.Update() && !bossDefeated)
+	{
+		bossDefeated = true;
+		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
+		{
+			Vector2 pos = miscManager.GetBarrierList().at(i);
+			SetTile(pos.x, pos.y, L'.');
+		}
+	}
 	for (int i = 0; i < enemyManager.GetEnemyList().size(); i++)
 	{
 		if (!enemyManager.GetEnemyList().at(i)->IsAlive())
@@ -97,15 +106,13 @@ void Game::Update()
 		player.health = 1;
 		player.Die();
 	}
-	for (int i = 0; i < checkPointList.size(); i++)
+
+	int returnValue = miscManager.UpdateCheckPoints();
+	if (returnValue != 4444)
 	{
-		if (checkPointList.at(i).Update())
-		{
-			Vector2 tilePos = checkPointList.at(i).GetPos();
-			SetTile(tilePos.x, tilePos.y, L'?');
-			currentCheckPoint = tilePos;
-			PlaySound(checkPointSound);
-		}
+		Vector2 tilePos = miscManager.GetCheckPointList().at(returnValue).GetPos();
+		SetTile(tilePos.x, tilePos.y, L'?');
+		currentCheckPoint = tilePos;
 	}
 }
 
@@ -245,10 +252,23 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// Stone
 		return true;
 	}
-	
+	if (tileTypeOne == L'=' || tileTypeTwo == L'=')
+	{
+		// BARRIER
+		return true;
+	}
 	if (tileTypeOne == L'B' || tileTypeTwo == L'B')
 	{
+		if (bossDefeated)
+		{
+			return false;
+		}
 		// BossTime
+		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
+		{
+			Vector2 pos = miscManager.GetBarrierList().at(i);
+			SetTile(pos.x, pos.y, L'=');
+		}
 		enemyManager.SetBossActive(true);
 		currentSong = bossMusic;
 		PlayMusicStream(currentSong);
@@ -338,10 +358,13 @@ void Game::Render()
 
 void Game::RenderUI()
 {
+	miscManager.Render();
+	/*
 	for (int i = 0; i < checkPointList.size(); i++)
 	{
 		checkPointList.at(i).Render();
 	}
+	*/
 	enemyManager.RenderUI();
 }
 
@@ -388,7 +411,9 @@ void Game::LevelSetup()
 	filter.StartEffect(FADE_FROM_BLACK);
 	enemyManager.ClearEnemyList();
 
-	checkPointList.clear();
+	miscManager.ClearLists();
+	bossDefeated = false;
+	//checkPointList.clear();
 
 	//int totalEnemies = 0;
 	std::vector<Vector2> enemyPos{};
@@ -399,9 +424,7 @@ void Game::LevelSetup()
 		{
 			if (GetTile(x, y) == L'C')
 			{
-				CheckPoint newCheckPoint;
-				newCheckPoint.Setup(Vector2((float)x, (float)y), player);
-				checkPointList.push_back(newCheckPoint);
+				miscManager.CreateCheckPoint(x, y);
 				continue;
 			}
 			if (GetTile(x, y) == L'S')
@@ -432,6 +455,12 @@ void Game::LevelSetup()
 			{
 				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
 				enemyManager.CreateNecromancer(Vector2((float)x, (float)y), isBoss);
+				SetTile(x, y, L'.');
+				continue;
+			}
+			if (GetTile(x, y) == L'=')
+			{
+				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));
 				SetTile(x, y, L'.');
 				continue;
 			}
@@ -541,6 +570,13 @@ void Game::LevelRender()
 				src = { 96.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'=':
+				src = { 64.f,0.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(tileTextures, src, dst, origin, 0.f, BROWN);
+				break;
+			case L'B':
 				break;
 			case L'{':
 				src = { 80.f,0.f, 16.f, 16.f };

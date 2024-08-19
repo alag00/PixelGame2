@@ -33,5 +33,5 @@ public:
 	void Render();
 	void RenderUI();
 	void RenderBossBar();
-	void Update();
+	bool Update();
 };
