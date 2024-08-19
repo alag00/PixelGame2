@@ -334,6 +334,10 @@ bool Player::CollisionCheck(Entity& enemy)
 		
 			attackBox.width = 0.f;
 			attackBox.height = 0.f;
+
+			float randNum = (float)GetRandomValue(80, 120);
+			randNum /= 100.f;
+			SetSoundPitch(hitSound, randNum);
 			PlaySound(hitSound);
 			return true;
 		}
@@ -358,6 +362,10 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 		return true;
 	}
 	(void)id;
+
+	float randNum = (float)GetRandomValue(80, 120);
+	randNum /= 100.f;
+	SetSoundPitch(hitSound, randNum);
 	PlaySound(hitSound);
 	if (status != STATUS::DEFLECT)
 	{

@@ -32,7 +32,7 @@ void Game::Run()
 
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
-	plainMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
+	plainMusic = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
 	castleMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
 
 	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
