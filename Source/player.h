@@ -29,6 +29,7 @@ private:
 
 	Texture2D damagedAtlas = {};
 	Texture2D deflectAtlas = {};
+	Texture2D airDeflectAtlas = {};
 	Texture2D successDeflectAtlas = {};
 	Texture2D deflectParticleAtlas = {};
 

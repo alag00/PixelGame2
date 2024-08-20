@@ -35,6 +35,7 @@ void Player::Setup()
 	attackOneAtlas = LoadTexture("Assets/PlayerTextures/FirstSliceAtlasAlter.png");
 	attackTwoAtlas = LoadTexture("Assets/PlayerTextures/SecondSliceAtlas.png");
 	deflectAtlas = LoadTexture("Assets/PlayerTextures/DeflectAtlas.png");
+	airDeflectAtlas = LoadTexture("Assets/PlayerTextures/AirDeflectAtlas.png");
 	successDeflectAtlas = LoadTexture("Assets/PlayerTextures/SuccessfulDeflectAtlas.png");
 	damagedAtlas = LoadTexture("Assets/PlayerTextures/DamagedAtlas.png");
 	loseAdvantageAtlas = LoadTexture("Assets/PlayerTextures/AdvantageLostAtlas.png");
@@ -110,15 +111,16 @@ void Player::Render()
 void Player::Movement(float dt)
 {	
 	
-	if (vel.y > 0.f && status != STATUS::FALLING)
+	if (vel.y > 0.f && status != STATUS::FALLING && status != STATUS::DEFLECT)
 	{
 		anim.SetAnimation(fallAtlas, 4, true);
 		status = STATUS::FALLING;
 	}
 	if (dt < 0.1f)
 	{
-		vel.y += 20.f * dt;
+		vel.y += (status != STATUS::FALLING) ? 20.f * dt : 30.f * dt;
 	}
+	
 
 	jumpTimer += dt;
 	fallingTimer += dt;
@@ -129,17 +131,23 @@ void Player::Control(float dt)
 {
 
 
-
-	
-	if (vel.x != 0.f)
+	if (status == STATUS::DEFLECT && !onGround)
 	{
-		vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
+
 	}
-	
-
-	if (fabs(vel.x) <= 10.0f)
+	else
 	{
-		vel.x = 0.f;
+
+		if (vel.x != 0.f)
+		{
+			vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
+		}
+
+
+		if (fabs(vel.x) <= 10.0f)
+		{
+			vel.x = 0.f;
+		}
 	}
 	
 	if (status == STATUS::DEFLECT)
@@ -148,8 +156,17 @@ void Player::Control(float dt)
 		{
 			return;
 		}
+		if (onGround)
+		{
+
 		anim.SetAnimation(idleAtlas, 8, true);
 		status = STATUS::IDLE;
+		}
+		else
+		{
+			anim.SetAnimation(fallAtlas, 4, true);
+			status = STATUS::FALLING;
+		}
 	}
 
 	if (IsKeyPressed(KEY_SPACE))
@@ -209,9 +226,16 @@ void Player::Control(float dt)
 		InitAttack();
 	
 	}
-	if (IsKeyPressed(KEY_P) && status != STATUS::JUMPING && status != STATUS::FALLING)
+	if (IsKeyPressed(KEY_P))
 	{
-		anim.SetAnimation(deflectAtlas, 5, true);
+		if (status != STATUS::JUMPING && status != STATUS::FALLING)
+		{
+			anim.SetAnimation(deflectAtlas, 5, true);
+		}
+		else
+		{
+			anim.SetAnimation(airDeflectAtlas, 5, true);
+		}
 		status = STATUS::DEFLECT;
 	}
 }
@@ -371,7 +395,7 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	{
 		health -= potentialDamage;
 		vel.x = (sourcePos.x > pos.x) ? -10.f : 10.f;
-		vel.y -= 5.f;
+		vel.y = -5.f;
 		status = STATUS::DAMAGED;
 		anim.SetAnimation(damagedAtlas, 8, false);
 		if (!lookRight && vel.x < 0.f || lookRight && vel.x > 0.f)

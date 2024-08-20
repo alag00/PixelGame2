@@ -1,5 +1,9 @@
 #include "animation.h"
 
+Animator::~Animator()
+{
+	UnloadTexture(atlas);
+}
 void Animator::SetAnimation(Texture2D newSpriteSheet, int totalFrames, bool loop)
 {
 	if (atlas.id == newSpriteSheet.id)

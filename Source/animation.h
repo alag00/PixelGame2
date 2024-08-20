@@ -13,6 +13,7 @@ private:
 	bool flippedX = false;
 	bool looping = true;
 public:
+	~Animator();
 	void SetAnimation(Texture2D newSpriteSheet, int totalFrames, bool loop);
 	void DrawAnimationPro(Rectangle dest, Vector2 origin, float rotation, Color tint);
 	void FlipAnimationHorizontal();
