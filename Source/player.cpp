@@ -555,6 +555,8 @@ void Player::InitAttack()
 		vel.y = -5.f;
 		// Air Attack
 	}
+	attackBox = { pos.x, pos.y, 1, 1 };
+	attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 }
 
 void Player::LoseAdvantage()

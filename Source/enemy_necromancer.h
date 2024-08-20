@@ -17,7 +17,8 @@ private:
 	Animator anim;
 	float scale = 3.f;
 public:
-	Projectiles(Entity& ref, int direction, Texture2D txr, Vector2 newPos);
+	void Activate(Vector2 newPos);
+	void Setup(Entity& ref, int direction, Texture2D txr, Vector2 newPos);
 	void Update(float dt);
 	void Render();
 	void CollisionCheck();
@@ -59,7 +60,9 @@ private:
 	int currentAttackId = 1;
 	int lastAttackId = 0;
 
-	std::vector<Projectiles*> projectileList{};
+	static const int projAmount = 2;
+	Projectiles projList[projAmount];
+	//std::vector<Projectiles*> projectileList{};
 
 	float attackCooldown = 1.f;
 	float attackTimer = attackCooldown;

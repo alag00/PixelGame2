@@ -27,6 +27,12 @@ void NecromancerEnemy::Setup()
 
 	maxHealth = 100;
 	health = maxHealth;
+
+	for (int i = 0; i < projAmount; i++)
+	{
+		int dir = (i % 2 == 0) ? 1 : -1;
+		projList[i].Setup(*playerRef, dir, projectileAtlas, pos);
+	}
 }
 void NecromancerEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D meleeTxr, Texture2D rangedTxr, Texture2D blockTxr, Texture2D pushTxr, Texture2D projTxr)
 {
@@ -133,6 +139,14 @@ void NecromancerEnemy::Act(float dt) {
 
 void NecromancerEnemy::UpdateProj(float dt)
 {
+	for (int i = 0; i < projAmount; i++)
+	{
+		if (projList[i].IsAlive())
+		{
+			projList[i].Update(dt);
+		}
+	}
+	/*
 	for (int i = 0; i < projectileList.size(); i++)
 	{
 		if (!projectileList.at(i)->IsAlive())
@@ -146,6 +160,7 @@ void NecromancerEnemy::UpdateProj(float dt)
 	{
 		projectileList.at(i)->Update(dt);
 	}
+	*/
 }
 
 void NecromancerEnemy::Render() {
@@ -158,10 +173,19 @@ void NecromancerEnemy::Render() {
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
+	for (int i = 0; i < projAmount; i++)
+	{
+		if (projList[i].IsAlive())
+		{
+			projList[i].Render();
+		}
+	}
+	/*
 	for (int i = 0; i < projectileList.size(); i++)
 	{
 		projectileList.at(i)->Render();
 	}
+	*/
 }
 void NecromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
@@ -207,11 +231,19 @@ void NecromancerEnemy::RangedAttack() {
 	{
 
 	case 11:
+		for (int i = 0; i < projAmount; i++)
+		{
+			projList[i].Activate(pos);
+		}
+		/*
+		projList[0].Setup(*playerRef, -1, projectileAtlas, pos);
+
 		Projectiles * leftProj = new Projectiles(*playerRef, -1, projectileAtlas, pos);
 		projectileList.push_back(leftProj);
 
 		Projectiles* rightProj = new Projectiles(*playerRef, 1, projectileAtlas, pos);
 		projectileList.push_back(rightProj);
+		*/
 
 		dec = DECISION::IDLE;
 		anim.SetAnimation(idleAtlas, 8, true);
@@ -280,7 +312,7 @@ void NecromancerEnemy::Reset()
 
 
 
-Projectiles::Projectiles(Entity& ref, int direction, Texture2D txr, Vector2 newPos)
+void Projectiles::Setup(Entity& ref, int direction, Texture2D txr, Vector2 newPos)
 {
 	playerRef = &ref;
 	dir = direction;
@@ -297,6 +329,14 @@ Projectiles::Projectiles(Entity& ref, int direction, Texture2D txr, Vector2 newP
 		anim.FlipAnimationHorizontal();
 	}
 }
+
+void Projectiles::Activate(Vector2 newPos)
+{
+	timeAlive = 2.f;
+	pos = newPos;
+	pos.y += 0.5f;
+}
+
 void Projectiles::Update(float dt)
 {
 
