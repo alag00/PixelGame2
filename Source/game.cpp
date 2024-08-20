@@ -248,7 +248,7 @@ void Game::AdjustPlayer(float dt)
 	
 	player.SetPosition(fNewPlayerPosX, fNewPlayerPosY);
 
-	background.Update(player.GetVelocity());
+	background.Update(player.GetVelocity(), dt);
 
 	fCameraPosX = player.GetPosition().x;
 	fCameraPosY = player.GetPosition().y;

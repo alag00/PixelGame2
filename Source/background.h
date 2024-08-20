@@ -17,6 +17,8 @@ private:
 
 	int screenWidth = 0;
 	int screenHeight = 0;
+	float xSpeed = 10.f;
+	float ySpeed = 1.f;
 public:
 	void Unload();
 	
@@ -26,7 +28,7 @@ public:
 	
 	void SetSize(int width, int height);
 	
-	void Update(Vector2 vel);
+	void Update(Vector2 vel, float dt);
 	
 	void Render();
 

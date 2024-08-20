@@ -41,7 +41,7 @@ void Background::SetLevelBackground(int level)
 		activeTxr[2] = caveTxr[2];
 		break;
 	case 2:
-		activeTxr[0] = plainTxr[0];
+		activeTxr[0] = castleFrontTxr[0];
 		activeTxr[1] = plainTxr[1];
 		activeTxr[2] = plainTxr[2];
 		break;
@@ -72,30 +72,39 @@ void Background::SetSize(int width, int height)
 
 	txr3pos[1].x = (float)-screenWidth;
 	txr3pos[2].x = (float)screenWidth;
+
 }
 
-void Background::Update(Vector2 vel)
+void Background::Update(Vector2 vel, float dt)
 {
 	if (vel.x == 0.f && vel.y == 0.f)
 	{
 		return;
 	}
 
-	txr2pos[0].x -= vel.x / 10.f;
-	txr2pos[1].x -= vel.x / 10.f;
-	txr2pos[2].x -= vel.x / 10.f;
+	txr2pos[0].x -= vel.x * dt * xSpeed;
+	txr2pos[1].x -= vel.x * dt * xSpeed;
+	txr2pos[2].x -= vel.x * dt * xSpeed;
 
 	CheckPos(txr2pos[0].x);
 	CheckPos(txr2pos[1].x);
 	CheckPos(txr2pos[2].x);
 
-	txr3pos[0].x -= vel.x / 5.f;
-	txr3pos[1].x -= vel.x / 5.f;
-	txr3pos[2].x -= vel.x / 5.f;
+	txr2pos[0].y -= vel.y * dt * ySpeed;
+	txr2pos[1].y -= vel.y * dt * ySpeed;
+	txr2pos[2].y -= vel.y * dt * ySpeed;
+
+	txr3pos[0].x -= vel.x * dt * (xSpeed * 2.f);
+	txr3pos[1].x -= vel.x * dt * (xSpeed * 2.f);
+	txr3pos[2].x -= vel.x * dt * (xSpeed * 2.f);
 
 	CheckPos(txr3pos[0].x);
 	CheckPos(txr3pos[1].x);
 	CheckPos(txr3pos[2].x);
+
+	txr3pos[0].y -= vel.y * dt * (ySpeed * 2.f);
+	txr3pos[1].y -= vel.y * dt * (ySpeed * 2.f);
+	txr3pos[2].y -= vel.y * dt * (ySpeed * 2.f);
 }
 void Background::Render()
 {
