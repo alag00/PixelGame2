@@ -59,7 +59,7 @@ void Player::Setup()
 	//pos.x = 1.f;
 	//pos.y = 1.f;
 
-	maxHealth = 30;
+	maxHealth = 100;
 	health = maxHealth;
 }
 

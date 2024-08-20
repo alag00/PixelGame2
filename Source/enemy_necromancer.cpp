@@ -339,7 +339,7 @@ void Projectiles::Activate(Vector2 newPos)
 
 void Projectiles::Update(float dt)
 {
-
+	anim.UpdateAnimator(dt);
 	CollisionCheck();
 	timeAlive -= dt;
 	switch (dir)
