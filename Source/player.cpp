@@ -111,7 +111,7 @@ void Player::Render()
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	
+	/*
 	if (status == STATUS::ATTACK || status == STATUS::AIRATTACK)
 	{
 		Color color = YELLOW;
@@ -120,7 +120,7 @@ void Player::Render()
 		DrawRectangleRec(debugBox, color);
 		//DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
 	}
-	
+	*/
 
 	hitBox = { pos.x, pos.y, 1, 1 };
 	RenderParticles();

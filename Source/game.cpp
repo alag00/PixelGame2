@@ -78,12 +78,14 @@ void Game::Update()
 		CheckEvent();
 		return;
 	}
+	/*
 	// Debug
 	if (IsKeyPressed(KEY_T))
 	{
 		filter.StartEffect(SCREEN_SHAKE);
 		currentEvent = ScreenShake;
 	}
+	*/
 	CheckEvent();
 	player.Update(dt);
 	AdjustPlayer(dt);
