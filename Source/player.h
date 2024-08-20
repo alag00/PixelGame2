@@ -15,6 +15,8 @@ enum class STATUS
 	ATTACK = 5,
 	DAMAGED = 6,
 	LOSTADVANTAGE = 7,
+	AIRATTACK = 8,
+	AIRRECOVERY = 9,
 };
 class Player : public Entity
 {
@@ -35,6 +37,7 @@ private:
 
 	Texture2D attackOneAtlas{};
 	Texture2D attackTwoAtlas{};
+	Texture2D airAttackAtlas{};
 
 	Texture2D loseAdvantageAtlas{};
 
@@ -100,9 +103,10 @@ public:
 
 
 	void Jump();
-	void LedgeJump(Vector2 edgePoint);
+	void RecoilJump();
 
 	void Attack(float dt);
+	void AirAttack(float dt);
 
 	bool CollisionCheck(Entity& enemy);
 

@@ -73,7 +73,7 @@ void Game::Update()
 	UpdateMusicStream(currentSong);
 	float dt = GetFrameTime();
 	filter.Update(dt);
-	if (currentEvent != None)
+	if (currentEvent != None && currentEvent != ScreenShake)
 	{
 		CheckEvent();
 		return;
