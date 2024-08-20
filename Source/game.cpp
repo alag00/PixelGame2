@@ -6,10 +6,17 @@ Game::~Game()
 }
 void Game::Run()
 {
-	SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, "Unholy Trek");
 	InitAudioDevice();
 	SetTargetFPS(60);
+
+	mainMenu.Setup(screenWidth, screenHeight);
+	while(mainMenu.Update())
+	{
+		mainMenu.Render();
+	}
+	mainMenu.Unload();
 
 	background.SetSize(screenWidth, screenHeight);
 	background.Setup();
@@ -42,7 +49,7 @@ void Game::Run()
 
 	LevelSetup();
 
-	while (!WindowShouldClose())
+	while (!WindowShouldClose() && isRunning)
 	{
 		Update();
 		Render();
@@ -54,14 +61,14 @@ void Game::Run()
 	enemyManager.Unload();
 	miscManager.Unload();
 	background.Unload();
-
+	/*
+	UnloadMusicStream(currentSong);
+	UnloadMusicStream(currentLevelSong);
 	UnloadMusicStream(bossMusic);
 	UnloadMusicStream(caveMusic);
 	UnloadMusicStream(plainMusic);
 	UnloadMusicStream(castleMusic);
-	UnloadMusicStream(currentLevelSong);
-	UnloadMusicStream(currentSong);
-
+	*/
 	//UnloadSound(checkPointSound);
 
 	CloseAudioDevice();
@@ -165,6 +172,9 @@ void Game::CheckEvent()
 		break;
 	case ScreenShake:
 		cam.rotation = 0.f;
+		break;
+	case CloseGame:
+		isRunning = false;
 		break;
 	}
 
@@ -366,6 +376,13 @@ bool Game::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// GraveStone 4
 		return false;
 	}
+	if (tileTypeOne == L'E' || tileTypeTwo == L'E')
+	{
+		// Init Close Game
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = CloseGame;
+		return false;
+	}
 	return true;
 }
 
@@ -386,7 +403,10 @@ void Game::Render()
 	EndMode2D();
 	
 	RenderHpBars();
-	
+	if (currentLevel == 5)
+	{
+		RenderCredit();
+	}
 	EndDrawing();
 }
 
@@ -730,4 +750,9 @@ float Game::GetDist(Vector2 vec1, Vector2 vec2)
 	float x = vec1.x - vec2.x;
 	float y = vec1.y - vec2.y;
 	return sqrtf((x * x) + (y * y));
+}
+
+void Game::RenderCredit()
+{
+	DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
 }

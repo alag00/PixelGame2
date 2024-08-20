@@ -58,7 +58,7 @@ private:
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 	bool lookRight = true;
 	
-	bool onGround = true;
+	bool onGround = false;
 	float jumpTimer = 0.1f;
 	float fallingTimer = 0.f;
 

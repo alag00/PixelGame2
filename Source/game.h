@@ -11,6 +11,7 @@
 #include "enemy_manager.h"
 #include "misc_manager.h"
 #include "config.h"
+#include "main_menu.h"
 
 enum Events
 {
@@ -19,10 +20,12 @@ enum Events
 	Die,
 	ScreenShake,
 	HitFreeze,
+	CloseGame,
 };
 class Game
 {
 private:
+	MainMenu mainMenu;
 	Config config;
 	int screenWidth = 1080;
 	int screenHeight = 760;
@@ -73,6 +76,8 @@ private:
 	MiscManager miscManager;
 	bool bossDefeated = false;
 
+	bool isRunning = true;
+
 public:
 	~Game();
 	void Run();
@@ -99,4 +104,5 @@ public:
 
 	void RenderHpBars();
 	float GetDist(Vector2 vec1, Vector2 vec2);
+	void RenderCredit();
 };
