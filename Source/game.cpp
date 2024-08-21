@@ -10,6 +10,9 @@ void Game::Run()
 	InitWindow(screenWidth, screenHeight, "Unholy Trek");
 	InitAudioDevice();
 	SetTargetFPS(60);
+	Image icon = LoadImage("Assets/Icon.png");
+	SetWindowIcon(icon);
+	UnloadImage(icon);
 
 	mainMenu.Setup(screenWidth, screenHeight);
 	while(mainMenu.Update())
