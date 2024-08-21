@@ -294,6 +294,10 @@ void Player::Jump()
 	onGround = false;
 	status = STATUS::JUMPING;
 	vel.y = -maxJumpPower / 5.f;
+
+	float randNum = (float)GetRandomValue(80, 120);
+	randNum /= 100.f;
+	SetSoundPitch(jumpSound, randNum);
 	PlaySound(jumpSound);
 	
 }
@@ -309,7 +313,7 @@ void Player::SetOnGround(bool newValue)
 		{
 			Jump();
 		}
-		if (status != STATUS::MOVING && status != STATUS::DEFLECT && status != STATUS::ATTACK)
+		else if (status != STATUS::MOVING && status != STATUS::DEFLECT && status != STATUS::ATTACK)
 		{
 			vel.y = 0.f;
 			anim.SetAnimation(idleAtlas, 8, true);
@@ -553,6 +557,11 @@ void Player::InitAttack()
 		status = STATUS::AIRATTACK;
 		vel.x = (lookRight) ? 10.f : -10.f;
 		vel.y = -5.f;
+
+		float randNum = (float)GetRandomValue(80, 120);
+		randNum /= 100.f;
+		SetSoundPitch(jumpSound, randNum);
+		PlaySound(jumpSound);
 		// Air Attack
 	}
 	attackBox = { pos.x, pos.y, 1, 1 };
