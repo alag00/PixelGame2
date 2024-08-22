@@ -18,7 +18,7 @@
     <ClCompile Include="Source\main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\game.cpp">
+    <ClCompile Include="Source\level_manager.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Source\animation.cpp">
@@ -60,6 +60,12 @@
     <ClCompile Include="Source\main_menu.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\scene_manager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\player.h">
@@ -68,7 +74,7 @@
     <ClInclude Include="Source\animation.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\game.h">
+    <ClInclude Include="Source\level_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\enemy.h">
@@ -108,6 +114,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\main_menu.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene_manager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\scene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
