@@ -204,6 +204,10 @@ void Player::Control(float dt)
 			jumpTimer = 0.f;
 		}
 	}
+	if (IsKeyReleased(KEY_SPACE) && status == STATUS::JUMPING)
+	{
+		vel.y = -5.f;
+	}
 	if (IsKeyDown(KEY_A))
 	{
 		vel.x = -10.f;
