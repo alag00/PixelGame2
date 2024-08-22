@@ -53,6 +53,8 @@ void LevelManager::LoadScene()
 	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
 
+	cutsceneManager.Setup(cameraTargetPos);
+
 	LevelSetup();
 	/*
 	while (!WindowShouldClose() && isRunning)
@@ -95,10 +97,22 @@ bool LevelManager::Update()
 {
 	UpdateMusicStream(currentSong);
 	float dt = GetFrameTime();
+	
 	filter.Update(dt);
 	if (currentEvent != None && currentEvent != ScreenShake)
 	{
 		CheckEvent();
+		return exitLevel;
+	}
+	if (isCutscening)
+	{
+		if (cutsceneManager.Update(dt))
+		{
+			isCutscening = false;
+			cutscenePlayed = true;
+			filter.StartEffect(FADE_TO_BLACK);
+			currentEvent = EndCutscene;
+		}
 		return exitLevel;
 	}
 	/*
@@ -194,6 +208,13 @@ void LevelManager::CheckEvent()
 		nextScene = SCENE_TYPE::MAIN_MENU;
 		exitLevel = true;
 		break;
+	case StartCutscene:
+		isCutscening = true;
+		filter.StartEffect(FADE_FROM_BLACK);
+		break;
+	case EndCutscene:
+		filter.StartEffect(FADE_FROM_BLACK);
+		break;
 	}
 
 	currentEvent = None;
@@ -280,8 +301,8 @@ void LevelManager::AdjustPlayer(float dt)
 
 	background.Update(player.GetVelocity(), dt);
 
-	fCameraPosX = player.GetPosition().x;
-	fCameraPosY = player.GetPosition().y;
+	cameraTargetPos.x = player.GetPosition().x;
+	cameraTargetPos.y = player.GetPosition().y;
 	
 	
 
@@ -334,6 +355,16 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		enemyManager.SetBossActive(true);
 		currentSong = bossMusic;
 		PlayMusicStream(currentSong);
+		return false;
+	}
+	if (tileTypeOne == L'V' || tileTypeTwo == L'V')
+	{
+		if (cutscenePlayed)
+		{
+			return false;
+		}
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = StartCutscene;
 		return false;
 	}
 	
@@ -412,6 +443,15 @@ void LevelManager::Render()
 	BeginMode2D(cam);
 
 	LevelRender();
+	if (isCutscening)
+	{
+		cutsceneManager.Render();
+		EndMode2D();
+		EndDrawing();
+		return;
+	}
+	enemyManager.Render();
+	player.Render();
 	RenderUI();
 	if (currentLevel == 1)
 	{
@@ -479,7 +519,7 @@ void LevelManager::LevelSetup()
 		break;
 	}
 	currentLevelSong = currentSong;
-	
+	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 
 	sLevel = levels.GetLevel();
 	nLevelWidth = levels.GetLevelWidth();
@@ -582,7 +622,7 @@ void LevelManager::LevelRender()
 
 
 
-	cam.target = { fCameraPosX * nTileWidth, fCameraPosY * nTileHeight };
+	cam.target = { cameraTargetPos.x * nTileWidth, cameraTargetPos.y * nTileHeight };
 
 	float halfWidth = screenWidth / 2.f;
 	float halfHeight = screenHeight / 2.f;
@@ -592,17 +632,17 @@ void LevelManager::LevelRender()
 	if (cam.target.x > (nTileWidth * nLevelWidth) - halfWidth) cam.target.x = (nTileWidth * nLevelWidth) - halfWidth;
 	if (cam.target.y > (nTileHeight * nLevelHeight) - halfHeight) cam.target.y = (nTileHeight * nLevelHeight) - halfHeight;
 
-	fCameraPosX = cam.target.x / nTileWidth;
-	fCameraPosY = cam.target.y / nTileHeight;
+	cameraTargetPos.x = cam.target.x / nTileWidth;
+	cameraTargetPos.y = cam.target.y / nTileHeight;
 
 
 	Rectangle src{ 0.f,0.f, 16.f, 16.f };
 	Rectangle dst{ 0.f, 0.f,0.f,0.f };
 	Vector2 origin = { 0.f,0.f };
 	// Draw visible tile map
-	for (int y = static_cast<int>((fCameraPosY - (nVisibleTilesY / 2.f) - 2)) ; y < (fCameraPosY) +(nVisibleTilesY / 2.f) +1 ; y++)
+	for (int y = static_cast<int>((cameraTargetPos.y - (nVisibleTilesY / 2.f) - 2)) ; y < (cameraTargetPos.y) +(nVisibleTilesY / 2.f) +1 ; y++)
 	{
-		for (int x = static_cast<int>((fCameraPosX - (nVisibleTilesX / 2.f) - 2)) ; x < (fCameraPosX ) +(nVisibleTilesX / 2.f) + 1  ; x++)
+		for (int x = static_cast<int>((cameraTargetPos.x - (nVisibleTilesX / 2.f) - 2)) ; x < (cameraTargetPos.x) +(nVisibleTilesX / 2.f) + 1  ; x++)
 		{
 			wchar_t sTileID = GetTile(x, y);
 			switch (sTileID)
@@ -688,8 +728,7 @@ void LevelManager::LevelRender()
 	}
 
 
-	enemyManager.Render();
-	player.Render();
+
 
 }
 

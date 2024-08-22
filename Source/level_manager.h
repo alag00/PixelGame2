@@ -12,6 +12,7 @@
 #include "misc_manager.h"
 #include "config.h"
 #include "scene.h"
+#include "cutscene_manager.h"
 
 enum Events
 {
@@ -21,6 +22,8 @@ enum Events
 	ScreenShake,
 	HitFreeze,
 	CloseGame,
+	StartCutscene,
+	EndCutscene,
 };
 class LevelManager : public Scene
 {
@@ -38,14 +41,14 @@ private:
 	
 	Player player;
 
-	
-	float fCameraPosX = 0.0f;
-	float fCameraPosY = 0.0f;
+	Vector2 cameraTargetPos{ 0.f,0.f };
+	//float fCameraPosX = 0.0f;
+	//float fCameraPosY = 0.0f;
 
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 1;
+	int currentLevel = 4;
 
 	Effect filter;
 
@@ -79,6 +82,9 @@ private:
 	bool exitLevel = false;
 
 	SCENE_TYPE nextScene = SCENE_TYPE::NONE;
+	bool isCutscening = false;
+	CutsceneManager cutsceneManager;
+	bool cutscenePlayed = false;
 
 public:
 	~LevelManager();
