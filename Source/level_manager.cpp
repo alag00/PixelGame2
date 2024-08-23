@@ -97,7 +97,10 @@ bool LevelManager::Update()
 {
 	UpdateMusicStream(currentSong);
 	float dt = GetFrameTime();
-	
+	if (dt > 0.1f)
+	{
+		return exitLevel;
+	}
 	filter.Update(dt);
 	if (currentEvent != None && currentEvent != ScreenShake)
 	{
@@ -447,6 +450,7 @@ void LevelManager::Render()
 	{
 		cutsceneManager.Render();
 		EndMode2D();
+		cutsceneManager.RenderUI();
 		EndDrawing();
 		return;
 	}

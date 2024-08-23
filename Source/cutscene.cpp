@@ -6,9 +6,10 @@ void CastleCutscene::Setup(Vector2&ref)
 
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+	playerIcon = LoadTexture("Assets/Icon.png");
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
-
+	enemyIcon = LoadTexture("Assets/Icon.png");
 
 	enemyPos = {93.f, 8.f};
 	enemySize.x = 144.f * scale;
@@ -20,24 +21,48 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
+	dialogue.QueueDialogue(false, enemyIcon, "GLORB GLORB GLORB");
+	dialogue.QueueDialogue(false, enemyIcon, "GLORB A GLORB");
+	dialogue.QueueDialogue(true, playerIcon, "OH GLORB");
 }
 
 bool CastleCutscene::Update(float dt)
 {
 	playerAnim.UpdateAnimator(dt);
 	enemyAnim.UpdateAnimator(dt);
-	if (playerPos.x < 87.f)
+	switch (cutsceneStage)
 	{
-		playerPos.x += dt * 5.f;
-		if (playerPos.x >= 87.f)
+	case 0:
+		if (playerPos.x < 87.f)
 		{
-			playerAnim.SetAnimation(playerIdle, 8, true);
-			enemyAnim.FlipAnimationHorizontal();
-			enemyPos.x--;
+			playerPos.x += dt * 5.f;
+			if (playerPos.x >= 87.f)
+			{
+				playerAnim.SetAnimation(playerIdle, 8, true);
+				enemyAnim.FlipAnimationHorizontal();
+				enemyPos.x--;
+				cutsceneStage = 1;
+				dialogue.SetActive(true);
+			}
 		}
+		break;
+	case 1:
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 2;
+		}
+		break;
+	case 2:
+		return true;
+	case 3:
+		break;
+
 	}
+	
 
 	*camRef = { 90.f, 8.f };
+
+	dialogue.Update();
 
 	if (IsKeyPressed(KEY_P))
 	{
@@ -60,6 +85,13 @@ void CastleCutscene::Render()
 	dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
 	origin = { dst.width / 2.f, dst.height / 2.f };
 	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+	
+}
+
+void CastleCutscene::RenderUI()
+{
+	dialogue.Render();
 }
 
 void CastleCutscene::Unload()
@@ -67,6 +99,9 @@ void CastleCutscene::Unload()
 	UnloadTexture(playerIdle);
 	UnloadTexture(playerWalk);
 	UnloadTexture(enemyIdle);
+
+	UnloadTexture(playerIcon);
+	UnloadTexture(enemyIcon);
 }
 
 void GraveyardCutscene::Setup(Vector2& ref)
@@ -81,6 +116,10 @@ bool GraveyardCutscene::Update(float dt)
 }
 
 void GraveyardCutscene::Render()
+{
+}
+
+void GraveyardCutscene::RenderUI()
 {
 }
 

@@ -14,4 +14,5 @@ public:
 	void SwitchCutscene(int cutsceneID);
 	bool Update(float dt);
 	void Render();
+	void RenderUI();
 };

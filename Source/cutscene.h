@@ -1,6 +1,8 @@
 #pragma once
 #include "raylib.h"
 #include "animation.h"
+#include "dialogue.h"
+
 class Cutscene
 {
 private:
@@ -8,6 +10,7 @@ public:
 	virtual void Setup(Vector2& ref) { (void)ref; };
 	virtual bool Update(float dt) { (void)dt; return false; };
 	virtual void Render(){};
+	virtual void RenderUI() {};
 	virtual void Unload() {};
 };
 
@@ -28,10 +31,17 @@ private:
 	Animator enemyAnim;
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
+
+	Texture2D playerIcon{};
+	Texture2D enemyIcon{};
+	Dialogue dialogue;
+
+	int cutsceneStage = 0;
 public:
 	void Setup(Vector2& ref) override;
 	bool Update(float dt) override;
 	void Render() override;
+	void RenderUI() override;
 	void Unload() override;
 };
 
@@ -42,5 +52,6 @@ public:
 	void Setup(Vector2& ref) override;
 	bool Update(float dt) override;
 	void Render() override;
+	void RenderUI() override;
 	void Unload() override;
 };

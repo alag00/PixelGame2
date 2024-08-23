@@ -47,3 +47,8 @@ void CutsceneManager::Render()
 {
 	currentCutscene->Render();
 }
+
+void CutsceneManager::RenderUI()
+{
+	currentCutscene->RenderUI();
+}
