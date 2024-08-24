@@ -17,6 +17,7 @@ enum class STATUS
 	LOSTADVANTAGE = 7,
 	AIRATTACK = 8,
 	AIRRECOVERY = 9,
+	CLIMB = 10,
 };
 class Player : public Entity
 {
@@ -28,6 +29,7 @@ private:
 	Texture2D fallAtlas = {};
 	Texture2D jumpAtlas = {};
 	Texture2D ledgeAtlas = {};
+	Texture2D climbAtlas{};
 
 	Texture2D damagedAtlas = {};
 	Texture2D deflectAtlas = {};
@@ -124,4 +126,7 @@ public:
 	void LoseAdvantage();
 
 	void Die();
+
+	void EnterClimbMode();
+	void ClimbControl(float dt);
 };

@@ -33,6 +33,7 @@ void Player::Setup()
 	fallAtlas = LoadTexture("Assets/PlayerTextures/FallAtlas.png");
 	jumpAtlas = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
 	ledgeAtlas = LoadTexture("Assets/PlayerTextures/LedgeClimbAtlasAlter.png");
+	climbAtlas = LoadTexture("Assets/PlayerTextures/ClimbAtlas.png");
 
 	airAttackAtlas = LoadTexture("Assets/PlayerTextures/AirAttackAtlas.png");
 	attackOneAtlas = LoadTexture("Assets/PlayerTextures/FirstSliceAtlasAlter.png");
@@ -85,6 +86,9 @@ void Player::Update(float dt)
 		{
 			status = STATUS::IDLE;
 		}
+		break;
+	case STATUS::CLIMB:
+		ClimbControl(dt);
 		break;
 		/*
 	case STATUS::AIRRECOVERY:
@@ -582,4 +586,25 @@ void Player::LoseAdvantage()
 void  Player::Die()
 {
 	PlaySound(deathSound);
+}
+
+
+void Player::EnterClimbMode()
+{
+	status = STATUS::CLIMB;
+	anim.SetAnimation(climbAtlas, 8, true);
+}
+void Player::ClimbControl(float dt)
+{
+	dt;
+	vel = { 0.f,0.f };
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		//Jump();
+		lookRight = !lookRight;
+		anim.FlipAnimationHorizontal();
+		particleAnim.FlipAnimationHorizontal();
+		RecoilJump();
+		//vel.x = (lookRight) ? -10.f : 10.f;
+	}
 }

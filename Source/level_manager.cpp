@@ -30,7 +30,7 @@ void LevelManager::LoadScene()
 	enemyManager.LoadEnemyAssets();
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
-
+	levels.Load();
 	
 
 	cam.offset = { screenWidth / 2.f, screenHeight / 2.f };
@@ -44,12 +44,14 @@ void LevelManager::LoadScene()
 	tileTextures = LoadTexture("Assets/TileTextures/Textures.png");
 
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
+	/*
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 	plainMusic = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
 	castleMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
+	*/
 
 	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
-	currentSong = caveMusic;
+	currentSong = bossMusic;
 	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
 
@@ -343,6 +345,12 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// entrance block
 		return true;
 	}
+	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
+	{
+		// entrance block
+		player.EnterClimbMode();
+		return true;
+	}
 	if (tileTypeOne == L'B' || tileTypeTwo == L'B')
 	{
 		if (bossDefeated)
@@ -491,6 +499,7 @@ void LevelManager::RenderBackground()
 
 void LevelManager::LevelSetup()
 {
+	/*
 	switch (currentLevel)
 	{
 	case 1:
@@ -522,6 +531,10 @@ void LevelManager::LevelSetup()
 		levels.CreateLevelOne();
 		break;
 	}
+	*/
+	levels.CreateLevel(currentLevel);
+	currentSong = levels.GetLevelSong();
+	PlayMusicStream(currentSong);
 	currentLevelSong = currentSong;
 	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 
@@ -691,6 +704,12 @@ void LevelManager::LevelRender()
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
 				break;
+			case L'L':
+				src = { 0.f,0.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(tileTextures, src, dst, origin, 0.f, YELLOW);
+
+				break;
 			case L'?':
 				src = { 96.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
@@ -702,6 +721,8 @@ void LevelManager::LevelRender()
 				DrawTexturePro(tileTextures, src, dst, origin, 0.f, BROWN);
 				break;
 			case L'B':
+				break;
+			case L'V':
 				break;
 			case L'{':
 				src = { 80.f,0.f, 16.f, 16.f };

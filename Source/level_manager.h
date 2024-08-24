@@ -48,16 +48,16 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 4;
+	int currentLevel = 6;
 
 	Effect filter;
 
 	Vector2 currentCheckPoint{ 0.f,0.f };
 	Events currentEvent = None;
 
-	Music caveMusic{};
-	Music plainMusic{};
-	Music castleMusic{};
+	//Music caveMusic{};
+	//Music plainMusic{};
+	//Music castleMusic{};
 	Music bossMusic{};
 
 	Music currentLevelSong{};
