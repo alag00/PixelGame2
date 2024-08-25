@@ -41,7 +41,7 @@ void LevelManager::LoadScene()
 	filter.Setup(cam, screenWidth, screenHeight);
 
 	
-	tileTextures = LoadTexture("Assets/TileTextures/Textures.png");
+	//tileTextures = LoadTexture("Assets/TileTextures/Textures.png");
 
 	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	/*
@@ -88,12 +88,13 @@ void LevelManager::LoadScene()
 }
 void LevelManager::LeaveScene()
 {
-	UnloadTexture(tileTextures);
+	//UnloadTexture(tileTextures);
 
 	player.Unload();
 	enemyManager.Unload();
 	miscManager.Unload();
 	background.Unload();
+	levels.Unload();
 }
 bool LevelManager::Update()
 {
@@ -175,6 +176,11 @@ bool LevelManager::Update()
 		Vector2 tilePos = miscManager.GetCheckPointList().at(returnValue).GetPos();
 		SetTile(tilePos.x, tilePos.y, L'?');
 		currentCheckPoint = tilePos;
+	}
+	returnValue = miscManager.UpdateGrapplingPoints();
+	if (returnValue != 4444)
+	{
+		player.EnterGrapplingHookMode(miscManager.GetGrapPointList().at(returnValue).GetPos());
 	}
 	return exitLevel;
 }
@@ -385,7 +391,12 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		//currentCheckPoint = player.GetPosition();	
 		return false;
 	}
-	
+	if (tileTypeOne == L'G' || tileTypeTwo == L'G')
+	{
+
+		//currentCheckPoint = player.GetPosition();	
+		return false;
+	}
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
 		filter.StartEffect(FADE_TO_BLACK);
@@ -536,6 +547,7 @@ void LevelManager::LevelSetup()
 	currentSong = levels.GetLevelSong();
 	PlayMusicStream(currentSong);
 	currentLevelSong = currentSong;
+	currentTileTextures = levels.GetLevelTexture();
 	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 
 	sLevel = levels.GetLevel();
@@ -600,6 +612,11 @@ void LevelManager::LevelSetup()
 			{
 				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));
 				SetTile(x, y, L'.');
+				continue;
+			}
+			if (GetTile(x, y) == L'G')
+			{
+				miscManager.CreateGrapplingPoint(x,y);
 				continue;
 			}
 			if(currentLevel != 1)
@@ -667,82 +684,94 @@ void LevelManager::LevelRender()
 			case L'.': // Sky
 
 				break;
-			case L'#':
+			case L'#':// Brick
 				 src = {0.f,0.f, 16.f, 16.f};
 				 dst = { (float)x * nTileWidth,(float) y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-	
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'_':
-				src = {64.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-
-				break;
-			case L'%':
-				src = { 32.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'-':
+			case L'-': // Brick Wall
 				src = { 0.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'*':
+			case L'*': // Stone
 				src = { 16.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L',':
+			case L',': // Stone Wall
 				src = { 16.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'C':
-				src = { 96.f,0.f, 16.f, 16.f };
+			case L'_': // Dirt
+				src = { 32.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'L':
-				src = { 0.f,0.f, 16.f, 16.f };
+			case L'%': // Grass Dirt
+				src = { 32.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, YELLOW);
-
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'?':
-				src = { 96.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'=':
-				src = { 64.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, BROWN);
-				break;
-			case L'B':
-				break;
-			case L'V':
-				break;
-			case L'{':
+			case L'L': // Climb Block
 				src = { 80.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'}':
+			case L'=': // Barrier Block
 				src = { 80.f,16.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L'[':
-				src = { 80.f, 32.f, 16.f, 16.f };
+			case L'D': // Death Block
+				src = { 80.f,32.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
-			case L']':
-				src = { 80.f, 48.f, 16.f, 16.f };
+			case L'C': // CheckPoint Unclaimed
+				src = { 96.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(tileTextures, src, dst, origin, 0.f, WHITE);
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'?': // CheckPoint Claimed
+				src = { 96.f,16.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'G': // Grappling Point
+				src = { 96.f,32.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'R': // Valid Grappling Point
+				src = { 96.f,48.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'B': // Activate Boss
+				break;
+			case L'V': // Activate Cutscene
+				break;
+			case L'{': // Misc 1
+				src = { 112.f,0.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'}': // Misc 2
+				src = { 112.f,16.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'[': // Misc 3
+				src = { 112.f, 32.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L']': // Misc 4
+				src = { 112.f, 48.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
 			
 			default:

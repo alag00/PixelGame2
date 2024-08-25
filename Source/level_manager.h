@@ -48,7 +48,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 6;
+	int currentLevel = 4;
 
 	Effect filter;
 
@@ -63,7 +63,7 @@ private:
 	Music currentLevelSong{};
 	Music currentSong{};
 
-	Texture2D tileTextures{};
+	Texture2D currentTileTextures{};
 
 	
 	EnemyManager enemyManager;

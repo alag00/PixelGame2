@@ -18,6 +18,7 @@ enum class STATUS
 	AIRATTACK = 8,
 	AIRRECOVERY = 9,
 	CLIMB = 10,
+	HOOK = 11,
 };
 class Player : public Entity
 {
@@ -30,6 +31,7 @@ private:
 	Texture2D jumpAtlas = {};
 	Texture2D ledgeAtlas = {};
 	Texture2D climbAtlas{};
+	Texture2D hookAtlas{};
 
 	Texture2D damagedAtlas = {};
 	Texture2D deflectAtlas = {};
@@ -85,6 +87,9 @@ private:
 	int currentAttackId = 1;
 	int lastAttackId = 0;
 	bool queuedAttack = false;
+
+	Vector2 grappPoint = {0.f,0.f};
+	bool inHookAnim = true;
 public:
 	void Unload();
 	Vector2 GetPosition() { return pos; }
@@ -129,4 +134,8 @@ public:
 
 	void EnterClimbMode();
 	void ClimbControl(float dt);
+
+	void EnterGrapplingHookMode(Vector2 hookPos);
+	void GrapplingHookMovement(float dt);
+	bool GetLookSide() override { return lookRight; };
 };

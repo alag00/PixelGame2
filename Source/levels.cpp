@@ -6,11 +6,17 @@ void Levels::Load()
 	songList[0] = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 	songList[1] = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
 	songList[2] = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
+
+	tileTextures[0] = LoadTexture("Assets/TileTextures/WorldTileTextures1.png");
+	tileTextures[1] = LoadTexture("Assets/TileTextures/WorldTileTextures2.png");
 }
 
 void Levels::Unload()
 {
-	
+	for (int i = 0; i < 2; i++)
+	{
+		UnloadTexture(tileTextures[i]);
+	}
 }
 
 void Levels::CreateLevel(int level)
@@ -53,6 +59,11 @@ void Levels::CreateLevelOne()
 
 	currentLevel = "";
 
+	bossChar = L'K';
+	cutsceneID = 0;
+	currentSong = songList[0];
+	currentTileTxr = tileTextures[0];
+
 	currentLevelWidth = 102;
 	currentevelHeight = 32;
 
@@ -89,14 +100,15 @@ void Levels::CreateLevelOne()
 	currentLevel += "**,.{.],************______________*****,,,,,,,,,,,,,,,,***********************************************";
 	currentLevel += "***____*******************_____***********************************************************************";
 
-	bossChar = L'K';
-	cutsceneID = 0;
-	currentSong = songList[0];
+	
 }
 
 void Levels::CreateLevelTwo()
 {
 	currentLevel = "";
+	cutsceneID = 0;
+	currentSong = songList[1];
+	currentTileTxr = tileTextures[0];
 
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
@@ -124,13 +136,16 @@ void Levels::CreateLevelTwo()
 	currentLevel += "____________________________#--#________________________________________________________________________________________________";
 	currentLevel += "____________________________#DD#________________________________________________________________________________________________";
 	
-	cutsceneID = 0;
-	currentSong = songList[1];
+	
 }
 
 void Levels::CreateLevelThree()
 {
 	currentLevel = "";
+	bossChar = L'K';
+	cutsceneID = 0;
+	currentSong = songList[1];
+	currentTileTxr = tileTextures[0];
 
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
@@ -158,17 +173,21 @@ void Levels::CreateLevelThree()
 	currentLevel += "______________________________________________________________________________________________###............Z...........##_#_#_";
 	currentLevel += "______________________________________________________________________________________________####%%%%%%%%%%%%%%%%%%%%%%########";
 	
-	bossChar = L'K';
-	cutsceneID = 0;
-	currentSong = songList[1];
+
 }
 
 void Levels::CreateLevelFour()
 {
 	currentLevel = "";
+	bossChar = L'N';
+
+	cutsceneID = 1;
+	currentSong = songList[2];
+	currentTileTxr = tileTextures[0];
 
 	currentLevelWidth = 128;
 	currentevelHeight = 64;
+
 	currentLevel += "............#################################################################............###.................#######...........#";
 	currentLevel += "............##################################################################..........#####...............########...........#";
 	currentLevel += "............###----....----....----....----....----....----....--------####----.........-----..............------###...........#";
@@ -234,19 +253,19 @@ void Levels::CreateLevelFour()
 	currentLevel += "............###########################################################################------#######################............";
 	currentLevel += "............###########################################################################DDDDDD#######################DDDDDDDDDDDD";
 
-	bossChar = L'N';
-
-	cutsceneID = 1;
-	currentSong = songList[2];
+	
 }
 
 void Levels::CreateLevelFive()
 {
 
 	currentLevel = "";
+	currentSong = songList[2];
+	currentTileTxr = tileTextures[0];
 
 	currentLevelWidth = 62;
 	currentevelHeight = 12;
+
 	currentLevel += "##############################################################";
 	currentLevel += "##############################################################";
 	currentLevel += "####--....----....----....----....----....----....--##########";
@@ -260,24 +279,26 @@ void Levels::CreateLevelFive()
 	currentLevel += "##############################################################";
 	currentLevel += "##############################################################";
 
-	currentSong = songList[2];
+	
 }
 
 void Levels::CreateLevelSix()
 {
 	currentLevel = "";
 
+	currentTileTxr = tileTextures[0];
+	currentSong = songList[2];
+
 	currentLevelWidth = 62;
 	currentevelHeight = 12;
-	currentSong = songList[2];
 
 	currentLevel += "##############################################################";
 	currentLevel += "##############################################################";
 	currentLevel += "####--....----....----......---#L.........----....--##########";
-	currentLevel += "###---....----....----......---#L.........----....---#########";
-	currentLevel += "###---....----....----......---#L....#############---#########";
-	currentLevel += "###---....----....----......---#L....L#...----....---#########";
-	currentLevel += "s-----....----....----......---#L....L#...----....----########";
+	currentLevel += "###---..G.----....----......---#L.........----....---#########";
+	currentLevel += "###---....----....----......---#L....L############---#########";
+	currentLevel += "###---....----.G..----......---#L....L#...----....---#########";
+	currentLevel += "s-----....----....----.G....---#L....L#...----....----########";
 	currentLevel += "sS----....----....----.........#L....L#...----....-----------E";
 	currentLevel += "s------..------..------........##....##..------..------------E";
 	currentLevel += "########################......................################";

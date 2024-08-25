@@ -32,5 +32,7 @@ void CheckPoint::Render()
 	{
 		return;
 	}
-	DrawText("Press 'E'", static_cast<int>(pos.x * config.tileSize), static_cast<int>(pos.y * config.tileSize), 20, YELLOW);
+	Color color = YELLOW;
+	
+	DrawText("Press 'E'", static_cast<int>(pos.x * config.tileSize), static_cast<int>(pos.y * config.tileSize), 20, color);
 }

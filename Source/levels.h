@@ -14,6 +14,7 @@ private:
 	Music currentSong{};
 	Music songList[3];
 
+	Texture currentTileTxr{};
 	Texture tileTextures[2];
 public:
 	void Load();
@@ -24,6 +25,7 @@ public:
 	char GetBossChar() { return bossChar; }
 	int GetCutsceneID() { return cutsceneID; }
 	Music GetLevelSong() { return currentSong; }
+	Texture2D GetLevelTexture() { return currentTileTxr; }
 
 	void CreateLevel(int level);
 

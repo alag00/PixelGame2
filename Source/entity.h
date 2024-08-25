@@ -19,4 +19,5 @@ public:
 	}
 	virtual Vector2 GetCenter() { return Vector2(0.f, 0.f); };
 	virtual void LoseAdvantage(){};
+	virtual bool GetLookSide() {return false;}
 };

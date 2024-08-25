@@ -8,6 +8,8 @@ void Player::Unload()
 	UnloadTexture(fallAtlas);
 	UnloadTexture(jumpAtlas);
 	UnloadTexture(ledgeAtlas);
+	UnloadTexture(climbAtlas);
+	UnloadTexture(hookAtlas);
 
 	UnloadTexture(airAttackAtlas);
 	UnloadTexture(attackOneAtlas);
@@ -34,6 +36,7 @@ void Player::Setup()
 	jumpAtlas = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
 	ledgeAtlas = LoadTexture("Assets/PlayerTextures/LedgeClimbAtlasAlter.png");
 	climbAtlas = LoadTexture("Assets/PlayerTextures/ClimbAtlas.png");
+	hookAtlas = LoadTexture("Assets/PlayerTextures/GrapplingHookAtlas.png");
 
 	airAttackAtlas = LoadTexture("Assets/PlayerTextures/AirAttackAtlas.png");
 	attackOneAtlas = LoadTexture("Assets/PlayerTextures/FirstSliceAtlasAlter.png");
@@ -90,6 +93,9 @@ void Player::Update(float dt)
 	case STATUS::CLIMB:
 		ClimbControl(dt);
 		break;
+	case STATUS::HOOK:
+		GrapplingHookMovement(dt);
+		break;
 		/*
 	case STATUS::AIRRECOVERY:
 		vel.y += 20.f * dt;
@@ -128,6 +134,14 @@ void Player::Render()
 
 	hitBox = { pos.x, pos.y, 1, 1 };
 	RenderParticles();
+
+	if (status == STATUS::HOOK)
+	{
+		Vector2 vec1 = { GetCenter().x * 64.f, GetCenter().y * 64.f };
+		vec1.x += (lookRight) ? 32.f: -32.f;
+		Vector2 vec2 = { grappPoint.x * 64.f, grappPoint.y * 64.f };
+		DrawLineBezier(vec1, vec2, 5.f, YELLOW);
+	}
 }
 
 void Player::Movement(float dt)
@@ -605,6 +619,51 @@ void Player::ClimbControl(float dt)
 		anim.FlipAnimationHorizontal();
 		particleAnim.FlipAnimationHorizontal();
 		RecoilJump();
+	
 		//vel.x = (lookRight) ? -10.f : 10.f;
 	}
+}
+
+void Player::EnterGrapplingHookMode(Vector2 hookPos)
+{
+	if (status == STATUS::HOOK)
+	{
+		return;
+	}
+	inHookAnim = true;
+	grappPoint.x = hookPos.x;
+	grappPoint.y = hookPos.y;
+	status = STATUS::HOOK;
+	anim.SetAnimation(hookAtlas, 5, false);
+	vel = { 0.f,0.f };
+
+}
+
+void Player::GrapplingHookMovement(float dt)
+{
+	if (inHookAnim)
+	{
+		if (anim.GetCurrentFrame() >= 4)
+		{
+			inHookAnim = false;
+			anim.SetAnimation(jumpAtlas, 8, true);
+		}
+	}
+	float x = grappPoint.x - GetCenter().x;
+	float y = grappPoint.y - GetCenter().y;
+	float mag = sqrtf(x * x + y * y);
+	x /= mag;
+	y /= mag;
+
+	float hookSpeed = 25.f;
+
+	vel.x += x * dt * hookSpeed;
+	vel.y += y * dt * hookSpeed;
+
+	if (mag < 1.f || IsKeyPressed(KEY_SPACE))
+	{
+		RecoilJump();
+		//status = STATUS::AIRRECOVERY;
+	}
+
 }
