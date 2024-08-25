@@ -177,10 +177,24 @@ bool LevelManager::Update()
 		SetTile(tilePos.x, tilePos.y, L'?');
 		currentCheckPoint = tilePos;
 	}
+
 	returnValue = miscManager.UpdateGrapplingPoints();
 	if (returnValue != 4444)
 	{
 		player.EnterGrapplingHookMode(miscManager.GetGrapPointList().at(returnValue).GetPos());
+	}
+	for (int i = 0; i < miscManager.GetGrapPointList().size(); i++)
+	{
+		if (miscManager.GetGrapPointList().at(i).GetIdeal())
+		{
+			Vector2 pos = miscManager.GetGrapPointList().at(i).GetPos();
+			SetTile(pos.x, pos.y, L'R');
+		}
+		else
+		{
+			Vector2 pos = miscManager.GetGrapPointList().at(i).GetPos();
+			SetTile(pos.x, pos.y, L'G');
+		}
 	}
 	return exitLevel;
 }
@@ -392,6 +406,12 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		return false;
 	}
 	if (tileTypeOne == L'G' || tileTypeTwo == L'G')
+	{
+
+		//currentCheckPoint = player.GetPosition();	
+		return false;
+	}
+	if (tileTypeOne == L'R' || tileTypeTwo == L'R')
 	{
 
 		//currentCheckPoint = player.GetPosition();	

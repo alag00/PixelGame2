@@ -17,6 +17,7 @@ private:
 	Config config;
 public:
 	void SetIdeal(bool newValue) { isIdeal = newValue; }
+	bool GetIdeal() { return isIdeal; }
 	float GetDistance() { return dist; }
 	bool GetInRange() { return inRange; }
 	Vector2 GetPos() { return pos; }
