@@ -40,6 +40,11 @@ void EnemyManager::Unload()
 	UnloadSound(initAttackSound);
 	UnloadSound(swingAttackSound);
 	UnloadSound(deathSound);
+
+	for (int i = 0; i < 2; i++)
+	{
+		UnloadTexture(pyromancerTextures[i]);
+	}
 }
 
 void EnemyManager::LoadEnemyAssets()
@@ -65,6 +70,10 @@ void EnemyManager::LoadEnemyAssets()
 	necromancerTextures[5] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyPushAtlas.png");
 
 	necromancerTextures[6] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyProjectileAtlas.png");
+
+
+	pyromancerTextures[0] = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
+	pyromancerTextures[1] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackOneAtlas.png");
 
 
 	// Audio
@@ -114,6 +123,22 @@ void EnemyManager::CreateNecromancer(Vector2 pos, bool isBoss)
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
 	newEnemy->SetTextures(necromancerTextures[0], necromancerTextures[1], necromancerTextures[2], necromancerTextures[3], necromancerTextures[4], necromancerTextures[5], necromancerTextures[6]);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
+	newEnemy->Setup();
+	if (isBoss)
+	{
+		bossRef = newEnemy;
+		newEnemy->isBoss = true;
+	}
+	enemyList.push_back(newEnemy);
+}
+
+void EnemyManager::CreatePyromancer(Vector2 pos, bool isBoss)
+{
+	PyromancerEnemy* newEnemy = new PyromancerEnemy();
+	newEnemy->SetPlayerRef(*playerRef);
+	newEnemy->SetStartPos(pos);
+	newEnemy->SetTextures(pyromancerTextures[0], pyromancerTextures[1]);
 	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)

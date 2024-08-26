@@ -628,6 +628,13 @@ void LevelManager::LevelSetup()
 				SetTile(x, y, L'.');
 				continue;
 			}
+			if (GetTile(x, y) == L'P')
+			{
+				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+				enemyManager.CreatePyromancer(Vector2((float)x, (float)y), isBoss);
+				SetTile(x, y, L'.');
+				continue;
+			}
 			if (GetTile(x, y) == L'=')
 			{
 				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));

@@ -106,7 +106,31 @@ void CastleCutscene::Unload()
 
 void GraveyardCutscene::Setup(Vector2& ref)
 {
-	(void)ref;
+	camRef = &ref;
+
+	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
+	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+	playerJump = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
+	playerIcon = LoadTexture("Assets/Icon.png");
+
+	enemyIdle = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
+	enemyRest = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackOneAtlas.png");
+	enemyIcon = LoadTexture("Assets/Icon.png");
+
+	enemyPos = { 93.f, 8.f };
+	enemySize.x = 80.f * scale;
+	enemySize.y = 64.f * scale;
+	enemyAnim.SetAnimation(enemyIdle, 8, true);
+
+	playerPos = { 80.f, 8.f };
+	playerSize.x = 48.f * scale;
+	playerSize.y = 48.f * scale;
+	playerAnim.SetAnimation(playerJump, 8, true);
+
+	dialogue.QueueDialogue(true, playerIcon, "GLORB?");
+	dialogue.QueueDialogue(false, enemyIcon, "GLORB?");
+	dialogue.QueueDialogue(false, enemyIcon, "GLORB");
+	dialogue.QueueDialogue(true, playerIcon, "GLORB");
 }
 
 bool GraveyardCutscene::Update(float dt)
@@ -121,8 +145,16 @@ void GraveyardCutscene::Render()
 
 void GraveyardCutscene::RenderUI()
 {
+	dialogue.Render();
 }
 
 void GraveyardCutscene::Unload()
 {
+	UnloadTexture(playerIdle);
+	UnloadTexture(playerWalk);
+	UnloadTexture(playerJump);
+
+	UnloadTexture(enemyIdle);
+	UnloadTexture(enemyRest);
+	UnloadTexture(enemyIcon);
 }

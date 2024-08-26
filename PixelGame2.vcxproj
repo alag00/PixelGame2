@@ -146,6 +146,7 @@
     <ClCompile Include="Source\enemy_knight.cpp" />
     <ClCompile Include="Source\enemy_manager.cpp" />
     <ClCompile Include="Source\enemy_necromancer.cpp" />
+    <ClCompile Include="Source\enemy_pyromancer.cpp" />
     <ClCompile Include="Source\enemy_skeleton.cpp" />
     <ClCompile Include="Source\game.cpp" />
     <ClCompile Include="Source\grappling_point.cpp" />
@@ -169,6 +170,7 @@
     <ClInclude Include="Source\enemy_knight.h" />
     <ClInclude Include="Source\enemy_manager.h" />
     <ClInclude Include="Source\enemy_necromancer.h" />
+    <ClInclude Include="Source\enemy_pyromancer.h" />
     <ClInclude Include="Source\enemy_skeleton.h" />
     <ClInclude Include="Source\entity.h" />
     <ClInclude Include="Source\game.h" />
