@@ -326,8 +326,10 @@ void LevelManager::AdjustPlayer(float dt)
 
 	background.Update(player.GetVelocity(), dt);
 
+	float camOffset = 0.f;
+
 	cameraTargetPos.x = player.GetPosition().x;
-	cameraTargetPos.y = player.GetPosition().y;
+	cameraTargetPos.y = player.GetPosition().y - camOffset;
 	
 	
 
@@ -835,6 +837,7 @@ void LevelManager::RenderTutorial()
 		DrawText("Touch Glowing Gravestone to claim Checkpoint", static_cast<int>((tutorialPos3.x - 3) * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, YELLOW);
 	}
 }
+
 char LevelManager::GetTile(int x, int y)
 {
 	if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
@@ -870,7 +873,8 @@ void LevelManager::RenderHpBars()
 {
 	if (currentEvent != NextLevel && currentEvent != Die)
 	{
-		Rectangle blackBar{ 20, screenHeight - 68.f , 200.f, 48.f };
+		Rectangle blackBar{ 64.f, (float)screenHeight, 200.f, 48.f };
+		blackBar.y -= blackBar.x + blackBar.height;
 		DrawRectangleRec(blackBar, BLACK);
 
 		float margin = 5.f;

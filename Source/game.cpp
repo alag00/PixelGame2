@@ -5,10 +5,12 @@ Game::Game()
 	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
 	InitWindow(screenWidth, screenHeight, "Unholy Trek");
 	InitAudioDevice();
-	SetTargetFPS(60);
+	//SetTargetFPS(60);
 	Image icon = LoadImage("Assets/Icon.png");
 	SetWindowIcon(icon);
 	UnloadImage(icon);
+
+	ToggleFullScreenWindow(screenWidth, screenHeight);
 }
 
 void Game::Run()
@@ -16,6 +18,21 @@ void Game::Run()
 	while (!WindowShouldClose())
 	{
 		sceneManager.Update();
+	}
+}
+
+void Game::ToggleFullScreenWindow(int width, int height)
+{
+	if (!IsWindowFullscreen())
+	{
+		int monitor = GetCurrentMonitor();
+		SetWindowSize(GetMonitorWidth(monitor), GetMonitorHeight(monitor));
+		ToggleFullscreen();
+	}
+	else
+	{
+		ToggleFullscreen();
+		SetWindowSize(width, height);
 	}
 }
 

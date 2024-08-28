@@ -30,8 +30,8 @@ class LevelManager : public Scene
 private:
 	//MainMenu mainMenu;
 	Config config;
-	int screenWidth = 1080;
-	int screenHeight = 760;
+	int screenWidth = 1920;
+	int screenHeight = 1080;
 
 	
 	std::string sLevel;
@@ -48,7 +48,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 6;
+	int currentLevel = 1;
 
 	Effect filter;
 
