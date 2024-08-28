@@ -11,6 +11,7 @@ enum DECISION {
 	PUSH,
 	RANGED,
 	LOSTADVANTAGE,
+	REFILL,
 };
 
 class Enemy : public Entity

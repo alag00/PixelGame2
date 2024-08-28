@@ -13,7 +13,7 @@ private:
 	Texture2D skeletonTextures[4];
 	Texture2D knightTextures[6];
 	Texture2D necromancerTextures[7];
-	Texture2D pyromancerTextures[2];
+	Texture2D pyromancerTextures[9];
 
 	Sound initAttackSound{};
 	Sound swingAttackSound{};

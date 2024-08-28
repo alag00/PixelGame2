@@ -61,7 +61,7 @@ private:
 	Vector2 playerSize{ 0.f,0.f };
 
 	Texture2D enemyIdle{};
-	Texture2D enemyRest{};
+	Texture2D enemyRefill{};
 	Animator enemyAnim;
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
@@ -69,6 +69,8 @@ private:
 	Texture2D playerIcon{};
 	Texture2D enemyIcon{};
 	Dialogue dialogue;
+
+	int cutsceneStage = 0;
 public:
 	void Setup(Vector2& ref) override;
 	bool Update(float dt) override;
