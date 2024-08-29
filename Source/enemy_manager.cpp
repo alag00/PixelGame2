@@ -41,9 +41,10 @@ void EnemyManager::Unload()
 	UnloadSound(swingAttackSound);
 	UnloadSound(deathSound);
 
-	for (int i = 0; i < 9; i++)
+	for (int i = 0; i < 10; i++)
 	{
-		UnloadTexture(pyromancerTextures[i]);
+		UnloadTexture(pyromancerP1Textures[i]);
+		UnloadTexture(pyromancerP2Textures[i]);
 	}
 }
 
@@ -72,10 +73,14 @@ void EnemyManager::LoadEnemyAssets()
 	necromancerTextures[6] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyProjectileAtlas.png");
 
 
-	pyromancerTextures[0] = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
-	pyromancerTextures[1] = LoadTexture("Assets/EnemyTextures/Gnob/GnobWalkAtlas.png");
-	pyromancerTextures[2] = LoadTexture("Assets/EnemyTextures/Gnob/GnobRefillAtlas.png");
-	pyromancerTextures[6] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackOneAtlas.png");
+	pyromancerP1Textures[0] = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
+	pyromancerP1Textures[1] = LoadTexture("Assets/EnemyTextures/Gnob/GnobWalkAtlas.png");
+	pyromancerP1Textures[2] = LoadTexture("Assets/EnemyTextures/Gnob/GnobRefillAtlas.png");
+	pyromancerP1Textures[3] = LoadTexture("Assets/EnemyTextures/Gnob/GnobBlockOneAtlas.png");
+	pyromancerP1Textures[5] = LoadTexture("Assets/EnemyTextures/Gnob/GnobOilAttackAtlas.png");
+	pyromancerP1Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackOneAtlas.png");
+	pyromancerP1Textures[7] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackTwoAtlas.png");
+	pyromancerP1Textures[8] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackThreeAtlas.png");
 
 	// Audio
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
@@ -139,7 +144,7 @@ void EnemyManager::CreatePyromancer(Vector2 pos, bool isBoss)
 	PyromancerEnemy* newEnemy = new PyromancerEnemy();
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
-	newEnemy->SetTextures(pyromancerTextures, pyromancerTextures);
+	newEnemy->SetTextures(pyromancerP1Textures, pyromancerP2Textures);
 	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)

@@ -75,6 +75,7 @@ void PyromancerEnemy::Act(float dt) {
 	hitBox = { pos.x, pos.y - 0.5f , 1.f,1.5f };
 	hitBox.x = (lookRight) ? pos.x - 0.0f : pos.x - 1.f;
 	oilAmount -= dt * 0.25f;
+	attackTimer -= dt;
 	switch (dec)
 	{
 	case DECISION::IDLE:
@@ -131,10 +132,13 @@ void PyromancerEnemy::CollisionCheck() {
 	{
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
-			health -= 10;
 			UpdateAgroSwitch();
-			dec = DAMAGED;
-			anim.SetAnimation(firstPhaseSprites[2], 5, false);
+			if (currentAttackNum != 1 && currentAttackNum != 4)
+			{
+				health -= 10;
+				dec = DAMAGED;
+				anim.SetAnimation(firstPhaseSprites[3], 5, false);
+			}
 
 		}
 	}
@@ -153,6 +157,7 @@ void PyromancerEnemy::Walk(float dt) {
 }
 void PyromancerEnemy::Attack(float dt) {
 	dt;
+	/*
 	int currentFrame = anim.GetCurrentFrame();
 	switch (currentFrame)
 	{
@@ -173,6 +178,88 @@ void PyromancerEnemy::Attack(float dt) {
 
 		break;
 	}
+
+	*/
+	switch (currentAttackNum)
+	{
+	case 1:
+		OilAttack(dt);
+		break;
+	case 2:
+		SeathAttack(dt);
+		break;
+	case 3:
+		SliceAttack(dt);
+		break;
+	case 4:
+		ThrustAttack(dt);
+		break;
+	}
+}
+void PyromancerEnemy::OilAttack(float dt)
+{
+	// Moves like a jump back
+	if (anim.GetCurrentFrame() >= 5 && anim.GetCurrentFrame() <= 10) {
+		pos.x += (lookRight) ? 5.f * dt : -5.f * dt;
+		AttackCollisionCheck();
+	}
+	if (anim.GetCurrentFrame() >= 11)
+	{
+		EndAttack();
+	}
+}
+void PyromancerEnemy::SeathAttack(float dt)
+{
+	dt;
+	if (anim.GetCurrentFrame() == 8)
+	{
+		AttackCollisionCheck();
+	}
+	if (anim.GetCurrentFrame() >= 11)
+	{
+		EndAttack();
+	}
+}
+void PyromancerEnemy::SliceAttack(float dt)
+{
+	dt;
+	if (anim.GetCurrentFrame() == 7)
+	{
+		pos.x += (lookRight) ? -10.f * dt : 10.f * dt;
+		AttackCollisionCheck();
+	}
+	if (anim.GetCurrentFrame() >= 9)
+	{
+		EndAttack();
+	}
+}
+
+void PyromancerEnemy::ThrustAttack(float dt)
+{
+	// Moves like forward dash
+	if (anim.GetCurrentFrame() >= 7) {
+		pos.x += (lookRight) ? -20.f * dt : 20.f * dt;
+
+		AttackCollisionCheck();
+
+	}
+	if (anim.GetCurrentFrame() >= 11)
+	{
+		EndAttack();
+	}
+}
+
+void PyromancerEnemy::AttackCollisionCheck()
+{
+	attackBox = { pos.x, pos.y - 1, 2, 2 };
+	attackBox.x = (!lookRight) ? pos.x : pos.x - (attackBox.width);
+	CollisionCheck();
+}
+void PyromancerEnemy::EndAttack()
+{
+	attackTimer = attackCooldown;
+	dec = DECISION::IDLE;
+	anim.SetAnimation(firstPhaseSprites[0], 8, true);
 }
 void PyromancerEnemy::UpdateAgroSwitch() {
 
@@ -210,7 +297,7 @@ void PyromancerEnemy::Reset() {
 void PyromancerEnemy::Phase1Decision()
 {
 
-	if (dec == DECISION::DAMAGED || dec == DECISION::REFILL)
+	if (dec == DECISION::ATTACK || dec == DECISION::DAMAGED || dec == DECISION::REFILL)
 	{
 		return;
 	}
@@ -225,14 +312,28 @@ void PyromancerEnemy::Phase1Decision()
 		dec = DECISION::IDLE;
 		return;
 	}
-	if (dec == DECISION::ATTACK)
-	{
-		return;
-	}
-	if (distance <= 1.5f)
+	
+	if (distance <= 1.5f && attackTimer <= 0.f)
 	{
 		dec = DECISION::ATTACK;
-		anim.SetAnimation(firstPhaseSprites[6], 12, false);
+
+		currentAttackNum = GetRandomValue(1, 4);
+		switch (currentAttackNum)
+		{
+		case 1:
+			anim.SetAnimation(firstPhaseSprites[5], 12, false);
+			break;
+		case 2:
+			anim.SetAnimation(firstPhaseSprites[6], 12, false);
+			break;
+		case 3:
+			anim.SetAnimation(firstPhaseSprites[7], 10, false);
+			break;
+		case 4:
+			anim.SetAnimation(firstPhaseSprites[8], 12, false);
+			break;
+		}
+		
 		/*
 		PlaySound(initAttackSound);
 		switch (currentSlice)
@@ -251,7 +352,7 @@ void PyromancerEnemy::Phase1Decision()
 		*/
 
 	}
-	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
+	else if (distance >= 1.5f && lookRight && lDist > 1.f || distance >= 1.5f && !lookRight && rDist > 1.f)
 	{
 		dec = DECISION::WALK;
 		anim.SetAnimation(firstPhaseSprites[1], 8, true);
