@@ -33,8 +33,9 @@ private:
 	DECISION dec = DECISION::IDLE;
 	float scale = 3.f;
 	float distance = 0.f;
-	float speed = 5.f;
-	bool lookRight = false;
+	float p1Speed = 5.f;
+	float p2Speed = 10.f;
+	bool lookLeft = false;
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 
@@ -69,12 +70,19 @@ public:
 	void Render();
 	void CollisionCheck();
 
-	void Walk(float dt);
+	void Move(float dt);
+
 	void Attack(float dt);
 	void OilAttack(float dt);
 	void SeathAttack(float dt);
 	void SliceAttack(float dt);
 	void ThrustAttack(float dt);
+
+	void FlameSlice(float dt);
+	void FlameThrust(float dt);
+	void FlameRangedAttack(float dt);
+	void FlameFlyAttack(float dt);
+
 	void AttackCollisionCheck();
 	void EndAttack();
 

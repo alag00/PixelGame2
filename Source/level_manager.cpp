@@ -637,6 +637,12 @@ void LevelManager::LevelSetup()
 				SetTile(x, y, L'.');
 				continue;
 			}
+			if (GetTile(x, y) == L'W')
+			{
+				enemyManager.CreateWeepingAngel(Vector2((float)x, (float)y));
+				SetTile(x, y, L'.');
+				continue;
+			}
 			if (GetTile(x, y) == L'=')
 			{
 				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));

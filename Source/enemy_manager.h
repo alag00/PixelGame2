@@ -5,6 +5,7 @@
 #include "enemy_skeleton.h"
 #include "enemy_necromancer.h"
 #include "enemy_pyromancer.h"
+#include "enemy_statue.h"
 #include <vector>
 
 class EnemyManager
@@ -15,6 +16,7 @@ private:
 	Texture2D necromancerTextures[7];
 	Texture2D pyromancerP1Textures[10];
 	Texture2D pyromancerP2Textures[10];
+	Texture2D weepingAngelTxr;
 
 	Sound initAttackSound{};
 	Sound swingAttackSound{};
@@ -37,6 +39,7 @@ public:
 	void CreateKnight(Vector2 pos, bool isBoss);
 	void CreateNecromancer(Vector2 pos, bool isBoss);
 	void CreatePyromancer(Vector2 pos, bool isBoss);
+	void CreateWeepingAngel(Vector2 pos);
 
 	void Render();
 	void RenderUI();

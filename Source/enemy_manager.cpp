@@ -46,6 +46,7 @@ void EnemyManager::Unload()
 		UnloadTexture(pyromancerP1Textures[i]);
 		UnloadTexture(pyromancerP2Textures[i]);
 	}
+	UnloadTexture(weepingAngelTxr);
 }
 
 void EnemyManager::LoadEnemyAssets()
@@ -81,6 +82,8 @@ void EnemyManager::LoadEnemyAssets()
 	pyromancerP1Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackOneAtlas.png");
 	pyromancerP1Textures[7] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackTwoAtlas.png");
 	pyromancerP1Textures[8] = LoadTexture("Assets/EnemyTextures/Gnob/GnobAttackThreeAtlas.png");
+
+	weepingAngelTxr = LoadTexture("Assets/EnemyTextures/WeepingAngel/WeepingAngelAtlas.png");
 
 	// Audio
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
@@ -152,6 +155,18 @@ void EnemyManager::CreatePyromancer(Vector2 pos, bool isBoss)
 		bossRef = newEnemy;
 		newEnemy->isBoss = true;
 	}
+	enemyList.push_back(newEnemy);
+}
+
+void EnemyManager::CreateWeepingAngel(Vector2 pos)
+{
+	WeepingAngelEnemy* newEnemy = new WeepingAngelEnemy();
+	newEnemy->SetPlayerRef(*playerRef);
+	newEnemy->SetStartPos(pos);
+	newEnemy->SetTextures(weepingAngelTxr);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
+	newEnemy->Setup();
+	
 	enemyList.push_back(newEnemy);
 }
 
