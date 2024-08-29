@@ -170,7 +170,7 @@ void PyromancerEnemy::Act(float dt) {
 			{
 				//PlaySound(deathSound);
 				SetIsAlive(false);
-				anim.SetAnimation(firstPhaseSprites[2], 8, false);
+				anim.SetAnimation(secondPhaseSprites[0], 8, true);
 			}
 		}
 		break;
