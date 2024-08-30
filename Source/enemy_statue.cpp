@@ -29,21 +29,29 @@ void WeepingAngelEnemy::Setup()
 void WeepingAngelEnemy::Sense()
 {
 	bool playerLooksRight = playerRef->GetLookSide();
-	active = false;
+	
 	if (pos.x > playerRef->GetCenter().x && !playerLooksRight || pos.x < playerRef->GetCenter().x && playerLooksRight)
 	{
 		active = true;
 	}
-
-	if (lookLeft && pos.x < playerRef->pos.x || !lookLeft && pos.x > playerRef->pos.x)
+	else
 	{
-		lookLeft = !lookLeft;
-		anim.FlipAnimationHorizontal();
+		delayTimer = 1.f;
+		active = false;
+	}
+	if (lookLeft && pos.x < playerRef->GetCenter().x || !lookLeft && pos.x > playerRef->GetCenter().x)
+	{
+		if (delayTimer < 0.f)
+		{
+
+			lookLeft = !lookLeft;
+			anim.FlipAnimationHorizontal();
+		}
 	}
 }
 void WeepingAngelEnemy::Decide()
 {
-	if (active)
+	if (active && delayTimer < 0.f)
 	{
 		dec = DECISION::WALK;
 	}
@@ -54,6 +62,7 @@ void WeepingAngelEnemy::Decide()
 }
 void WeepingAngelEnemy::Act(float dt)
 {
+	delayTimer -= (active) ? dt : 0.f;
 	if(dec == DECISION::WALK)
 	{ 
 		Move(dt);
@@ -63,9 +72,16 @@ void WeepingAngelEnemy::Act(float dt)
 void WeepingAngelEnemy::Move(float dt)
 {
 	anim.UpdateAnimator(dt);
-	pos.x += (lookLeft)  ? -1.f * dt : 1.f * dt;
+	pos.x += (lookLeft)  ? -speed * dt : speed * dt;
 	
+	attackBox = { pos.x, pos.y - 1, 1, 2 };
+	attackBox.x = (!lookLeft) ? pos.x : pos.x - (attackBox.width);
 
+	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
+	{
+		playerRef->GetHit(pos, 10, 1);
+		
+	}
 }
 
 void WeepingAngelEnemy::Render()
@@ -76,8 +92,4 @@ void WeepingAngelEnemy::Render()
 
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	Rectangle testBox{ attackBox.x * 64.f, attackBox.y * 64.f,attackBox.width * 64.f ,attackBox.height * 64.f };
-	Color color = YELLOW;
-	color.a = 50;
-	DrawRectangleRec(testBox, color);
 }

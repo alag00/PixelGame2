@@ -15,6 +15,8 @@ private:
 	Animator anim;
 	Vector2 size{ 0.f,0.f };
 	float scale = 3.f;
+	float speed = 10.f;
+	float delayTimer = 1.f;
 public:
 	~WeepingAngelEnemy();
 	void SetTextures(Texture2D txr);

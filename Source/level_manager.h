@@ -13,6 +13,7 @@
 #include "config.h"
 #include "scene.h"
 #include "cutscene_manager.h"
+#include <cmath>
 
 enum Events
 {
@@ -86,6 +87,8 @@ private:
 	CutsceneManager cutsceneManager;
 	bool cutscenePlayed = false;
 
+	bool levelDarkMode = false;
+	float darkProgress = 0.f; // 0.f to 1.f    left max to right max
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }
@@ -115,4 +118,5 @@ public:
 	void RenderHpBars();
 	float GetDist(Vector2 vec1, Vector2 vec2);
 	void RenderCredit();
+	void RenderDarkMode();
 };

@@ -196,6 +196,12 @@ bool LevelManager::Update()
 			SetTile(pos.x, pos.y, L'G');
 		}
 	}
+	if (levelDarkMode)
+	{
+		darkProgress += (player.GetLookSide()) ? -2.f * dt: 2.f * dt;
+		darkProgress = (darkProgress > 1.f) ? 1.f : darkProgress;
+		darkProgress = (darkProgress < 0.f) ? 0.f : darkProgress;
+	}
 	return exitLevel;
 }
 
@@ -328,8 +334,8 @@ void LevelManager::AdjustPlayer(float dt)
 
 	float camOffset = 0.f;
 
-	cameraTargetPos.x = player.GetPosition().x;
-	cameraTargetPos.y = player.GetPosition().y - camOffset;
+	cameraTargetPos.x = player.GetCenter().x;
+	cameraTargetPos.y = player.GetCenter().y - camOffset;
 	
 	
 
@@ -504,6 +510,10 @@ void LevelManager::Render()
 	}
 	filter.Render();
 	EndMode2D();
+	if (levelDarkMode)
+	{
+		RenderDarkMode();
+	}
 	
 	RenderHpBars();
 	if (currentLevel == 5)
@@ -575,7 +585,7 @@ void LevelManager::LevelSetup()
 	sLevel = levels.GetLevel();
 	nLevelWidth = levels.GetLevelWidth();
 	nLevelHeight = levels.GetLevelHeight();
-
+	levelDarkMode = levels.GetLevelDarkMode();
 	
 
 	background.SetLevelBackground(currentLevel);
@@ -905,4 +915,18 @@ float LevelManager::GetDist(Vector2 vec1, Vector2 vec2)
 void LevelManager::RenderCredit()
 {
 	DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
+}
+
+void LevelManager::RenderDarkMode() // -1.f to 1.f    left max to right max
+{
+	float halfWidth = (float)screenWidth / 2.f;
+
+	Rectangle leftDark = {0.f, 0.f, halfWidth, (float)screenHeight};
+	Rectangle rightDark = { halfWidth, 0.f, halfWidth, (float)screenHeight };
+
+	leftDark.x = std::lerp(-64.f, -halfWidth, darkProgress);
+	rightDark.x = std::lerp((float)screenWidth, halfWidth +64.f, darkProgress);
+
+		DrawRectangleRec(leftDark, BLACK);
+		DrawRectangleRec(rightDark, BLACK);
 }

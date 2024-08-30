@@ -16,6 +16,7 @@ private:
 
 	Texture currentTileTxr{};
 	Texture tileTextures[2];
+	bool darkMode = false;
 public:
 	void Load();
 	void Unload();
@@ -26,6 +27,7 @@ public:
 	int GetCutsceneID() { return cutsceneID; }
 	Music GetLevelSong() { return currentSong; }
 	Texture2D GetLevelTexture() { return currentTileTxr; }
+	bool GetLevelDarkMode() { return darkMode; }
 
 	void CreateLevel(int level);
 
