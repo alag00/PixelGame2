@@ -619,8 +619,20 @@ void Player::ClimbControl(float dt)
 		anim.FlipAnimationHorizontal();
 		particleAnim.FlipAnimationHorizontal();
 		RecoilJump();
-	
+		vel.y += -3.f;
 		//vel.x = (lookRight) ? -10.f : 10.f;
+	}
+	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+	{
+		if (IsKeyPressed(KEY_S))
+		{
+
+			lookRight = !lookRight;
+			anim.FlipAnimationHorizontal();
+			particleAnim.FlipAnimationHorizontal();
+			status = STATUS::FALLING;
+			anim.SetAnimation(fallAtlas, 4, true);
+		}
 	}
 }
 
