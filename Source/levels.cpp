@@ -321,6 +321,7 @@ void Levels::CreateLevelSix()
 
 }
 
+// First Spooky: From Castle to Spooky Land
 void Levels::CreateLevelSeven() // From Castle to Spooky Land
 {
 	// Tutorial for Grappling Hook
@@ -400,10 +401,80 @@ void Levels::CreateLevelSeven() // From Castle to Spooky Land
 
 }
 
-void Levels::CreateLevelEight() // Spooky Cave with Darkmode
+// Last Spooky Level: Spooky Cave with Darkmode
+void Levels::CreateLevelEight() 
 {
+
+	currentLevel = "";
+
+	currentTileTxr = tileTextures[0];
+	currentSong = songList[0];
+
+	currentLevelWidth = 128;
+	currentevelHeight = 52;
+	cutsceneID = 0;
+
+	bossChar = L'K';
+
+	darkMode = true;
+
+	
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssss*********************************************************ssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssss*****************************************************************sssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssss*********.......................................................*****ssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssss******................................G..............................**ssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssss****...................................................................+ssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssss***.....................................................................+ssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*************..........................................*****************************ssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*************...................***......................****************************ssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L........................................***............***ssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L...................***.................................**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L.......................................................**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L*******.........................................**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L*********.......................................**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L***sss***.......................................**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L**sssss**...............W.......W...............**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L**sssss***************************************..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss**L......L**ssssss**************************************..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssss***L......***sssssssssssssssssssssssssssssssssssssssss***..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssss********......***ssssssssssssssssssssssssssssssssssssssssss**..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssss*******.........***ssssssssssssssssssssssssssssssssssssssssss**..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss****.............***ssssssssssssssssssssssssssssssssssssssssss**..**sssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss***.............***ssssssssssssssssssmurfcatssssssssssssssssss**..***ssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**...........******sssssssssssssssssssssssssssssssssssssssssss**..*********ssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**.............*****sssssssssssssssssssssssssssssssssssssssss***...***********sssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss***..............****ssssssssssssssssssssssssss*****************..........***********ssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss******............*********************************************..............*************sssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss****................****************************....................................********sssssssssssssssss";
+	currentLevel += "sssssssssssssssssss***......................................................................................****ssssssssssssssss";
+	currentLevel += "sssssssssssssssssss****.......................................................................................***sssssssssssssss";
+	currentLevel += "ssssssssssssssssssss***********************************************.............**......***....................***ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssss***********************************************...........**......**L....................***ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss***....**.....**......**L.....L***********...L**ssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssss******************************ssssssss**....**.....**......**L.....L**********L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss********************************sssssss**....**.....**......**L.....L***ssss***L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss***...........................***ssssss**....**.....**......**L.....L**ssssss**L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**L............................**ssssss**....**.....**......**L.....L**ssssss**L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**L............................**ssssss**....**.....**......***.....L**ssssss**L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**L...L*******************...***sssssss**...........................L**ssssss**L...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**L...L*******************...**ssssssss**..............W............L**ssssss***.G.L**ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**L...L***sssssssssssss***...**ssssssss********************************ssssss***...L**ssssssssssssss";
+	currentLevel += "ssssssssssssssss**************L...L**sssssssssssssss**...**sssssssss******************************ssssss***....***ssssssssssssss";
+	currentLevel += "sssssssssssssss****************...L**sssssssssssssss**...**ssssssssssssssssssssssssssssssssssssssssssss****....***ssssssssssssss";
+	currentLevel += "ssssssssssssss****................L**sssssssssss******...*************************************************.....***ssssssssssssss";
+	currentLevel += "ssssssssssssss**..................L**ssssssssss*******...************************************************......***ssssssssssssss";
+	currentLevel += "ssssssssssssssss..................L**ssssssssss**..............................................................***ssssssssssssss";
+	currentLevel += "ssssssssssssssssS.................L**ssssssssss**...............W...W.........W.........W.......W..............***ssssssssssssss";
+	currentLevel += "ssssssssssssss***********************ssssssssss*******************************************************************ssssssssssssss";
+	currentLevel += "ssssssssssssss***********************sssssssssss*****************************************************************sssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+
+
 }
 
-void Levels::CreateLevelNine() // Spooky Cave with Darkmode
+void Levels::CreateLevelNine() 
 {
 }

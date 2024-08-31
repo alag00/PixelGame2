@@ -924,9 +924,15 @@ void LevelManager::RenderDarkMode() // -1.f to 1.f    left max to right max
 	Rectangle leftDark = {0.f, 0.f, halfWidth, (float)screenHeight};
 	Rectangle rightDark = { halfWidth, 0.f, halfWidth, (float)screenHeight };
 
-	leftDark.x = std::lerp(-64.f, -halfWidth, darkProgress);
-	rightDark.x = std::lerp((float)screenWidth, halfWidth +64.f, darkProgress);
+	float margin = (float)screenHeight / 5.f;
+	Rectangle topBar = { 0.f, 0.f, (float)screenWidth, margin };
+	Rectangle botBar = { 0.f, (float)screenHeight - margin , (float)screenWidth, margin };
 
-		DrawRectangleRec(leftDark, BLACK);
-		DrawRectangleRec(rightDark, BLACK);
+	leftDark.x = std::lerp(-64.f, -halfWidth + margin, darkProgress);
+	rightDark.x = std::lerp((float)screenWidth - margin, halfWidth +64.f, darkProgress);
+
+	DrawRectangleRec(leftDark, BLACK);
+	DrawRectangleRec(rightDark, BLACK);
+	DrawRectangleRec(topBar, BLACK);
+	DrawRectangleRec(botBar, BLACK);
 }

@@ -60,6 +60,11 @@ void Background::SetLevelBackground(int level)
 		activeTxr[1] = castleTxr[1];
 		activeTxr[2] = castleTxr[2];
 		break;
+	case 8:
+		activeTxr[0] = caveTxr[0];
+		activeTxr[1] = caveTxr[1];
+		activeTxr[2] = caveTxr[2];
+		break;
 	default:
 		activeTxr[0] = castleTxr[0];
 		activeTxr[1] = castleTxr[1];
