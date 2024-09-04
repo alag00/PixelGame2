@@ -10,7 +10,7 @@ Game::Game()
 	SetWindowIcon(icon);
 	UnloadImage(icon);
 
-	ToggleFullScreenWindow(screenWidth, screenHeight);
+	//ToggleFullScreenWindow(screenWidth, screenHeight);
 }
 
 void Game::Run()

@@ -46,6 +46,7 @@ void EnemyManager::Unload()
 		UnloadTexture(pyromancerP1Textures[i]);
 		UnloadTexture(pyromancerP2Textures[i]);
 	}
+	UnloadTexture(pyromancerP2Textures[10]);
 	UnloadTexture(weepingAngelTxr);
 }
 
@@ -83,18 +84,20 @@ void EnemyManager::LoadEnemyAssets()
 	pyromancerP1Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobSeathAttackAtlas.png");
 	pyromancerP1Textures[7] = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobSliceAttackAtlas.png");
 	pyromancerP1Textures[8] = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobThrustAttackAtlas.png");
-	pyromancerP1Textures[9] = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobChangePhaseAtlas.png");
+	pyromancerP1Textures[9] = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobTransformationAtlas.png");
 
 	pyromancerP2Textures[0] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerIdleAtlas.png");
 	pyromancerP2Textures[1] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerRunAtlas.png");
-	pyromancerP2Textures[2] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerBlockOneAtlas.png");
-	pyromancerP2Textures[3] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerBlockTwoAtlas.png");
-	pyromancerP2Textures[4] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerRangedAttackAtlas.png");
-	pyromancerP2Textures[5] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFlameProjectileAtlas.png");
-	pyromancerP2Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerSliceAttackAtlas.png");
-	pyromancerP2Textures[7] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerThrustAttackAtlas.png");
-	pyromancerP2Textures[8] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFlyAttackAtlas.png");
-	pyromancerP2Textures[9] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerDeathAtlas.png");
+	pyromancerP2Textures[2] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerBlockAtlas.png");
+	pyromancerP2Textures[3] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerSliceAttackAtlas.png");
+	pyromancerP2Textures[4] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerThrustAttackAtlas.png");
+
+	pyromancerP2Textures[5] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerDeployWingsAtlas.png");
+	pyromancerP2Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFlyAtlas.png");
+	pyromancerP2Textures[7] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerRangedAttackAtlas.png");
+	pyromancerP2Textures[8] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFireProjectileAtlas.png");
+	pyromancerP2Textures[9] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFlyAttackAtlas.png");
+	pyromancerP2Textures[10] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerDeathAtlas.png");
 
 	weepingAngelTxr = LoadTexture("Assets/EnemyTextures/WeepingAngel/WeepingAngelAtlas.png");
 

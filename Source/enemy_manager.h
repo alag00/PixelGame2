@@ -15,7 +15,7 @@ private:
 	Texture2D knightTextures[6];
 	Texture2D necromancerTextures[7];
 	Texture2D pyromancerP1Textures[10];
-	Texture2D pyromancerP2Textures[10];
+	Texture2D pyromancerP2Textures[11];
 	Texture2D weepingAngelTxr;
 
 	Sound initAttackSound{};

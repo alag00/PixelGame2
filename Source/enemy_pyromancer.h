@@ -14,6 +14,27 @@ enum PYROMANCER_AI
 
 };
 */
+class FireBall
+{
+private:
+	Entity* playerRef = nullptr;
+	Vector2 pos{ 0.f,0.f };
+	Vector2 vel{ 0.f,0.f };
+	Vector2 size{ 0.f,0.f };
+	float scale = 3.f;
+	float speed = 10.f;
+	Animator anim;
+	bool lookLeft = true;
+	float timeAlive = 0.f;
+public:
+	void SetRef(Entity& ref);
+	void SetTxr(Texture2D txr);
+	void Setup(Vector2 newPos, Vector2 newTarget, bool left);
+	void Update(float dt);
+	void Render();
+
+};
+
 class PyromancerEnemy : public Enemy
 {
 private:
@@ -24,8 +45,8 @@ private:
 	Animator anim;
 	static const int p1TxrAmount = 10;
 	Texture2D firstPhaseSprites[p1TxrAmount]{}; // 0 = Idle, Walk, Refill, Block, SuccessfulBlock, OilAttack, SeathAttack, SwordAttack1, SwordAttack2, Change Phase
-	static const int p2TxrAmount = 10;
-	Texture2D secondPhaseSprites[p2TxrAmount]{}; // 0 = Idle, Run, SuccessfulBlock, Damaged, SwordAttack1, SwordAttack2, Ranged attack, Flame projectiles, Fly attack, Death
+	static const int p2TxrAmount = 11;
+	Texture2D secondPhaseSprites[p2TxrAmount]{}; // 0 = Idle, Run, SuccessfulBlock, SwordAttack1, SwordAttack2, DeployWings, Fly,  Ranged attack, Flame projectiles, Fly attack, Death
 	//Texture2D idleAtlas{};
 	//Texture2D walkAtlas{};
 	//Texture2D refillAtlas{};
@@ -57,6 +78,11 @@ private:
 	int currentAttackNum = 0;
 	const float attackCooldown = 0.5f;
 	float attackTimer = attackCooldown;
+
+	int attackStage = 0;
+
+	FireBall fireBalls[3];
+	float flyProgress = 0.f;
 public:
 	~PyromancerEnemy();
 	void SetTextures(Texture2D p1TxrList[], Texture2D p2TxrList[]);
@@ -87,6 +113,7 @@ public:
 	void EndAttack();
 
 	void UpdateAgroSwitch();
+	void Damaged(float dt);
 
 	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
 
