@@ -164,7 +164,7 @@ void PyromancerEnemy::Phase2Decision()
 	{
 		dec = DECISION::ATTACK;
 
-		currentAttackNum = 8;//GetRandomValue(5, 8);
+		currentAttackNum = GetRandomValue(5, 8);
 		switch (currentAttackNum)
 		{
 		case 5:
@@ -518,7 +518,15 @@ void PyromancerEnemy::CollisionCheck() {
 			{
 				health -= 25;
 				dec = DAMAGED;
+				if (inFirstPhase)
+				{
+
 				anim.SetAnimation(firstPhaseSprites[3], 5, false);
+				}
+				else
+				{
+					anim.SetAnimation(secondPhaseSprites[2], 7, false);
+				}
 			}
 
 		}
@@ -568,7 +576,7 @@ void PyromancerEnemy::Damaged(float dt)
 	}
 	else
 	{
-		if (anim.GetCurrentFrame() >= 4)
+		if (anim.GetCurrentFrame() >= 6)
 		{
 			dec = DECISION::IDLE;
 			anim.SetAnimation(secondPhaseSprites[0], 8, true);
@@ -585,6 +593,16 @@ bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	sourcePos;
 	potentialDamage;
 	id;
+	health -= potentialDamage;
+	dec = DECISION::DAMAGED;
+	if (inFirstPhase)
+	{
+		anim.SetAnimation(firstPhaseSprites[3], 5, false);
+	}
+	else
+	{
+		anim.SetAnimation(secondPhaseSprites[2], 7, false);
+	}
 	return false;
 }
 void PyromancerEnemy::RenderUI() {

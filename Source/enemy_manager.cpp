@@ -89,8 +89,8 @@ void EnemyManager::LoadEnemyAssets()
 	pyromancerP2Textures[0] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerIdleAtlas.png");
 	pyromancerP2Textures[1] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerRunAtlas.png");
 	pyromancerP2Textures[2] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerBlockAtlas.png");
-	pyromancerP2Textures[3] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerSliceAttackAtlas.png");
-	pyromancerP2Textures[4] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerThrustAttackAtlas.png");
+	pyromancerP2Textures[3] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerSliceAtlas.png");
+	pyromancerP2Textures[4] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerThrustAtlas.png");
 
 	pyromancerP2Textures[5] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerDeployWingsAtlas.png");
 	pyromancerP2Textures[6] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerFlyAtlas.png");
