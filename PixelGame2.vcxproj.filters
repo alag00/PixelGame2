@@ -84,6 +84,9 @@
     <ClCompile Include="Source\enemy_statue.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Source\enemy_pumpkin.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\player.h">
@@ -159,6 +162,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Source\enemy_statue.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Source\enemy_pumpkin.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

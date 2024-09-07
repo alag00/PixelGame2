@@ -653,6 +653,13 @@ void LevelManager::LevelSetup()
 				SetTile(x, y, L'.');
 				continue;
 			}
+			if (GetTile(x, y) == L'p')
+			{
+				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+				enemyManager.CreatePumpkin(Vector2((float)x, (float)y), isBoss);
+				SetTile(x, y, L'.');
+				continue;
+			}
 			if (GetTile(x, y) == L'=')
 			{
 				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));

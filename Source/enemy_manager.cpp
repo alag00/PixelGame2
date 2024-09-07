@@ -48,6 +48,10 @@ void EnemyManager::Unload()
 	}
 	UnloadTexture(pyromancerP2Textures[10]);
 	UnloadTexture(weepingAngelTxr);
+	for (int i = 0; i < 6; i++)
+	{
+		UnloadTexture(pumpkinTextures[i]);
+	}
 }
 
 void EnemyManager::LoadEnemyAssets()
@@ -100,6 +104,13 @@ void EnemyManager::LoadEnemyAssets()
 	pyromancerP2Textures[10] = LoadTexture("Assets/EnemyTextures/Gnob/SecondPhase/PyromancerDeathAtlas.png");
 
 	weepingAngelTxr = LoadTexture("Assets/EnemyTextures/WeepingAngel/WeepingAngelAtlas.png");
+
+	pumpkinTextures[0] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinIdleAtlas.png");
+	pumpkinTextures[1] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinWalkAtlas.png");
+	pumpkinTextures[2] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinInitSpinAtlas.png");
+	pumpkinTextures[3] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinSpinAtlas.png");
+	pumpkinTextures[4] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinHurtAtlas.png");
+	pumpkinTextures[5] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinDeathAtlas.png");
 
 	// Audio
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
@@ -183,6 +194,22 @@ void EnemyManager::CreateWeepingAngel(Vector2 pos)
 	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	
+	enemyList.push_back(newEnemy);
+}
+
+void EnemyManager::CreatePumpkin(Vector2 pos, bool isBoss)
+{
+	PumpkinEnemy* newEnemy = new PumpkinEnemy();
+	newEnemy->SetPlayerRef(*playerRef);
+	newEnemy->SetStartPos(pos);
+	newEnemy->SetTextures(pumpkinTextures);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
+	newEnemy->Setup();
+	if (isBoss)
+	{
+		bossRef = newEnemy;
+		newEnemy->isBoss = true;
+	}
 	enemyList.push_back(newEnemy);
 }
 
