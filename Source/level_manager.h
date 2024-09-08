@@ -49,7 +49,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 7;
+	int currentLevel = 1;
 
 	Effect filter;
 

@@ -63,11 +63,12 @@ void EnemyManager::LoadEnemyAssets()
 	skeletonTextures[3] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyDeflectAtlas.png");
 
 	knightTextures[0] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyIdleAtlas.png");
-	knightTextures[1] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyDeathAtlas.png");
-	knightTextures[2] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyWalkAtlas.png");
-	knightTextures[3] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttackAtlas.png");
-	knightTextures[4] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttack2Atlas.png");
+	knightTextures[1] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyWalkAtlas.png");
+	knightTextures[2] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttackAtlas.png");
+	knightTextures[3] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyAttack2Atlas.png");
+	knightTextures[4] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyThrustAtlas.png");
 	knightTextures[5] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyDeflectAtlas.png");
+	knightTextures[6] = LoadTexture("Assets/EnemyTextures/KnightEnemy/KnightEnemyDeathAtlas.png");
 
 	necromancerTextures[0] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
 	necromancerTextures[1] = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyDeathAtlas.png");
@@ -143,7 +144,7 @@ void EnemyManager::CreateKnight(Vector2 pos, bool isBoss)
 	KnightEnemy* newEnemy = new KnightEnemy();
 	newEnemy->SetPlayerRef(*playerRef);
 	newEnemy->SetStartPos(pos);
-	newEnemy->SetTextures(knightTextures[0], knightTextures[1], knightTextures[2], knightTextures[3], knightTextures[4], knightTextures[5]);
+	newEnemy->SetTextures(knightTextures);
 	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
 	newEnemy->Setup();
 	if (isBoss)

@@ -4,26 +4,23 @@ KnightEnemy::~KnightEnemy()
 {
 	 playerRef = nullptr; 
 
-	 UnloadTexture(idleAtlas);
-	 UnloadTexture(deathAtlas);
-	 UnloadTexture(walkAtlas);
-	 UnloadTexture(attack1Atlas);
-	 UnloadTexture(attack2Atlas);
-	 UnloadTexture(blockAtlas);
+	 for (int i = 0; i < 7; i++)
+	 {
+		 UnloadTexture(textures[i]);
+	 }
 
 	 UnloadSound(deathSound);
 	 UnloadSound(initAttackSound);
 	 UnloadSound(swingAttackSound);
 }
 
-void KnightEnemy::SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D walkTxr, Texture2D attack1Txr, Texture2D attack2Txr, Texture2D blockTxr)
+void KnightEnemy::SetTextures(Texture2D txr[])
 {
-	idleAtlas = idleTxr;
-	deathAtlas = deathTxr;
-	walkAtlas = walkTxr;
-	attack1Atlas = attack1Txr;
-	attack2Atlas = attack2Txr;
-	blockAtlas = blockTxr;
+	for (int i = 0; i < 7; i++)
+	{
+		textures[i] = txr[i];
+	}
+	
 }
 
 void KnightEnemy::SetAudio(Sound death, Sound init, Sound swing)
@@ -47,6 +44,8 @@ void KnightEnemy::Setup()
 	
 	maxHealth = 50;
 	health = maxHealth;
+
+	anim.SetAnimation(textures[0], 8, true);
 }
 
 void KnightEnemy::Sense()
@@ -90,11 +89,11 @@ void KnightEnemy::Decide()
 		switch (currentSlice)
 		{
 		case 1:
-			anim.SetAnimation(attack1Atlas, 12, false);
+			anim.SetAnimation(textures[2], 12, false);
 			currentSlice = 2;
 			break;
 		case 2:
-			anim.SetAnimation(attack2Atlas, 12, false);
+			anim.SetAnimation(textures[3], 12, false);
 			currentSlice = 1;
 			break;
 		}
@@ -105,12 +104,12 @@ void KnightEnemy::Decide()
 	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
 	{
 		dec = DECISION::WALK;
-		anim.SetAnimation(walkAtlas, 8, true);
+		anim.SetAnimation(textures[1], 8, true);
 	}
 	else if(dec != IDLE)
 	{
 		dec = DECISION::IDLE;
-		anim.SetAnimation(idleAtlas, 8, true);
+		anim.SetAnimation(textures[0], 8, true);
 	}
 }
 
@@ -133,12 +132,12 @@ void KnightEnemy::Act(float dt)
 		if (anim.GetCurrentFrame() >= 4)
 		{
 			dec = DECISION::IDLE;
-			anim.SetAnimation(idleAtlas, 8, true);
+			anim.SetAnimation(textures[0], 8, true);
 			if (health <= 0)
 			{
 				PlaySound(deathSound);
 				SetIsAlive(false);
-				anim.SetAnimation(deathAtlas, 8, false);
+				anim.SetAnimation(textures[6], 8, false);
 			}
 		}
 		break;
@@ -181,7 +180,7 @@ void KnightEnemy::CollisionCheck()
 			health -= 10;
 			UpdateAgroSwitch();
 			dec = DAMAGED;
-			anim.SetAnimation(blockAtlas, 5, false);
+			anim.SetAnimation(textures[5], 5, false);
 			
 		}
 	}
@@ -239,8 +238,8 @@ void KnightEnemy::UpdateAgroSwitch()
 
 		if (!hasAdvantage)
 		{
-			dec = LOSTADVANTAGE;
-			anim.SetAnimation(blockAtlas, 5, false);
+			dec = DAMAGED;
+			anim.SetAnimation(textures[5], 5, false);
 		}
 		if (hasAdvantage)
 		{
@@ -263,7 +262,7 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 		return true;
 	}
 	dec = DAMAGED;
-	anim.SetAnimation(blockAtlas, 5, false);
+	anim.SetAnimation(textures[5], 5, false);
 
 	UpdateAgroSwitch();
 
@@ -299,7 +298,7 @@ void KnightEnemy::RenderUI()
 void KnightEnemy::Reset()
 {
 	SetIsAlive(true);
-	anim.SetAnimation(idleAtlas, 8, false);
+	anim.SetAnimation(textures[0], 8, false);
 	health = maxHealth;
 	pos = startPos;
 	dec = IDLE;

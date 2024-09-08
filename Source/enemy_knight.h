@@ -12,13 +12,9 @@ class KnightEnemy : public Enemy
 	Vector2 vel{ 0.f,0.f };
 
 	Animator anim;
-	Texture2D idleAtlas{};
-	Texture2D deathAtlas{};
-	Texture2D walkAtlas{};
-	Texture2D attack1Atlas{};
-	Texture2D attack2Atlas{};
-	Texture2D blockAtlas{};
+	Texture2D textures[7]; // 0 = IDLE, WALK, ATTACK 1, ATTACK 2, ATTACK 3, BLOCK, DEATH
 
+	
 	Sound deathSound{};
 	Sound initAttackSound{};
 	Sound swingAttackSound{};
@@ -46,7 +42,7 @@ class KnightEnemy : public Enemy
 	int currentSlice = 1;
 public:
 	~KnightEnemy();
-	void SetTextures(Texture2D idleTxr, Texture2D deathTxr, Texture2D walkTxr, Texture2D attack1Txr, Texture2D attack2Txr, Texture2D blockTxr);
+	void SetTextures(Texture2D txr[]);
 	void SetAudio(Sound death, Sound init, Sound swing);
 	void SetPlayerRef(Entity& ref) { playerRef = &ref; }
 	void Setup();

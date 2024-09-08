@@ -17,8 +17,9 @@ enum class STATUS
 	LOSTADVANTAGE = 7,
 	AIRATTACK = 8,
 	AIRRECOVERY = 9,
-	CLIMB = 10,
-	HOOK = 11,
+	AIRMOVEMENT = 10,
+	CLIMB = 11,
+	HOOK = 12,
 };
 class Player : public Entity
 {
@@ -44,6 +45,7 @@ private:
 	Texture2D airAttackAtlas{};
 
 	Texture2D loseAdvantageAtlas{};
+	Texture2D danceAtlas{};
 
 	Animator anim;
 	Animator particleAnim;
@@ -90,6 +92,9 @@ private:
 
 	Vector2 grappPoint = {0.f,0.f};
 	bool inHookAnim = true;
+
+	float danceTimer = 0.f;
+	bool isDancing = false;
 public:
 	void Unload();
 	Vector2 GetPosition() { return pos; }
@@ -138,4 +143,5 @@ public:
 	void EnterGrapplingHookMode(Vector2 hookPos);
 	void GrapplingHookMovement(float dt);
 	bool GetLookSide() override { return lookRight; };
+	void DanceCheck(float dt);
 };

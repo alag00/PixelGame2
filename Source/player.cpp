@@ -46,9 +46,9 @@ void Player::Setup()
 	successDeflectAtlas = LoadTexture("Assets/PlayerTextures/SuccessfulDeflectAtlas.png");
 	damagedAtlas = LoadTexture("Assets/PlayerTextures/DamagedAtlas.png");
 	loseAdvantageAtlas = LoadTexture("Assets/PlayerTextures/AdvantageLostAtlas.png");
+	danceAtlas = LoadTexture("Assets/PlayerTextures/DanceAtlas.png");
 
 	deflectParticleAtlas = LoadTexture("Assets/Particles/DeflectParticleAtlasAlter.png");
-
 
 	hitSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
 	deathSound = LoadSound("Assets/Audio/SFX/PlayerDeath.mp3");
@@ -72,6 +72,7 @@ void Player::Update(float dt)
 	UpdateParticles();
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
+	DanceCheck(dt);
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -96,7 +97,7 @@ void Player::Update(float dt)
 	case STATUS::HOOK:
 		GrapplingHookMovement(dt);
 		break;
-		/*
+		
 	case STATUS::AIRRECOVERY:
 		vel.y += 20.f * dt;
 		if (onGround)
@@ -105,7 +106,7 @@ void Player::Update(float dt)
 			anim.SetAnimation(idleAtlas, 8, true);
 		}
 		break;
-		*/
+		
 	default:
 		Control(dt);
 		Movement(dt);
@@ -147,7 +148,7 @@ void Player::Render()
 void Player::Movement(float dt)
 {	
 	
-	if (vel.y > 0.f && status != STATUS::FALLING && status != STATUS::DEFLECT && status != STATUS::AIRRECOVERY)
+	if (vel.y > 0.f && status != STATUS::FALLING && status != STATUS::DEFLECT && status != STATUS::AIRRECOVERY && status != STATUS::AIRMOVEMENT)
 	{
 		anim.SetAnimation(fallAtlas, 4, true);
 		status = STATUS::FALLING;
@@ -167,7 +168,7 @@ void Player::Control(float dt)
 {
 
 
-	if (status == STATUS::AIRRECOVERY && !onGround || status == STATUS::DEFLECT && !onGround)
+	if (status == STATUS::AIRMOVEMENT && !onGround || status == STATUS::DEFLECT && !onGround)
 	{
 
 	}
@@ -282,7 +283,7 @@ void Player::Control(float dt)
 
 void Player::RecoilJump()
 {
-	status = STATUS::AIRRECOVERY;
+	status = STATUS::AIRMOVEMENT;
 	anim.SetAnimation(jumpAtlas, 8, true);
 	vel.y = -7.f;
 	vel.x = (lookRight) ? 10.f : -10.f;
@@ -335,12 +336,23 @@ void Player::SetOnGround(bool newValue)
 		{
 			Jump();
 		}
+		
+		else if (status == STATUS::FALLING || status == STATUS::AIRRECOVERY || status == STATUS::AIRATTACK || status == STATUS::AIRMOVEMENT)
+		{
+			vel.y = 0.f;
+			status = STATUS::IDLE;
+
+			anim.SetAnimation(idleAtlas, 8, true);
+		}
+		/*
 		else if (status != STATUS::MOVING && status != STATUS::DEFLECT && status != STATUS::ATTACK)
 		{
 			vel.y = 0.f;
-			anim.SetAnimation(idleAtlas, 8, true);
 			status = STATUS::IDLE;
+			
+			anim.SetAnimation(idleAtlas, 8, true);
 		}
+		*/
 	}
 }
 void Player::Attack(float dt)
@@ -377,6 +389,7 @@ void Player::Attack(float dt)
 	case 6:
 		vel.x = 0.f;
 		status = STATUS::IDLE;
+	
 		attackBox.width = 0.f;
 		attackBox.height = 0.f;
 
@@ -425,6 +438,11 @@ bool Player::CollisionCheck(Entity& enemy)
 				randNum /= 100.f;
 				SetSoundPitch(hitSound, randNum);
 				PlaySound(hitSound);
+
+				if (queuedAttack)
+				{
+					InitAttack();
+				}
 				return true;
 			}
 
@@ -437,7 +455,10 @@ bool Player::CollisionCheck(Entity& enemy)
 			playParticle = true;
 			enemy.GetHit(pos, 10, currentAttackId);
 
-			RecoilJump();
+			status = STATUS::AIRRECOVERY;
+			anim.SetAnimation(jumpAtlas, 8, true);
+			vel.y = -7.f;
+			vel.x = (lookRight) ? 10.f : -10.f;
 			//vel.x = (lookRight) ? -15.f : 15.f;
 
 
@@ -622,11 +643,11 @@ void Player::ClimbControl(float dt)
 		vel.y += -3.f;
 		//vel.x = (lookRight) ? -10.f : 10.f;
 	}
-	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+	else if (IsKeyDown(KEY_S))
 	{
-		if (IsKeyPressed(KEY_S))
+		vel.y = 3;
+		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
-
 			lookRight = !lookRight;
 			anim.FlipAnimationHorizontal();
 			particleAnim.FlipAnimationHorizontal();
@@ -634,6 +655,7 @@ void Player::ClimbControl(float dt)
 			anim.SetAnimation(fallAtlas, 4, true);
 		}
 	}
+	
 }
 
 void Player::EnterGrapplingHookMode(Vector2 hookPos)
@@ -678,4 +700,20 @@ void Player::GrapplingHookMovement(float dt)
 		//status = STATUS::AIRRECOVERY;
 	}
 
+}
+
+void Player::DanceCheck(float dt)
+{
+	if (status != STATUS::IDLE)
+	{
+		danceTimer = 0.f;
+		isDancing = false;
+		return;
+	}
+	danceTimer += dt;
+	if (danceTimer > 3.f && !isDancing)
+	{
+		isDancing = true;
+		anim.SetAnimation(danceAtlas, 8, true);
+	}
 }
