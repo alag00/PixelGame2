@@ -13,6 +13,7 @@ void MiscManager::ClearLists()
 {
 	checkPointList.clear();
 	barrierList.clear();
+	grappPointList.clear();
 	//barrier.Clear();
 }
 void MiscManager::CreateCheckPoint(int x, int y)

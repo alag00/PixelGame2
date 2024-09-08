@@ -99,7 +99,7 @@ void Player::Update(float dt)
 		break;
 		
 	case STATUS::AIRRECOVERY:
-		vel.y += 20.f * dt;
+		vel.y += 35.f * dt;
 		if (onGround)
 		{
 			status = STATUS::IDLE;
@@ -135,7 +135,12 @@ void Player::Render()
 
 	hitBox = { pos.x, pos.y, 1, 1 };
 	RenderParticles();
-
+	/*
+	Color color = YELLOW;
+	color.a = 50;
+	Rectangle box = { hitBox.x * 64.f, hitBox.y * 64.f,hitBox.width * 64.f ,hitBox.height * 64.f };
+	DrawRectangleRec(box, color);
+	*/
 	if (status == STATUS::HOOK)
 	{
 		Vector2 vec1 = { GetCenter().x * 64.f, GetCenter().y * 64.f };
@@ -711,7 +716,7 @@ void Player::DanceCheck(float dt)
 		return;
 	}
 	danceTimer += dt;
-	if (danceTimer > 3.f && !isDancing)
+	if (danceTimer > 5.f && !isDancing)
 	{
 		isDancing = true;
 		anim.SetAnimation(danceAtlas, 8, true);

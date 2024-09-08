@@ -41,7 +41,7 @@ void PyromancerEnemy::Setup() {
 
 	maxHealth = 50;
 	health = maxHealth;
-
+	anim.SetAnimation(firstPhaseSprites[0], 8, true);
 	for (int i = 0; i < 3; i++)
 	{
 		fireBalls[i].SetTxr(secondPhaseSprites[8]);
@@ -622,6 +622,10 @@ void PyromancerEnemy::RenderUI() {
 
 }
 void PyromancerEnemy::Reset() {
+	if (isBoss && !IsAlive())
+	{
+		return;
+	}
 	SetIsAlive(true);
 	anim.SetAnimation(firstPhaseSprites[0], 8, false);
 	health = maxHealth;

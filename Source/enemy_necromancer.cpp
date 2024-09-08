@@ -303,6 +303,10 @@ void NecromancerEnemy::RenderUI() {
 
 void NecromancerEnemy::Reset()
 {
+	if (isBoss && !IsAlive())
+	{
+		return;
+	}
 	SetIsAlive(true);
 	anim.SetAnimation(idleAtlas, 8, false);
 	health = maxHealth;

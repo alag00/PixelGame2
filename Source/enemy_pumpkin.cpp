@@ -43,6 +43,8 @@ void PumpkinEnemy::Setup()
 
 	maxHealth = 50;
 	health = maxHealth;
+
+	anim.SetAnimation(textures[0], 8, true);
 }
 
 void PumpkinEnemy::Sense()
@@ -290,6 +292,10 @@ void PumpkinEnemy::RenderUI()
 
 void PumpkinEnemy::Reset()
 {
+	if (isBoss && !IsAlive())
+	{
+		return;
+	}
 	SetIsAlive(true);
 	anim.SetAnimation(textures[0], 8, false);
 	health = maxHealth;

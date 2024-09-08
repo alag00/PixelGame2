@@ -297,6 +297,10 @@ void KnightEnemy::RenderUI()
 
 void KnightEnemy::Reset()
 {
+	if (isBoss && !IsAlive())
+	{
+		return;
+	}
 	SetIsAlive(true);
 	anim.SetAnimation(textures[0], 8, false);
 	health = maxHealth;

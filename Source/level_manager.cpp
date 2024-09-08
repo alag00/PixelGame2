@@ -348,6 +348,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// Brick
 		return true;
 	}
+	if (tileTypeOne == L'x' || tileTypeTwo == L'x')
+	{
+		// Brick 2
+		return true;
+	}
 	if (tileTypeOne == L'%' || tileTypeTwo == L'%')
 	{
 		// Grass
@@ -361,6 +366,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	if (tileTypeOne == L'*' || tileTypeTwo == L'*')
 	{
 		// Stone
+		return true;
+	}
+	if (tileTypeOne == L'o' || tileTypeTwo == L'o')
+	{
+		// Stone2
 		return true;
 	}
 	if (tileTypeOne == L'=' || tileTypeTwo == L'=')
@@ -444,8 +454,18 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// Brick Background
 		return false;
 	}
+	if (tileTypeOne == L'y' || tileTypeTwo == L'y')
+	{
+		// Brick Background 2
+		return false;
+	}
 
 	if (tileTypeOne == L',' || tileTypeTwo == L',')
+	{
+		// Stone Background
+		return false;
+	}
+	if (tileTypeOne == L'c' || tileTypeTwo == L'c')
 	{
 		// Stone Background
 		return false;
@@ -516,7 +536,7 @@ void LevelManager::Render()
 	}
 	
 	RenderHpBars();
-	if (currentLevel == 5)
+	if (currentLevel == 10)
 	{
 		RenderCredit();
 	}
@@ -741,8 +761,18 @@ void LevelManager::LevelRender()
 				 dst = { (float)x * nTileWidth,(float) y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
+			case L'x':// Brick2
+				src = { 0.f,32.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
 			case L'-': // Brick Wall
 				src = { 0.f,16.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'y': // Brick Wall 2
+				src = { 0.f,48.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
@@ -751,8 +781,18 @@ void LevelManager::LevelRender()
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
+			case L'o': // Stone 2
+				src = { 16.f,32.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
 			case L',': // Stone Wall
 				src = { 16.f,16.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
+			case L'c': // Stone Wall 2
+				src = { 16.f,48.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
