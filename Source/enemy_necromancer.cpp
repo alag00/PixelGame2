@@ -171,7 +171,8 @@ void NecromancerEnemy::Render() {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	Color color = (dec != DAMAGED) ? WHITE : RED;
+	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
 	for (int i = 0; i < projAmount; i++)
 	{

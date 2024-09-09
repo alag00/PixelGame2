@@ -154,20 +154,9 @@ void KnightEnemy::Render()
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 16.f , size.x, size.y };
 	Vector2 origin = { dst.width / 2.f, dst.height * 0.75f };
 
-	Color color = WHITE;
-	switch (dec)
-	{
-	case DECISION::IDLE:
-		break;
-	case DECISION::WALK:
-		color = YELLOW;
-		break;
-	case DECISION::ATTACK:
-		color = RED;
-		break;
-	}
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
-
+	
+	Color color = (dec != DAMAGED) ? WHITE : RED;
+	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
 }
 

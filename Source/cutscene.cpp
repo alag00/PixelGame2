@@ -6,10 +6,12 @@ void CastleCutscene::Setup(Vector2&ref)
 
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
-	playerIcon = LoadTexture("Assets/Icon.png");
+	playerPort = LoadTexture("Assets/PlayerTextures/PlayerPortrait.png");
+	//playerSpeakPort = LoadTexture("Assets/Icon.png");
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
-	enemyIcon = LoadTexture("Assets/Icon.png");
+	enemyListenPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerPortrait.png");
+	enemySpeakPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerPortraitTalk.png");
 
 	enemyPos = {93.f, 8.f};
 	enemySize.x = 144.f * scale;
@@ -21,9 +23,9 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
-	dialogue.QueueDialogue(false, enemyIcon, "GLORB GLORB GLORB");
-	dialogue.QueueDialogue(false, enemyIcon, "GLORB A GLORB");
-	dialogue.QueueDialogue(true, playerIcon, "OH GLORB");
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB");
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB");
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB");
 }
 
 bool CastleCutscene::Update(float dt)
@@ -100,8 +102,10 @@ void CastleCutscene::Unload()
 	UnloadTexture(playerWalk);
 	UnloadTexture(enemyIdle);
 
-	UnloadTexture(playerIcon);
-	UnloadTexture(enemyIcon);
+	UnloadTexture(playerPort);
+	//UnloadTexture(playerSpeakPort);
+	UnloadTexture(enemyListenPort);
+	UnloadTexture(enemySpeakPort);
 }
 
 void GraveyardCutscene::Setup(Vector2& ref)
@@ -111,11 +115,16 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
 	playerJump = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
-	playerIcon = LoadTexture("Assets/Icon.png");
+
+	playerPort = LoadTexture("Assets/PlayerTextures/PlayerPortrait.png");
+	//playerSpeakPort = LoadTexture("Assets/Icon.png");
+
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
 	enemyRefill = LoadTexture("Assets/EnemyTextures/Gnob/GnobRefillAtlas.png");
-	enemyIcon = LoadTexture("Assets/Icon.png");
+	enemyListenPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/GnobPortrait.png");
+	enemySpeakPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/GnobPortraitTalk.png");
+
 
 	enemyPos = { 110.f, 14.f };
 	enemySize.x = 80.f * scale;
@@ -127,10 +136,10 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerJump, 8, true);
 
-	dialogue.QueueDialogue(true, playerIcon, "GLORB?");
-	dialogue.QueueDialogue(false, enemyIcon, "GLORB?");
-	dialogue.QueueDialogue(false, enemyIcon, "GLORB");
-	dialogue.QueueDialogue(true, playerIcon, "GLORB");
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB?");
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB?");
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB");
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB");
 }
 
 bool GraveyardCutscene::Update(float dt)
@@ -225,5 +234,9 @@ void GraveyardCutscene::Unload()
 
 	UnloadTexture(enemyIdle);
 	UnloadTexture(enemyRefill);
-	UnloadTexture(enemyIcon);
+
+	UnloadTexture(playerPort);
+	//UnloadTexture(playerSpeakPort);
+	UnloadTexture(enemyListenPort);
+	UnloadTexture(enemySpeakPort);
 }

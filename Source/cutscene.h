@@ -32,8 +32,11 @@ private:
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
 
-	Texture2D playerIcon{};
-	Texture2D enemyIcon{};
+	Texture2D playerPort{};
+	
+
+	Texture2D enemyListenPort{};
+	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
 	int cutsceneStage = 0;
@@ -66,8 +69,11 @@ private:
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
 
-	Texture2D playerIcon{};
-	Texture2D enemyIcon{};
+	Texture2D playerPort{};
+	//Texture2D playerSpeakPort{};
+
+	Texture2D enemyListenPort{};
+	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
 	int cutsceneStage = 0;

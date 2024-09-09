@@ -6,8 +6,9 @@
 struct Speech 
 {
 	const char* text = nullptr;
-	Texture2D speaker{};
-	bool leftSide = true;
+	Texture2D lPort{};
+	Texture2D rPort{};
+	//bool leftSide = true;
 };
 
 class Dialogue
@@ -17,7 +18,7 @@ private:
 	bool active = false;
 public:
 	~Dialogue();
-	void QueueDialogue(bool left, Texture2D avatar, const char* newText);
+	void QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText);
 	void SetActive(bool newValue);
 	bool GetActive() { return active; }
 	/*

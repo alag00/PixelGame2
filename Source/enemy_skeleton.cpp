@@ -114,7 +114,8 @@ void SkeletonEnemy::Render() {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f};//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	Color color =(dec != DAMAGED) ?WHITE : RED;
+	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
 	//Color color = YELLOW;
 	//color.a = 50;

@@ -4,9 +4,9 @@ Dialogue::~Dialogue()
 {
 }
 
-void Dialogue::QueueDialogue(bool left, Texture2D avatar, const char* newText)
+void Dialogue::QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText)
 {
-	Speech newSpeech = { newText, avatar, left };
+	Speech newSpeech = { newText, leftPort, rightPort };
 	speechList.push_back(newSpeech);
 }
 
@@ -61,6 +61,21 @@ void Dialogue::Render()
 	textBox.y -= textBox.height;
 	DrawRectangleRec(textBox, BROWN);
 	//DrawRectangle(0, 0, 200, 100, BROWN);
+
+	Rectangle src = { 0.f,0.f, 80.f, 80.f };
+	Vector2 origin = { 0.f,0.f };
+
+	float width = (float)speechList.front().rPort.width * 3.f;
+	float height = (float)speechList.front().rPort.height * 3.f;
+
+	Rectangle dst = { textBox.x - width, (float)GetScreenHeight() - height, width, height };
+	DrawRectangleRec(dst, DARKBROWN);
+	DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, WHITE);
+
+	dst = { textBox.x + textBox.width, (float)GetScreenHeight() - height, width, height };
+	DrawRectangleRec(dst, DARKBROWN);
+	DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, WHITE);
+	/*
 	if (speechList.front().leftSide)
 	{
 		// place speaker portrait
@@ -74,14 +89,18 @@ void Dialogue::Render()
 	}
 	else
 	{
-		float size = textBox.width / 2.f;
+		//float size = textBox.width / 2.f;
+		float width = (float)speechList.front().speaker.width * 3.f;
+		float height = (float)speechList.front().speaker.height * 3.f;
+
 		// place speaker portrait
 		Rectangle src = { 0.f,0.f, (float)speechList.front().speaker.width, (float)speechList.front().speaker.height };
-		src.width = -src.width;
-		Rectangle dst = { textBox.x + textBox.width, (float)GetScreenHeight() - size, size, size };
+		//src.width = -src.width;
+		Rectangle dst = { textBox.x + textBox.width, (float)GetScreenHeight() - height, width, height };
 		DrawRectangleRec(dst, DARKBROWN);
 		Vector2 origin = { 0.f,0.f };
-		DrawTexturePro(speechList.front().speaker, src, dst, origin, 0.f, DARKPURPLE);
+		DrawTexturePro(speechList.front().speaker, src, dst, origin, 0.f, WHITE);
 	}
+	*/
 	DrawText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, YELLOW);
 }

@@ -145,13 +145,15 @@ void PumpkinEnemy::Render()
 	Vector2 origin = { dst.width / 2.f, dst.height};
 
 	
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	Color color = (dec != DAMAGED) ? WHITE : RED;
+	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-
+	/*
 	Color color = YELLOW;
 	color.a = 50;
 	Rectangle box = { hitBox.x * 64.f, hitBox.y * 64.f, hitBox.width * 64.f, hitBox.height * 64.f };
 	DrawRectangleRec(box, color);
+	*/
 }
 
 void PumpkinEnemy::CollisionCheck()

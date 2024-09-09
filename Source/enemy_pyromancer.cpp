@@ -251,13 +251,15 @@ void PyromancerEnemy::Render() {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 16.f , size.x, size.y };
 	Vector2 origin = {dst.width /2.f, dst.height * 0.75f };
 
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	Color color = (dec != DAMAGED) ? WHITE : RED;
+	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
+	/*
 	Rectangle testBox{ attackBox.x * 64.f, attackBox.y * 64.f,attackBox.width * 64.f ,attackBox.height * 64.f };
 	Color color = YELLOW;
 	color.a = 50;
 	DrawRectangleRec(testBox, color);
-
+	*/
 	DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
 	DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
 
