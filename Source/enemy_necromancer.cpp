@@ -63,7 +63,7 @@ void NecromancerEnemy::Sense()
 	{
 		return;
 	}
-	if (lookRight && pos.x < playerRef->pos.x || !lookRight && pos.x > playerRef->pos.x)
+	if (lookRight && pos.x < playerRef->GetCenter().x || !lookRight && pos.x > playerRef->GetCenter().x)
 	{
 		lookRight = !lookRight;
 		anim.FlipAnimationHorizontal();
@@ -106,6 +106,7 @@ void NecromancerEnemy::Act(float dt) {
 	anim.UpdateAnimator(dt);
 	attackTimer -= dt;
 	hitBox = { pos.x -0.5f , pos.y -2  , 2.f,3.f };
+	damagedTimer -= dt;
 	UpdateProj(dt);
 	switch (dec)
 	{
@@ -171,7 +172,7 @@ void NecromancerEnemy::Render() {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
-	Color color = (dec != DAMAGED) ? WHITE : RED;
+	Color color = (dec == DAMAGED || damagedTimer > 0.f) ? RED : WHITE;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
 	for (int i = 0; i < projAmount; i++)
@@ -277,9 +278,9 @@ bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 		return false;
 	}
 	(void)sourcePos;
-	dec = DAMAGED;
-	anim.SetAnimation(blockAtlas, 5, false);
-
+	//dec = DAMAGED;
+	//anim.SetAnimation(blockAtlas, 5, false);
+	damagedTimer = 0.1f;
 	health -= potentialDamage;
 	lastAttackId = id;
 	return true;

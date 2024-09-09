@@ -60,7 +60,7 @@ void KnightEnemy::Sense()
 	{
 		return;
 	}
-	if (lookRight && pos.x < playerRef->pos.x || !lookRight && pos.x > playerRef->pos.x)
+	if (lookRight && pos.x < playerRef->GetCenter().x || !lookRight && pos.x > playerRef->GetCenter().x)
 	{
 		lookRight = !lookRight;
 		anim.FlipAnimationHorizontal();

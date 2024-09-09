@@ -24,8 +24,8 @@ void Background::Setup()
 	castleFrontTxr[2] = LoadTexture("Assets/BackgroundTextures/CastleEntranceBackground3.png");
 
 	plainTxr[0] = LoadTexture("Assets/BackgroundTextures/PlainBackground1.png");
-	plainTxr[1] = LoadTexture("Assets/BackgroundTextures/PlainBackground2.png");
-	plainTxr[2] = LoadTexture("Assets/BackgroundTextures/PlainBackground3.png");
+	plainTxr[1] = LoadTexture("Assets/BackgroundTextures/SpookyBackground2.png");
+	plainTxr[2] = LoadTexture("Assets/BackgroundTextures/SpookyBackground3.png");
 
 	caveTxr[0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1.png");
 	caveTxr[1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2.png");
@@ -85,8 +85,13 @@ void Background::SetSize(int width, int height)
 
 }
 
-void Background::Update(Vector2 vel, float dt)
+void Background::Update(Vector2 newCamPos, float dt)
 {
+	Vector2 vel{ 0.f,0.f };
+	vel.x = newCamPos.x - lastCamPos.x;
+	vel.y = newCamPos.y - lastCamPos.y;
+	lastCamPos = newCamPos;
+
 	if (vel.x == 0.f && vel.y == 0.f)
 	{
 		return;

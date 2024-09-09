@@ -6,8 +6,8 @@
 class Game
 {
 private:
-	int screenWidth = 1720;
-	int screenHeight = 880;
+	int screenWidth = 1920;
+	int screenHeight = 1080;
 	SceneManager sceneManager;
 public:
 	Game();

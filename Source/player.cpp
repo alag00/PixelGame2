@@ -73,6 +73,7 @@ void Player::Update(float dt)
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
 	DanceCheck(dt);
+	hitBox = { pos.x, pos.y, 1, 1 };
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -122,7 +123,7 @@ void Player::Render()
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	/*
+	
 	if (status == STATUS::ATTACK || status == STATUS::AIRATTACK)
 	{
 		Color color = YELLOW;
@@ -131,9 +132,9 @@ void Player::Render()
 		DrawRectangleRec(debugBox, color);
 		//DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
 	}
-	*/
+	
 
-	hitBox = { pos.x, pos.y, 1, 1 };
+
 	RenderParticles();
 	/*
 	Color color = YELLOW;
@@ -230,7 +231,8 @@ void Player::Control(float dt)
 	}
 	if (IsKeyReleased(KEY_SPACE) && status == STATUS::JUMPING)
 	{
-		vel.y = -5.f;
+		vel.y = (vel.y < -5.f) ? -5.f: vel.y;
+		//vel.y = -5.f;
 	}
 	if (IsKeyDown(KEY_A))
 	{
@@ -367,28 +369,29 @@ void Player::Attack(float dt)
 	{
 		queuedAttack = true;
 	}
+	attackBox = { pos.x, pos.y - 0.5f , 2.f, 1.5 };
+	attackBox.x = (!lookRight) ? pos.x -1.f : pos.x;
+
 	switch (anim.GetCurrentFrame())
 	{
 	case 0:
-		vel.x = (lookRight) ? 1.f : -1.f;
+		vel.x = (lookRight) ? 5.f : -5.f;
 		break;
 	case 1:
-		vel.x = (lookRight) ? 4.f : -4.f;
+		vel.x = (lookRight) ? 15.f : -15.f;
 		break;
 	case 2:
-		vel.x = (lookRight) ? 4.f : -4.f;
+		vel.x = (lookRight) ? 15.f : -15.f;
 		break;
 	case 3:
-		vel.x = (lookRight) ? 1.f : -1.f;
+		vel.x = (lookRight) ? 5.f : -5.f;
 		break;
 	case 4:
-		attackBox = { pos.x, pos.y, 1, 1 };
-		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
-
+	
 		break;
 	case 5:
-		attackBox = { pos.x, pos.y, 1, 1 };
-		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
+		//attackBox = { pos.x, pos.y, 2, 2 };
+		//attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 
 		break;
 	case 6:
@@ -424,7 +427,7 @@ bool Player::CollisionCheck(Entity& enemy)
 	switch (status)
 	{
 	case  STATUS::ATTACK:
-		if (anim.GetCurrentFrame() <= 5 && anim.GetCurrentFrame() >= 4)
+		if (anim.GetCurrentFrame() >= 2)
 		{
 
 			if (CheckCollisionRecs(attackBox, enemy.hitBox))
@@ -432,7 +435,7 @@ bool Player::CollisionCheck(Entity& enemy)
 				status = STATUS::IDLE;
 				playParticle = true;
 
-				vel.x = (lookRight) ? -15.f : 15.f;
+				vel.x = (lookRight) ? -20.f : 20.f;
 
 				enemy.GetHit(pos, 10, currentAttackId);
 
@@ -597,7 +600,8 @@ void Player::InitAttack()
 			currentSlice = 1;
 			break;
 		}
-		
+		attackBox = { pos.x, pos.y - 0.5f , 2.f, 1.5 };
+		attackBox.x = (!lookRight) ? pos.x - 1.f : pos.x;
 	}
 	else
 	{
@@ -610,10 +614,11 @@ void Player::InitAttack()
 		randNum /= 100.f;
 		SetSoundPitch(jumpSound, randNum);
 		PlaySound(jumpSound);
+		attackBox = { pos.x, pos.y, 1, 1 };
+		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 		// Air Attack
 	}
-	attackBox = { pos.x, pos.y, 1, 1 };
-	attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
+
 }
 
 void Player::LoseAdvantage()

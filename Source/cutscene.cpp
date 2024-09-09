@@ -6,12 +6,12 @@ void CastleCutscene::Setup(Vector2&ref)
 
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
-	playerPort = LoadTexture("Assets/PlayerTextures/PlayerPortrait.png");
+	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
 	//playerSpeakPort = LoadTexture("Assets/Icon.png");
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
-	enemyListenPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerPortrait.png");
-	enemySpeakPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerPortraitTalk.png");
+	enemyListenPort = LoadTexture("Assets/Portraits/NecromancerPortrait.png");
+	enemySpeakPort = LoadTexture("Assets/Portraits/NecromancerPortraitTalk.png");
 
 	enemyPos = {93.f, 8.f};
 	enemySize.x = 144.f * scale;
@@ -116,14 +116,14 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
 	playerJump = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
 
-	playerPort = LoadTexture("Assets/PlayerTextures/PlayerPortrait.png");
+	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
 	//playerSpeakPort = LoadTexture("Assets/Icon.png");
 
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/Gnob/GnobIdleAtlas.png");
 	enemyRefill = LoadTexture("Assets/EnemyTextures/Gnob/GnobRefillAtlas.png");
-	enemyListenPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/GnobPortrait.png");
-	enemySpeakPort = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/GnobPortraitTalk.png");
+	enemyListenPort = LoadTexture("Assets/Portraits/GnobPortrait.png");
+	enemySpeakPort = LoadTexture("Assets/Portraits/GnobPortraitTalk.png");
 
 
 	enemyPos = { 110.f, 14.f };

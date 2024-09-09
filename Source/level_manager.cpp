@@ -121,6 +121,7 @@ bool LevelManager::Update()
 		}
 		return exitLevel;
 	}
+	background.Update(cameraTargetPos, dt);
 	/*
 	// Debug
 	if (IsKeyPressed(KEY_T))
@@ -330,12 +331,14 @@ void LevelManager::AdjustPlayer(float dt)
 	
 	player.SetPosition(fNewPlayerPosX, fNewPlayerPosY);
 
-	background.Update(player.GetVelocity(), dt);
+	//background.Update(player.GetVelocity(), dt);
 
 	float camOffset = 0.f;
 
 	cameraTargetPos.x = player.GetCenter().x;
 	cameraTargetPos.y = player.GetCenter().y - camOffset;
+
+	
 	
 	
 
@@ -887,6 +890,7 @@ void LevelManager::RenderTutorial()
 	float range = 5.f;
 	if (tut1Dist < range)
 	{
+		
 		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, YELLOW);
 		DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, YELLOW);
 	}

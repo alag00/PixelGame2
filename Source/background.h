@@ -17,8 +17,10 @@ private:
 
 	int screenWidth = 0;
 	int screenHeight = 0;
-	float xSpeed = 10.f;
-	float ySpeed = 1.f;
+	float xSpeed = 300.f;
+	float ySpeed = 100.f;
+
+	Vector2 lastCamPos = { 0.f,0.f };
 public:
 	void Unload();
 	
@@ -28,7 +30,7 @@ public:
 	
 	void SetSize(int width, int height);
 	
-	void Update(Vector2 vel, float dt);
+	void Update(Vector2 newCamPos, float dt);
 	
 	void Render();
 

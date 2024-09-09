@@ -59,7 +59,7 @@ void PyromancerEnemy::Sense() {
 	{
 		return;
 	}
-	if (lookLeft && pos.x < playerRef->pos.x || !lookLeft && pos.x > playerRef->pos.x)
+	if (lookLeft && pos.x < playerRef->GetCenter().x || !lookLeft && pos.x > playerRef->GetCenter().x)
 	{
 		lookLeft = !lookLeft;
 		anim.FlipAnimationHorizontal();
