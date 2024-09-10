@@ -5,13 +5,16 @@ void Background::Unload()
 {
 	for (int i = 0; i < 3; i++)
 	{
+		/*
 		UnloadTexture(caveTxr[i]);
 		UnloadTexture(plainTxr[i]);
 		UnloadTexture(castleFrontTxr[i]);
 		UnloadTexture(castleTxr[i]);
+		*/
 		UnloadTexture(activeTxr[i]);
 	}
 }
+	/*
 void Background::Setup()
 {
 	castleTxr[0] = LoadTexture("Assets/BackgroundTextures/CastleBackground1.png");
@@ -31,6 +34,15 @@ void Background::Setup()
 	caveTxr[1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2.png");
 	caveTxr[2] = LoadTexture("Assets/BackgroundTextures/CaveBackground3.png");
 }
+	*/
+void Background::SetLevelBackground(Texture2D newTxr[])
+{
+	for (int i = 0; i < 3; i++)
+	{
+		activeTxr[i] = newTxr[i];
+	}
+}
+/*
 void Background::SetLevelBackground(int level)
 {
 	switch (level)
@@ -72,6 +84,7 @@ void Background::SetLevelBackground(int level)
 		break;
 	}
 }
+*/
 void Background::SetSize(int width, int height)
 {
 	screenWidth = width;

@@ -2,13 +2,37 @@
 
 void Levels::Load()
 {
-
+	// Audio
 	songList[0] = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 	songList[1] = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
 	songList[2] = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
 
+
+	// TexturePack
 	tileTextures[0] = LoadTexture("Assets/TileTextures/WorldTileTextures1.png");
 	tileTextures[1] = LoadTexture("Assets/TileTextures/WorldTileTextures2.png");
+
+
+	// Background
+	backgroundTxrs[0][0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1.png");
+	backgroundTxrs[0][1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2.png");
+	backgroundTxrs[0][2] = LoadTexture("Assets/BackgroundTextures/CaveBackground3.png");
+
+	backgroundTxrs[1][0] = LoadTexture("Assets/BackgroundTextures/ForestBackground1.png");
+	backgroundTxrs[1][1] = LoadTexture("Assets/BackgroundTextures/ForestBackground2.png");
+	backgroundTxrs[1][2] = LoadTexture("Assets/BackgroundTextures/ForestBackground3.png");
+
+	backgroundTxrs[2][0] = LoadTexture("Assets/BackgroundTextures/SkyBackground1.png");
+	backgroundTxrs[2][1] = LoadTexture("Assets/BackgroundTextures/SkyBackground2.png");
+	backgroundTxrs[2][2] = LoadTexture("Assets/BackgroundTextures/SkyBackground3.png");
+
+	backgroundTxrs[3][0] = LoadTexture("Assets/BackgroundTextures/CastleBackground1.png");
+	backgroundTxrs[3][1] = LoadTexture("Assets/BackgroundTextures/CastleBackground2.png");
+	backgroundTxrs[3][2] = LoadTexture("Assets/BackgroundTextures/CastleBackground3.png");
+
+	backgroundTxrs[4][0] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground1.png");
+	backgroundTxrs[4][1] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground2.png");
+	backgroundTxrs[4][2] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground3.png");
 }
 
 void Levels::Unload()
@@ -17,6 +41,20 @@ void Levels::Unload()
 	{
 		UnloadTexture(tileTextures[i]);
 	}
+	for (int i = 0; i < 5; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			UnloadTexture(backgroundTxrs[i][j]);
+		}
+	}
+}
+
+void Levels::SetCurrentBackground(int index)
+{
+	currentBackgrounds[0] = backgroundTxrs[index][0];
+	currentBackgrounds[1] = backgroundTxrs[index][1];
+	currentBackgrounds[2] = backgroundTxrs[index][2];
 }
 
 void Levels::CreateLevel(int level)
@@ -67,6 +105,8 @@ void Levels::CreateLevelOne()
 	currentSong = songList[0];
 	currentTileTxr = tileTextures[0];
 
+	SetCurrentBackground(0);
+
 	currentLevelWidth = 102;
 	currentevelHeight = 32;
 
@@ -113,6 +153,8 @@ void Levels::CreateLevelTwo()
 	currentSong = songList[1];
 	currentTileTxr = tileTextures[0];
 
+	SetCurrentBackground(1);
+
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
 	
@@ -149,7 +191,7 @@ void Levels::CreateLevelThree()
 	cutsceneID = 0;
 	currentSong = songList[1];
 	currentTileTxr = tileTextures[0];
-
+	SetCurrentBackground(1);
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
 
@@ -187,7 +229,7 @@ void Levels::CreateLevelFour()
 	cutsceneID = 1;
 	currentSong = songList[2];
 	currentTileTxr = tileTextures[0];
-
+	SetCurrentBackground(2);
 	currentLevelWidth = 128;
 	currentevelHeight = 64;
 
@@ -265,24 +307,24 @@ void Levels::CreateLevelFive()
 	currentLevel = "";
 	currentSong = songList[2];
 	currentTileTxr = tileTextures[0];
-
+	SetCurrentBackground(2);
 	currentLevelWidth = 62;
 	currentevelHeight = 14;
 
-	currentLevel += "##############################################################";
-	currentLevel += "##############################################################";
-	currentLevel += "##############################################################";
-	currentLevel += "##############################################################";
-	currentLevel += "####--....----....----....----....----....----....--##########";
-	currentLevel += "###---....----....----....----....----....----....---#########";
-	currentLevel += "###---....----....----....----....----....----....---#########";
+	currentLevel += "#ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss#";
+	currentLevel += "##ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss##";
+	currentLevel += "######################################################ssssss##";
+	currentLevel += "#######################################################ssss###";
+	currentLevel += "####--....----....----....----....----....----....--###ssss###";
+	currentLevel += "###---....----....----....----....----....----....---##ssss###";
+	currentLevel += "###---....----....----....----....----....----....---###sss###";
 	currentLevel += "###---....----....----....----....----....----....---#########";
 	currentLevel += "s-----....----....----....----....----....----....----########";
 	currentLevel += "sS----....----....----....----....----....----....-----------+";
 	currentLevel += "s------..------..------..------..------..------..------------+";
 	currentLevel += "##############################################################";
 	currentLevel += "##############################################################";
-	currentLevel += "##############################################################";
+	currentLevel += "###ssssssssssssssssssssssssssssssssssssssssssssssssssssssss###";
 
 	
 }
@@ -299,7 +341,7 @@ void Levels::CreateLevelSix() // From Castle to Spooky Land
 
 	currentTileTxr = tileTextures[1];
 	currentSong = songList[1];
-
+	SetCurrentBackground(3);
 	currentLevelWidth = 128;
 	currentevelHeight = 60;
 	cutsceneID = 0;
@@ -381,7 +423,7 @@ void Levels::CreateLevelSeven()
 	currentSong = songList[1];
 
 	bossChar = L'p';
-
+	SetCurrentBackground(4);
 	currentLevelWidth = 192;
 	currentevelHeight = 26;
 	cutsceneID = 0;
@@ -422,7 +464,7 @@ void Levels::CreateLevelEight()
 
 	currentTileTxr = tileTextures[1];
 	currentSong = songList[1];
-
+	SetCurrentBackground(4);
 	currentLevelWidth = 192;
 	currentevelHeight = 22;
 	bossChar = L'P';
@@ -465,7 +507,7 @@ void Levels::CreateLevelNine()
 
 	currentTileTxr = tileTextures[0];
 	currentSong = songList[0];
-
+	SetCurrentBackground(0);
 	currentLevelWidth = 128;
 	currentevelHeight = 52;
 	cutsceneID = 0;

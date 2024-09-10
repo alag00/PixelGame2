@@ -14,8 +14,11 @@ private:
 	Music currentSong{};
 	Music songList[3];
 
-	Texture currentTileTxr{};
-	Texture tileTextures[2];
+	Texture2D currentBackgrounds[3]{};
+	Texture2D backgroundTxrs[5][3]{};
+
+	Texture2D currentTileTxr{};
+	Texture2D tileTextures[2];
 	bool darkMode = false;
 public:
 	void Load();
@@ -28,6 +31,8 @@ public:
 	Music GetLevelSong() { return currentSong; }
 	Texture2D GetLevelTexture() { return currentTileTxr; }
 	bool GetLevelDarkMode() { return darkMode; }
+	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }
+	void SetCurrentBackground(int index);
 
 	void CreateLevel(int level);
 

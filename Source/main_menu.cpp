@@ -90,7 +90,7 @@ void MainMenu::DrawBackground()
 
 void MainMenu::LoadTextures()
 {
-	bg = LoadTexture("Assets/BackgroundTextures/CastleBackground1.png");
+	bg = LoadTexture("Assets/BackgroundTextures/Skybackground1.png");
 	isTxrLoaded = true;
 }
 

@@ -25,7 +25,7 @@ void LevelManager::LoadScene()
 	mainMenu.Unload();
 	*/
 	background.SetSize(screenWidth, screenHeight);
-	background.Setup();
+	//background.Setup();
 	player.Setup();
 	enemyManager.LoadEnemyAssets();
 	enemyManager.GetPlayerRef(player);
@@ -610,8 +610,8 @@ void LevelManager::LevelSetup()
 	nLevelHeight = levels.GetLevelHeight();
 	levelDarkMode = levels.GetLevelDarkMode();
 	
-
-	background.SetLevelBackground(currentLevel);
+	background.SetLevelBackground(levels.GetBackgroundTextures());
+	//background.SetLevelBackground(currentLevel);
 
 	filter.StartEffect(FADE_FROM_BLACK);
 	enemyManager.ClearEnemyList();
