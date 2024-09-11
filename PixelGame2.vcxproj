@@ -138,6 +138,7 @@
   <ItemGroup>
     <ClCompile Include="Source\animation.cpp" />
     <ClCompile Include="Source\background.cpp" />
+    <ClCompile Include="Source\background_object.cpp" />
     <ClCompile Include="Source\check_point.cpp" />
     <ClCompile Include="Source\cutscene.cpp" />
     <ClCompile Include="Source\cutscene_manager.cpp" />
@@ -165,6 +166,7 @@
   <ItemGroup>
     <ClInclude Include="Source\animation.h" />
     <ClInclude Include="Source\background.h" />
+    <ClInclude Include="Source\background_object.h" />
     <ClInclude Include="Source\check_point.h" />
     <ClInclude Include="Source\cutscene.h" />
     <ClInclude Include="Source\cutscene_manager.h" />

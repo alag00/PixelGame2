@@ -522,6 +522,7 @@ void LevelManager::Render()
 	BeginMode2D(cam);
 
 	LevelRender();
+	miscManager.Render();
 	if (isCutscening)
 	{
 		cutsceneManager.Render();
@@ -530,6 +531,7 @@ void LevelManager::Render()
 		EndDrawing();
 		return;
 	}
+
 	enemyManager.Render();
 	player.Render();
 	RenderUI();
@@ -554,7 +556,7 @@ void LevelManager::Render()
 
 void LevelManager::RenderUI()
 {
-	miscManager.Render();
+	//miscManager.Render();
 	/*
 	for (int i = 0; i < checkPointList.size(); i++)
 	{
@@ -999,6 +1001,24 @@ void LevelManager::SetupTile(int x, int y)
 	{
 		miscManager.CreateDartTrapPoint(x, y, false);
 		SetTile(x, y, L'T');
+		return;
+	}
+	if (GetTile(x, y) == L'v')
+	{
+		miscManager.CreateObject(x, y, currentLevel, 0);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'b')
+	{
+		miscManager.CreateObject(x, y, currentLevel, 1);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'n')
+	{
+		miscManager.CreateObject(x, y, currentLevel, 2);
+		SetTile(x, y, L'.');
 		return;
 	}
 	if (currentLevel != 1)

@@ -1,12 +1,27 @@
 #include "dart_trap_point.h"
 
-void DartTrap::Setup(Vector2 newPos, Entity& ref, Texture2D atlas, bool left)
+DartTrap::~DartTrap()
 {
-	anim.SetAnimation(atlas, 4, true);
+
+	
+}
+
+void DartTrap::Setup(Vector2 newPos, Entity& ref, bool left)
+{
+	
 	pos = newPos;
 	playerRef = &ref;
 
 	speed = (left) ? -speed : speed ;
+	if (!left)
+	{
+		anim.FlipAnimationHorizontal();
+	}
+}
+
+void DartTrap::SetTexture(Texture2D txr)
+{
+	anim.SetAnimation(txr, 4, true);
 }
 
 void DartTrap::Update(float dt)

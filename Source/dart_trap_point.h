@@ -16,7 +16,9 @@ private:
 	float timeAlive = 3.f;
 	float speed = 10.f;
 public:
-	void Setup(Vector2 newPos, Entity& ref, Texture2D atlas, bool left);
+	~DartTrap();
+	void Setup(Vector2 newPos, Entity& ref, bool left);
+	void SetTexture(Texture2D txr);
 	void Update(float dt); // Shoot bullets // Check collisions
 	void Render(); // Render bullets
 };
