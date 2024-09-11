@@ -4,7 +4,7 @@
 #include "entity.h"
 #include "check_point.h"
 #include "grappling_point.h"
-
+#include "dart_trap_point.h"
 //#include "barrier_point.h"
 
 class MiscManager
@@ -17,8 +17,12 @@ private:
 	std::vector<Vector2> barrierList{};
 	//bool active = false;
 	std::vector<GrapplingPoint> grappPointList{};
+	std::vector<DartTrap> dartTrapList{};
+	Texture2D dartTxr{};
 
 	Sound checkPointSound{};
+
+	int debug = 0;
 public:
 	void Unload();
 	void Setup(Entity& ref);
@@ -26,12 +30,15 @@ public:
 	void CreateCheckPoint(int x, int y);
 	void CreateBarrierPoint(Vector2 pos);
 	void CreateGrapplingPoint(int x, int y);
+	void CreateDartTrapPoint(int x, int y, bool left);
 	std::vector<CheckPoint> GetCheckPointList() { return checkPointList; }
 	std::vector<Vector2> GetBarrierList() { return barrierList; }
 	std::vector<GrapplingPoint> GetGrapPointList() { return grappPointList; }
+	std::vector<DartTrap> GetDartPointList() { return dartTrapList; }
 	int GetMostViableGrapplingIndex();
 	int UpdateCheckPoints();
-	void UpdateBarrierPoints();
+	//void UpdateBarrierPoints();
 	int UpdateGrapplingPoints();
+	void UpdateDartTrapsPoints(float dt);
 	void Render();
 };

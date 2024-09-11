@@ -49,7 +49,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 2;
+	int currentLevel = 6;
 
 	Effect filter;
 
@@ -119,4 +119,7 @@ public:
 	float GetDist(Vector2 vec1, Vector2 vec2);
 	void RenderCredit();
 	void RenderDarkMode();
+
+	void SetupTile(int x, int y);
+	void RenderTile(int x, int y, Rectangle dst);
 };

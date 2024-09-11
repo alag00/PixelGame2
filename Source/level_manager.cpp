@@ -197,6 +197,7 @@ bool LevelManager::Update()
 			SetTile(pos.x, pos.y, L'G');
 		}
 	}
+	miscManager.UpdateDartTrapsPoints(dt);
 	if (levelDarkMode)
 	{
 		darkProgress += (player.GetLookSide()) ? -2.f * dt: 2.f * dt;
@@ -473,6 +474,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// Stone Background
 		return false;
 	}
+	if (tileTypeOne == L'd' || tileTypeTwo == L'd')
+	{
+		// Dirt Background
+		return false;
+	}
 	if (tileTypeOne == L'{' || tileTypeTwo == L'{')
 	{
 		// GraveStone 1
@@ -627,95 +633,7 @@ void LevelManager::LevelSetup()
 	{
 		for (int x = 0; x < nLevelWidth; x++)
 		{
-			if (GetTile(x, y) == L'C')
-			{
-				miscManager.CreateCheckPoint(x, y);
-				continue;
-			}
-			if (GetTile(x, y) == L'S')
-			{
-				currentCheckPoint = { (float)x, (float)y };
-				player.SetPosition((float)x , (float)y );
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'K')
-			{
-				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreateKnight(Vector2((float)x, (float)y), isBoss);
-				SetTile(x, y, L'.');
-			
-				continue;
-			}
-			if (GetTile(x, y) == L'Z')
-			{
-			
-				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false ;
-				enemyManager.CreateSkeleton(Vector2((float)x, (float)y), isBoss);
-				SetTile(x, y, L'.');
-			
-				continue;
-			}
-			if (GetTile(x, y) == L'N')
-			{
-				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreateNecromancer(Vector2((float)x, (float)y), isBoss);
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'P')
-			{
-				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreatePyromancer(Vector2((float)x, (float)y), isBoss);
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'W')
-			{
-				enemyManager.CreateWeepingAngel(Vector2((float)x, (float)y));
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'p')
-			{
-				bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
-				enemyManager.CreatePumpkin(Vector2((float)x, (float)y), isBoss);
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'=')
-			{
-				miscManager.CreateBarrierPoint(Vector2((float)x,(float)y));
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'G')
-			{
-				miscManager.CreateGrapplingPoint(x,y);
-				continue;
-			}
-			if(currentLevel != 1)
-			{
-				continue;
-			}
-			if (GetTile(x, y) == L'1')
-			{
-				tutorialPos1 = Vector2((float)x, (float)y);
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'2')
-			{
-				tutorialPos2 = Vector2((float)x, (float)y);
-				SetTile(x, y, L'.');
-				continue;
-			}
-			if (GetTile(x, y) == L'3')
-			{
-				tutorialPos3 = Vector2((float)x, (float)y);
-				SetTile(x, y, L'.');
-				continue;
-			}
+			SetupTile(x, y);
 		}
 	}
 	
@@ -745,14 +663,17 @@ void LevelManager::LevelRender()
 	cameraTargetPos.y = cam.target.y / nTileHeight;
 
 
-	Rectangle src{ 0.f,0.f, 16.f, 16.f };
+	//Rectangle src{ 0.f,0.f, 16.f, 16.f };
 	Rectangle dst{ 0.f, 0.f,0.f,0.f };
-	Vector2 origin = { 0.f,0.f };
+	//Vector2 origin = { 0.f,0.f };
 	// Draw visible tile map
 	for (int y = static_cast<int>((cameraTargetPos.y - (nVisibleTilesY / 2.f) - 2)) ; y < (cameraTargetPos.y) +(nVisibleTilesY / 2.f) +1 ; y++)
 	{
 		for (int x = static_cast<int>((cameraTargetPos.x - (nVisibleTilesX / 2.f) - 2)) ; x < (cameraTargetPos.x) +(nVisibleTilesX / 2.f) + 1  ; x++)
 		{
+			dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+			RenderTile(x, y, dst);
+			/*
 			wchar_t sTileID = GetTile(x, y);
 			switch (sTileID)
 			{
@@ -809,6 +730,11 @@ void LevelManager::LevelRender()
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
+			case L'd': // Dirt Wall
+				src = { 32.f,32.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
 			case L'L': // Climb Block
 				src = { 80.f,0.f, 16.f, 16.f };
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
@@ -844,6 +770,11 @@ void LevelManager::LevelRender()
 				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 				break;
+			case L'T': // Dart Trap
+				src = { 80.f,48.f, 16.f, 16.f };
+				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+				break;
 			case L'B': // Activate Boss
 				break;
 			case L'V': // Activate Cutscene
@@ -873,6 +804,7 @@ void LevelManager::LevelRender()
 				DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, BLACK);
 				break;
 			}
+			*/
 		}
 	}
 
@@ -987,3 +919,199 @@ void LevelManager::RenderDarkMode() // -1.f to 1.f    left max to right max
 	DrawRectangleRec(topBar, BLACK);
 	DrawRectangleRec(botBar, BLACK);
 }
+
+void LevelManager::SetupTile(int x, int y)
+{
+	if (GetTile(x, y) == L'C')
+	{
+		miscManager.CreateCheckPoint(x, y);
+		return;
+	}
+	if (GetTile(x, y) == L'S')
+	{
+		currentCheckPoint = { (float)x, (float)y };
+		player.SetPosition((float)x, (float)y);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'K')
+	{
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreateKnight(Vector2((float)x, (float)y), isBoss);
+		SetTile(x, y, L'.');
+
+		return;
+	}
+	if (GetTile(x, y) == L'Z')
+	{
+
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreateSkeleton(Vector2((float)x, (float)y), isBoss);
+		SetTile(x, y, L'.');
+
+		return;
+	}
+	if (GetTile(x, y) == L'N')
+	{
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreateNecromancer(Vector2((float)x, (float)y), isBoss);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'P')
+	{
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreatePyromancer(Vector2((float)x, (float)y), isBoss);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'W')
+	{
+		enemyManager.CreateWeepingAngel(Vector2((float)x, (float)y));
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'p')
+	{
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreatePumpkin(Vector2((float)x, (float)y), isBoss);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'=')
+	{
+		miscManager.CreateBarrierPoint(Vector2((float)x, (float)y));
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'G')
+	{
+		miscManager.CreateGrapplingPoint(x, y);
+		return;
+	}
+	if (GetTile(x, y) == L'l')
+	{
+		miscManager.CreateDartTrapPoint(x, y, true);
+		SetTile(x, y, L'T');
+		return;
+	}
+	if (GetTile(x, y) == L'r')
+	{
+		miscManager.CreateDartTrapPoint(x, y, false);
+		SetTile(x, y, L'T');
+		return;
+	}
+	if (currentLevel != 1)
+	{
+		return;
+	}
+	if (GetTile(x, y) == L'1')
+	{
+		tutorialPos1 = Vector2((float)x, (float)y);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'2')
+	{
+		tutorialPos2 = Vector2((float)x, (float)y);
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'3')
+	{
+		tutorialPos3 = Vector2((float)x, (float)y);
+		SetTile(x, y, L'.');
+		return;
+	}
+}
+
+void LevelManager::RenderTile(int x, int y, Rectangle dst)
+{
+	Rectangle src{ 0.f,0.f,16.f,16.f };
+	Vector2 origin{ 0.f,0.f };
+
+	wchar_t sTileID = GetTile(x, y);
+	switch (sTileID)
+	{
+	case L'.': // Sky
+	case L'B': // Activate Boss
+	case L'V': // Activate Cutscene
+		return;
+	case L'#':// Brick
+		src = { 0.f,0.f, 16.f, 16.f };
+		break;
+	case L'x':// Brick2
+		src = { 0.f,32.f, 16.f, 16.f };
+		break;
+	case L'-': // Brick Wall
+		src = { 0.f,16.f, 16.f, 16.f };
+		break;
+	case L'y': // Brick Wall 2
+		src = { 0.f,48.f, 16.f, 16.f };
+		break;
+	case L'*': // Stone
+		src = { 16.f,0.f, 16.f, 16.f };
+		break;
+	case L'o': // Stone 2
+		src = { 16.f,32.f, 16.f, 16.f };
+		break;
+	case L',': // Stone Wall
+		src = { 16.f,16.f, 16.f, 16.f };
+		break;
+	case L'c': // Stone Wall 2
+		src = { 16.f,48.f, 16.f, 16.f };
+		break;
+	case L'_': // Dirt
+		src = { 32.f,16.f, 16.f, 16.f };
+		break;
+	case L'%': // Grass Dirt
+		src = { 32.f,0.f, 16.f, 16.f };
+		break;
+	case L'd': // Dirt Wall
+		src = { 32.f,32.f, 16.f, 16.f };
+		break;
+	case L'L': // Climb Block
+		src = { 80.f,0.f, 16.f, 16.f };
+		break;
+	case L'=': // Barrier Block
+		src = { 80.f,16.f, 16.f, 16.f };
+		break;
+	case L'D': // Death Block
+		src = { 80.f,32.f, 16.f, 16.f };
+		break;
+	case L'C': // CheckPoint Unclaimed
+		src = { 96.f,0.f, 16.f, 16.f };
+		break;
+	case L'?': // CheckPoint Claimed
+		src = { 96.f,16.f, 16.f, 16.f };
+		break;
+	case L'G': // Grappling Point
+		src = { 96.f,32.f, 16.f, 16.f };
+		break;
+	case L'R': // Valid Grappling Point
+		src = { 96.f,48.f, 16.f, 16.f };
+		break;
+	case L'T': // Dart Trap
+		src = { 80.f,48.f, 16.f, 16.f };
+		break;
+	case L'{': // Misc 1
+		src = { 112.f,0.f, 16.f, 16.f };
+		break;
+	case L'}': // Misc 2
+		src = { 112.f,16.f, 16.f, 16.f };
+		break;
+	case L'[': // Misc 3
+		src = { 112.f, 32.f, 16.f, 16.f };
+		break;
+	case L']': // Misc 4
+		src = { 112.f, 48.f, 16.f, 16.f };
+		break;
+
+	default:
+		DrawRectangleRec(dst, BLACK);
+		return;
+	}
+	DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
+}
+
+

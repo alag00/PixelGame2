@@ -3,17 +3,21 @@
 void MiscManager::Unload()
 {
 	UnloadSound(checkPointSound);
+
+	UnloadTexture(dartTxr);
 }
 void MiscManager::Setup(Entity& ref)
 {
-	playerRef = &ref;
 	checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
+	dartTxr = LoadTexture("Assets/DartAtlas.png");
+	playerRef = &ref;
 }
 void MiscManager::ClearLists()
 {
 	checkPointList.clear();
 	barrierList.clear();
 	grappPointList.clear();
+	dartTrapList.clear();
 	//barrier.Clear();
 }
 void MiscManager::CreateCheckPoint(int x, int y)
@@ -32,6 +36,13 @@ void MiscManager::CreateGrapplingPoint(int x, int y)
 	GrapplingPoint newGrappPoint;
 	newGrappPoint.Setup(Vector2((float)x, (float)y), *playerRef);
 	grappPointList.push_back(newGrappPoint);
+}
+void MiscManager::CreateDartTrapPoint(int x, int y, bool left)
+{
+	DartTrap newDartTrap;
+	newDartTrap.Setup(Vector2((float)x, (float)y), *playerRef, dartTxr, left);
+	dartTrapList.push_back(newDartTrap);
+	
 }
 int MiscManager::UpdateCheckPoints()
 {
@@ -75,6 +86,17 @@ int MiscManager::UpdateGrapplingPoints()
 	}
 	return 4444;
 }
+void MiscManager::UpdateDartTrapsPoints(float dt)
+{
+	if (dartTrapList.empty())
+	{
+		return;
+	}
+	for (int i = 0; i < dartTrapList.size(); i++)
+	{
+		dartTrapList.at(i).Update(dt);
+	}
+}
 void MiscManager::Render() 
 {
 	for (int i = 0; i < checkPointList.size(); i++)
@@ -84,6 +106,10 @@ void MiscManager::Render()
 	for (int i = 0; i < grappPointList.size(); i++)
 	{
 		grappPointList.at(i).Render();
+	}
+	for (int i = 0; i < dartTrapList.size(); i++)
+	{
+		dartTrapList.at(i).Render();
 	}
 }
 

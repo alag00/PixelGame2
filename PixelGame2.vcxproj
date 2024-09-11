@@ -141,6 +141,7 @@
     <ClCompile Include="Source\check_point.cpp" />
     <ClCompile Include="Source\cutscene.cpp" />
     <ClCompile Include="Source\cutscene_manager.cpp" />
+    <ClCompile Include="Source\dart_trap_point.cpp" />
     <ClCompile Include="Source\dialogue.cpp" />
     <ClCompile Include="Source\enemy.cpp" />
     <ClCompile Include="Source\enemy_knight.cpp" />
@@ -167,6 +168,7 @@
     <ClInclude Include="Source\check_point.h" />
     <ClInclude Include="Source\cutscene.h" />
     <ClInclude Include="Source\cutscene_manager.h" />
+    <ClInclude Include="Source\dart_trap_point.h" />
     <ClInclude Include="Source\dialogue.h" />
     <ClInclude Include="Source\enemy.h" />
     <ClInclude Include="Source\enemy_knight.h" />
