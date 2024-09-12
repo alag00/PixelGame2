@@ -86,10 +86,15 @@ void Player::Update(float dt)
 		DamageRecovery(dt);
 		break;
 	case STATUS::LOSTADVANTAGE:
-
+		vel.y += 20.f * dt;
+		QueueAttackCheck();
 		if (anim.GetCurrentFrame() >= 6)
 		{
 			status = STATUS::IDLE;
+			if (queuedAttack)
+			{
+				InitAttack();
+			}
 		}
 		break;
 	case STATUS::CLIMB:
@@ -365,10 +370,7 @@ void Player::SetOnGround(bool newValue)
 void Player::Attack(float dt)
 {
 	vel.y += 20.f * dt;
-	if (IsKeyPressed(KEY_O))
-	{
-		queuedAttack = true;
-	}
+	QueueAttackCheck();
 	attackBox = { pos.x, pos.y - 0.5f , 2.f, 1.5 };
 	attackBox.x = (!lookRight) ? pos.x -1.f : pos.x;
 
@@ -447,10 +449,13 @@ bool Player::CollisionCheck(Entity& enemy)
 				SetSoundPitch(hitSound, randNum);
 				PlaySound(hitSound);
 
+				LoseAdvantage();
+				/*
 				if (queuedAttack)
 				{
 					InitAttack();
 				}
+				*/
 				return true;
 			}
 
@@ -496,6 +501,18 @@ bool Player::IsInAttackMode()
 	return true;
 }
 
+void Player::QueueAttackCheck()
+{
+	if (IsKeyPressed(KEY_O))
+	{
+		queuedAttack = true;
+	}
+	else if (IsKeyDown(KEY_A) || IsKeyDown(KEY_D))
+	{
+		queuedAttack = false;
+	}
+}
+
 bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 {
 	if (status == STATUS::DAMAGED)
@@ -523,7 +540,7 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 		return true;
 	}
 	anim.SetAnimation(successDeflectAtlas, 5, false);
-	vel.x = (sourcePos.x > pos.x) ? -15.f : 15.f;
+	vel.x = (sourcePos.x > pos.x) ? -20.f : 20.f;
 	playParticle = true;
 
 	return false;

@@ -39,7 +39,7 @@ void PyromancerEnemy::Setup() {
 	rightBorder.y = pos.y;
 
 
-	maxHealth = 50;
+	maxHealth = 200;
 	health = maxHealth;
 	anim.SetAnimation(firstPhaseSprites[0], 8, true);
 	for (int i = 0; i < 3; i++)
@@ -244,16 +244,18 @@ void PyromancerEnemy::Act(float dt) {
 	}
 }
 void PyromancerEnemy::Render() {
-	if (!IsAlive())
-	{
-		anim.UpdateAnimator(GetFrameTime());
-	}
+
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 16.f , size.x, size.y };
 	Vector2 origin = {dst.width /2.f, dst.height * 0.75f };
 
 	Color color = (dec != DAMAGED) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
+	if (!IsAlive())
+	{
+		anim.UpdateAnimator(GetFrameTime());
+		return;
+	}
 	/*
 	Rectangle testBox{ attackBox.x * 64.f, attackBox.y * 64.f,attackBox.width * 64.f ,attackBox.height * 64.f };
 	Color color = YELLOW;

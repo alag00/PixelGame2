@@ -162,10 +162,15 @@ void PumpkinEnemy::CollisionCheck()
 	{
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
-			health -= 10;
-			UpdateAgroSwitch();
-			dec = DAMAGED;
-			anim.SetAnimation(textures[4], 5, false);
+			health -= 5;
+			//UpdateAgroSwitch();
+			if (health <= 0)
+			{
+				dec = DAMAGED;
+				anim.SetAnimation(textures[4], 5, false);
+			}
+			//dec = DAMAGED;
+			//anim.SetAnimation(textures[4], 5, false);
 
 		}
 	}
@@ -256,6 +261,11 @@ bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	if (dec == ATTACK)
 	{
 		health -= static_cast<int>(potentialDamage / 2);
+		if (health <= 0)
+		{
+			dec = DAMAGED;
+			anim.SetAnimation(textures[4], 5, false);
+		}
 		return true;
 	}
 	dec = DAMAGED;

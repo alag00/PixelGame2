@@ -20,15 +20,11 @@ void GrapplingPoint::Update()
 void GrapplingPoint::Render()
 {
 	//DrawCircle(static_cast<int>(pos.x * 64), static_cast<int>(pos.y * 64), 10.f, BLUE);
-	if (!inRange)
+	if (!isIdeal)
 	{
 		return;
 	}
-	Color color = YELLOW;
-	if (isIdeal)
-	{
-		color = RED;
-	}
-	DrawText("Press 'Q'", (int)pos.x * 64, (int)pos.y * 64, 30, color);
+
+	DrawText("'Q'", (int)pos.x * 64 + 16, (int)pos.y * 64 +64, 40, WHITE);
 
 }

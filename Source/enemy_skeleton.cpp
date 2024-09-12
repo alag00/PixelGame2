@@ -81,6 +81,7 @@ void SkeletonEnemy::Act(float dt) {
 	attackTimer -= dt;
 	hitBox = { pos.x, pos.y - 1.f , 1.5f,2.f };
 	hitBox.x = (lookRight) ? pos.x - 1.f : pos.x - 0.5f;
+	damagedTimer -= dt;
 	switch (dec)
 	{
 	case DECISION::IDLE:
@@ -114,7 +115,7 @@ void SkeletonEnemy::Render() {
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f};//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
-	Color color =(dec != DAMAGED) ?WHITE : RED;
+	Color color = (dec == DAMAGED || damagedTimer > 0.f) ? RED : WHITE;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
 	//Color color = YELLOW;
@@ -172,13 +173,18 @@ bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 		return false;
 	}
 	(void)sourcePos;
-	dec = DAMAGED;
-	anim.SetAnimation(blockAtlas, 5, false);
+	
 	//playerRef->LoseAdvantage();
 	attackTimer = 0.f;
-	
+	damagedTimer = 0.1f;
 	health -= potentialDamage;
 	lastAttackId = id;
+	if (health <= 0)
+	{
+
+		dec = DAMAGED;
+		anim.SetAnimation(blockAtlas, 5, false);
+	}
 	return true;
 }
 

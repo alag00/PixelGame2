@@ -37,6 +37,8 @@ private:
 
 	float attackCooldown = 1.f;
 	float attackTimer = attackCooldown;
+
+	float damagedTimer = 0.f;
 public:
 
 	~SkeletonEnemy();

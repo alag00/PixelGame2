@@ -123,6 +123,7 @@ public:
 	bool CollisionCheck(Entity& enemy);
 
 	bool IsInAttackMode();
+	void QueueAttackCheck();
 
 	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
 
