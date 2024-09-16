@@ -4,9 +4,9 @@ Dialogue::~Dialogue()
 {
 }
 
-void Dialogue::QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText)
+void Dialogue::QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText, bool speakerLeft, Color col)
 {
-	Speech newSpeech = { newText, leftPort, rightPort };
+	Speech newSpeech = { newText, leftPort, rightPort, speakerLeft, col};
 	speechList.push_back(newSpeech);
 }
 
@@ -61,20 +61,38 @@ void Dialogue::Render()
 	textBox.y -= textBox.height;
 	DrawRectangleRec(textBox, BROWN);
 	//DrawRectangle(0, 0, 200, 100, BROWN);
-
+	Color nonSpeakColor = GRAY;
 	Rectangle src = { 0.f,0.f, 80.f, 80.f };
 	Vector2 origin = { 0.f,0.f };
 
-	float width = (float)speechList.front().rPort.width * 3.f;
-	float height = (float)speechList.front().rPort.height * 3.f;
+	float width = (float)speechList.front().rPort.width * 4.f;
+	float height = (float)speechList.front().rPort.height * 4.f;
 
 	Rectangle dst = { textBox.x - width, (float)GetScreenHeight() - height, width, height };
-	DrawRectangleRec(dst, DARKBROWN);
-	DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, WHITE);
-
+	if (!speechList.front().speakerLeft)
+	{
+		dst.y += 30.f;
+		DrawRectangleRec(dst, DARKBROWN);
+		DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, nonSpeakColor);
+	}
+	else
+	{
+		DrawRectangleRec(dst, DARKBROWN);
+		DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, WHITE);
+	}
 	dst = { textBox.x + textBox.width, (float)GetScreenHeight() - height, width, height };
-	DrawRectangleRec(dst, DARKBROWN);
-	DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, WHITE);
+	//DrawRectangleRec(dst, DARKBROWN);
+	if (speechList.front().speakerLeft)
+	{
+		dst.y += 30.f;
+		DrawRectangleRec(dst, DARKBROWN);
+		DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, nonSpeakColor);
+	}
+	else
+	{
+		DrawRectangleRec(dst, DARKBROWN);
+		DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, WHITE);
+	}
 	/*
 	if (speechList.front().leftSide)
 	{
@@ -102,5 +120,7 @@ void Dialogue::Render()
 		DrawTexturePro(speechList.front().speaker, src, dst, origin, 0.f, WHITE);
 	}
 	*/
-	DrawText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, YELLOW);
+	txtRend.RenderText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, speechList.front().textCol, BLACK);
+	//DrawText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, WHITE);
+	//DrawText(speechList.front().text, (int)textBox.x + 10 + 1, (int)textBox.y + 10 + 1, 30, BLACK);
 }

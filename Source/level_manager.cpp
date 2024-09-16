@@ -43,7 +43,7 @@ void LevelManager::LoadScene()
 	
 	//tileTextures = LoadTexture("Assets/TileTextures/Textures.png");
 
-	bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
+	//bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
 	/*
 	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
 	plainMusic = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
@@ -51,7 +51,7 @@ void LevelManager::LoadScene()
 	*/
 
 	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
-	currentSong = bossMusic;
+	//currentSong = bossMusic;
 	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
 
@@ -118,6 +118,10 @@ bool LevelManager::Update()
 			cutscenePlayed = true;
 			filter.StartEffect(FADE_TO_BLACK);
 			currentEvent = EndCutscene;
+			if (levels.GetCutsceneID() > 0)
+			{
+				StartBoss();
+			}
 		}
 		return exitLevel;
 	}
@@ -399,15 +403,7 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		{
 			return false;
 		}
-		// BossTime
-		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
-		{
-			Vector2 pos = miscManager.GetBarrierList().at(i);
-			SetTile(pos.x, pos.y, L'=');
-		}
-		enemyManager.SetBossActive(true);
-		currentSong = bossMusic;
-		PlayMusicStream(currentSong);
+		StartBoss();
 		return false;
 	}
 	if (tileTypeOne == L'V' || tileTypeTwo == L'V')
@@ -610,6 +606,7 @@ void LevelManager::LevelSetup()
 	currentSong = levels.GetLevelSong();
 	PlayMusicStream(currentSong);
 	currentLevelSong = currentSong;
+	currentBossSong = levels.GetBossSong();
 	currentTileTextures = levels.GetLevelTexture();
 	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 
@@ -626,6 +623,7 @@ void LevelManager::LevelSetup()
 
 	miscManager.ClearLists();
 	bossDefeated = false;
+	cutscenePlayed = false;
 	//checkPointList.clear();
 
 	//int totalEnemies = 0;
@@ -824,18 +822,31 @@ void LevelManager::RenderTutorial()
 	float range = 5.f;
 	if (tut1Dist < range)
 	{
-		
-		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, YELLOW);
-		DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, YELLOW);
+		txtRend.RenderText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, WHITE, BLACK);
+		/*
+		DrawRectangle(static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 300, 75, BROWN);
+
+		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, BLACK);
+		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize)-3, static_cast<int>(tutorialPos1.y * config.tileSize) -3 , 30, WHITE);
+		*/
+		txtRend.RenderText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, WHITE, BLACK);
+		//DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, BLACK);
+		//DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize) - 3, static_cast<int>(tutorialPos1.y * config.tileSize + 30) - 3, 30, WHITE);
 	}
 	else if (tut2Dist < range)
 	{
-		DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, YELLOW);
-		DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, YELLOW);
+		txtRend.RenderText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, WHITE, BLACK);
+		//DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, BLACK);
+		//DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize)-3, static_cast<int>(tutorialPos2.y * config.tileSize)-3, 30, WHITE);
+
+		txtRend.RenderText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, WHITE, BLACK);
+		//DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, BLACK);
+		//DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize)-3, static_cast<int>(tutorialPos2.y * config.tileSize + 30)-3, 30, WHITE);
 	}
 	else if (tut3Dist < range)
 	{
-		DrawText("Touch Glowing Gravestone to claim Checkpoint", static_cast<int>((tutorialPos3.x - 3) * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, YELLOW);
+		txtRend.RenderText("Press 'E' to claim a nearby Checkpoint", static_cast<int>(tutorialPos3.x * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, WHITE, BLACK);
+		//DrawText("Press 'E' to claim nearby Checkpoints", static_cast<int>((tutorialPos3.x - 3) * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, YELLOW);
 	}
 }
 
@@ -1134,4 +1145,15 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 	DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
 }
 
-
+void LevelManager::StartBoss()
+{
+	// BossTime
+	for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
+	{
+		Vector2 pos = miscManager.GetBarrierList().at(i);
+		SetTile(pos.x, pos.y, L'=');
+	}
+	enemyManager.SetBossActive(true);
+	currentSong = currentBossSong;
+	PlayMusicStream(currentSong);
+}

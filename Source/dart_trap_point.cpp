@@ -32,8 +32,15 @@ void DartTrap::Update(float dt)
 	{
 		bulletPos = pos;
 		timeAlive = 3.f;
+		active = true;
 	}
-	bulletPos.x += dt * speed;
+	
+	if (active)
+	{
+
+		bulletPos.x += dt * speed;
+	}
+	
 
 
 	Rectangle bulletBox{bulletPos.x, bulletPos.y, 2.f, 1.f};
@@ -41,12 +48,17 @@ void DartTrap::Update(float dt)
 	{
 		playerRef->GetHit(bulletPos, 10, 1);
 		bulletPos = pos;
+		active = false;
 		//timeAlive = 3.f;
 	}
 }
 
 void DartTrap::Render()
 {
+	if (!active)
+	{
+		return;
+	}
 	Rectangle dst{bulletPos.x * 64.f, bulletPos.y * 64.f, 32.f * 3.f, 16.f* 3.f};
 	Vector2 origin{0.f,0.f};
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);

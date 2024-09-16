@@ -3,6 +3,7 @@
 #include "entity.h"
 #include <cmath>
 #include "config.h"
+#include "text_render.h"
 
 class CheckPoint
 {
@@ -14,6 +15,7 @@ private:
 	Vector2 pos{ 0.f,0.f };
 	Entity* playerRef = nullptr;
 	Config config;
+	TextRenderer txtRend;
 public:
 	void SetActivated(bool newValue) { activated = newValue; }
 	bool GetActivated() { return activated; }

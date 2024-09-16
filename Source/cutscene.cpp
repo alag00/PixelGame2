@@ -23,9 +23,9 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB");
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB");
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB");
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB", true, YELLOW);
 }
 
 bool CastleCutscene::Update(float dt)
@@ -136,10 +136,10 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerJump, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB?");
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB?");
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB");
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB");
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB?", false, GREEN);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB", false, GREEN);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB", true, YELLOW);
 }
 
 bool GraveyardCutscene::Update(float dt)
@@ -180,9 +180,9 @@ bool GraveyardCutscene::Update(float dt)
 		}
 		break;
 	case 3:
+			cutsceneStage = 4;
 		if (enemyAnim.GetCurrentFrame() >= 6)
 		{
-			cutsceneStage = 4;
 		}
 		break;
 	case 4:

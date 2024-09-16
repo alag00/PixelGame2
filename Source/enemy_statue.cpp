@@ -29,6 +29,9 @@ void WeepingAngelEnemy::Setup()
 	health = maxHealth;
 
 	anim.SetAnimation(atlas, 3, true);
+
+	lookLeft = !lookLeft;
+	anim.FlipAnimationHorizontal();
 }
 
 void WeepingAngelEnemy::Sense()

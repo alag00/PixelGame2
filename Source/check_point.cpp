@@ -32,7 +32,9 @@ void CheckPoint::Render()
 	{
 		return;
 	}
-	Color color = YELLOW;
+	//Color color = YELLOW;
 	
-	DrawText("Press 'E'", static_cast<int>(pos.x * config.tileSize), static_cast<int>(pos.y * config.tileSize), 20, color);
+	txtRend.RenderText("'E'", static_cast<int>((pos.x + 0.4f) * config.tileSize), static_cast<int>((pos.y - 0.5f) * config.tileSize), 20, WHITE, BLACK);
+	//DrawText("'E'", static_cast<int>(pos.x * config.tileSize), static_cast<int>(pos.y * config.tileSize), 20, color);
+	//DrawText("'E'", static_cast<int>(pos.x * config.tileSize - 1), static_cast<int>(pos.y * config.tileSize - 1), 20, RED);
 }

@@ -31,9 +31,9 @@ void MiscManager::Setup(Entity& ref)
 	txrList[2][1] = LoadTexture("Assets/MiscObjectsTextures/Statue2.png");
 	txrList[2][2] = LoadTexture("Assets/MiscObjectsTextures/Statue3.png");
 
-	txrList[3][0] = txrList[0][0];
-	txrList[3][1] = txrList[0][0];
-	txrList[3][2] = txrList[0][0];
+	txrList[3][0] = LoadTexture("Assets/MiscObjectsTextures/SpookyTree1.png");
+	txrList[3][1] = LoadTexture("Assets/MiscObjectsTextures/SpookyTree2.png");
+	txrList[3][2] = LoadTexture("Assets/MiscObjectsTextures/SpookyTree3.png");
 
 	txrList[4][0] = txrList[0][0];
 	txrList[4][1] = txrList[0][0];
@@ -106,11 +106,11 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 		break;
 	case 6:
 	case 10:
-		worldMisc = 3;
+		worldMisc = 4;
 		break;
 	case 7:
 	case 8:
-		worldMisc = 4;
+		worldMisc = 3;
 		break;
 	}
 	BackgroundObject* newObject = new BackgroundObject();

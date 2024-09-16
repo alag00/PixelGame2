@@ -54,6 +54,12 @@ void EnemyManager::Unload()
 	}
 }
 
+void EnemyManager::SetBossActive(bool newValue)
+{
+	 isBossActive = newValue; 
+	 bossRef->active = newValue;
+}
+
 void EnemyManager::LoadEnemyAssets()
 {
 	// Txr
@@ -166,6 +172,7 @@ void EnemyManager::CreateNecromancer(Vector2 pos, bool isBoss)
 	{
 		bossRef = newEnemy;
 		newEnemy->isBoss = true;
+		newEnemy->active = false;
 	}
 	enemyList.push_back(newEnemy);
 }
@@ -182,6 +189,7 @@ void EnemyManager::CreatePyromancer(Vector2 pos, bool isBoss)
 	{
 		bossRef = newEnemy;
 		newEnemy->isBoss = true;
+		newEnemy->active = false;
 	}
 	enemyList.push_back(newEnemy);
 }

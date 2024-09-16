@@ -148,6 +148,8 @@ void PumpkinEnemy::Render()
 	Color color = (dec != DAMAGED) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
+	DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
+	DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
 	/*
 	Color color = YELLOW;
 	color.a = 50;

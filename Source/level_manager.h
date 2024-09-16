@@ -14,6 +14,7 @@
 #include "scene.h"
 #include "cutscene_manager.h"
 #include <cmath>
+#include "text_render.h"
 
 enum Events
 {
@@ -49,7 +50,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 7;
+	int currentLevel = 6;
 
 	Effect filter;
 
@@ -59,7 +60,7 @@ private:
 	//Music caveMusic{};
 	//Music plainMusic{};
 	//Music castleMusic{};
-	Music bossMusic{};
+	Music currentBossSong{};
 
 	Music currentLevelSong{};
 	Music currentSong{};
@@ -89,6 +90,7 @@ private:
 
 	bool levelDarkMode = false;
 	float darkProgress = 0.f; // 0.f to 1.f    left max to right max
+	TextRenderer txtRend;
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }
@@ -122,4 +124,6 @@ public:
 
 	void SetupTile(int x, int y);
 	void RenderTile(int x, int y, Rectangle dst);
+
+	void StartBoss();
 };

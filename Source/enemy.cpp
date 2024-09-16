@@ -5,6 +5,10 @@
 
 void Enemy::Update(float dt)
 {
+	if (isBoss && !active)
+	{
+		return;
+	}
 	timer += dt;
 	if (timer >= refreshRate)
 	{

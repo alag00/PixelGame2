@@ -12,8 +12,8 @@ private:
 	Vector2 bulletPos{ 0.f,0.f };
 
 	Animator anim;
-
-	float timeAlive = 3.f;
+	bool active = true;
+	float timeAlive = 0.f;
 	float speed = 10.f;
 public:
 	~DartTrap();

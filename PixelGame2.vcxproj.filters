@@ -179,5 +179,8 @@
     <ClInclude Include="Source\background_object.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Source\text_render.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

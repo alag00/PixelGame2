@@ -32,6 +32,7 @@ private:
 	Texture2D jumpAtlas = {};
 	Texture2D ledgeAtlas = {};
 	Texture2D climbAtlas{};
+	Texture2D climbSlideAtlas{};
 	Texture2D hookAtlas{};
 
 	Texture2D damagedAtlas = {};
@@ -89,6 +90,7 @@ private:
 	int currentAttackId = 1;
 	int lastAttackId = 0;
 	bool queuedAttack = false;
+	bool queuedDeflect = false;
 
 	Vector2 grappPoint = {0.f,0.f};
 	bool inHookAnim = true;
@@ -134,6 +136,7 @@ public:
 	Vector2 GetCenter();
 	void DamageRecovery(float dt);
 	void InitAttack();
+	void InitDeflect();
 	void LoseAdvantage();
 
 	void Die();

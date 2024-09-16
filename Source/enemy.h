@@ -21,8 +21,8 @@ private:
 	float timer = 0.f;
 	float refreshRate = 0.1f;
 	bool isAlive = true;
-
 public:
+	bool active = true;
 	bool isBoss = false;
 	Vector2 startPos{ 0.f,0.f };
 	void SetStartPos(Vector2 newPos) { startPos = newPos; pos = startPos; }

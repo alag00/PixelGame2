@@ -278,11 +278,15 @@ bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 		return false;
 	}
 	(void)sourcePos;
-	//dec = DAMAGED;
-	//anim.SetAnimation(blockAtlas, 5, false);
+	
 	damagedTimer = 0.1f;
 	health -= potentialDamage;
 	lastAttackId = id;
+	if (health <= 0)
+	{
+		dec = DAMAGED;
+		anim.SetAnimation(blockAtlas, 5, false);
+	}
 	return true;
 }
 

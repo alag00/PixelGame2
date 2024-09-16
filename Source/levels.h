@@ -14,6 +14,9 @@ private:
 	Music currentSong{};
 	Music songList[3];
 
+	Music currentBossSong{};
+	Music bossSongList[2];
+
 	Texture2D currentBackgrounds[3]{};
 	Texture2D backgroundTxrs[5][3]{};
 
@@ -29,6 +32,7 @@ public:
 	char GetBossChar() { return bossChar; }
 	int GetCutsceneID() { return cutsceneID; }
 	Music GetLevelSong() { return currentSong; }
+	Music GetBossSong() { return currentBossSong; }
 	Texture2D GetLevelTexture() { return currentTileTxr; }
 	bool GetLevelDarkMode() { return darkMode; }
 	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }

@@ -192,6 +192,7 @@
     <ClInclude Include="Source\scene_manager.h" />
     <ClInclude Include="Source\screen_effects.h" />
     <ClInclude Include="Source\config.h" />
+    <ClInclude Include="Source\text_render.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

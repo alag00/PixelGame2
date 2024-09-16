@@ -32,8 +32,8 @@ void PyromancerEnemy::Setup() {
 	size.x = 80.f * scale;
 	size.y = 64.f * scale;
 
-	leftBorder.x = pos.x - 10;
-	rightBorder.x = pos.x + 10;
+	leftBorder.x = pos.x - 15;
+	rightBorder.x = pos.x + 15;
 
 	leftBorder.y = pos.y;
 	rightBorder.y = pos.y;
@@ -630,6 +630,7 @@ void PyromancerEnemy::Reset() {
 	{
 		return;
 	}
+
 	SetIsAlive(true);
 	anim.SetAnimation(firstPhaseSprites[0], 8, false);
 	health = maxHealth;
