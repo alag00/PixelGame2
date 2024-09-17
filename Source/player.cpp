@@ -481,7 +481,12 @@ bool Player::CollisionCheck(Entity& enemy)
 			if (CheckCollisionRecs(attackBox, enemy.hitBox))
 			{
 				status = STATUS::IDLE;
+
+				particleAnim.RestartAnimation();
 				playParticle = true;
+				float xOffset = (GetCenter().x - enemy.pos.x) / 2.f;
+				float yOffset = (GetCenter().y - enemy.pos.y) / 2.f;
+				particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
 
 				vel.x = (lookRight) ? -20.f : 20.f;
 
@@ -511,7 +516,12 @@ bool Player::CollisionCheck(Entity& enemy)
 		if (CheckCollisionRecs(attackBox, enemy.hitBox))
 		{
 			
+			particleAnim.RestartAnimation();
 			playParticle = true;
+			float xOffset = (GetCenter().x - enemy.pos.x) / 2.f;
+			float yOffset = (GetCenter().y - enemy.pos.y) / 2.f;
+			particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
+
 			enemy.GetHit(pos, 10, currentAttackId);
 
 			status = STATUS::AIRRECOVERY;
@@ -594,7 +604,13 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	}
 	anim.SetAnimation(successDeflectAtlas, 5, false);
 	vel.x = (sourcePos.x > pos.x) ? -20.f : 20.f;
+
+	particleAnim.RestartAnimation();
 	playParticle = true;
+	float xOffset = (GetCenter().x - sourcePos.x) / 2.f;
+	float yOffset = (GetCenter().y - sourcePos.y) / 2.f;
+	particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
+
 
 	return false;
 }
@@ -622,11 +638,11 @@ void Player::RenderParticles()
 	{
 		return;
 	}
-	Rectangle dst = { pos.x, pos.y, size.x, size.y };
-	dst = { pos.x * 64.f + 32.f, pos.y * 64.f + 40.f, size.x, size.y };
+	Rectangle dst = { particlePos.x * 64.f, particlePos.y * 64.f, size.x, size.y };
+	
 	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
 
-	dst.x = (lookRight) ? dst.x + 16.f : dst.x - 16.f;
+	//dst.x = (lookRight) ? dst.x + 16.f : dst.x - 16.f;
 	particleAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
 }
@@ -715,6 +731,13 @@ void Player::LoseAdvantage()
 void  Player::Die()
 {
 	PlaySound(deathSound);
+}
+
+void Player::Respawn()
+{
+	status = STATUS::IDLE;
+	anim.SetAnimation(idleAtlas, 8, true);
+	health = maxHealth;
 }
 
 

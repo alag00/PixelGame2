@@ -114,14 +114,11 @@ bool LevelManager::Update()
 	{
 		if (cutsceneManager.Update(dt))
 		{
-			isCutscening = false;
+			//isCutscening = false;
 			cutscenePlayed = true;
 			filter.StartEffect(FADE_TO_BLACK);
 			currentEvent = EndCutscene;
-			if (levels.GetCutsceneID() > 0)
-			{
-				StartBoss();
-			}
+			
 		}
 		return exitLevel;
 	}
@@ -226,11 +223,11 @@ void LevelManager::CheckEvent()
 	case Die:
 		filter.StartEffect(FADE_FROM_BLACK);
 		player.SetPosition(currentCheckPoint.x, currentCheckPoint.y);
-		player.health = player.maxHealth;
-	
+		player.Respawn();
 		enemyManager.Reset();
 		enemyManager.SetBossActive(false);
-
+		currentSong = currentLevelSong;
+		PlayMusicStream(currentSong);
 		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 		{
 			Vector2 pos = miscManager.GetBarrierList().at(i);
@@ -251,6 +248,12 @@ void LevelManager::CheckEvent()
 		break;
 	case EndCutscene:
 		filter.StartEffect(FADE_FROM_BLACK);
+		isCutscening = false;
+		if (levels.GetCutsceneID() > 0)
+		{
+			StartBoss();
+		}
+		// Stop Rendering Cutscene
 		break;
 	}
 
@@ -522,6 +525,7 @@ void LevelManager::Render()
 	if (isCutscening)
 	{
 		cutsceneManager.Render();
+		filter.Render();
 		EndMode2D();
 		cutsceneManager.RenderUI();
 		EndDrawing();
@@ -885,12 +889,17 @@ void LevelManager::RenderHpBars()
 {
 	if (currentEvent != NextLevel && currentEvent != Die)
 	{
-		Rectangle blackBar{ 64.f, (float)screenHeight, 200.f, 48.f };
-		blackBar.y -= blackBar.x + blackBar.height;
-		DrawRectangleRec(blackBar, BLACK);
+		float margin = 3.f;
+		Rectangle bar{ 64.f - margin, (float)screenHeight , 200.f + margin * 2.f,  48.f + margin * 2.f };
+		bar.y -= bar.x + bar.height;
+		DrawRectangleRec(bar, YELLOW);
 
-		float margin = 5.f;
-		Rectangle remainingHealth = { blackBar.x + margin, blackBar.y + margin, blackBar.width - margin * 2.f, blackBar.height - margin * 2.f };
+		bar = { 64.f, (float)screenHeight, 200.f, 48.f };
+		bar.y -= bar.x + bar.height;
+		DrawRectangleRec(bar, BLACK);
+
+		margin = 4.f;
+		Rectangle remainingHealth = { bar.x + margin, bar.y + margin, bar.width - margin * 2.f, bar.height - margin * 2.f };
 		float percent = (float)player.health / (float)player.maxHealth;
 		remainingHealth.width *= percent;
 

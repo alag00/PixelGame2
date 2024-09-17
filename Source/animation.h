@@ -20,4 +20,5 @@ public:
 	int GetCurrentFrame() { return currentFrame; }
 
 	void UpdateAnimator(float dt);
+	void RestartAnimation();
 };

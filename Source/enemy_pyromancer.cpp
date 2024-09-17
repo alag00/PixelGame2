@@ -39,7 +39,7 @@ void PyromancerEnemy::Setup() {
 	rightBorder.y = pos.y;
 
 
-	maxHealth = 200;
+	maxHealth = 100;
 	health = maxHealth;
 	anim.SetAnimation(firstPhaseSprites[0], 8, true);
 	for (int i = 0; i < 3; i++)
@@ -520,7 +520,7 @@ void PyromancerEnemy::CollisionCheck() {
 			UpdateAgroSwitch();
 			if (currentAttackNum != 1 && currentAttackNum != 4)
 			{
-				health -= 25;
+				health -= 10;
 				dec = DAMAGED;
 				if (inFirstPhase)
 				{
@@ -532,6 +532,7 @@ void PyromancerEnemy::CollisionCheck() {
 					anim.SetAnimation(secondPhaseSprites[2], 7, false);
 				}
 			}
+			pos.y = startPos.y;
 
 		}
 	}
@@ -594,10 +595,28 @@ void PyromancerEnemy::Damaged(float dt)
 	}
 }
 bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
+	if (health <= 0)
+	{
+		return false;
+	}
 	sourcePos;
 	potentialDamage;
 	id;
 	health -= potentialDamage;
+	if (health <= 0)
+	{
+		dec = DECISION::DAMAGED;
+		if (inFirstPhase)
+		{
+			anim.SetAnimation(firstPhaseSprites[3], 5, false);
+		}
+		else
+		{
+			anim.SetAnimation(secondPhaseSprites[2], 7, false);
+		}
+	}
+	pos.y = startPos.y;
+	/*
 	dec = DECISION::DAMAGED;
 	if (inFirstPhase)
 	{
@@ -607,6 +626,7 @@ bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	{
 		anim.SetAnimation(secondPhaseSprites[2], 7, false);
 	}
+	*/
 	return false;
 }
 void PyromancerEnemy::RenderUI() {
@@ -631,6 +651,7 @@ void PyromancerEnemy::Reset() {
 		return;
 	}
 
+	inFirstPhase = true;
 	SetIsAlive(true);
 	anim.SetAnimation(firstPhaseSprites[0], 8, false);
 	health = maxHealth;
@@ -677,6 +698,13 @@ void FireBall::Update(float dt)
 	anim.UpdateAnimator(dt);
 	pos.x += vel.x * speed* dt;
 	pos.y += vel.y * speed* dt;
+
+	Rectangle bulletBox{ pos.x, pos.y, 2.f, 1.f };
+	if (CheckCollisionRecs(playerRef->hitBox, bulletBox))
+	{
+		playerRef->GetHit(pos, 10, 1);
+		timeAlive = 0.f;
+	}
 }
 void FireBall::Render()
 {

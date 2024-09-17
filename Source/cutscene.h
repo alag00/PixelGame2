@@ -55,19 +55,20 @@ private:
 
 	float scale = 3.f;
 
-
 	Texture2D playerIdle{};
 	Texture2D playerWalk{};
-	Texture2D playerJump{};
+	//Texture2D playerJump{};
 	Animator playerAnim;
 	Vector2 playerPos{ 0.f,0.f };
 	Vector2 playerSize{ 0.f,0.f };
 
 	Texture2D enemyIdle{};
+	Texture2D enemyWalk{};
 	Texture2D enemyRefill{};
 	Animator enemyAnim;
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
+	Color enemyCol = GREEN;
 
 	Texture2D playerPort{};
 	//Texture2D playerSpeakPort{};
@@ -76,9 +77,17 @@ private:
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
-	int cutsceneStage = 0;
+	int cutsceneStage = 1;
 public:
 	void Setup(Vector2& ref) override;
+	void SetupStageOne();
+	void SetupStageTwo();
+	void SetupStageThree();
+	void SetupStageFour();
+	void SetupStageFive();
+	void SetupStageSix();
+	void SetupStageSeven();
+	void SetupStageEight();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;

@@ -61,7 +61,7 @@ void Dialogue::Render()
 	textBox.y -= textBox.height;
 	DrawRectangleRec(textBox, BROWN);
 	//DrawRectangle(0, 0, 200, 100, BROWN);
-	Color nonSpeakColor = GRAY;
+	Color nonSpeakColor = DARKGRAY;
 	Rectangle src = { 0.f,0.f, 80.f, 80.f };
 	Vector2 origin = { 0.f,0.f };
 
@@ -72,12 +72,12 @@ void Dialogue::Render()
 	if (!speechList.front().speakerLeft)
 	{
 		dst.y += 30.f;
-		DrawRectangleRec(dst, DARKBROWN);
+		//DrawRectangleRec(dst, DARKBROWN);
 		DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, nonSpeakColor);
 	}
 	else
 	{
-		DrawRectangleRec(dst, DARKBROWN);
+		//DrawRectangleRec(dst, DARKBROWN);
 		DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, WHITE);
 	}
 	dst = { textBox.x + textBox.width, (float)GetScreenHeight() - height, width, height };
@@ -85,12 +85,12 @@ void Dialogue::Render()
 	if (speechList.front().speakerLeft)
 	{
 		dst.y += 30.f;
-		DrawRectangleRec(dst, DARKBROWN);
+		//DrawRectangleRec(dst, DARKBROWN);
 		DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, nonSpeakColor);
 	}
 	else
 	{
-		DrawRectangleRec(dst, DARKBROWN);
+		//DrawRectangleRec(dst, DARKBROWN);
 		DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, WHITE);
 	}
 	/*

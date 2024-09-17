@@ -97,6 +97,8 @@ private:
 
 	float danceTimer = 0.f;
 	bool isDancing = false;
+
+	Vector2 particlePos{ 0.f,0.f };
 public:
 	void Unload();
 	Vector2 GetPosition() { return pos; }
@@ -140,6 +142,7 @@ public:
 	void LoseAdvantage();
 
 	void Die();
+	void Respawn();
 
 	void EnterClimbMode();
 	void ClimbControl(float dt);

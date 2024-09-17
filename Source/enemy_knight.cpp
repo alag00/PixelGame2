@@ -247,10 +247,16 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	{
 		return false;
 	}
+	
+	
+	
 	if (dec == ATTACK)
 	{
 		health -= static_cast<int>(potentialDamage / 2);
-		return true;
+	}
+	else
+	{
+		health -= potentialDamage;
 	}
 	dec = DAMAGED;
 	anim.SetAnimation(textures[5], 5, false);
@@ -259,9 +265,9 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 
 
 
-	health -= potentialDamage;
-	lastAttackId = id;
 
+	lastAttackId = id;
+	
 	
 	return true;
 }

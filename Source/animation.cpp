@@ -60,4 +60,9 @@ void Animator::UpdateAnimator(float dt)
 	}
 }
 
+void Animator::RestartAnimation()
+{
+	currentFrame = 0;
+}
+
 

@@ -245,11 +245,19 @@ void EnemyManager::RenderBossBar()
 {
 	if (isBossActive)
 	{
-		Rectangle blackBar{ GetScreenWidth() / 2.f,  GetScreenHeight() - 68.f , 500.f, 48.f};
-		DrawRectangleRec(blackBar, BLACK);
+		float margin = 3.f;
+		Rectangle bar{ GetScreenWidth() / 2.f - margin,  GetScreenHeight() - 64.f  , 500.f + margin * 2.f, 48.f + margin  * 2.f};
+		bar.y -= bar.height - margin;
+		DrawRectangleRec(bar, RED);
 
-		float margin = 5.f;
-		Rectangle remainingHealth = { blackBar.x + margin, blackBar.y + margin, blackBar.width - margin * 2.f, blackBar.height - margin * 2.f };
+		//DrawLine((int)bar.x, (int)bar.y, 0, (int)bar.y, WHITE);
+
+		bar = { GetScreenWidth() / 2.f,  GetScreenHeight() - 64.f , 500.f, 48.f};
+		bar.y -= bar.height;
+		DrawRectangleRec(bar, BLACK);
+
+		margin = 4.f;
+		Rectangle remainingHealth = { bar.x + margin, bar.y + margin, bar.width - margin * 2.f, bar.height - margin * 2.f };
 		float percent = (float)bossRef->health / (float)bossRef->maxHealth;
 		remainingHealth.width *= percent;
 
