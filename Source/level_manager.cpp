@@ -245,6 +245,8 @@ void LevelManager::CheckEvent()
 	case StartCutscene:
 		isCutscening = true;
 		filter.StartEffect(FADE_FROM_BLACK);
+		currentSong = currentCutsceneSong;
+		PlayMusicStream(currentSong);
 		break;
 	case EndCutscene:
 		filter.StartEffect(FADE_FROM_BLACK);
@@ -611,6 +613,7 @@ void LevelManager::LevelSetup()
 	PlayMusicStream(currentSong);
 	currentLevelSong = currentSong;
 	currentBossSong = levels.GetBossSong();
+	currentCutsceneSong = levels.GetCutsceneSong();
 	currentTileTextures = levels.GetLevelTexture();
 	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 

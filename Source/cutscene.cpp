@@ -23,9 +23,67 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB", true, YELLOW);
+	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB", false, PURPLE);
+	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB", false, PURPLE);
+	//dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB", true, YELLOW);
+
+
+	// Turns
+
+	/*
+			Player walks in
+		Nekros: Hm, now where did I put the tome?
+		Nekros: I could have sworn I put it right here...
+			Nekros turns
+		Nekros: Woah!
+		Player: ...
+		Nekros: How long have you been standing there?
+		Nekros: ...
+		Nekros: What a minute, I know you!
+		Nekros: How are you still alive?
+		Player: All I will say is.
+		Player: You should have thrown me into a deeper well
+		Nekros: Is that so?
+		Nekros: Fine, if you want to die so be it
+		Nekros: Just another addition for my collection
+		Player: ...
+		Player: Just another body for my pile
+	*/
+}
+
+void CastleCutscene::SetupStageOne()
+{
+
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm, now where did I put the tome?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I could have sworn I put it right here...", false, PURPLE);
+
+	dialogue.SetActive(true);
+	cutsceneStage = 1;
+}
+
+void CastleCutscene::SetupStageTwo()
+{
+	playerAnim.SetAnimation(playerIdle, 8, true);
+
+	enemyAnim.FlipAnimationHorizontal();
+	enemyPos.x--;
+
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Woah!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How long have you been standing there?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, I know you!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How are you still alive?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "All I will say is.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "You should have thrown me into a deeper well", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Is that so?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Fine, if you want to die so be it", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Just another body for my collection", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "Just another body for my pile", true, YELLOW);
+
+	dialogue.SetActive(true);
+	cutsceneStage = 2;
 }
 
 bool CastleCutscene::Update(float dt)
@@ -40,25 +98,27 @@ bool CastleCutscene::Update(float dt)
 			playerPos.x += dt * 5.f;
 			if (playerPos.x >= 87.f)
 			{
-				playerAnim.SetAnimation(playerIdle, 8, true);
-				enemyAnim.FlipAnimationHorizontal();
-				enemyPos.x--;
-				cutsceneStage = 1;
-				dialogue.SetActive(true);
+				SetupStageOne();
+				//playerAnim.SetAnimation(playerIdle, 8, true);
+				//enemyAnim.FlipAnimationHorizontal();
+				//enemyPos.x--;
+				//cutsceneStage = 1;
+				//dialogue.SetActive(true);
 			}
 		}
 		break;
 	case 1:
 		if (!dialogue.GetActive())
 		{
-			cutsceneStage = 2;
+			SetupStageTwo();
 		}
 		break;
 	case 2:
-		return true;
-	case 3:
+		if (!dialogue.GetActive())
+		{
+			return true;
+		}
 		break;
-
 	}
 	
 
@@ -68,6 +128,7 @@ bool CastleCutscene::Update(float dt)
 
 	if (IsKeyPressed(KEY_P))
 	{
+		dialogue.SetActive(false);
 		return true;
 	}
 
@@ -94,6 +155,8 @@ void CastleCutscene::Render()
 void CastleCutscene::RenderUI()
 {
 	dialogue.Render();
+	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
+	//DrawText("Press 'P' to Skip", GetScreenWidth() / 2, 10, 40, YELLOW);
 }
 
 void CastleCutscene::Unload()
@@ -126,7 +189,7 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	enemyListenPort = LoadTexture("Assets/Portraits/GnobPortrait.png");
 	enemySpeakPort = LoadTexture("Assets/Portraits/GnobPortraitTalk.png");
 
-	enemyCol = { 90, 112, 100, 255 };
+	//enemyCol = { 90, 112, 100, 255 };
 	enemyPos = { 238.f, 17.f };
 	enemySize.x = 80.f * scale;
 	enemySize.y = 64.f * scale;
@@ -271,6 +334,12 @@ void GraveyardCutscene::SetupStageEight()
 	cutsceneStage = 8;
 }
 
+void GraveyardCutscene::SetupStageNine()
+{
+	enemyAnim.SetAnimation(enemyRefill, 12, false);
+	cutsceneStage = 9;
+}
+
 bool GraveyardCutscene::Update(float dt)
 {
 	playerAnim.UpdateAnimator(dt);
@@ -318,14 +387,20 @@ bool GraveyardCutscene::Update(float dt)
 		}
 		break;
 	case 7:
-		enemyPos.x -= dt * 2.f;
-		if (enemyPos.x <= 238.f)
+		enemyPos.x -= dt * 3.f;
+		if (enemyPos.x <= 237.f)
 		{
 			SetupStageEight();
 		}
 		break;
 	case 8:
 		if (!dialogue.GetActive())
+		{
+			SetupStageNine();
+		}
+		break;
+	case 9:
+		if (enemyAnim.GetCurrentFrame() >= 11)
 		{
 			return true;
 		}
@@ -341,6 +416,7 @@ bool GraveyardCutscene::Update(float dt)
 
 	if (IsKeyPressed(KEY_P))
 	{
+		dialogue.SetActive(false);
 		return true;
 	}
 
@@ -367,6 +443,9 @@ void GraveyardCutscene::Render()
 void GraveyardCutscene::RenderUI()
 {
 	dialogue.Render();
+
+	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
+	//DrawText("Press 'P' to Skip", 30, 30, 30, YELLOW);
 }
 
 void GraveyardCutscene::Unload()
@@ -383,3 +462,4 @@ void GraveyardCutscene::Unload()
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }
+

@@ -2,6 +2,7 @@
 
 Dialogue::~Dialogue()
 {
+	speechList.clear();
 }
 
 void Dialogue::QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText, bool speakerLeft, Color col)
@@ -59,7 +60,11 @@ void Dialogue::Render()
 	Rectangle textBox = { (float)GetScreenWidth() / 2.f, (float)GetScreenHeight(), (float)GetScreenWidth() / 2.f, 200.f };
 	textBox.x -= textBox.width / 2.f;
 	textBox.y -= textBox.height;
-	DrawRectangleRec(textBox, BROWN);
+	DrawRectangleRec(textBox, DARKBROWN);
+
+	int margin = 8;
+	DrawRectangle((int)textBox.x + margin, (int)textBox.y + margin, (int)textBox.width - margin * 2, (int)textBox.height - margin * 2, BROWN);
+
 	//DrawRectangle(0, 0, 200, 100, BROWN);
 	Color nonSpeakColor = DARKGRAY;
 	Rectangle src = { 0.f,0.f, 80.f, 80.f };
@@ -120,7 +125,7 @@ void Dialogue::Render()
 		DrawTexturePro(speechList.front().speaker, src, dst, origin, 0.f, WHITE);
 	}
 	*/
-	txtRend.RenderText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, speechList.front().textCol, BLACK);
+	txtRend.RenderText(speechList.front().text, (int)textBox.x + 30, (int)textBox.y + 30, 30, speechList.front().textCol, BLACK);
 	//DrawText(speechList.front().text, (int)textBox.x + 10, (int)textBox.y + 10, 30, WHITE);
 	//DrawText(speechList.front().text, (int)textBox.x + 10 + 1, (int)textBox.y + 10 + 1, 30, BLACK);
 }

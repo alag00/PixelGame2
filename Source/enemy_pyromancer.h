@@ -32,6 +32,7 @@ public:
 	void Setup(Vector2 newPos, Vector2 newTarget, bool left);
 	void Update(float dt);
 	void Render();
+	void Reset();
 
 };
 

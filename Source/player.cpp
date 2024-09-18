@@ -738,6 +738,7 @@ void Player::Respawn()
 	status = STATUS::IDLE;
 	anim.SetAnimation(idleAtlas, 8, true);
 	health = maxHealth;
+	vel = { 0.f,0.f };
 }
 
 
@@ -750,7 +751,7 @@ void Player::ClimbControl(float dt)
 {
 	dt;
 	vel = { 0.f,0.f };
-	vel.x += (lookRight) ? 10.f*dt : -10.f*dt ;
+	vel.x += (lookRight) ? 10.f*dt : -10.f*dt;
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		//Jump();

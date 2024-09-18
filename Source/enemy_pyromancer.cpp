@@ -262,8 +262,8 @@ void PyromancerEnemy::Render() {
 	color.a = 50;
 	DrawRectangleRec(testBox, color);
 	*/
-	DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
-	DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
+	//DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
+	//DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -657,6 +657,10 @@ void PyromancerEnemy::Reset() {
 	health = maxHealth;
 	pos = startPos;
 	dec = DECISION::IDLE;
+	for (int i = 0; i < 3; i++)
+	{
+		fireBalls[i].Reset();
+	}
 }
 
 
@@ -716,7 +720,11 @@ void FireBall::Render()
 	Vector2 origin = { 0.f,0.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	Color color = YELLOW;
-	color.a = 50;
-	DrawRectangleRec(dst, color);
+	//Color color = YELLOW;
+	//color.a = 50;
+	//DrawRectangleRec(dst, color);
+}
+void FireBall::Reset()
+{
+	timeAlive = 0.f;
 }

@@ -2,12 +2,14 @@
 #include "raylib.h"
 #include "animation.h"
 #include "dialogue.h"
+#include "text_render.h"
 
 class Cutscene
 {
 private:
 public:
 	virtual void Setup(Vector2& ref) { (void)ref; };
+
 	virtual bool Update(float dt) { (void)dt; return false; };
 	virtual void Render(){};
 	virtual void RenderUI() {};
@@ -39,9 +41,13 @@ private:
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
+	TextRenderer txtRend;
+
 	int cutsceneStage = 0;
 public:
 	void Setup(Vector2& ref) override;
+	void SetupStageOne();
+	void SetupStageTwo();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;
@@ -76,6 +82,7 @@ private:
 	Texture2D enemyListenPort{};
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
+	TextRenderer txtRend;
 
 	int cutsceneStage = 1;
 public:
@@ -88,6 +95,7 @@ public:
 	void SetupStageSix();
 	void SetupStageSeven();
 	void SetupStageEight();
+	void SetupStageNine();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;

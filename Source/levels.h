@@ -13,7 +13,7 @@ private:
 
 	Music currentSong{};
 	Music songList[3];
-
+	Music cutsceneSong{};
 	Music currentBossSong{};
 	Music bossSongList[2];
 
@@ -33,6 +33,7 @@ public:
 	int GetCutsceneID() { return cutsceneID; }
 	Music GetLevelSong() { return currentSong; }
 	Music GetBossSong() { return currentBossSong; }
+	Music GetCutsceneSong() { return cutsceneSong; }
 	Texture2D GetLevelTexture() { return currentTileTxr; }
 	bool GetLevelDarkMode() { return darkMode; }
 	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }
