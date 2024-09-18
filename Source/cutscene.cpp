@@ -53,6 +53,7 @@ void CastleCutscene::Setup(Vector2&ref)
 
 void CastleCutscene::SetupStageOne()
 {
+	playerAnim.SetAnimation(playerIdle, 8, true);
 
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm, now where did I put the tome?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I could have sworn I put it right here...", false, PURPLE);
@@ -63,7 +64,7 @@ void CastleCutscene::SetupStageOne()
 
 void CastleCutscene::SetupStageTwo()
 {
-	playerAnim.SetAnimation(playerIdle, 8, true);
+	
 
 	enemyAnim.FlipAnimationHorizontal();
 	enemyPos.x--;

@@ -253,11 +253,18 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	if (dec == ATTACK)
 	{
 		health -= static_cast<int>(potentialDamage / 2);
+
+		if (health <= 0)
+		{
+			dec = DAMAGED;
+			anim.SetAnimation(textures[5], 5, false);
+		}
+		return false;
 	}
-	else
-	{
+	
+	
 		health -= potentialDamage;
-	}
+	
 	dec = DAMAGED;
 	anim.SetAnimation(textures[5], 5, false);
 

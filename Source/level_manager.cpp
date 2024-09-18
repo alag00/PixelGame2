@@ -895,7 +895,7 @@ void LevelManager::RenderHpBars()
 		float margin = 3.f;
 		Rectangle bar{ 64.f - margin, (float)screenHeight , 200.f + margin * 2.f,  48.f + margin * 2.f };
 		bar.y -= bar.x + bar.height;
-		DrawRectangleRec(bar, YELLOW);
+		DrawRectangleRec(bar, GREEN);
 
 		bar = { 64.f, (float)screenHeight, 200.f, 48.f };
 		bar.y -= bar.x + bar.height;

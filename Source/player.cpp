@@ -27,6 +27,7 @@ void Player::Unload()
 	UnloadSound(hitSound);
 	UnloadSound(deathSound);
 	UnloadSound(jumpSound);
+	UnloadSound(hookSound);
 }
 
 void Player::Setup()
@@ -55,6 +56,7 @@ void Player::Setup()
 	hitSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
 	deathSound = LoadSound("Assets/Audio/SFX/PlayerDeath.mp3");
 	jumpSound = LoadSound("Assets/Audio/SFX/Jump.mp3");
+	hookSound = LoadSound("Assets/Audio/SFX/Hook.mp3");
 
 	anim.SetAnimation(idleAtlas, 8, true);
 	particleAnim.SetAnimation(deflectParticleAtlas, 5, true);
@@ -796,6 +798,11 @@ void Player::EnterGrapplingHookMode(Vector2 hookPos)
 	status = STATUS::HOOK;
 	anim.SetAnimation(hookAtlas, 5, false);
 	vel = { 0.f,0.f };
+
+	float randNum = (float)GetRandomValue(80, 120);
+	randNum /= 100.f;
+	SetSoundPitch(hookSound, randNum);
+	PlaySound(hookSound);
 
 }
 

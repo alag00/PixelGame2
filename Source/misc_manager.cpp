@@ -16,7 +16,7 @@ void MiscManager::Unload()
 }
 void MiscManager::Setup(Entity& ref)
 {
-	checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
+	checkPointSound = LoadSound("Assets/Audio/SFX/Checkpoint.mp3");
 	dartTxr = LoadTexture("Assets/Particles/DartAtlas.png");
 
 	txrList[0][0] = LoadTexture("Assets/MiscObjectsTextures/Rock1.png");

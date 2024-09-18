@@ -55,6 +55,7 @@ private:
 	Sound hitSound{};
 	Sound deathSound{};
 	Sound jumpSound{};
+	Sound hookSound{};
 
 	Vector2 size{0.f,0.f};
 	Vector2 vel{ 0.f,0.f };
