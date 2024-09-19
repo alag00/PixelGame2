@@ -57,7 +57,10 @@ void EnemyManager::Unload()
 void EnemyManager::SetBossActive(bool newValue)
 {
 	 isBossActive = newValue; 
-	 bossRef->active = newValue;
+	 if (bossRef != nullptr)
+	 {
+		 bossRef->active = newValue;
+	 }
 }
 
 void EnemyManager::LoadEnemyAssets()
