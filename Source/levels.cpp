@@ -552,12 +552,12 @@ void Levels::CreateLevelNine()
 	currentLevel += "ssssssssssssssssssssss********......***sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**....**ssssssssssssssssssssss";
 	currentLevel += "ssssssssssssssssssss*******.........***sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**....**ssssssssssssssssssssss";
 	currentLevel += "sssssssssssssssssss****.............***sssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**....**ssssssssssssssssssssss";
-	currentLevel += "sssssssssssssssssss***.............***ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**....**ssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss***........G....***ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**....**ssssssssssssssssssssss";
 	currentLevel += "sssssssssssssssssss**...........******sssssssssssssssssssssssssssssssssssssssss***************ssss**....**ssssssssssssssssssssss";
 	currentLevel += "sssssssssssssssssss**.............*****sssssssssssssssssssssssssssssssssssss************************....**ssssssssssssssssssssss";
-	currentLevel += "sssssssssssssssssss***..............****ssssssssssssssssssssssssss**************.............*******....***sssssssssssssssssssss";
-	currentLevel += "sssssssssssssssssss******............****************************************...................***.....*****sssssssssssssssssss";
-	currentLevel += "sssssssssssssssssss****................****************************......................................******sssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**...............****ssssssssssssssssssssssssss**************.............*******....***sssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**................****************************************...................***.....*****sssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**..................****************************......................................******sssssssssssssssss";
 	currentLevel += "sssssssssssssssssss***......................................................................................****ssssssssssssssss";
 	currentLevel += "sssssssssssssssssss****.......K......................Z........................................................***sssssssssssssss";
 	currentLevel += "ssssssssssssssssssss*************************************************...........**......***....................***ssssssssssssss";
