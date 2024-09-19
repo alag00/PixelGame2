@@ -31,7 +31,7 @@ private:
 	bool isBossActive = false;
 public:
 	void Unload();
-	void SetBossActive(bool newValue);// { isBossActive = newValue; }
+	void SetBossActive(bool newValue);
 	void ClearEnemyList();
 	void Reset();
 	std::vector<Enemy*> GetEnemyList();

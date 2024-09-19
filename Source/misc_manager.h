@@ -5,7 +5,6 @@
 #include "check_point.h"
 #include "grappling_point.h"
 #include "dart_trap_point.h"
-//#include "barrier_point.h"
 #include "background_object.h"
 
 class MiscManager
@@ -23,7 +22,7 @@ private:
 	std::vector<BackgroundObject*> objectList{};
 	static const int miscSetSize = 5;
 	static const int miscObjSize = 3;
-	Texture2D txrList[miscSetSize][miscObjSize]{}; // Forest(Tree1, Tree2, Bush), Castle, SpookyForest(SpookyTree1, SpookyTree2,..)
+	Texture2D txrList[miscSetSize][miscObjSize]{}; 
 
 public:
 	void Unload();
@@ -43,7 +42,7 @@ public:
 	int GetMostViableGrapplingIndex();
 
 	int UpdateCheckPoints();
-	//void UpdateBarrierPoints();
+	
 	int UpdateGrapplingPoints();
 	void UpdateDartTrapsPoints(float dt);
 	void Render();

@@ -6,26 +6,9 @@ LevelManager::~LevelManager()
 }
 void LevelManager::LoadScene()
 {
-	/*
-	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
-	InitWindow(screenWidth, screenHeight, "Unholy Trek");
-	InitAudioDevice();
-	SetTargetFPS(60);
-	Image icon = LoadImage("Assets/Icon.png");
-	SetWindowIcon(icon);
-	UnloadImage(icon);
-	*/
-
-	/*
-	mainMenu.Setup(screenWidth, screenHeight);
-	while(mainMenu.Update())
-	{
-		mainMenu.Render();
-	}
-	mainMenu.Unload();
-	*/
+	
 	background.SetSize(screenWidth, screenHeight);
-	//background.Setup();
+	
 	player.Setup();
 	enemyManager.LoadEnemyAssets();
 	enemyManager.GetPlayerRef(player);
@@ -41,54 +24,18 @@ void LevelManager::LoadScene()
 	filter.Setup(cam, screenWidth, screenHeight);
 
 	
-	//tileTextures = LoadTexture("Assets/TileTextures/Textures.png");
 
-	//bossMusic = LoadMusicStream("Assets/Audio/Music/BossTheme.mp3");
-	/*
-	caveMusic = LoadMusicStream("Assets/Audio/Music/CaveTheme.mp3");
-	plainMusic = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
-	castleMusic = LoadMusicStream("Assets/Audio/Music/MarchEcho.mp3");
-	*/
-
-	//checkPointSound = LoadSound("Assets/Audio/SFX/Hit.mp3");
-	//currentSong = bossMusic;
 	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
 
 	cutsceneManager.Setup(cameraTargetPos);
 
 	LevelSetup();
-	/*
-	while (!WindowShouldClose() && isRunning)
-	{
-		Update();
-		Render();
-	}
-	*/
-	/*
-	UnloadTexture(tileTextures);
-
-	player.Unload();
-	enemyManager.Unload();
-	miscManager.Unload();
-	background.Unload();
-	*/
-	/*
-	UnloadMusicStream(currentSong);
-	UnloadMusicStream(currentLevelSong);
-	UnloadMusicStream(bossMusic);
-	UnloadMusicStream(caveMusic);
-	UnloadMusicStream(plainMusic);
-	UnloadMusicStream(castleMusic);
-	*/
-	//UnloadSound(checkPointSound);
-
-	//CloseAudioDevice();
-	//CloseWindow();
+	
 }
 void LevelManager::LeaveScene()
 {
-	//UnloadTexture(tileTextures);
+
 
 	player.Unload();
 	enemyManager.Unload();
@@ -114,7 +61,7 @@ bool LevelManager::Update()
 	{
 		if (cutsceneManager.Update(dt))
 		{
-			//isCutscening = false;
+			
 			cutscenePlayed = true;
 			filter.StartEffect(FADE_TO_BLACK);
 			currentEvent = EndCutscene;
@@ -123,14 +70,7 @@ bool LevelManager::Update()
 		return exitLevel;
 	}
 	background.Update(cameraTargetPos, dt);
-	/*
-	// Debug
-	if (IsKeyPressed(KEY_T))
-	{
-		filter.StartEffect(SCREEN_SHAKE);
-		currentEvent = ScreenShake;
-	}
-	*/
+	
 	CheckEvent();
 	player.Update(dt);
 	AdjustPlayer(dt);
@@ -255,7 +195,7 @@ void LevelManager::CheckEvent()
 		{
 			StartBoss();
 		}
-		// Stop Rendering Cutscene
+		
 		break;
 	}
 
@@ -341,8 +281,7 @@ void LevelManager::AdjustPlayer(float dt)
 	
 	player.SetPosition(fNewPlayerPosX, fNewPlayerPosY);
 
-	//background.Update(player.GetVelocity(), dt);
-
+	
 	float camOffset = 0.f;
 
 	cameraTargetPos.x = player.GetCenter().x;
@@ -398,7 +337,7 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	}
 	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
 	{
-		// entrance block
+		// climb block
 		player.EnterClimbMode();
 		return true;
 	}
@@ -425,19 +364,18 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	if (tileTypeOne == L'C' || tileTypeTwo == L'C')
 	{
 		
-		//currentCheckPoint = player.GetPosition();	
 		return false;
 	}
 	if (tileTypeOne == L'G' || tileTypeTwo == L'G')
 	{
 
-		//currentCheckPoint = player.GetPosition();	
+		
 		return false;
 	}
 	if (tileTypeOne == L'R' || tileTypeTwo == L'R')
 	{
 
-		//currentCheckPoint = player.GetPosition();	
+		
 		return false;
 	}
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
@@ -558,13 +496,7 @@ void LevelManager::Render()
 
 void LevelManager::RenderUI()
 {
-	//miscManager.Render();
-	/*
-	for (int i = 0; i < checkPointList.size(); i++)
-	{
-		checkPointList.at(i).Render();
-	}
-	*/
+	
 	enemyManager.RenderUI();
 }
 
@@ -575,39 +507,7 @@ void LevelManager::RenderBackground()
 
 void LevelManager::LevelSetup()
 {
-	/*
-	switch (currentLevel)
-	{
-	case 1:
-		levels.CreateLevelOne();
-		currentSong = caveMusic;
-		PlayMusicStream(currentSong);
-		break;
-	case 2:
-		levels.CreateLevelTwo();
-		currentSong = plainMusic;
-		PlayMusicStream(currentSong);
-		break;
-	case 3:
-		levels.CreateLevelThree();
-		currentSong = plainMusic;
-		PlayMusicStream(currentSong);
-		break;
-	case 4:
-		levels.CreateLevelFour();
-		currentSong = castleMusic;
-		PlayMusicStream(currentSong);
-		break;
-	case 5:
-		levels.CreateLevelFive();
-		currentSong = castleMusic;
-		PlayMusicStream(currentSong);
-		break;
-	default:
-		levels.CreateLevelOne();
-		break;
-	}
-	*/
+	
 	levels.CreateLevel(currentLevel);
 	currentSong = levels.GetLevelSong();
 	PlayMusicStream(currentSong);
@@ -623,7 +523,7 @@ void LevelManager::LevelSetup()
 	levelDarkMode = levels.GetLevelDarkMode();
 	
 	background.SetLevelBackground(levels.GetBackgroundTextures());
-	//background.SetLevelBackground(currentLevel);
+	
 
 	filter.StartEffect(FADE_FROM_BLACK);
 	enemyManager.ClearEnemyList();
@@ -631,9 +531,9 @@ void LevelManager::LevelSetup()
 	miscManager.ClearLists();
 	bossDefeated = false;
 	cutscenePlayed = false;
-	//checkPointList.clear();
+	
 
-	//int totalEnemies = 0;
+	
 	std::vector<Vector2> enemyPos{};
 
 	for (int y = 0; y < nLevelHeight; y++)
@@ -648,7 +548,7 @@ void LevelManager::LevelSetup()
 
 void LevelManager::LevelRender()
 {
-	// Draw Level
+	
 	int nTileWidth = 64;
 	int nTileHeight = 64;
 	int nVisibleTilesX = screenWidth / nTileWidth;
@@ -670,148 +570,16 @@ void LevelManager::LevelRender()
 	cameraTargetPos.y = cam.target.y / nTileHeight;
 
 
-	//Rectangle src{ 0.f,0.f, 16.f, 16.f };
+	
 	Rectangle dst{ 0.f, 0.f,0.f,0.f };
-	//Vector2 origin = { 0.f,0.f };
-	// Draw visible tile map
+
 	for (int y = static_cast<int>((cameraTargetPos.y - (nVisibleTilesY / 2.f) - 2)) ; y < (cameraTargetPos.y) +(nVisibleTilesY / 2.f) +1 ; y++)
 	{
 		for (int x = static_cast<int>((cameraTargetPos.x - (nVisibleTilesX / 2.f) - 2)) ; x < (cameraTargetPos.x) +(nVisibleTilesX / 2.f) + 1  ; x++)
 		{
 			dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
 			RenderTile(x, y, dst);
-			/*
-			wchar_t sTileID = GetTile(x, y);
-			switch (sTileID)
-			{
-			case L'.': // Sky
-
-				break;
-			case L'#':// Brick
-				 src = {0.f,0.f, 16.f, 16.f};
-				 dst = { (float)x * nTileWidth,(float) y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'x':// Brick2
-				src = { 0.f,32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'-': // Brick Wall
-				src = { 0.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'y': // Brick Wall 2
-				src = { 0.f,48.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'*': // Stone
-				src = { 16.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'o': // Stone 2
-				src = { 16.f,32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L',': // Stone Wall
-				src = { 16.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'c': // Stone Wall 2
-				src = { 16.f,48.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'_': // Dirt
-				src = { 32.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'%': // Grass Dirt
-				src = { 32.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'd': // Dirt Wall
-				src = { 32.f,32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'L': // Climb Block
-				src = { 80.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'=': // Barrier Block
-				src = { 80.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'D': // Death Block
-				src = { 80.f,32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'C': // CheckPoint Unclaimed
-				src = { 96.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'?': // CheckPoint Claimed
-				src = { 96.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'G': // Grappling Point
-				src = { 96.f,32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'R': // Valid Grappling Point
-				src = { 96.f,48.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'T': // Dart Trap
-				src = { 80.f,48.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'B': // Activate Boss
-				break;
-			case L'V': // Activate Cutscene
-				break;
-			case L'{': // Misc 1
-				src = { 112.f,0.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'}': // Misc 2
-				src = { 112.f,16.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L'[': // Misc 3
-				src = { 112.f, 32.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
-			case L']': // Misc 4
-				src = { 112.f, 48.f, 16.f, 16.f };
-				dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
-				DrawTexturePro(currentTileTextures, src, dst, origin, 0.f, WHITE);
-				break;
 			
-			default:
-				DrawRectangle(x * nTileWidth, y * nTileHeight, nTileWidth, nTileHeight, BLACK);
-				break;
-			}
-			*/
 		}
 	}
 
@@ -830,30 +598,22 @@ void LevelManager::RenderTutorial()
 	if (tut1Dist < range)
 	{
 		txtRend.RenderText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, WHITE, BLACK);
-		/*
-		DrawRectangle(static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 300, 75, BROWN);
-
-		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, BLACK);
-		DrawText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize)-3, static_cast<int>(tutorialPos1.y * config.tileSize) -3 , 30, WHITE);
-		*/
+	
 		txtRend.RenderText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, WHITE, BLACK);
-		//DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, BLACK);
-		//DrawText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize) - 3, static_cast<int>(tutorialPos1.y * config.tileSize + 30) - 3, 30, WHITE);
+		
 	}
 	else if (tut2Dist < range)
 	{
 		txtRend.RenderText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, WHITE, BLACK);
-		//DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, BLACK);
-		//DrawText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize)-3, static_cast<int>(tutorialPos2.y * config.tileSize)-3, 30, WHITE);
+		
 
 		txtRend.RenderText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, WHITE, BLACK);
-		//DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, BLACK);
-		//DrawText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize)-3, static_cast<int>(tutorialPos2.y * config.tileSize + 30)-3, 30, WHITE);
+		
 	}
 	else if (tut3Dist < range)
 	{
 		txtRend.RenderText("Press 'E' to claim a nearby Checkpoint", static_cast<int>(tutorialPos3.x * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, WHITE, BLACK);
-		//DrawText("Press 'E' to claim nearby Checkpoints", static_cast<int>((tutorialPos3.x - 3) * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, YELLOW);
+	
 	}
 }
 
@@ -925,7 +685,7 @@ void LevelManager::RenderCredit()
 	DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
 }
 
-void LevelManager::RenderDarkMode() // -1.f to 1.f    left max to right max
+void LevelManager::RenderDarkMode() 
 {
 	float halfWidth = (float)screenWidth / 2.f;
 
@@ -1159,7 +919,6 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 
 void LevelManager::StartBoss()
 {
-	// BossTime
 	for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 	{
 		Vector2 pos = miscManager.GetBarrierList().at(i);

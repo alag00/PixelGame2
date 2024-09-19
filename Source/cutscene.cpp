@@ -7,7 +7,7 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
 	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
-	//playerSpeakPort = LoadTexture("Assets/Icon.png");
+
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
 	enemyListenPort = LoadTexture("Assets/Portraits/NecromancerPortrait.png");
@@ -23,32 +23,9 @@ void CastleCutscene::Setup(Vector2&ref)
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
-	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB GLORB GLORB", false, PURPLE);
-	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB A GLORB", false, PURPLE);
-	//dialogue.QueueDialogue(playerPort, enemyListenPort, "OH GLORB", true, YELLOW);
 
 
-	// Turns
-
-	/*
-			Player walks in
-		Nekros: Hm, now where did I put the tome?
-		Nekros: I could have sworn I put it right here...
-			Nekros turns
-		Nekros: Woah!
-		Player: ...
-		Nekros: How long have you been standing there?
-		Nekros: ...
-		Nekros: What a minute, I know you!
-		Nekros: How are you still alive?
-		Player: All I will say is.
-		Player: You should have thrown me into a deeper well
-		Nekros: Is that so?
-		Nekros: Fine, if you want to die so be it
-		Nekros: Just another addition for my collection
-		Player: ...
-		Player: Just another body for my pile
-	*/
+	
 }
 
 void CastleCutscene::SetupStageOne()
@@ -100,11 +77,6 @@ bool CastleCutscene::Update(float dt)
 			if (playerPos.x >= 87.f)
 			{
 				SetupStageOne();
-				//playerAnim.SetAnimation(playerIdle, 8, true);
-				//enemyAnim.FlipAnimationHorizontal();
-				//enemyPos.x--;
-				//cutsceneStage = 1;
-				//dialogue.SetActive(true);
 			}
 		}
 		break;
@@ -139,13 +111,11 @@ bool CastleCutscene::Update(float dt)
 
 void CastleCutscene::Render()
 {
-	// enemy
+	
 	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	// player
-	//dst = { pos.x * 64.f + 32.f, pos.y * 64.f + 40.f, size.x, size.y };
 	dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
 	origin = { dst.width / 2.f, dst.height / 2.f };
 	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
@@ -157,7 +127,7 @@ void CastleCutscene::RenderUI()
 {
 	dialogue.Render();
 	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
-	//DrawText("Press 'P' to Skip", GetScreenWidth() / 2, 10, 40, YELLOW);
+
 }
 
 void CastleCutscene::Unload()
@@ -167,7 +137,7 @@ void CastleCutscene::Unload()
 	UnloadTexture(enemyIdle);
 
 	UnloadTexture(playerPort);
-	//UnloadTexture(playerSpeakPort);
+
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }
@@ -178,11 +148,9 @@ void GraveyardCutscene::Setup(Vector2& ref)
 
 	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
 	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
-	//playerJump = LoadTexture("Assets/PlayerTextures/JumpAtlas.png");
 
 	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
-	//playerSpeakPort = LoadTexture("Assets/Icon.png");
-
+	
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobIdleAtlas.png");
 	enemyWalk = LoadTexture("Assets/EnemyTextures/Gnob/FirstPhase/GnobWalkAtlas.png");
@@ -190,7 +158,7 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	enemyListenPort = LoadTexture("Assets/Portraits/GnobPortrait.png");
 	enemySpeakPort = LoadTexture("Assets/Portraits/GnobPortraitTalk.png");
 
-	//enemyCol = { 90, 112, 100, 255 };
+
 	enemyPos = { 238.f, 17.f };
 	enemySize.x = 80.f * scale;
 	enemySize.y = 64.f * scale;
@@ -200,51 +168,7 @@ void GraveyardCutscene::Setup(Vector2& ref)
 	playerSize.x = 48.f * scale;
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
-	/*
-	stage 1
-			Player Walks to Pyro
-
-	stage 2
-		Player: Pyro?
-			Pyro turns around
-
-	stage 3
-		Pyro: Oh, you have already made it this far
-		Pyro: I heard what you did to Nekros
-		Player:	...
-		Player: I did I what I had to do
-			Pyro turns and walks some steps away
-
-	stage 4
-		Pyro: Your vengance is understandable
-		Pyro: Although, being able to take down Nekros
-		Pyro: it's quite a remarkable feat I must say
-		Pyro: Especially after what we took from you
-		Player:	...
-			Pyro turns around
-
-	stage 5
-		Pyro: ...
-		Pyro: That glow?
-		Player:	...
-		Pyro: It's a shame...
-		Pyro: I'm almost content with letting you go
-		Pyro: But alas, Cryo would never let me allow Nekros murderer go
-		Player: Enough speaking, lets fight
-			Pyro walks slowly towards player
 	
-	stage 6
-		Pyro: Agreed
-		Pyro: Let us Draw our blades so that we may have our fun.
-			Pyro Refills
-
-	*/
-	
-
-	//dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB?", true, YELLOW);
-	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB?", false, GREEN);
-	//dialogue.QueueDialogue(playerPort, enemySpeakPort, "GLORB", false, GREEN);
-	//dialogue.QueueDialogue(playerPort, enemyListenPort, "GLORB", true, YELLOW);
 }
 
 void GraveyardCutscene::SetupStageOne()
@@ -347,20 +271,20 @@ bool GraveyardCutscene::Update(float dt)
 	enemyAnim.UpdateAnimator(dt);
 	switch (cutsceneStage)
 	{
-	case 1: // GET TO POSITION
+	case 1: 
 		playerPos.x += dt * 5.f;
 		if (playerPos.x >= 232.f)
 		{
 			SetupStageTwo();
 		}
 		break;
-	case 2: // SAY ONE LINE THEN ENEMY TURNS
+	case 2: 
 		if (!dialogue.GetActive())
 		{
 			SetupStageThree();
 		}
 		break;
-	case 3: // ENEMY TALKS THEN TURNS AND WALKS AWAY
+	case 3: 
 		if (!dialogue.GetActive())
 		{
 			SetupStageFour();
@@ -427,13 +351,12 @@ bool GraveyardCutscene::Update(float dt)
 
 void GraveyardCutscene::Render()
 {
-	// enemy
+	
 	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
-	Vector2 origin = { 0.f, dst.height * 0.5f + 32.f };// { dst.width * 0.35f, dst.height * 0.75f };
+	Vector2 origin = { 0.f, dst.height * 0.5f + 32.f };
 	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	// player
-	//dst = { pos.x * 64.f + 32.f, pos.y * 64.f + 40.f, size.x, size.y };
+
 	dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
 	origin = { dst.width / 2.f, dst.height / 2.f };
 	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
@@ -446,7 +369,7 @@ void GraveyardCutscene::RenderUI()
 	dialogue.Render();
 
 	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
-	//DrawText("Press 'P' to Skip", 30, 30, 30, YELLOW);
+
 }
 
 void GraveyardCutscene::Unload()
@@ -459,7 +382,7 @@ void GraveyardCutscene::Unload()
 	UnloadTexture(enemyRefill);
 
 	UnloadTexture(playerPort);
-	//UnloadTexture(playerSpeakPort);
+
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }

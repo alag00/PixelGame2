@@ -5,7 +5,6 @@ enum class SCENE_TYPE
 	MAIN_MENU = 1,
 	LEVEL = 2,
 	CREDITS = 3,
-	//Etc....
 };
 
 class Scene {

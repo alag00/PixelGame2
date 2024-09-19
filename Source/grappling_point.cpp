@@ -19,7 +19,7 @@ void GrapplingPoint::Update()
 }
 void GrapplingPoint::Render()
 {
-	//DrawCircle(static_cast<int>(pos.x * 64), static_cast<int>(pos.y * 64), 10.f, BLUE);
+	
 	if (!isIdeal)
 	{
 		return;

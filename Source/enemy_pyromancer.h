@@ -3,17 +3,7 @@
 #include <cmath>
 #include "animation.h"
 
-/*
-enum PYROMANCER_AI
-{
-	IDLE, 
-	MOVE,
-	REFILL,
-	ATTACK,
-	BLOCK,
 
-};
-*/
 class FireBall
 {
 private:
@@ -48,10 +38,7 @@ private:
 	Texture2D firstPhaseSprites[p1TxrAmount]{}; // 0 = Idle, Walk, Refill, Block, SuccessfulBlock, OilAttack, SeathAttack, SwordAttack1, SwordAttack2, Change Phase
 	static const int p2TxrAmount = 11;
 	Texture2D secondPhaseSprites[p2TxrAmount]{}; // 0 = Idle, Run, SuccessfulBlock, SwordAttack1, SwordAttack2, DeployWings, Fly,  Ranged attack, Flame projectiles, Fly attack, Death
-	//Texture2D idleAtlas{};
-	//Texture2D walkAtlas{};
-	//Texture2D refillAtlas{};
-	//Texture2D attackOneAtlas{};
+
 	DECISION dec = DECISION::IDLE;
 	float scale = 3.f;
 	float distance = 0.f;

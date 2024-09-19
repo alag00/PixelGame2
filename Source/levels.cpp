@@ -344,12 +344,9 @@ void Levels::CreateLevelFive()
 
 
 
-// First Spooky: From Castle to Spooky Land
-void Levels::CreateLevelSix() // From Castle to Spooky Land
-{
-	// Tutorial for Grappling Hook
-	// Tutorial for Wall Climb
 
+void Levels::CreateLevelSix() 
+{
 	currentLevel = "";
 
 	currentTileTxr = tileTextures[1];
@@ -513,7 +510,7 @@ void Levels::CreateLevelEight()
 
 }
 
-// Spooky Level: Spooky land
+
 void Levels::CreateLevelNine() 
 {
 
@@ -526,7 +523,7 @@ void Levels::CreateLevelNine()
 	currentevelHeight = 58;
 	cutsceneID = 0;
 
-	//bossChar = L'K';
+
 
 	darkMode = true;
 

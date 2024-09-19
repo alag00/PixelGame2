@@ -148,14 +148,7 @@ void PumpkinEnemy::Render()
 	Color color = (dec != DAMAGED) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-	//DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
-	//DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
-	/*
-	Color color = YELLOW;
-	color.a = 50;
-	Rectangle box = { hitBox.x * 64.f, hitBox.y * 64.f, hitBox.width * 64.f, hitBox.height * 64.f };
-	DrawRectangleRec(box, color);
-	*/
+	
 }
 
 void PumpkinEnemy::CollisionCheck()
@@ -165,15 +158,13 @@ void PumpkinEnemy::CollisionCheck()
 		if (!playerRef->GetHit(pos, 10, currentAttackId))
 		{
 			health -= 5;
-			//UpdateAgroSwitch();
+		
 			if (health <= 0)
 			{
 				dec = DAMAGED;
 				anim.SetAnimation(textures[4], 5, false);
 			}
-			//dec = DAMAGED;
-			//anim.SetAnimation(textures[4], 5, false);
-
+			
 		}
 	}
 }
@@ -220,7 +211,7 @@ void PumpkinEnemy::Attack(float dt)
 	spinTimer -= dt;
 
 	attackBox = { pos.x - 1, pos.y - 0.5f , 2, 1.5f };
-	//attackBox.x = (!lookRight) ? pos.x : pos.x - (attackBox.width);
+	
 	CollisionCheck();
 	if (spinTimer <= 0.f)
 	{

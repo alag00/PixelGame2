@@ -117,22 +117,7 @@ void PyromancerEnemy::Phase1Decision()
 			break;
 		}
 
-		/*
-		PlaySound(initAttackSound);
-		switch (currentSlice)
-		{
-		case 1:
-			anim.SetAnimation(attack1Atlas, 12, false);
-			currentSlice = 2;
-			break;
-		case 2:
-			anim.SetAnimation(attack2Atlas, 12, false);
-			currentSlice = 1;
-			break;
-		}
-
-		currentAttackId++;
-		*/
+		
 
 	}
 	else if (distance >= 1.5f && lookLeft && lDist > 1.f || distance >= 1.5f && !lookLeft && rDist > 1.f)
@@ -256,14 +241,7 @@ void PyromancerEnemy::Render() {
 		anim.UpdateAnimator(GetFrameTime());
 		return;
 	}
-	/*
-	Rectangle testBox{ attackBox.x * 64.f, attackBox.y * 64.f,attackBox.width * 64.f ,attackBox.height * 64.f };
-	Color color = YELLOW;
-	color.a = 50;
-	DrawRectangleRec(testBox, color);
-	*/
-	//DrawCircle(static_cast<int>(leftBorder.x * 64), static_cast<int>(leftBorder.y * 64), 5.f, PINK);
-	//DrawCircle(static_cast<int>(rightBorder.x * 64), static_cast<int>(rightBorder.y * 64), 5.f, PINK);
+	
 
 	for (int i = 0; i < 3; i++)
 	{
@@ -288,29 +266,7 @@ void PyromancerEnemy::Move(float dt) {
 
 void PyromancerEnemy::Attack(float dt) {
 	dt;
-	/*
-	int currentFrame = anim.GetCurrentFrame();
-	switch (currentFrame)
-	{
-	case 6:
-		//PlaySound(swingAttackSound);
-		break;
-	case 7:
 
-		attackBox = { pos.x, pos.y - 1, 2, 2 };
-		attackBox.x = (!lookRight) ? pos.x : pos.x - (attackBox.width);
-		CollisionCheck();
-		break;
-	case 8:
-
-		break;
-	case 11:
-		dec = DECISION::IDLE;
-
-		break;
-	}
-
-	*/
 	switch (currentAttackNum)
 	{
 	case 1:
@@ -341,7 +297,7 @@ void PyromancerEnemy::Attack(float dt) {
 }
 void PyromancerEnemy::OilAttack(float dt)
 {
-	// Moves like a jump back
+	
 	if (anim.GetCurrentFrame() >= 5 && anim.GetCurrentFrame() <= 10) {
 		pos.x += (lookLeft) ? 5.f * dt : -5.f * dt;
 		AttackCollisionCheck();
@@ -378,7 +334,7 @@ void PyromancerEnemy::SliceAttack(float dt)
 }
 void PyromancerEnemy::ThrustAttack(float dt)
 {
-	// Moves like forward dash
+	
 	if (anim.GetCurrentFrame() >= 7) {
 		pos.x += (lookLeft) ? -20.f * dt : 20.f * dt;
 
@@ -406,7 +362,7 @@ void PyromancerEnemy::FlameSlice(float dt)
 }
 void PyromancerEnemy::FlameThrust(float dt)
 {
-	// Moves like forward dash
+	
 	if (anim.GetCurrentFrame() >= 7) {
 		pos.x += (lookLeft) ? -30.f * dt : 30.f * dt;
 
@@ -426,7 +382,7 @@ void PyromancerEnemy::FlameRangedAttack(float dt)
 	switch (attackStage)
 	{
 	case 1:
-		// Deploy Wings
+		
 		if (currentFrame >= 5)
 		{
 			attackStage = 2;
@@ -440,8 +396,7 @@ void PyromancerEnemy::FlameRangedAttack(float dt)
 			attackStage = 3;
 			anim.SetAnimation(secondPhaseSprites[7], 14, false);
 		}
-		// If on edge or enough distance from player Set stage 3
-		// Fly Up
+	
 		break;
 	case 3:
 		switch (currentFrame)
@@ -459,10 +414,9 @@ void PyromancerEnemy::FlameRangedAttack(float dt)
 			EndAttack();
 			break;
 		}
-		// Use Attack
 		break;
 	}
-	// Shoot 3 projectiles towards players current pos
+	
 }
 void PyromancerEnemy::FlameFlyAttack(float dt)
 {
@@ -472,7 +426,7 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 	switch (attackStage)
 	{
 	case 1:
-		// Deploy Wings
+		
 		if (currentFrame >= 5)
 		{
 			attackStage = 2;
@@ -490,8 +444,7 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 			anim.SetAnimation(secondPhaseSprites[9], 4, true);
 			flyProgress = 0.f;
 		}
-		// If on edge or enough distance from player Set stage 3
-		// Fly Up
+		
 		break;
 	case 3:
 		pos.x += (lookLeft) ? 1.5f * -p2Speed * dt : 1.5f*p2Speed * dt;
@@ -507,7 +460,7 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 			flyProgress = 0.f;
 			EndAttack();
 		}
-		// Use Attack
+		
 		break;
 	}
 }
@@ -573,7 +526,7 @@ void PyromancerEnemy::Damaged(float dt)
 			anim.SetAnimation(firstPhaseSprites[0], 8, true);
 			if (health <= 0)
 			{
-				//PlaySound(deathSound);
+				
 				dec = DECISION::TRANSFORMATION;
 				anim.SetAnimation(firstPhaseSprites[9], 20, false);
 			}
@@ -587,7 +540,7 @@ void PyromancerEnemy::Damaged(float dt)
 			anim.SetAnimation(secondPhaseSprites[0], 8, true);
 			if (health <= 0)
 			{
-				//PlaySound(deathSound);
+				
 				SetIsAlive(false);
 				anim.SetAnimation(secondPhaseSprites[10], 12, false);
 			}
@@ -616,17 +569,7 @@ bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 		}
 	}
 	pos.y = startPos.y;
-	/*
-	dec = DECISION::DAMAGED;
-	if (inFirstPhase)
-	{
-		anim.SetAnimation(firstPhaseSprites[3], 5, false);
-	}
-	else
-	{
-		anim.SetAnimation(secondPhaseSprites[2], 7, false);
-	}
-	*/
+	
 	return false;
 }
 void PyromancerEnemy::RenderUI() {
@@ -720,9 +663,7 @@ void FireBall::Render()
 	Vector2 origin = { 0.f,0.f };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	//Color color = YELLOW;
-	//color.a = 50;
-	//DrawRectangleRec(dst, color);
+	
 }
 void FireBall::Reset()
 {

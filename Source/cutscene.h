@@ -63,7 +63,6 @@ private:
 
 	Texture2D playerIdle{};
 	Texture2D playerWalk{};
-	//Texture2D playerJump{};
 	Animator playerAnim;
 	Vector2 playerPos{ 0.f,0.f };
 	Vector2 playerSize{ 0.f,0.f };
@@ -77,7 +76,7 @@ private:
 	Color enemyCol = GREEN;
 
 	Texture2D playerPort{};
-	//Texture2D playerSpeakPort{};
+
 
 	Texture2D enemyListenPort{};
 	Texture2D enemySpeakPort{};

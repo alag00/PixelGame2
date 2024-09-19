@@ -5,36 +5,10 @@ void Background::Unload()
 {
 	for (int i = 0; i < 3; i++)
 	{
-		/*
-		UnloadTexture(caveTxr[i]);
-		UnloadTexture(plainTxr[i]);
-		UnloadTexture(castleFrontTxr[i]);
-		UnloadTexture(castleTxr[i]);
-		*/
 		UnloadTexture(activeTxr[i]);
 	}
 }
-	/*
-void Background::Setup()
-{
-	castleTxr[0] = LoadTexture("Assets/BackgroundTextures/CastleBackground1.png");
-	castleTxr[1] = LoadTexture("Assets/BackgroundTextures/CastleBackground2.png");
-	castleTxr[2] = LoadTexture("Assets/BackgroundTextures/CastleBackground3.png");
 
-
-	castleFrontTxr[0] = LoadTexture("Assets/BackgroundTextures/CastleEntranceBackground1.png");
-	castleFrontTxr[1] = LoadTexture("Assets/BackgroundTextures/CastleEntranceBackground2.png");
-	castleFrontTxr[2] = LoadTexture("Assets/BackgroundTextures/CastleEntranceBackground3.png");
-
-	plainTxr[0] = LoadTexture("Assets/BackgroundTextures/PlainBackground1.png");
-	plainTxr[1] = LoadTexture("Assets/BackgroundTextures/SpookyBackground2.png");
-	plainTxr[2] = LoadTexture("Assets/BackgroundTextures/SpookyBackground3.png");
-
-	caveTxr[0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1.png");
-	caveTxr[1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2.png");
-	caveTxr[2] = LoadTexture("Assets/BackgroundTextures/CaveBackground3.png");
-}
-	*/
 void Background::SetLevelBackground(Texture2D newTxr[])
 {
 	for (int i = 0; i < 3; i++)
@@ -42,49 +16,7 @@ void Background::SetLevelBackground(Texture2D newTxr[])
 		activeTxr[i] = newTxr[i];
 	}
 }
-/*
-void Background::SetLevelBackground(int level)
-{
-	switch (level)
-	{
-	case 1:
-		activeTxr[0] = caveTxr[0];
-		activeTxr[1] = caveTxr[1];
-		activeTxr[2] = caveTxr[2];
-		break;
-	case 2:
-		activeTxr[0] = castleFrontTxr[0];
-		activeTxr[1] = plainTxr[1];
-		activeTxr[2] = plainTxr[2];
-		break;
-	case 3:
-		activeTxr[0] = castleFrontTxr[0];
-		activeTxr[1] = castleFrontTxr[1];
-		activeTxr[2] = castleFrontTxr[2];
-		break;
-	case 4:
-		activeTxr[0] = castleTxr[0];
-		activeTxr[1] = castleTxr[1];
-		activeTxr[2] = castleTxr[2];
-		break;
-	case 5:
-		activeTxr[0] = castleTxr[0];
-		activeTxr[1] = castleTxr[1];
-		activeTxr[2] = castleTxr[2];
-		break;
-	case 8:
-		activeTxr[0] = caveTxr[0];
-		activeTxr[1] = caveTxr[1];
-		activeTxr[2] = caveTxr[2];
-		break;
-	default:
-		activeTxr[0] = castleTxr[0];
-		activeTxr[1] = castleTxr[1];
-		activeTxr[2] = castleTxr[2];
-		break;
-	}
-}
-*/
+
 void Background::SetSize(int width, int height)
 {
 	screenWidth = width;

@@ -25,7 +25,7 @@ class Player : public Entity
 {
 private:
 	Config config;
-	// Txr
+
 	Texture2D idleAtlas = {};
 	Texture2D walkAtlas = {};
 	Texture2D fallAtlas = {};
@@ -51,7 +51,7 @@ private:
 	Animator anim;
 	Animator particleAnim;
 
-	// Audio
+	
 	Sound hitSound{};
 	Sound deathSound{};
 	Sound jumpSound{};

@@ -62,7 +62,7 @@ private:
 
 	static const int projAmount = 2;
 	Projectiles projList[projAmount];
-	//std::vector<Projectiles*> projectileList{};
+
 
 	float attackCooldown = 1.f;
 	float attackTimer = attackCooldown;

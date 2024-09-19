@@ -49,7 +49,7 @@ void DartTrap::Update(float dt)
 		playerRef->GetHit(bulletPos, 10, 1);
 		bulletPos = pos;
 		active = false;
-		//timeAlive = 3.f;
+		
 	}
 }
 

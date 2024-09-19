@@ -147,21 +147,7 @@ void NecromancerEnemy::UpdateProj(float dt)
 			projList[i].Update(dt);
 		}
 	}
-	/*
-	for (int i = 0; i < projectileList.size(); i++)
-	{
-		if (!projectileList.at(i)->IsAlive())
-		{
-			delete projectileList.at(i);
-			projectileList.at(i) = nullptr;
-			projectileList.erase(projectileList.begin() + i);
-		}
-	}
-	for (int i = 0; i < projectileList.size(); i++)
-	{
-		projectileList.at(i)->Update(dt);
-	}
-	*/
+	
 }
 
 void NecromancerEnemy::Render() {
@@ -182,12 +168,7 @@ void NecromancerEnemy::Render() {
 			projList[i].Render();
 		}
 	}
-	/*
-	for (int i = 0; i < projectileList.size(); i++)
-	{
-		projectileList.at(i)->Render();
-	}
-	*/
+	
 }
 void NecromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
@@ -237,15 +218,7 @@ void NecromancerEnemy::RangedAttack() {
 		{
 			projList[i].Activate(pos);
 		}
-		/*
-		projList[0].Setup(*playerRef, -1, projectileAtlas, pos);
-
-		Projectiles * leftProj = new Projectiles(*playerRef, -1, projectileAtlas, pos);
-		projectileList.push_back(leftProj);
-
-		Projectiles* rightProj = new Projectiles(*playerRef, 1, projectileAtlas, pos);
-		projectileList.push_back(rightProj);
-		*/
+		
 
 		dec = DECISION::IDLE;
 		anim.SetAnimation(idleAtlas, 8, true);
@@ -384,10 +357,7 @@ void Projectiles::Render()
 
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	//Color color = YELLOW;
-	//color.a = 50;
-	//DrawRectangle(hitBox.x * config.tileSize, hitBox.y * config.tileSize, hitBox.width * config.tileSize, hitBox.height * config.tileSize, color);
-
+	
 }
 bool Projectiles::IsAlive() 
 {

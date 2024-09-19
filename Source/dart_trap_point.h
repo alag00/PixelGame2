@@ -19,6 +19,6 @@ public:
 	~DartTrap();
 	void Setup(Vector2 newPos, Entity& ref, bool left);
 	void SetTexture(Texture2D txr);
-	void Update(float dt); // Shoot bullets // Check collisions
-	void Render(); // Render bullets
+	void Update(float dt); 
+	void Render(); 
 };

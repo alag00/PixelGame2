@@ -2,7 +2,7 @@
 
 Animator::~Animator()
 {
-	//UnloadTexture(atlas);
+	
 }
 void Animator::SetAnimation(Texture2D newSpriteSheet, int totalFrames, bool loop)
 {

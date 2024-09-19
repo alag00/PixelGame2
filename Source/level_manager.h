@@ -30,7 +30,6 @@ enum Events
 class LevelManager : public Scene
 {
 private:
-	//MainMenu mainMenu;
 	Config config;
 	int screenWidth = 1920;
 	int screenHeight = 1080;
@@ -44,8 +43,7 @@ private:
 	Player player;
 
 	Vector2 cameraTargetPos{ 0.f,0.f };
-	//float fCameraPosX = 0.0f;
-	//float fCameraPosY = 0.0f;
+
 
 	Camera2D cam{};
 	Levels levels;
@@ -57,9 +55,7 @@ private:
 	Vector2 currentCheckPoint{ 0.f,0.f };
 	Events currentEvent = None;
 
-	//Music caveMusic{};
-	//Music plainMusic{};
-	//Music castleMusic{};
+
 	Music currentBossSong{};
 	Music currentCutsceneSong{};
 	Music currentLevelSong{};
@@ -76,8 +72,7 @@ private:
 	Vector2 tutorialPos2 = { 0.f,0.f };
 	Vector2 tutorialPos3 = { 0.f,0.f };
 
-	//std::vector<CheckPoint> checkPointList{};
-	//Sound checkPointSound{};
+
 	MiscManager miscManager;
 	bool bossDefeated = false;
 
@@ -89,7 +84,7 @@ private:
 	bool cutscenePlayed = false;
 
 	bool levelDarkMode = false;
-	float darkProgress = 0.f; // 0.f to 1.f    left max to right max
+	float darkProgress = 0.f; 
 	TextRenderer txtRend;
 public:
 	~LevelManager();

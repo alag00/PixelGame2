@@ -12,13 +12,7 @@ private:
 
 	bool isTxrLoaded = false;
 public:
-	/*
-	void Setup(int w, int h);
 
-	bool Update();
-	void Render();
-	void Unload();
-	*/
 
 	void LoadScene() override;
 	void LeaveScene() override;

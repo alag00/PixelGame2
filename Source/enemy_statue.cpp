@@ -106,7 +106,5 @@ void WeepingAngelEnemy::Render()
 
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	//DrawCircle(static_cast<int>(leftBorder.x * 64.f), static_cast<int>(leftBorder.y * 64.f), 6.f, PINK);
-	//DrawCircle(static_cast<int>(rightBorder.x * 64.f), static_cast<int>(rightBorder.y * 64.f), 6.f, PINK);
 
 }

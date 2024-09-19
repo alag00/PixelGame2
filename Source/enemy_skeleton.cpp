@@ -67,13 +67,12 @@ void SkeletonEnemy::Decide() {
 		anim.SetAnimation(attackAtlas, 14, false);
 		currentAttackId++;
 		PlaySound(initAttackSound);
-		//size.x = 80.f * scale;
-		//size.y = 80.f * scale;
+
 	}
 	else
 	{
 		dec = DECISION::IDLE;
-		//anim.SetAnimation(idleAtlas, 8, false);
+	
 	}
 }
 void SkeletonEnemy::Act(float dt) {
@@ -113,16 +112,12 @@ void SkeletonEnemy::Render() {
 		anim.UpdateAnimator(GetFrameTime());
 	}
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f + 64.f , size.x, size.y };
-	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f};//{ pos.x + (dst.width / 2.f), pos.y + (dst.height / 2.f) };
+	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f};
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
 	Color color = (dec == DAMAGED || damagedTimer > 0.f) ? RED : WHITE;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-	//Color color = YELLOW;
-	//color.a = 50;
-	//DrawCircle(pos.x * 64.f, pos.y * 64.f, 100.f, color);
-	// DrawRectangle(dst.x , dst.y , dst.width , dst.height , color);
-	//DrawRectangle(attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f, color);
+	
 }
 void SkeletonEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
@@ -174,7 +169,7 @@ bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	}
 	(void)sourcePos;
 	
-	//playerRef->LoseAdvantage();
+	
 	attackTimer = 0.f;
 	damagedTimer = 0.1f;
 	health -= potentialDamage;

@@ -65,7 +65,7 @@ void EnemyManager::SetBossActive(bool newValue)
 
 void EnemyManager::LoadEnemyAssets()
 {
-	// Txr
+	
 	skeletonTextures[0] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyIdleAtlas.png");
 	skeletonTextures[1] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyDeathAtlas.png");
 	skeletonTextures[2] = LoadTexture("Assets/EnemyTextures/SkeletonEnemy/SkeletonEnemyAttackAtlas.png");
@@ -122,7 +122,7 @@ void EnemyManager::LoadEnemyAssets()
 	pumpkinTextures[4] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinHurtAtlas.png");
 	pumpkinTextures[5] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinDeathAtlas.png");
 
-	// Audio
+	
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
 	swingAttackSound = LoadSound("Assets/Audio/SFX/EnemySwing.mp3");
 	deathSound = LoadSound("Assets/Audio/SFX/EnemyDeath.mp3");
@@ -253,7 +253,7 @@ void EnemyManager::RenderBossBar()
 		bar.y -= bar.height - margin;
 		DrawRectangleRec(bar, RED);
 
-		//DrawLine((int)bar.x, (int)bar.y, 0, (int)bar.y, WHITE);
+		
 
 		bar = { GetScreenWidth() / 2.f,  GetScreenHeight() - 64.f , 500.f, 48.f};
 		bar.y -= bar.height;

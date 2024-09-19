@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	//SetConfigFlags(FLAG_WINDOW_RESIZABLE);
+	
 	InitWindow(screenWidth, screenHeight, "Unholy Trek");
 	InitAudioDevice();
 	SetTargetFPS(60);

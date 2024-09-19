@@ -5,12 +5,6 @@
 class Background
 {
 private:
-	/*
-	Texture2D caveTxr[3];
-	Texture2D plainTxr[3];
-	Texture2D castleFrontTxr[3];
-	Texture2D castleTxr[3];
-	*/
 	Texture2D activeTxr[3];
 
 	Vector2 txr2pos[3];
@@ -26,9 +20,6 @@ private:
 public:
 	void Unload();
 	
-	//void Setup();
-	
-	//void SetLevelBackground(int level);
 	void SetLevelBackground(Texture2D newTxr[]);
 
 	void SetSize(int width, int height);

@@ -23,11 +23,7 @@ public:
 	void QueueDialogue(Texture2D leftPort, Texture2D rightPort, const char* newText, bool speakerLeft, Color col);
 	void SetActive(bool newValue);
 	bool GetActive() { return active; }
-	/*
-	void SetText(char* newText);
-	void SetAvatar(Texture2D avatar);
-	void SetSide(bool left);
-	*/
+	
 
 	void Update();
 	void Render();
