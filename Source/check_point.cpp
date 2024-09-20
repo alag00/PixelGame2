@@ -9,8 +9,8 @@ void CheckPoint::Setup(Vector2 newPos, Entity& ref)
 
 bool CheckPoint::Update()
 {
-	float x = (pos.x + 0.5f) - playerRef->GetCenter().x;
-	float y = (pos.y + 0.5f) - playerRef->GetCenter().y;
+	float x = (pos.x + offsetToCenter) - playerRef->GetCenter().x;
+	float y = (pos.y + offsetToCenter) - playerRef->GetCenter().y;
 	dist =  sqrtf((x * x) + (y * y));
 
 	inRange = false;
@@ -34,6 +34,6 @@ void CheckPoint::Render()
 	}
 
 	
-	txtRend.RenderText("'E'", static_cast<int>((pos.x + 0.4f) * config.tileSize), static_cast<int>((pos.y - 0.5f) * config.tileSize), 20, WHITE, BLACK);
+	txtRend.RenderText("'E'", static_cast<int>((pos.x + textOffset) * config.tileSize), static_cast<int>((pos.y - textOffset) * config.tileSize), textSize, WHITE, BLACK);
 
 }

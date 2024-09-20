@@ -24,9 +24,9 @@ void PyromancerEnemy::SetTextures(Texture2D p1TxrList[], Texture2D p2TxrList[])
 	}
 }
 void PyromancerEnemy::SetAudio(Sound death, Sound init, Sound swing) {
-	death;
-	init;
-	swing;
+	sounds[0] = death;
+	sounds[1] = init;
+	sounds[2] = swing;
 }
 void PyromancerEnemy::Setup() {
 	size.x = 80.f * scale;
@@ -55,7 +55,7 @@ void PyromancerEnemy::Sense() {
 
 	rDist = rightBorder.x - pos.x;
 	lDist = pos.x - leftBorder.x;
-	if (dec == DECISION::ATTACK || dec == DECISION::DAMAGED)
+	if (dec == DECISION::ATTACK || dec == DECISION::DAMAGED || dec == DECISION::TRANSFORMATION)
 	{
 		return;
 	}
@@ -63,6 +63,7 @@ void PyromancerEnemy::Sense() {
 	{
 		lookLeft = !lookLeft;
 		anim.FlipAnimationHorizontal();
+		pos.x += (lookLeft) ? -1.f : 1.f ;
 	}
 }
 
@@ -99,8 +100,26 @@ void PyromancerEnemy::Phase1Decision()
 	if (distance <= 1.5f && attackTimer <= 0.f)
 	{
 		dec = DECISION::ATTACK;
+		PlaySound(sounds[1]);
+		currentAttackNum = GetRandomValue(1, 100);
 
-		currentAttackNum = GetRandomValue(1, 4);
+		if (currentAttackNum > 0 && currentAttackNum <= 35)
+		{
+			currentAttackNum = 4;
+		}
+		else if (currentAttackNum > 35 && currentAttackNum <= 70)
+		{
+			currentAttackNum = 3;
+		}
+		else if (currentAttackNum > 70 && currentAttackNum <= 90)
+		{
+			currentAttackNum = 2;
+		}
+		else if (currentAttackNum > 90 && currentAttackNum <= 100)
+		{
+			currentAttackNum = 1;
+		}
+
 		switch (currentAttackNum)
 		{
 		case 1:
@@ -145,11 +164,29 @@ void PyromancerEnemy::Phase2Decision()
 		return;
 	}
 
-	if (distance <= 1.5f && attackTimer <= 0.f)
+	if (distance <= 4.f && attackTimer <= 0.f)
 	{
 		dec = DECISION::ATTACK;
+		PlaySound(sounds[1]);
+		currentAttackNum = GetRandomValue(1, 100);
 
-		currentAttackNum = GetRandomValue(5, 8);
+		if (currentAttackNum > 0 && currentAttackNum <= 35)
+		{
+			currentAttackNum = 6;
+		}
+		else if (currentAttackNum > 35 && currentAttackNum <= 70)
+		{
+			currentAttackNum = 5;
+		}
+		else if (currentAttackNum > 70 && currentAttackNum <= 90)
+		{
+			currentAttackNum = 7;
+		}
+		else if (currentAttackNum > 90 && currentAttackNum <= 100)
+		{
+			currentAttackNum = 8;
+		}
+
 		switch (currentAttackNum)
 		{
 		case 5:
@@ -170,7 +207,7 @@ void PyromancerEnemy::Phase2Decision()
 
 
 	}
-	else if (distance >= 1.5f && lookLeft && lDist > 1.f || distance >= 1.5f && !lookLeft && rDist > 1.f)
+	else if (distance >= 4.f && lookLeft && lDist > 1.f || distance >= 1.5f && !lookLeft && rDist > 1.f)
 	{
 		dec = DECISION::WALK;
 		anim.SetAnimation(secondPhaseSprites[1], 8, true);
@@ -184,7 +221,14 @@ void PyromancerEnemy::Phase2Decision()
 
 
 void PyromancerEnemy::Act(float dt) {
-	anim.UpdateAnimator(dt);
+	if (dec == TRANSFORMATION && deadPause > 0.f && anim.GetCurrentFrame() == 4)
+	{
+		
+	}
+	else
+	{
+		anim.UpdateAnimator(dt);
+	}
 	hitBox = { pos.x, pos.y - 0.5f , 1.f,1.5f };
 	hitBox.x = (lookLeft) ? pos.x - 0.0f : pos.x - 1.f;
 	oilAmount -= dt * 0.25f;
@@ -216,6 +260,10 @@ void PyromancerEnemy::Act(float dt) {
 		}
 		break;
 	case DECISION::TRANSFORMATION:
+		if (anim.GetCurrentFrame() == 4)
+		{
+			deadPause -= dt;
+		}
 		if (anim.GetCurrentFrame() >= 19)
 		{
 			inFirstPhase = false;
@@ -297,7 +345,10 @@ void PyromancerEnemy::Attack(float dt) {
 }
 void PyromancerEnemy::OilAttack(float dt)
 {
-	
+	if (anim.GetCurrentFrame() == 5)
+	{
+		PlaySound(sounds[2]);
+	}
 	if (anim.GetCurrentFrame() >= 5 && anim.GetCurrentFrame() <= 10) {
 		pos.x += (lookLeft) ? 5.f * dt : -5.f * dt;
 		AttackCollisionCheck();
@@ -312,6 +363,7 @@ void PyromancerEnemy::SeathAttack(float dt)
 	dt;
 	if (anim.GetCurrentFrame() == 8)
 	{
+		PlaySound(sounds[2]);
 		AttackCollisionCheck();
 	}
 	if (anim.GetCurrentFrame() >= 11)
@@ -326,6 +378,7 @@ void PyromancerEnemy::SliceAttack(float dt)
 	{
 		pos.x += (lookLeft) ? -10.f * dt : 10.f * dt;
 		AttackCollisionCheck();
+		PlaySound(sounds[2]);
 	}
 	if (anim.GetCurrentFrame() >= 9)
 	{
@@ -334,7 +387,10 @@ void PyromancerEnemy::SliceAttack(float dt)
 }
 void PyromancerEnemy::ThrustAttack(float dt)
 {
-	
+	if (anim.GetCurrentFrame() == 7)
+	{
+		PlaySound(sounds[2]);
+	}
 	if (anim.GetCurrentFrame() >= 7) {
 		pos.x += (lookLeft) ? -20.f * dt : 20.f * dt;
 
@@ -349,10 +405,12 @@ void PyromancerEnemy::ThrustAttack(float dt)
 
 void PyromancerEnemy::FlameSlice(float dt)
 {
-	dt;
+	dt; 
+	pos.x += (lookLeft) ? -p1Speed * dt : p1Speed * dt;
 	if (anim.GetCurrentFrame() == 7)
 	{
-		pos.x += (lookLeft) ? -10.f * dt : 10.f * dt;
+		PlaySound(sounds[2]);
+		pos.x += (lookLeft) ? -p2Speed * dt : p2Speed * dt;
 		AttackCollisionCheck();
 	}
 	if (anim.GetCurrentFrame() >= 9)
@@ -362,9 +420,12 @@ void PyromancerEnemy::FlameSlice(float dt)
 }
 void PyromancerEnemy::FlameThrust(float dt)
 {
-	
+	if (anim.GetCurrentFrame() == 7)
+	{
+		PlaySound(sounds[2]);
+	}
 	if (anim.GetCurrentFrame() >= 7) {
-		pos.x += (lookLeft) ? -30.f * dt : 30.f * dt;
+		pos.x += (lookLeft) ? -20.f * dt : 20.f * dt;
 
 		AttackCollisionCheck();
 
@@ -382,9 +443,11 @@ void PyromancerEnemy::FlameRangedAttack(float dt)
 	switch (attackStage)
 	{
 	case 1:
-		
+		push = true;
+		AttackCollisionCheck();
 		if (currentFrame >= 5)
 		{
+			push = false;
 			attackStage = 2;
 			anim.SetAnimation(secondPhaseSprites[6], 4, true);
 		}
@@ -393,6 +456,7 @@ void PyromancerEnemy::FlameRangedAttack(float dt)
 		pos.x += (lookLeft) ? p2Speed * dt : -p2Speed * dt;
 		if (distance >= 10.5f && lookLeft && lDist > 1.f || distance >= 10.5f && !lookLeft && rDist > 1.f)
 		{
+			PlaySound(sounds[2]);
 			attackStage = 3;
 			anim.SetAnimation(secondPhaseSprites[7], 14, false);
 		}
@@ -426,9 +490,11 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 	switch (attackStage)
 	{
 	case 1:
-		
+		push = true;
+		AttackCollisionCheck();
 		if (currentFrame >= 5)
 		{
+			push = false;
 			attackStage = 2;
 			anim.SetAnimation(secondPhaseSprites[6], 4, true);
 		}
@@ -443,6 +509,7 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 			attackStage = 3;
 			anim.SetAnimation(secondPhaseSprites[9], 4, true);
 			flyProgress = 0.f;
+			PlaySound(sounds[2]);
 		}
 		
 		break;
@@ -468,10 +535,11 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 void PyromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		if (!playerRef->GetHit(pos, 10, currentAttackId))
+		int damage = (push) ? 0 : 10 ;
+		if (!playerRef->GetHit(pos, damage, currentAttackId))
 		{
 			UpdateAgroSwitch();
-			if (currentAttackNum != 1 && currentAttackNum != 4)
+			if (currentAttackNum != 1)
 			{
 				health -= 10;
 				dec = DAMAGED;
@@ -526,7 +594,7 @@ void PyromancerEnemy::Damaged(float dt)
 			anim.SetAnimation(firstPhaseSprites[0], 8, true);
 			if (health <= 0)
 			{
-				
+				PlaySound(sounds[0]);
 				dec = DECISION::TRANSFORMATION;
 				anim.SetAnimation(firstPhaseSprites[9], 20, false);
 			}
@@ -540,7 +608,7 @@ void PyromancerEnemy::Damaged(float dt)
 			anim.SetAnimation(secondPhaseSprites[0], 8, true);
 			if (health <= 0)
 			{
-				
+				PlaySound(sounds[0]);
 				SetIsAlive(false);
 				anim.SetAnimation(secondPhaseSprites[10], 12, false);
 			}

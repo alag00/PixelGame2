@@ -61,12 +61,12 @@ void Player::Setup()
 	anim.SetAnimation(idleAtlas, 8, true);
 	particleAnim.SetAnimation(deflectParticleAtlas, 5, true);
 
-	size.x = 48.f * config.pixelScale;
-	size.y = 48.f * config.pixelScale;
+	size.x = pixelSize * config.pixelScale;
+	size.y = pixelSize * config.pixelScale;
 
 	
 
-	maxHealth = 100;
+	maxHealth = NEW_MAX_HEALTH;
 	health = maxHealth;
 }
 
@@ -76,7 +76,7 @@ void Player::Update(float dt)
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
 	DanceCheck(dt);
-	hitBox = { pos.x, pos.y, 1, 1 };
+	hitBox = { pos.x, pos.y, boxSize, boxSize };
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -89,7 +89,7 @@ void Player::Update(float dt)
 		DamageRecovery(dt);
 		break;
 	case STATUS::LOSTADVANTAGE:
-		vel.y += 20.f * dt;
+		vel.y += gravity * dt;
 		QueueAttackCheck();
 		if (queuedDeflect)
 		{
@@ -113,7 +113,7 @@ void Player::Update(float dt)
 		break;
 		
 	case STATUS::AIRRECOVERY:
-		vel.y += 35.f * dt;
+		vel.y += strongGravity * dt;
 		if (onGround)
 		{
 			status = STATUS::IDLE;
@@ -132,8 +132,8 @@ void Player::Update(float dt)
 void Player::Render()
 {
 	Rectangle dst = { pos.x, pos.y, size.x, size.y };
-	dst = { pos.x * 64.f +  32.f, pos.y * 64.f + 40.f, size.x, size.y };
-	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+	dst = { pos.x * config.tileSize + config.tileSize / DIVIDER, pos.y * config.tileSize + 40.f, size.x, size.y };
+	Vector2 origin = { dst.width / DIVIDER, dst.height / DIVIDER };
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
 
@@ -143,12 +143,12 @@ void Player::Render()
 
 	if (status == STATUS::HOOK)
 	{
-		Color hookColor = { 241, 242, 224, 255 };
-		Vector2 vec1 = { GetCenter().x * 64.f, GetCenter().y * 64.f };
-		vec1.x += (lookRight) ? 22.f: -22.f;
-		Vector2 vec2 = { grappPoint.x * 64.f, grappPoint.y * 64.f };
+	
+		Vector2 vec1 = { GetCenter().x * config.tileSize, GetCenter().y * config.tileSize };
+		vec1.x += (lookRight) ? hookOnHandOffset : -hookOnHandOffset;
+		Vector2 vec2 = { grappPoint.x * config.tileSize, grappPoint.y * config.tileSize };
 
-		DrawLineBezier(vec1, vec2, 5.f, hookColor);
+		DrawLineBezier(vec1, vec2, hookThickness, hookColor);
 	}
 }
 
@@ -162,7 +162,7 @@ void Player::Movement(float dt)
 	}
 	if (dt < 0.1f)
 	{
-		vel.y += (status != STATUS::FALLING) ? 20.f * dt : 30.f * dt;
+		vel.y += (status != STATUS::FALLING) ? gravity * dt : strongGravity * dt;
 	}
 	
 
@@ -234,21 +234,21 @@ void Player::Control(float dt)
 		}
 		else {
 
-			if (fallingTimer > 0.f && fallingTimer < 0.1f)
+			if (fallingTimer > ZERO && fallingTimer < coyoteJumpTime)
 			{
 				Jump();
 			}
 
-			jumpTimer = 0.f;
+			jumpTimer = ZERO;
 		}
 	}
 	if (IsKeyReleased(KEY_SPACE) && status == STATUS::JUMPING)
 	{
-		vel.y = (vel.y < -5.f) ? -5.f: vel.y;
+		vel.y = (vel.y < endJumpBoost) ? endJumpBoost : vel.y;
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		vel.x = -10.f;
+		vel.x = -movementSpeed;
 		if (status == STATUS::IDLE && onGround)
 		{
 			status = STATUS::MOVING;
@@ -263,7 +263,7 @@ void Player::Control(float dt)
 	}
 	if (IsKeyDown(KEY_D))
 	{
-		vel.x = 10.f;
+		vel.x = movementSpeed;
 		if (status == STATUS::IDLE && onGround)
 		{
 			status = STATUS::MOVING;
@@ -295,7 +295,7 @@ void Player::Control(float dt)
 	{
 		if (status == STATUS::FALLING || status == STATUS::JUMPING)
 		{
-			vel.y += dt * 50.f;
+			vel.y += dt * downAccelation;
 		}
 	}
 }
@@ -304,8 +304,8 @@ void Player::RecoilJump()
 {
 	status = STATUS::AIRMOVEMENT;
 	anim.SetAnimation(jumpAtlas, 8, true);
-	vel.y = -7.f;
-	vel.x = (lookRight) ? 10.f : -10.f;
+	vel.y = recoilJumpForce;
+	vel.x = (lookRight) ? movementSpeed : -movementSpeed;
 
 }
 
@@ -314,13 +314,9 @@ void Player::Jump()
 	anim.SetAnimation(jumpAtlas, 8, true);
 	onGround = false;
 	status = STATUS::JUMPING;
-	vel.y = -maxJumpPower / 5.f;
+	vel.y = jumpForce;
 
-	float randNum = (float)GetRandomValue(80, 120);
-	randNum /= 100.f;
-	SetSoundPitch(jumpSound, randNum);
-	PlaySound(jumpSound);
-	
+	PlaySoundWithPitchDiff(jumpSound);
 }
 void Player::SetOnGround(bool newValue)
 {
@@ -328,16 +324,16 @@ void Player::SetOnGround(bool newValue)
 	
 	if (onGround)
 	{
-		jumpCounter = 0.f;
-		fallingTimer = 0.f;
-		if (jumpTimer > 0.f && jumpTimer <= 0.1f)
+		jumpCounter = ZERO;
+		fallingTimer = ZERO;
+		if (jumpTimer > ZERO && jumpTimer <= jumpBufferTime)
 		{
 			Jump();
 		}
 		
 		else if (status == STATUS::FALLING || status == STATUS::AIRRECOVERY || status == STATUS::AIRATTACK || status == STATUS::AIRMOVEMENT || status == STATUS::DAMAGED)
 		{
-			vel.y = 0.f;
+			vel.y = ZERO;
 			status = STATUS::IDLE;
 
 			anim.SetAnimation(idleAtlas, 8, true);
@@ -414,10 +410,8 @@ void Player::AirAttack(float dt)
 		attackBox.width = 0.f;
 		attackBox.height = 0.f;
 
-		float randNum = (float)GetRandomValue(80, 120);
-		randNum /= 100.f;
-		SetSoundPitch(hitSound, randNum);
-		PlaySound(hitSound);
+
+		PlaySoundWithPitchDiff(hitSound);
 	}
 }
 
@@ -450,10 +444,7 @@ bool Player::CollisionCheck(Entity& enemy)
 				attackBox.width = 0.f;
 				attackBox.height = 0.f;
 
-				float randNum = (float)GetRandomValue(80, 120);
-				randNum /= 100.f;
-				SetSoundPitch(hitSound, randNum);
-				PlaySound(hitSound);
+				PlaySoundWithPitchDiff(hitSound);
 
 				LoseAdvantage();
 			
@@ -486,10 +477,7 @@ bool Player::CollisionCheck(Entity& enemy)
 			attackBox.width = 0.f;
 			attackBox.height = 0.f;
 
-			float randNum = (float)GetRandomValue(80, 120);
-			randNum /= 100.f;
-			SetSoundPitch(hitSound, randNum);
-			PlaySound(hitSound);
+			PlaySoundWithPitchDiff(hitSound);
 			return true;
 		}
 		break;
@@ -534,10 +522,8 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	}
 	(void)id;
 
-	float randNum = (float)GetRandomValue(80, 120);
-	randNum /= 100.f;
-	SetSoundPitch(hitSound, randNum);
-	PlaySound(hitSound);
+	PlaySoundWithPitchDiff(hitSound);
+
 	if (status != STATUS::DEFLECT)
 	{
 		health -= potentialDamage;
@@ -646,11 +632,9 @@ void Player::InitAttack()
 		vel.x = (lookRight) ? 10.f : -10.f;
 		vel.y = -5.f;
 
-		float randNum = (float)GetRandomValue(80, 120);
-		randNum /= 100.f;
-		SetSoundPitch(jumpSound, randNum);
-		PlaySound(jumpSound);
-		attackBox = { pos.x, pos.y, 1, 1 };
+		PlaySoundWithPitchDiff(jumpSound);
+
+		attackBox = { pos.x, pos.y, boxSize, boxSize };
 		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 	
 	}
@@ -712,7 +696,7 @@ void Player::ClimbControl(float dt)
 	}
 	else if (IsKeyDown(KEY_S))
 	{
-		vel.y = 5;
+		vel.y = slideDownSpeed;
 		anim.SetAnimation(climbSlideAtlas, 4, true);
 		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
@@ -742,13 +726,10 @@ void Player::EnterGrapplingHookMode(Vector2 hookPos)
 	grappPoint.y = hookPos.y;
 	status = STATUS::HOOK;
 	anim.SetAnimation(hookAtlas, 5, false);
+
 	vel = { 0.f,0.f };
 
-	float randNum = (float)GetRandomValue(80, 120);
-	randNum /= 100.f;
-	SetSoundPitch(hookSound, randNum);
-	PlaySound(hookSound);
-
+	PlaySoundWithPitchDiff(hookSound);
 }
 
 void Player::GrapplingHookMovement(float dt)
@@ -759,6 +740,7 @@ void Player::GrapplingHookMovement(float dt)
 		{
 			inHookAnim = false;
 			anim.SetAnimation(jumpAtlas, 8, true);
+			
 		}
 	}
 	float x = grappPoint.x - GetCenter().x;
@@ -767,7 +749,7 @@ void Player::GrapplingHookMovement(float dt)
 	x /= mag;
 	y /= mag;
 
-	float hookSpeed = 25.f;
+	
 
 	vel.x += x * dt * hookSpeed;
 	vel.y += y * dt * hookSpeed;
@@ -788,9 +770,17 @@ void Player::DanceCheck(float dt)
 		return;
 	}
 	danceTimer += dt;
-	if (danceTimer > 5.f && !isDancing)
+	if (danceTimer > timeTillDance && !isDancing)
 	{
 		isDancing = true;
 		anim.SetAnimation(danceAtlas, 8, true);
 	}
+}
+
+void Player::PlaySoundWithPitchDiff(Sound sound)
+{
+	float randNum = (float)GetRandomValue(minPitch, maxPitch);
+	randNum /= toRatio;
+	SetSoundPitch(sound, randNum);
+	PlaySound(sound);
 }

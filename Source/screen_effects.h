@@ -20,6 +20,11 @@ private:
 	Camera2D* camera = nullptr;
 	float magnitude = 10.f;
 	float duration = 2.f;
+	const float screenFadeDuration = 2.f;
+	const float screenShakeDuration = 0.2f;
+	const float screenFreezeDuration = 0.1f;
+	const float midPointFade = 1.f;
+	const unsigned char alphaRange = 255;
 public:
 	void Setup(Camera2D& camRef, int screenWidth, int screenHeight);
 	bool IsActive() { return isActive; }

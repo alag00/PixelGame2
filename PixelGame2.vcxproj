@@ -162,6 +162,7 @@
     <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\scene_manager.cpp" />
     <ClCompile Include="Source\screen_effects.cpp" />
+    <ClCompile Include="Source\text_render.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\animation.h" />

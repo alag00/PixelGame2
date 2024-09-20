@@ -71,7 +71,6 @@ private:
 	float fallingTimer = 0.f;
 
 	float defaultJumpPower = 20.f;
-	float maxJumpPower = 70.f;
 	float jumpCounter = 50.f;
 
 	float ledgeJumpPower = 35.f;
@@ -96,10 +95,43 @@ private:
 	Vector2 grappPoint = {0.f,0.f};
 	bool inHookAnim = true;
 
+	const float timeTillDance = 5.f;
 	float danceTimer = 0.f;
 	bool isDancing = false;
 
 	Vector2 particlePos{ 0.f,0.f };
+	const float pixelSize = 48.f;
+	const float boxSize = 1.f;
+
+	Color hookColor = { 241, 242, 224, 255 }; 
+
+	const float downAccelation = 50.f;
+
+	const float jumpForce = -14.f;
+	const float recoilJumpForce = -7.f;
+	const float movementSpeed = 10.f;
+
+	const short int minPitch = 80;
+	const short int maxPitch = 120;
+	const float toRatio = 100.f;
+
+	const float hookSpeed = 25.f;
+	const float slideDownSpeed = 5.f;
+
+	const float coyoteJumpTime = 0.1f;
+	const float jumpBufferTime = 0.1f;
+	const float hookOnHandOffset = 22.f;
+	const float hookThickness = 5.f;
+
+	const float gravity = 20.f;
+	const float strongGravity = 35.f;
+
+	const float endJumpBoost = -5.f;
+	const int NEW_MAX_HEALTH = 100;
+
+	const float DIVIDER = 2.f;
+	const float ZERO = 0.f;
+
 public:
 	void Unload();
 	Vector2 GetPosition() { return pos; }
@@ -152,4 +184,6 @@ public:
 	void GrapplingHookMovement(float dt);
 	bool GetLookSide() override { return lookRight; };
 	void DanceCheck(float dt);
+
+	void PlaySoundWithPitchDiff(Sound sound);
 };

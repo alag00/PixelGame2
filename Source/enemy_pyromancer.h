@@ -39,6 +39,8 @@ private:
 	static const int p2TxrAmount = 11;
 	Texture2D secondPhaseSprites[p2TxrAmount]{}; // 0 = Idle, Run, SuccessfulBlock, SwordAttack1, SwordAttack2, DeployWings, Fly,  Ranged attack, Flame projectiles, Fly attack, Death
 
+	Sound sounds[3]{}; // 0 = Death, Init Attack, Attack
+
 	DECISION dec = DECISION::IDLE;
 	float scale = 3.f;
 	float distance = 0.f;
@@ -71,6 +73,10 @@ private:
 
 	FireBall fireBalls[3];
 	float flyProgress = 0.f;
+
+	bool push = false;
+
+	float deadPause = 1.f;
 public:
 	~PyromancerEnemy();
 	void SetTextures(Texture2D p1TxrList[], Texture2D p2TxrList[]);

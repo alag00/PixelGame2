@@ -10,10 +10,10 @@ void Effect::Render()
 	switch (currentEffect)
 	{
 	case FADE_TO_BLACK:
-		color.a = (progress > 1.f) ? 255 : static_cast<char>(255 * progress);
+		color.a = (progress > midPointFade) ? alphaRange : static_cast<char>(alphaRange * progress);
 		break;
 	case FADE_FROM_BLACK:
-		color.a = (progress > 1.f) ? 0 : static_cast<char>(255 - (255 * progress));
+		color.a = (progress > midPointFade) ? 0 : static_cast<char>(alphaRange - (alphaRange * progress));
 		break;
 	case SCREEN_SHAKE:
 		camera->rotation += progress * magnitude;
@@ -53,13 +53,13 @@ void Effect::StartEffect(EFFECT_TYPE newEffect)
 	{
 	case FADE_FROM_BLACK:
 	case FADE_TO_BLACK:
-		duration = 2.f;
+		duration = screenFadeDuration;
 		break;
 	case SCREEN_SHAKE:
-		duration = 0.2f;
+		duration = screenShakeDuration;
 		break;
 	case HIT_FREEZE:
-		duration = 0.1f;
+		duration = screenFreezeDuration;
 		break;
 	}
 }

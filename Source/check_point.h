@@ -16,6 +16,9 @@ private:
 	Entity* playerRef = nullptr;
 	Config config;
 	TextRenderer txtRend;
+	const float offsetToCenter = 0.5f;
+	const float textOffset = 0.4f;
+	const int textSize = 20;
 public:
 	void SetActivated(bool newValue) { activated = newValue; }
 	bool GetActivated() { return activated; }
