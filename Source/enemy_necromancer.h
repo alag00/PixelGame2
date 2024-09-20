@@ -16,6 +16,7 @@ private:
 	Vector2 size{ 0.f,0.f };
 	Animator anim;
 	float scale = 3.f;
+	const short int ATTACK_DAMAGE = 10;
 public:
 	void Activate(Vector2 newPos);
 	void Setup(Entity& ref, int direction, Texture2D txr, Vector2 newPos);
@@ -57,8 +58,8 @@ private:
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 
-	int currentAttackId = 1;
-	int lastAttackId = 0;
+	const short int ATTACK_DAMAGE = 10;
+	const short int DEFLECTED_DAMAGE = 5;
 
 	static const int projAmount = 2;
 	Projectiles projList[projAmount];
@@ -90,7 +91,7 @@ public:
 
 	void Push();
 
-	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
+	bool GetHit(Vector2 sourcePos, int potentialDamage);
 
 	void RenderUI();
 

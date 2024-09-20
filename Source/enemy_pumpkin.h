@@ -30,8 +30,8 @@ class PumpkinEnemy : public Enemy
 	bool hasAdvantage = true;
 	int switchAgroCounter = 2;
 
-	int currentAttackId = 1;
-	int lastAttackId = 0;
+	const short int ATTACK_DAMAGE = 10;
+	const short int DEFLECTED_DAMAGE = 5;
 
 	Vector2 leftBorder{ 0.f,0.f };
 	Vector2 rightBorder{ 0.f,0.f };
@@ -61,7 +61,7 @@ public:
 
 	void UpdateAgroSwitch();
 
-	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
+	bool GetHit(Vector2 sourcePos, int potentialDamage);
 
 	void RenderUI();
 

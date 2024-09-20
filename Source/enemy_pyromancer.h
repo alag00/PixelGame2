@@ -16,6 +16,7 @@ private:
 	Animator anim;
 	bool lookLeft = true;
 	float timeAlive = 0.f;
+	const short int ATTACK_DAMAGE = 10;
 public:
 	void SetRef(Entity& ref);
 	void SetTxr(Texture2D txr);
@@ -53,8 +54,8 @@ private:
 	bool hasAdvantage = true;
 	int switchAgroCounter = 2;
 
-	int currentAttackId = 1;
-	int lastAttackId = 0;
+	const short int ATTACK_DAMAGE = 10;
+	const short int DEFLECTED_DAMAGE = 5;
 
 	Vector2 leftBorder{ 0.f,0.f };
 	Vector2 rightBorder{ 0.f,0.f };
@@ -109,7 +110,7 @@ public:
 	void UpdateAgroSwitch();
 	void Damaged(float dt);
 
-	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
+	bool GetHit(Vector2 sourcePos, int potentialDamage);
 
 	void RenderUI();
 

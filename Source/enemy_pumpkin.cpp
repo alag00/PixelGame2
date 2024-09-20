@@ -88,7 +88,7 @@ void PumpkinEnemy::Decide()
 		PlaySound(initAttackSound);
 		currentAttackStage = 1;
 
-		currentAttackId++;
+	
 
 	}
 	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
@@ -155,9 +155,9 @@ void PumpkinEnemy::CollisionCheck()
 {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		if (!playerRef->GetHit(pos, 10, currentAttackId))
+		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			health -= 5;
+			health -= DEFLECTED_DAMAGE;
 		
 			if (health <= 0)
 			{
@@ -244,7 +244,7 @@ void PumpkinEnemy::UpdateAgroSwitch()
 }
 
 
-bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
+bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 {
 	(void)sourcePos;
 	if (dec == DAMAGED)
@@ -269,7 +269,6 @@ bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 
 
 	health -= potentialDamage;
-	lastAttackId = id;
 
 
 	return true;

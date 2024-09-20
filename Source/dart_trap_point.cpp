@@ -46,7 +46,7 @@ void DartTrap::Update(float dt)
 	Rectangle bulletBox{bulletPos.x, bulletPos.y, 2.f, 1.f};
 	if (CheckCollisionRecs(playerRef->hitBox, bulletBox))
 	{
-		playerRef->GetHit(bulletPos, 10, 1);
+		playerRef->GetHit(bulletPos, ATTACK_DAMAGE);
 		bulletPos = pos;
 		active = false;
 		

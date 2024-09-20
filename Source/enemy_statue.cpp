@@ -93,7 +93,7 @@ void WeepingAngelEnemy::Move(float dt)
 
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		playerRef->GetHit(pos, 10, 1);
+		playerRef->GetHit(pos, ATTACK_DAMAGE);
 		
 	}
 }

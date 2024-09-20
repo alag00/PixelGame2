@@ -78,7 +78,6 @@ void NecromancerEnemy::Decide() {
 	{
 		dec = DECISION::PUSH;
 		anim.SetAnimation(pushAtlas, 8, false);
-		currentAttackId++;
 
 	}
 	else if (distance <= 4.f && attackTimer < 0.f)
@@ -86,7 +85,6 @@ void NecromancerEnemy::Decide() {
 		PlaySound(initAttackSound);
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(meleeAttackAtlas, 14, false);
-		currentAttackId++;
 
 	}
 	else if (distance <= 20.f && attackTimer < 0.f)
@@ -94,7 +92,6 @@ void NecromancerEnemy::Decide() {
 		
 		dec = DECISION::RANGED;
 		anim.SetAnimation(rangedAttackAtlas, 12, false);
-		currentAttackId++;
 
 	}
 	else
@@ -173,9 +170,9 @@ void NecromancerEnemy::Render() {
 void NecromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		if (!playerRef->GetHit(pos, 10, currentAttackId))
+		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			health -= 10;
+			health -= DEFLECTED_DAMAGE;
 			
 			dec = DAMAGED;
 			anim.SetAnimation(blockAtlas, 5, false);
@@ -245,7 +242,7 @@ void NecromancerEnemy::Push()
 }
 
 
-bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
+bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage) {
 	if (dec == DAMAGED || !IsAlive())
 	{
 		return false;
@@ -254,7 +251,6 @@ bool NecromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	
 	damagedTimer = 0.1f;
 	health -= potentialDamage;
-	lastAttackId = id;
 	if (health <= 0)
 	{
 		dec = DAMAGED;
@@ -341,11 +337,10 @@ void Projectiles::CollisionCheck()
 	hitBox.x = (dir == 1) ? pos.x : hitBox.x;
 	if (CheckCollisionRecs(playerRef->hitBox, hitBox))
 	{
-		timeAlive = 0.f;
 
-		if (!playerRef->GetHit(pos, 10, 1))
+		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			
+			timeAlive = 0.f;
 		}
 
 	}

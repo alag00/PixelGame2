@@ -15,6 +15,7 @@ private:
 	bool active = true;
 	float timeAlive = 0.f;
 	float speed = 10.f;
+	const short int ATTACK_DAMAGE = 10;
 public:
 	~DartTrap();
 	void Setup(Vector2 newPos, Entity& ref, bool left);

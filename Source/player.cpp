@@ -61,8 +61,8 @@ void Player::Setup()
 	anim.SetAnimation(idleAtlas, 8, true);
 	particleAnim.SetAnimation(deflectParticleAtlas, 5, true);
 
-	size.x = pixelSize * config.pixelScale;
-	size.y = pixelSize * config.pixelScale;
+	size.x = SPRITE_SIZE_IN_PIXELS * config.pixelScale;
+	size.y = SPRITE_SIZE_IN_PIXELS * config.pixelScale;
 
 	
 
@@ -76,7 +76,7 @@ void Player::Update(float dt)
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
 	DanceCheck(dt);
-	hitBox = { pos.x, pos.y, boxSize, boxSize };
+	hitBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -89,7 +89,7 @@ void Player::Update(float dt)
 		DamageRecovery(dt);
 		break;
 	case STATUS::LOSTADVANTAGE:
-		vel.y += gravity * dt;
+		vel.y += GRAVITY * dt;
 		QueueAttackCheck();
 		if (queuedDeflect)
 		{
@@ -113,7 +113,7 @@ void Player::Update(float dt)
 		break;
 		
 	case STATUS::AIRRECOVERY:
-		vel.y += strongGravity * dt;
+		vel.y += GRAVITY_STRONG * dt;
 		if (onGround)
 		{
 			status = STATUS::IDLE;
@@ -145,10 +145,10 @@ void Player::Render()
 	{
 	
 		Vector2 vec1 = { GetCenter().x * config.tileSize, GetCenter().y * config.tileSize };
-		vec1.x += (lookRight) ? hookOnHandOffset : -hookOnHandOffset;
-		Vector2 vec2 = { grappPoint.x * config.tileSize, grappPoint.y * config.tileSize };
+		vec1.x += (lookRight) ? GRAPPLING_OFFSET_TO_HAND : -GRAPPLING_OFFSET_TO_HAND;
+		Vector2 vec2 = { grapplingPoint.x * config.tileSize, grapplingPoint.y * config.tileSize };
 
-		DrawLineBezier(vec1, vec2, hookThickness, hookColor);
+		DrawLineBezier(vec1, vec2, GRAPPLING_LINE_THICKNESS, GRAPPLING_COLOR);
 	}
 }
 
@@ -162,7 +162,7 @@ void Player::Movement(float dt)
 	}
 	if (dt < 0.1f)
 	{
-		vel.y += (status != STATUS::FALLING) ? gravity * dt : strongGravity * dt;
+		vel.y += (status != STATUS::FALLING) ? GRAVITY * dt : GRAVITY_STRONG * dt;
 	}
 	
 
@@ -234,7 +234,7 @@ void Player::Control(float dt)
 		}
 		else {
 
-			if (fallingTimer > ZERO && fallingTimer < coyoteJumpTime)
+			if (fallingTimer > ZERO && fallingTimer < JUMP_TIME_COYOTE)
 			{
 				Jump();
 			}
@@ -244,11 +244,11 @@ void Player::Control(float dt)
 	}
 	if (IsKeyReleased(KEY_SPACE) && status == STATUS::JUMPING)
 	{
-		vel.y = (vel.y < endJumpBoost) ? endJumpBoost : vel.y;
+		vel.y = (vel.y < END_JUMP_BOOST) ? END_JUMP_BOOST : vel.y;
 	}
 	if (IsKeyDown(KEY_A))
 	{
-		vel.x = -movementSpeed;
+		vel.x = -MOVEMENT_SPEED;
 		if (status == STATUS::IDLE && onGround)
 		{
 			status = STATUS::MOVING;
@@ -256,14 +256,12 @@ void Player::Control(float dt)
 		}
 		if (lookRight)
 		{
-			anim.FlipAnimationHorizontal();
-			particleAnim.FlipAnimationHorizontal();
-			lookRight = !lookRight;
+			FlipPlayer();
 		}
 	}
 	if (IsKeyDown(KEY_D))
 	{
-		vel.x = movementSpeed;
+		vel.x = MOVEMENT_SPEED;
 		if (status == STATUS::IDLE && onGround)
 		{
 			status = STATUS::MOVING;
@@ -271,9 +269,7 @@ void Player::Control(float dt)
 		}
 		if (!lookRight)
 		{
-			anim.FlipAnimationHorizontal();
-			particleAnim.FlipAnimationHorizontal();
-			lookRight = !lookRight;
+			FlipPlayer();
 		}
 	}
 	if (status != STATUS::IDLE && onGround && !IsKeyDown(KEY_D) && !IsKeyDown(KEY_A))
@@ -295,7 +291,7 @@ void Player::Control(float dt)
 	{
 		if (status == STATUS::FALLING || status == STATUS::JUMPING)
 		{
-			vel.y += dt * downAccelation;
+			vel.y += dt * DOWNWARD_ACCELERATION;
 		}
 	}
 }
@@ -304,8 +300,8 @@ void Player::RecoilJump()
 {
 	status = STATUS::AIRMOVEMENT;
 	anim.SetAnimation(jumpAtlas, 8, true);
-	vel.y = recoilJumpForce;
-	vel.x = (lookRight) ? movementSpeed : -movementSpeed;
+	vel.y = JUMP_FORCE_SMALL;
+	vel.x = (lookRight) ? MOVEMENT_SPEED : -MOVEMENT_SPEED;
 
 }
 
@@ -314,7 +310,7 @@ void Player::Jump()
 	anim.SetAnimation(jumpAtlas, 8, true);
 	onGround = false;
 	status = STATUS::JUMPING;
-	vel.y = jumpForce;
+	vel.y = JUMP_FORCE;
 
 	PlaySoundWithPitchDiff(jumpSound);
 }
@@ -324,9 +320,8 @@ void Player::SetOnGround(bool newValue)
 	
 	if (onGround)
 	{
-		jumpCounter = ZERO;
 		fallingTimer = ZERO;
-		if (jumpTimer > ZERO && jumpTimer <= jumpBufferTime)
+		if (jumpTimer > ZERO && jumpTimer <= JUMP_TIME_BUFFERING)
 		{
 			Jump();
 		}
@@ -369,11 +364,11 @@ void Player::Attack(float dt)
 	
 		break;
 	case 6:
-		vel.x = 0.f;
+		vel.x = ZERO;
 		status = STATUS::IDLE;
 	
-		attackBox.width = 0.f;
-		attackBox.height = 0.f;
+		attackBox.width = ZERO;
+		attackBox.height = ZERO;
 
 		if (queuedDeflect)
 		{
@@ -395,11 +390,9 @@ void Player::AirAttack(float dt)
 	attackBox = { pos.x, pos.y, 1, 1 };
 	attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 
-	if (vel.x == 0.f)
+	if (vel.x == ZERO)
 	{
-		lookRight = !lookRight;
-		anim.FlipAnimationHorizontal();
-		particleAnim.FlipAnimationHorizontal();
+		FlipPlayer();
 
 		status = STATUS::AIRRECOVERY;
 		anim.SetAnimation(jumpAtlas, 8, true);
@@ -407,8 +400,8 @@ void Player::AirAttack(float dt)
 		vel.x = (lookRight) ? 10.f : -10.f;
 	
 
-		attackBox.width = 0.f;
-		attackBox.height = 0.f;
+		attackBox.width = ZERO;
+		attackBox.height = ZERO;
 
 
 		PlaySoundWithPitchDiff(hitSound);
@@ -433,16 +426,16 @@ bool Player::CollisionCheck(Entity& enemy)
 
 				particleAnim.RestartAnimation();
 				playParticle = true;
-				float xOffset = (GetCenter().x - enemy.pos.x) / 2.f;
-				float yOffset = (GetCenter().y - enemy.pos.y) / 2.f;
+				float xOffset = (GetCenter().x - enemy.pos.x) / DIVIDER;
+				float yOffset = (GetCenter().y - enemy.pos.y) / DIVIDER;
 				particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
 
 				vel.x = (lookRight) ? -20.f : 20.f;
 
-				enemy.GetHit(pos, 10, currentAttackId);
+				enemy.GetHit(pos, PLAYER_DAMAGE);
 
-				attackBox.width = 0.f;
-				attackBox.height = 0.f;
+				attackBox.width = ZERO;
+				attackBox.height = ZERO;
 
 				PlaySoundWithPitchDiff(hitSound);
 
@@ -459,11 +452,11 @@ bool Player::CollisionCheck(Entity& enemy)
 			
 			particleAnim.RestartAnimation();
 			playParticle = true;
-			float xOffset = (GetCenter().x - enemy.pos.x) / 2.f;
-			float yOffset = (GetCenter().y - enemy.pos.y) / 2.f;
+			float xOffset = (GetCenter().x - enemy.pos.x) / DIVIDER;
+			float yOffset = (GetCenter().y - enemy.pos.y) / DIVIDER;
 			particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
 
-			enemy.GetHit(pos, 10, currentAttackId);
+			enemy.GetHit(pos, PLAYER_DAMAGE);
 
 			status = STATUS::AIRRECOVERY;
 			anim.SetAnimation(jumpAtlas, 8, true);
@@ -514,13 +507,12 @@ void Player::QueueAttackCheck()
 	}
 }
 
-bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
+bool Player::GetHit(Vector2 sourcePos, int potentialDamage)
 {
 	if (status == STATUS::DAMAGED)
 	{
 		return true;
 	}
-	(void)id;
 
 	PlaySoundWithPitchDiff(hitSound);
 
@@ -533,8 +525,7 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 		anim.SetAnimation(damagedAtlas, 8, false);
 		if (!lookRight && vel.x < 0.f || lookRight && vel.x > 0.f)
 		{
-			anim.FlipAnimationHorizontal();
-			lookRight = !lookRight;
+			FlipPlayer();
 		}
 		return true;
 	}
@@ -543,8 +534,8 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 
 	particleAnim.RestartAnimation();
 	playParticle = true;
-	float xOffset = (GetCenter().x - sourcePos.x) / 2.f;
-	float yOffset = (GetCenter().y - sourcePos.y) / 2.f;
+	float xOffset = (GetCenter().x - sourcePos.x) / DIVIDER;
+	float yOffset = (GetCenter().y - sourcePos.y) / DIVIDER;
 	particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
 
 
@@ -574,12 +565,12 @@ void Player::RenderParticles()
 	{
 		return;
 	}
-	Rectangle dst = { particlePos.x * 64.f, particlePos.y * 64.f, size.x, size.y };
+	Rectangle dst = { particlePos.x * config.tileSize, particlePos.y * config.tileSize, size.x, size.y };
 	
-	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+	Vector2 origin = { dst.width / DIVIDER, dst.height / DIVIDER };
 
 	
-	particleAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	particleAnim.DrawAnimationPro(dst, origin, ZERO, WHITE);
 
 }
 
@@ -606,10 +597,9 @@ void Player::InitAttack()
 	if (onGround)
 	{
 		
-		vel.x = 0.f;
-		vel.y = 0.f;
+		vel.x = ZERO;
+		vel.y = ZERO;
 		status = STATUS::ATTACK;
-		currentAttackId++;
 		queuedAttack = false;
 		switch (currentSlice)
 		{
@@ -634,7 +624,7 @@ void Player::InitAttack()
 
 		PlaySoundWithPitchDiff(jumpSound);
 
-		attackBox = { pos.x, pos.y, boxSize, boxSize };
+		attackBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
 		attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 	
 	}
@@ -672,7 +662,7 @@ void Player::Respawn()
 	status = STATUS::IDLE;
 	anim.SetAnimation(idleAtlas, 8, true);
 	health = maxHealth;
-	vel = { 0.f,0.f };
+	vel = { ZERO,ZERO };
 }
 
 
@@ -683,26 +673,23 @@ void Player::EnterClimbMode()
 void Player::ClimbControl(float dt)
 {
 	dt;
-	vel = { 0.f,0.f };
+	vel = { ZERO,ZERO };
 	vel.x += (lookRight) ? 10.f*dt : -10.f*dt;
 	if (IsKeyPressed(KEY_SPACE))
 	{
-		lookRight = !lookRight;
-		anim.FlipAnimationHorizontal();
-		particleAnim.FlipAnimationHorizontal();
+		FlipPlayer();
+
 		RecoilJump();
 		vel.y += -3.f;
 		return;
 	}
 	else if (IsKeyDown(KEY_S))
 	{
-		vel.y = slideDownSpeed;
+		vel.y = SLIDE_DOWN_SPEED;
 		anim.SetAnimation(climbSlideAtlas, 4, true);
 		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
-			lookRight = !lookRight;
-			anim.FlipAnimationHorizontal();
-			particleAnim.FlipAnimationHorizontal();
+			FlipPlayer();
 			status = STATUS::FALLING;
 			anim.SetAnimation(fallAtlas, 4, true);
 		}
@@ -721,38 +708,38 @@ void Player::EnterGrapplingHookMode(Vector2 hookPos)
 	{
 		return;
 	}
-	inHookAnim = true;
-	grappPoint.x = hookPos.x;
-	grappPoint.y = hookPos.y;
+	inGrapplingAnim = true;
+	grapplingPoint.x = hookPos.x;
+	grapplingPoint.y = hookPos.y;
 	status = STATUS::HOOK;
 	anim.SetAnimation(hookAtlas, 5, false);
 
-	vel = { 0.f,0.f };
+	vel = { ZERO,ZERO };
 
 	PlaySoundWithPitchDiff(hookSound);
 }
 
 void Player::GrapplingHookMovement(float dt)
 {
-	if (inHookAnim)
+	if (inGrapplingAnim)
 	{
 		if (anim.GetCurrentFrame() >= 4)
 		{
-			inHookAnim = false;
+			inGrapplingAnim = false;
 			anim.SetAnimation(jumpAtlas, 8, true);
 			
 		}
 	}
-	float x = grappPoint.x - GetCenter().x;
-	float y = grappPoint.y - GetCenter().y;
+	float x = grapplingPoint.x - GetCenter().x;
+	float y = grapplingPoint.y - GetCenter().y;
 	float mag = sqrtf(x * x + y * y);
 	x /= mag;
 	y /= mag;
 
 	
 
-	vel.x += x * dt * hookSpeed;
-	vel.y += y * dt * hookSpeed;
+	vel.x += x * dt * GRAPPLING_SPEED;
+	vel.y += y * dt * GRAPPLING_SPEED;
 
 	if (mag < 1.f || IsKeyPressed(KEY_SPACE))
 	{
@@ -765,12 +752,12 @@ void Player::DanceCheck(float dt)
 {
 	if (status != STATUS::IDLE)
 	{
-		danceTimer = 0.f;
+		danceTimer = ZERO;
 		isDancing = false;
 		return;
 	}
 	danceTimer += dt;
-	if (danceTimer > timeTillDance && !isDancing)
+	if (danceTimer > TIME_TILL_DANCE && !isDancing)
 	{
 		isDancing = true;
 		anim.SetAnimation(danceAtlas, 8, true);
@@ -779,8 +766,15 @@ void Player::DanceCheck(float dt)
 
 void Player::PlaySoundWithPitchDiff(Sound sound)
 {
-	float randNum = (float)GetRandomValue(minPitch, maxPitch);
-	randNum /= toRatio;
+	float randNum = (float)GetRandomValue(PITCH_MIN, PITCH_MAX);
+	randNum /= PERCENT_TO_RATIO;
 	SetSoundPitch(sound, randNum);
 	PlaySound(sound);
+}
+
+void Player::FlipPlayer()
+{
+	lookRight = !lookRight;
+	anim.FlipAnimationHorizontal();
+	particleAnim.FlipAnimationHorizontal();
 }

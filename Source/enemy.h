@@ -37,11 +37,10 @@ public:
 	virtual void Render(){};
 
 
-	virtual bool GetHit(Vector2 sourcePos, int potentialDamage, int id) 
+	virtual bool GetHit(Vector2 sourcePos, int potentialDamage) 
 	{ 
 		(void)sourcePos;
 		(void)potentialDamage;
-		(void)id;
 		return true; 
 	};
 

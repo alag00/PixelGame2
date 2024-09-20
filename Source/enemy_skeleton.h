@@ -32,8 +32,8 @@ private:
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 
-	int currentAttackId = 1;
-	int lastAttackId = 0;
+	const short int ATTACK_DAMAGE = 10;
+	const short int DEFLECTED_DAMAGE = 5;
 
 	float attackCooldown = 1.f;
 	float attackTimer = attackCooldown;
@@ -58,7 +58,7 @@ public:
 
 	void UpdateAgroSwitch();
 
-	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
+	bool GetHit(Vector2 sourcePos, int potentialDamage);
 	
 	void RenderUI();
 

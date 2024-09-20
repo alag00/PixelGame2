@@ -97,8 +97,7 @@ void KnightEnemy::Decide()
 			currentSlice = 1;
 			break;
 		}
-		
-		currentAttackId++;
+	
 
 	}
 	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
@@ -165,9 +164,9 @@ void KnightEnemy::CollisionCheck()
 {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		if (!playerRef->GetHit(pos, 10, currentAttackId))
+		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			health -= 10;
+			health -= DEFLECTED_DAMAGE;
 			UpdateAgroSwitch();
 			dec = DAMAGED;
 			anim.SetAnimation(textures[5], 5, false);
@@ -239,7 +238,7 @@ void KnightEnemy::UpdateAgroSwitch()
 }
 
 
-bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
+bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 {
 	(void)sourcePos;
 	if (dec == DAMAGED)
@@ -270,9 +269,6 @@ bool KnightEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id)
 	UpdateAgroSwitch();
 
 
-
-
-	lastAttackId = id;
 	
 	
 	return true;

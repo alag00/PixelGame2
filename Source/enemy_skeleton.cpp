@@ -65,7 +65,6 @@ void SkeletonEnemy::Decide() {
 	{
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(attackAtlas, 14, false);
-		currentAttackId++;
 		PlaySound(initAttackSound);
 
 	}
@@ -122,9 +121,9 @@ void SkeletonEnemy::Render() {
 void SkeletonEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		if (!playerRef->GetHit(pos, 10, currentAttackId))
+		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			health -= 10;
+			health -= DEFLECTED_DAMAGE;
 			UpdateAgroSwitch();
 			dec = DAMAGED;
 			anim.SetAnimation(blockAtlas, 5, false);
@@ -162,7 +161,7 @@ void SkeletonEnemy::UpdateAgroSwitch() {
 
 }
 
-bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
+bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage) {
 	if (dec == DAMAGED)
 	{
 		return false;
@@ -173,7 +172,6 @@ bool SkeletonEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
 	attackTimer = 0.f;
 	damagedTimer = 0.1f;
 	health -= potentialDamage;
-	lastAttackId = id;
 	if (health <= 0)
 	{
 

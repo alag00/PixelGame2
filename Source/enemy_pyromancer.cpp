@@ -535,13 +535,13 @@ void PyromancerEnemy::FlameFlyAttack(float dt)
 void PyromancerEnemy::CollisionCheck() {
 	if (CheckCollisionRecs(playerRef->hitBox, attackBox))
 	{
-		int damage = (push) ? 0 : 10 ;
-		if (!playerRef->GetHit(pos, damage, currentAttackId))
+		int damage = (push) ? 0 : ATTACK_DAMAGE;
+		if (!playerRef->GetHit(pos, damage))
 		{
 			UpdateAgroSwitch();
 			if (currentAttackNum != 1)
 			{
-				health -= 10;
+				health -= DEFLECTED_DAMAGE;
 				dec = DAMAGED;
 				if (inFirstPhase)
 				{
@@ -615,14 +615,14 @@ void PyromancerEnemy::Damaged(float dt)
 		}
 	}
 }
-bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage, int id) {
+bool PyromancerEnemy::GetHit(Vector2 sourcePos, int potentialDamage) {
 	if (health <= 0)
 	{
 		return false;
 	}
 	sourcePos;
 	potentialDamage;
-	id;
+
 	health -= potentialDamage;
 	if (health <= 0)
 	{
@@ -717,7 +717,7 @@ void FireBall::Update(float dt)
 	Rectangle bulletBox{ pos.x, pos.y, 2.f, 1.f };
 	if (CheckCollisionRecs(playerRef->hitBox, bulletBox))
 	{
-		playerRef->GetHit(pos, 10, 1);
+		playerRef->GetHit(pos, ATTACK_DAMAGE);
 		timeAlive = 0.f;
 	}
 }

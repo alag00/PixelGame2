@@ -25,7 +25,12 @@ class Player : public Entity
 {
 private:
 	Config config;
+	STATUS status = STATUS::IDLE;
+	const int NEW_MAX_HEALTH = 100;
+	const float DIVIDER = 2.f;
+	const float ZERO = 0.f;
 
+	// VISUALITY VARIABLES
 	Texture2D idleAtlas = {};
 	Texture2D walkAtlas = {};
 	Texture2D fallAtlas = {};
@@ -34,103 +39,87 @@ private:
 	Texture2D climbAtlas{};
 	Texture2D climbSlideAtlas{};
 	Texture2D hookAtlas{};
-
 	Texture2D damagedAtlas = {};
 	Texture2D deflectAtlas = {};
 	Texture2D airDeflectAtlas = {};
 	Texture2D successDeflectAtlas = {};
 	Texture2D deflectParticleAtlas = {};
-
 	Texture2D attackOneAtlas{};
 	Texture2D attackTwoAtlas{};
 	Texture2D airAttackAtlas{};
-
 	Texture2D loseAdvantageAtlas{};
 	Texture2D danceAtlas{};
 
 	Animator anim;
 	Animator particleAnim;
 
-	
-	Sound hitSound{};
-	Sound deathSound{};
-	Sound jumpSound{};
-	Sound hookSound{};
-
 	Vector2 size{0.f,0.f};
-	Vector2 vel{ 0.f,0.f };
 	float scale = 3.f;
+	bool lookRight = true;
+	const float SPRITE_SIZE_IN_PIXELS = 48.f;
+	const float BOX_SIZE_IN_TILES = 1.f;
+	
+	// MOVEMENT VARIABLES
+	const float MOVEMENT_SPEED = 10.f;
+	const float GRAVITY = 20.f;
+	const float GRAVITY_STRONG = 35.f;
+	const float DOWNWARD_ACCELERATION = 50.f;
+	Vector2 nextPos{ 0.f,0.f };
+	Vector2 vel{ 0.f,0.f };
 	float speed = 10.f;
 	float MAX_VELOCITY = 80.f;
 
+	// ATTACK VARIABLES
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
-	bool lookRight = true;
-	
+	bool queuedAttack = false;
+	const int PLAYER_DAMAGE = 10;
+	int currentSlice = 1;
+	const float ATTACK_WINDOW_TIME = 0.5f;
+	float attackWindowTimer = 0.f;
+
+	// DEFLECT VARIABLES
+	bool queuedDeflect = false;
+	float deflectTimer = 0.f;
+
+	// JUMP VARIABLES
+	const float JUMP_FORCE = -14.f;
+	const float JUMP_FORCE_SMALL = -7.f;
+	const float END_JUMP_BOOST = -5.f;
+	const float JUMP_TIME_COYOTE = 0.1f;
+	const float JUMP_TIME_BUFFERING = 0.1f;
 	bool onGround = false;
 	float jumpTimer = 0.1f;
 	float fallingTimer = 0.f;
 
-	float defaultJumpPower = 20.f;
-	float jumpCounter = 50.f;
 
-	float ledgeJumpPower = 35.f;
-	float currentJumpPower = 0.f;
+	// CLIMB VARIABLES
+	const float SLIDE_DOWN_SPEED = 5.f;
 
-	STATUS status = STATUS::IDLE;
-	float deflectTimer = 0.f;
+	// GRAPPLING HOOK VARIABLES
+	const float GRAPPLING_SPEED = 25.f;
+	const float GRAPPLING_OFFSET_TO_HAND = 22.f;
+	const float GRAPPLING_LINE_THICKNESS = 5.f;
+	const Color GRAPPLING_COLOR = { 241, 242, 224, 255 };
+	Vector2 grapplingPoint = {0.f,0.f};
+	bool inGrapplingAnim = true;
 
-	Vector2 nextPos{ 0.f,0.f };
-
-	int currentSlice = 1;
-	float attackWindowTime = 0.5f;
-	float attackWindowTimer = 0.f;
-
-	bool playParticle = false;
-
-	int currentAttackId = 1;
-	int lastAttackId = 0;
-	bool queuedAttack = false;
-	bool queuedDeflect = false;
-
-	Vector2 grappPoint = {0.f,0.f};
-	bool inHookAnim = true;
-
-	const float timeTillDance = 5.f;
+	// DANCE VARIABLES
+	const float TIME_TILL_DANCE = 5.f;
 	float danceTimer = 0.f;
 	bool isDancing = false;
 
+	// PARTICLE VARIABLES
 	Vector2 particlePos{ 0.f,0.f };
-	const float pixelSize = 48.f;
-	const float boxSize = 1.f;
+	bool playParticle = false;
 
-	Color hookColor = { 241, 242, 224, 255 }; 
-
-	const float downAccelation = 50.f;
-
-	const float jumpForce = -14.f;
-	const float recoilJumpForce = -7.f;
-	const float movementSpeed = 10.f;
-
-	const short int minPitch = 80;
-	const short int maxPitch = 120;
-	const float toRatio = 100.f;
-
-	const float hookSpeed = 25.f;
-	const float slideDownSpeed = 5.f;
-
-	const float coyoteJumpTime = 0.1f;
-	const float jumpBufferTime = 0.1f;
-	const float hookOnHandOffset = 22.f;
-	const float hookThickness = 5.f;
-
-	const float gravity = 20.f;
-	const float strongGravity = 35.f;
-
-	const float endJumpBoost = -5.f;
-	const int NEW_MAX_HEALTH = 100;
-
-	const float DIVIDER = 2.f;
-	const float ZERO = 0.f;
+	// AUDIO VARIABLES
+	Sound hitSound{};
+	Sound deathSound{};
+	Sound jumpSound{};
+	Sound hookSound{};
+	const short int PITCH_MIN = 80;
+	const short int PITCH_MAX = 120;
+	const float PERCENT_TO_RATIO = 100.f;
 
 public:
 	void Unload();
@@ -162,7 +151,7 @@ public:
 	bool IsInAttackMode();
 	void QueueAttackCheck();
 
-	bool GetHit(Vector2 sourcePos, int potentialDamage, int id);
+	bool GetHit(Vector2 sourcePos, int potentialDamage);
 
 	
 
@@ -186,4 +175,5 @@ public:
 	void DanceCheck(float dt);
 
 	void PlaySoundWithPitchDiff(Sound sound);
+	void FlipPlayer();
 };

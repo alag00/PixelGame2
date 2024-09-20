@@ -18,7 +18,7 @@ private:
 	float speed = 15.f;
 	float delay = 0.5f;
 	float delayTimer = delay;
-
+	const short int ATTACK_DAMAGE = 10;
 	Vector2 leftBorder{ 0.f,0.f };
 	Vector2 rightBorder{ 0.f,0.f };
 
