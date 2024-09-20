@@ -64,8 +64,6 @@ void Player::Setup()
 	size.x = SPRITE_SIZE_IN_PIXELS * config.pixelScale;
 	size.y = SPRITE_SIZE_IN_PIXELS * config.pixelScale;
 
-	
-
 	maxHealth = NEW_MAX_HEALTH;
 	health = maxHealth;
 }
@@ -132,9 +130,9 @@ void Player::Update(float dt)
 void Player::Render()
 {
 	Rectangle dst = { pos.x, pos.y, size.x, size.y };
-	dst = { pos.x * config.tileSize + config.tileSize / DIVIDER, pos.y * config.tileSize + 40.f, size.x, size.y };
+	dst = { pos.x * config.tileSize + config.tileSize / DIVIDER, pos.y * config.tileSize + OFFSET_PLAYER_Y, size.x, size.y };
 	Vector2 origin = { dst.width / DIVIDER, dst.height / DIVIDER };
-	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+	anim.DrawAnimationPro(dst, origin, ZERO, WHITE);
 
 
 
@@ -155,12 +153,12 @@ void Player::Render()
 void Player::Movement(float dt)
 {	
 	
-	if (vel.y > 0.f && status != STATUS::FALLING && status != STATUS::DEFLECT && status != STATUS::AIRRECOVERY && status != STATUS::AIRMOVEMENT)
+	if (vel.y > ZERO && status != STATUS::FALLING && status != STATUS::DEFLECT && status != STATUS::AIRRECOVERY && status != STATUS::AIRMOVEMENT)
 	{
 		anim.SetAnimation(fallAtlas, 4, true);
 		status = STATUS::FALLING;
 	}
-	if (dt < 0.1f)
+	if (dt < DELTATIME_FAILSAFE)
 	{
 		vel.y += (status != STATUS::FALLING) ? GRAVITY * dt : GRAVITY_STRONG * dt;
 	}
@@ -182,15 +180,15 @@ void Player::Control(float dt)
 	else
 	{
 
-		if (vel.x != 0.f)
+		if (vel.x != ZERO)
 		{
-			vel.x = (vel.x > 0.f) ? vel.x - dt * 100.f : vel.x + dt * 100.f;
+			vel.x = (vel.x > ZERO) ? vel.x - dt * FRICTION : vel.x + dt * FRICTION;
 		}
 
 
-		if (fabs(vel.x) <= 10.0f)
+		if (fabs(vel.x) <= MIN_SPEED)
 		{
-			vel.x = 0.f;
+			vel.x = ZERO;
 		}
 	}
 	
@@ -314,6 +312,7 @@ void Player::Jump()
 
 	PlaySoundWithPitchDiff(jumpSound);
 }
+
 void Player::SetOnGround(bool newValue)
 {
 	onGround = newValue;
@@ -336,26 +335,27 @@ void Player::SetOnGround(bool newValue)
 
 	}
 }
+
 void Player::Attack(float dt)
 {
-	vel.y += 20.f * dt;
+	vel.y += GRAVITY * dt;
 	QueueAttackCheck();
-	attackBox = { pos.x, pos.y - 0.5f , 2.f, 1.5 };
-	attackBox.x = (!lookRight) ? pos.x -1.f : pos.x;
+	attackBox = { pos.x, pos.y - OFFSET_TO_CENTER , ATTACK_BOX_WIDTH, ATTACK_BOX_HEIGHT };
+	attackBox.x = (!lookRight) ? pos.x - BOX_SIZE_IN_TILES : pos.x;
 
 	switch (anim.GetCurrentFrame())
 	{
 	case 0:
-		vel.x = (lookRight) ? 5.f : -5.f;
+		vel.x = (lookRight) ? MIN_ATTACK_SPEED : -MIN_ATTACK_SPEED;
 		break;
 	case 1:
-		vel.x = (lookRight) ? 15.f : -15.f;
+		vel.x = (lookRight) ? MAX_ATTACK_SPEED : -MAX_ATTACK_SPEED;
 		break;
 	case 2:
-		vel.x = (lookRight) ? 15.f : -15.f;
+		vel.x = (lookRight) ? MAX_ATTACK_SPEED : -MAX_ATTACK_SPEED;
 		break;
 	case 3:
-		vel.x = (lookRight) ? 5.f : -5.f;
+		vel.x = (lookRight) ? MIN_ATTACK_SPEED : -MIN_ATTACK_SPEED;
 		break;
 	case 4:
 	
@@ -367,8 +367,7 @@ void Player::Attack(float dt)
 		vel.x = ZERO;
 		status = STATUS::IDLE;
 	
-		attackBox.width = ZERO;
-		attackBox.height = ZERO;
+		DeactivateAttackBox();
 
 		if (queuedDeflect)
 		{
@@ -384,10 +383,11 @@ void Player::Attack(float dt)
 	
 	
 }
+
 void Player::AirAttack(float dt)
 {
-	vel.y += 20.f * dt;
-	attackBox = { pos.x, pos.y, 1, 1 };
+	vel.y += GRAVITY * dt;
+	attackBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
 	attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
 
 	if (vel.x == ZERO)
@@ -396,14 +396,10 @@ void Player::AirAttack(float dt)
 
 		status = STATUS::AIRRECOVERY;
 		anim.SetAnimation(jumpAtlas, 8, true);
-		vel.y = -7.f;
-		vel.x = (lookRight) ? 10.f : -10.f;
+		vel.y = JUMP_FORCE_SMALL;
+		vel.x = (lookRight) ? MOVEMENT_SPEED : -MOVEMENT_SPEED;
 	
-
-		attackBox.width = ZERO;
-		attackBox.height = ZERO;
-
-
+		DeactivateAttackBox();
 		PlaySoundWithPitchDiff(hitSound);
 	}
 }
@@ -414,68 +410,37 @@ bool Player::CollisionCheck(Entity& enemy)
 	{
 		return false;
 	}
-	switch (status)
+	if (CheckCollisionRecs(attackBox, enemy.hitBox))
 	{
-	case  STATUS::ATTACK:
-		if (anim.GetCurrentFrame() >= 2)
+		switch (status)
 		{
-
-			if (CheckCollisionRecs(attackBox, enemy.hitBox))
+		case  STATUS::ATTACK:
+			if (anim.GetCurrentFrame() >= 2)
 			{
 				status = STATUS::IDLE;
-
-				particleAnim.RestartAnimation();
-				playParticle = true;
-				float xOffset = (GetCenter().x - enemy.pos.x) / DIVIDER;
-				float yOffset = (GetCenter().y - enemy.pos.y) / DIVIDER;
-				particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
-
-				vel.x = (lookRight) ? -20.f : 20.f;
-
-				enemy.GetHit(pos, PLAYER_DAMAGE);
-
-				attackBox.width = ZERO;
-				attackBox.height = ZERO;
-
-				PlaySoundWithPitchDiff(hitSound);
-
+				ActivateParticles(enemy.pos);
+				EndAttack(enemy);
+				vel.x = (lookRight) ? -KNOCKED_BACK_FORCE : KNOCKED_BACK_FORCE;
 				LoseAdvantage();
-			
+
 				return true;
 			}
+			break;
 
-		}
-		break;
-	case  STATUS::AIRATTACK:
-		if (CheckCollisionRecs(attackBox, enemy.hitBox))
-		{
-			
-			particleAnim.RestartAnimation();
-			playParticle = true;
-			float xOffset = (GetCenter().x - enemy.pos.x) / DIVIDER;
-			float yOffset = (GetCenter().y - enemy.pos.y) / DIVIDER;
-			particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
-
-			enemy.GetHit(pos, PLAYER_DAMAGE);
+		case  STATUS::AIRATTACK:
 
 			status = STATUS::AIRRECOVERY;
+			ActivateParticles(enemy.pos);
+			EndAttack(enemy);
 			anim.SetAnimation(jumpAtlas, 8, true);
-			vel.y = -7.f;
-			vel.x = (lookRight) ? 10.f : -10.f;
-		
+			vel.y = JUMP_FORCE_SMALL;
+			vel.x = (lookRight) ? MOVEMENT_SPEED : -MOVEMENT_SPEED;
 
-
-
-
-			attackBox.width = 0.f;
-			attackBox.height = 0.f;
-
-			PlaySoundWithPitchDiff(hitSound);
 			return true;
+			break;
 		}
-		break;
-}
-	
+	}
+
 	return false;
 }
 
@@ -518,34 +483,17 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage)
 
 	if (status != STATUS::DEFLECT)
 	{
-		health -= potentialDamage;
-		vel.x = (sourcePos.x > pos.x) ? -10.f : 10.f;
-		vel.y = -5.f;
-		status = STATUS::DAMAGED;
-		anim.SetAnimation(damagedAtlas, 8, false);
-		if (!lookRight && vel.x < 0.f || lookRight && vel.x > 0.f)
-		{
-			FlipPlayer();
-		}
+		Damaged(sourcePos, potentialDamage);
 		return true;
 	}
 	anim.SetAnimation(successDeflectAtlas, 5, false);
-	vel.x = (sourcePos.x > pos.x) ? -20.f : 20.f;
+	vel.x = (sourcePos.x > pos.x) ? -KNOCKED_BACK_FORCE : KNOCKED_BACK_FORCE;
 
-	particleAnim.RestartAnimation();
-	playParticle = true;
-	float xOffset = (GetCenter().x - sourcePos.x) / DIVIDER;
-	float yOffset = (GetCenter().y - sourcePos.y) / DIVIDER;
-	particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
+	ActivateParticles(sourcePos);
 
 
 	return false;
 }
-
-
-
-
-
 
 void Player::UpdateParticles()
 {
@@ -576,12 +524,12 @@ void Player::RenderParticles()
 
 Vector2 Player::GetCenter()
 {
-	return Vector2(pos.x + 0.5f, pos.y + 0.5f);
+	return Vector2(pos.x + OFFSET_TO_CENTER, pos.y + OFFSET_TO_CENTER);
 }
 
 void Player::DamageRecovery(float dt)
 {
-	vel.y += 20.f * dt;
+	vel.y += GRAVITY * dt;
 
 	jumpTimer += dt;
 	fallingTimer += dt;
@@ -612,15 +560,15 @@ void Player::InitAttack()
 			currentSlice = 1;
 			break;
 		}
-		attackBox = { pos.x, pos.y - 0.5f , 2.f, 1.5 };
-		attackBox.x = (!lookRight) ? pos.x - 1.f : pos.x;
+		attackBox = { pos.x, pos.y - OFFSET_TO_CENTER , ATTACK_BOX_WIDTH, ATTACK_BOX_HEIGHT};
+		attackBox.x = (!lookRight) ? pos.x - BOX_SIZE_IN_TILES : pos.x;
 	}
 	else
 	{
 		anim.SetAnimation(airAttackAtlas, 4, true);
 		status = STATUS::AIRATTACK;
-		vel.x = (lookRight) ? 10.f : -10.f;
-		vel.y = -5.f;
+		vel.x = (lookRight) ? MOVEMENT_SPEED : -MOVEMENT_SPEED;
+		vel.y = END_JUMP_BOOST;
 
 		PlaySoundWithPitchDiff(jumpSound);
 
@@ -649,7 +597,7 @@ void Player::LoseAdvantage()
 {
 	anim.SetAnimation(loseAdvantageAtlas, 7, false);
 	status = STATUS::LOSTADVANTAGE;
-	vel.x = (lookRight) ? -2.f : 2.f ;
+	vel.x = (lookRight) ? -LOST_ADVANTAGE_SPEED : LOST_ADVANTAGE_SPEED;
 }
 
 void  Player::Die()
@@ -665,22 +613,21 @@ void Player::Respawn()
 	vel = { ZERO,ZERO };
 }
 
-
 void Player::EnterClimbMode()
 {
 	status = STATUS::CLIMB;
 }
+
 void Player::ClimbControl(float dt)
 {
-	dt;
 	vel = { ZERO,ZERO };
-	vel.x += (lookRight) ? 10.f*dt : -10.f*dt;
+	vel.x += (lookRight) ? FORCE_TO_WALL *dt : -FORCE_TO_WALL *dt;
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		FlipPlayer();
 
 		RecoilJump();
-		vel.y += -3.f;
+		vel.y += WALL_JUMP_BOOST;
 		return;
 	}
 	else if (IsKeyDown(KEY_S))
@@ -741,7 +688,7 @@ void Player::GrapplingHookMovement(float dt)
 	vel.x += x * dt * GRAPPLING_SPEED;
 	vel.y += y * dt * GRAPPLING_SPEED;
 
-	if (mag < 1.f || IsKeyPressed(KEY_SPACE))
+	if (mag < GRAPPLING_END_DISTANCE_MARGIN || IsKeyPressed(KEY_SPACE))
 	{
 		RecoilJump();
 	}
@@ -777,4 +724,39 @@ void Player::FlipPlayer()
 	lookRight = !lookRight;
 	anim.FlipAnimationHorizontal();
 	particleAnim.FlipAnimationHorizontal();
+}
+
+void Player::Damaged(Vector2 sourcePos, int damage)
+{
+	health -= damage;
+	vel.x = (sourcePos.x > pos.x) ? -MOVEMENT_SPEED : MOVEMENT_SPEED;
+	vel.y = KNOCKED_UP_FORCE;
+	status = STATUS::DAMAGED;
+	anim.SetAnimation(damagedAtlas, 8, false);
+	if (!lookRight && vel.x < ZERO || lookRight && vel.x > ZERO)
+	{
+		FlipPlayer();
+	}
+}
+
+void Player::ActivateParticles(Vector2 enemyPos)
+{
+	particleAnim.RestartAnimation();
+	playParticle = true;
+	float xOffset = (GetCenter().x - enemyPos.x) / DIVIDER;
+	float yOffset = (GetCenter().y - enemyPos.y) / DIVIDER;
+	particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
+}
+
+void Player::EndAttack(Entity& enemy)
+{
+	enemy.GetHit(pos, PLAYER_DAMAGE);
+	DeactivateAttackBox();
+	PlaySoundWithPitchDiff(hitSound);
+}
+
+void Player::DeactivateAttackBox()
+{
+	attackBox.width = ZERO;
+	attackBox.height = ZERO;
 }

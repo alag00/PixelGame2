@@ -29,6 +29,7 @@ private:
 	const int NEW_MAX_HEALTH = 100;
 	const float DIVIDER = 2.f;
 	const float ZERO = 0.f;
+	const float DELTATIME_FAILSAFE = 0.1f;
 
 	// VISUALITY VARIABLES
 	Texture2D idleAtlas = {};
@@ -54,10 +55,14 @@ private:
 	Animator particleAnim;
 
 	Vector2 size{0.f,0.f};
-	float scale = 3.f;
+	const float SCALE = 3.f;
 	bool lookRight = true;
 	const float SPRITE_SIZE_IN_PIXELS = 48.f;
 	const float BOX_SIZE_IN_TILES = 1.f;
+	const float OFFSET_TO_CENTER = 0.5f;
+	const float OFFSET_PLAYER_Y = 40.f;
+	const float ATTACK_BOX_WIDTH = 2.f;
+	const float ATTACK_BOX_HEIGHT = 1.5f;
 	
 	// MOVEMENT VARIABLES
 	const float MOVEMENT_SPEED = 10.f;
@@ -66,8 +71,14 @@ private:
 	const float DOWNWARD_ACCELERATION = 50.f;
 	Vector2 nextPos{ 0.f,0.f };
 	Vector2 vel{ 0.f,0.f };
-	float speed = 10.f;
-	float MAX_VELOCITY = 80.f;
+	const float SPEED = 10.f;
+	const float MAX_VELOCITY = 80.f;
+	const float KNOCKED_BACK_FORCE = 20.f;
+	const float LOST_ADVANTAGE_SPEED = 2.f;
+	const float FRICTION = 100.f;
+	const float MIN_SPEED = 10.f;
+	const float MIN_ATTACK_SPEED = 5.f;
+	const float MAX_ATTACK_SPEED = 15.f;
 
 	// ATTACK VARIABLES
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
@@ -85,6 +96,7 @@ private:
 	const float JUMP_FORCE = -14.f;
 	const float JUMP_FORCE_SMALL = -7.f;
 	const float END_JUMP_BOOST = -5.f;
+	const float KNOCKED_UP_FORCE= -5.f;
 	const float JUMP_TIME_COYOTE = 0.1f;
 	const float JUMP_TIME_BUFFERING = 0.1f;
 	bool onGround = false;
@@ -94,11 +106,14 @@ private:
 
 	// CLIMB VARIABLES
 	const float SLIDE_DOWN_SPEED = 5.f;
+	const float FORCE_TO_WALL = 10.f;
+	const float WALL_JUMP_BOOST = -3.f;
 
 	// GRAPPLING HOOK VARIABLES
 	const float GRAPPLING_SPEED = 25.f;
 	const float GRAPPLING_OFFSET_TO_HAND = 22.f;
 	const float GRAPPLING_LINE_THICKNESS = 5.f;
+	const float GRAPPLING_END_DISTANCE_MARGIN = 1.f;
 	const Color GRAPPLING_COLOR = { 241, 242, 224, 255 };
 	Vector2 grapplingPoint = {0.f,0.f};
 	bool inGrapplingAnim = true;
@@ -176,4 +191,10 @@ public:
 
 	void PlaySoundWithPitchDiff(Sound sound);
 	void FlipPlayer();
+
+	void Damaged(Vector2 sourcePos, int damage);
+
+	void ActivateParticles(Vector2 enemyPos);
+	void EndAttack(Entity& enemy);
+	void DeactivateAttackBox();
 };
