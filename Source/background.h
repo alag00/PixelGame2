@@ -5,16 +5,17 @@
 class Background
 {
 private:
-	Texture2D activeTxr[3];
+	const static int BACKGROUND_AMOUNT = 3;
 
-	Vector2 txr2pos[3];
-
-	Vector2 txr3pos[3];
+	Texture2D activeTxr[BACKGROUND_AMOUNT];
+	Vector2 txr2pos[BACKGROUND_AMOUNT];
+	Vector2 txr3pos[BACKGROUND_AMOUNT];
 
 	int screenWidth = 0;
 	int screenHeight = 0;
-	float xSpeed = 300.f;
-	float ySpeed = 1.f;
+	const float SPEED_X = 300.f;
+	const float SPEED_Y = 1.f;
+	const float SPEED_FOREGROUND_BONUS = 2.f;
 
 	Vector2 lastCamPos = { 0.f,0.f };
 public:

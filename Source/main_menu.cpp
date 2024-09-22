@@ -5,25 +5,39 @@
 
 void MainMenu::LoadScene()
 {
+	screenWidth = (float)GetScreenWidth();
+	sceenHeight = (float)GetScreenHeight();
 
+	bg = LoadTexture("Assets/MainMenu/BackgroundPixelated.png");
+	title = LoadTexture("Assets/MainMenu/MainTitle.png");
+
+	menuSong = LoadMusicStream("Assets/Audio/Music/CutsceneTheme.mp3");
+	PlayMusicStream(menuSong);
 }
 
 void MainMenu::LeaveScene()
 {
 	UnloadTexture(bg);
+	UnloadTexture(title);
+
+	UnloadMusicStream(menuSong);
 }
 bool MainMenu::Update()
 {
-	if (!isTxrLoaded)
-	{
-		LoadTextures();
-	}
+	UpdateMusicStream(menuSong);
 	if (IsKeyPressed(KEY_SPACE))
 	{
 		nextScene = SCENE_TYPE::LEVEL;
 		return true;
 	}
-	
+	float dt = GetFrameTime();
+	blinkTimer += dt;
+	if (blinkTimer >= BLINK_RATE)
+	{
+		blinkTimer = 0.f;
+		showText = !showText;
+	}
+
 	return false;
 }
 void MainMenu::Render()
@@ -32,7 +46,11 @@ void MainMenu::Render()
 	ClearBackground(BLACK);
 	DrawBackground();
 
-	DrawText("Press 'Space'", 80, GetScreenHeight() - 80, 40, YELLOW);
+	if (showText)
+	{
+		txtRend.RenderText("Press 'Space'", ((int)screenWidth / 2) - OFFSET, GetScreenHeight() - OFFSET, FONT_SIZE, YELLOW, BLACK);
+	}
+	//DrawText("Press 'Space'", OFFSET, GetScreenHeight() - OFFSET, FONT_SIZE, YELLOW);
 
 	EndDrawing();
 }
@@ -47,14 +65,14 @@ void MainMenu::RenderUI()
 void MainMenu::DrawBackground()
 {
 	Rectangle src{ 0.f,0.f, (float)bg.width, (float)bg.height };
-	Rectangle dst{ 0.f,0.f,(float)GetScreenWidth(), (float)GetScreenHeight() };
+	Rectangle dst{ 0.f,0.f,screenWidth, sceenHeight };
 	Vector2 ori{ 0.f,0.f };
 	DrawTexturePro(bg, src, dst, ori, 0.f, WHITE);
-}
 
-void MainMenu::LoadTextures()
-{
-	bg = LoadTexture("Assets/BackgroundTextures/Skybackground1.png");
-	isTxrLoaded = true;
+	src = { 0.f, 0.f, (float)title.width, (float)title.height };
+	dst = { 0.f,0.f, screenWidth / 2.f, sceenHeight / 4.f };
+	dst.x = dst.width - (dst.width / 2.f);
+	dst.y = (sceenHeight / 4.f) - (dst.height / 2.f);
+	DrawTexturePro(title, src, dst, ori, 0.f, WHITE);
 }
 

@@ -2,8 +2,9 @@
 
 LevelManager::~LevelManager()
 {
-	enemyManager.ClearEnemyList();
+	LeaveScene();
 }
+
 void LevelManager::LoadScene()
 {
 	
@@ -14,7 +15,8 @@ void LevelManager::LoadScene()
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
 	levels.Load();
-	
+	tutorial.SetPlayerRef(player);
+	darkMode.Setup(player, screenWidth, screenHeight);
 
 	cam.offset = { screenWidth / 2.f, screenHeight / 2.f };
 	cam.target = { screenWidth / 2.f, screenHeight / 2.f };
@@ -33,6 +35,7 @@ void LevelManager::LoadScene()
 	LevelSetup();
 	
 }
+
 void LevelManager::LeaveScene()
 {
 
@@ -42,12 +45,15 @@ void LevelManager::LeaveScene()
 	miscManager.Unload();
 	background.Unload();
 	levels.Unload();
+
+	enemyManager.ClearEnemyList();
 }
+
 bool LevelManager::Update()
 {
 	UpdateMusicStream(currentSong);
 	float dt = GetFrameTime();
-	if (dt > 0.1f)
+	if (dt > DELTA_FAILSAFE_LIMIT)
 	{
 		return exitLevel;
 	}
@@ -71,10 +77,31 @@ bool LevelManager::Update()
 	}
 	background.Update(cameraTargetPos, dt);
 	
-	CheckEvent();
+	UpdateEntities(dt);
+	UpdateMiscs(dt);
+
+	float percent = (float)player.health / (float)player.maxHealth;
+	if (percent <= 0.f)
+	{
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = Die;
+		player.health = 1;
+		player.Die();
+	}
+
+	
+	if (levelDarkMode)
+	{
+		darkMode.Update(dt);
+	}
+	return exitLevel;
+}
+
+void LevelManager::UpdateEntities(float dt)
+{
 	player.Update(dt);
 	AdjustPlayer(dt);
-	
+
 	if (enemyManager.Update() && !bossDefeated)
 	{
 		bossDefeated = true;
@@ -102,18 +129,12 @@ bool LevelManager::Update()
 			}
 		}
 	}
+}
 
-	float percent = (float)player.health / (float)player.maxHealth;
-	if (percent <= 0.f)
-	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
-		player.health = 1;
-		player.Die();
-	}
-
+void LevelManager::UpdateMiscs(float dt)
+{
 	int returnValue = miscManager.UpdateCheckPoints();
-	if (returnValue != 4444)
+	if (returnValue != MISC_FAIL_CODE)
 	{
 		Vector2 tilePos = miscManager.GetCheckPointList().at(returnValue).GetPos();
 		SetTile(tilePos.x, tilePos.y, L'?');
@@ -121,7 +142,7 @@ bool LevelManager::Update()
 	}
 
 	returnValue = miscManager.UpdateGrapplingPoints();
-	if (returnValue != 4444)
+	if (returnValue != MISC_FAIL_CODE)
 	{
 		player.EnterGrapplingHookMode(miscManager.GetGrapPointList().at(returnValue).GetPos());
 	}
@@ -139,13 +160,6 @@ bool LevelManager::Update()
 		}
 	}
 	miscManager.UpdateDartTrapsPoints(dt);
-	if (levelDarkMode)
-	{
-		darkProgress += (player.GetLookSide()) ? -2.f * dt: 2.f * dt;
-		darkProgress = (darkProgress > 1.f) ? 1.f : darkProgress;
-		darkProgress = (darkProgress < 0.f) ? 0.f : darkProgress;
-	}
-	return exitLevel;
 }
 
 void LevelManager::CheckEvent()
@@ -457,7 +471,7 @@ void LevelManager::Render()
 {
 	BeginDrawing();
 	ClearBackground(BLACK);
-	RenderBackground();
+	background.Render();
 	BeginMode2D(cam);
 
 	LevelRender();
@@ -474,35 +488,24 @@ void LevelManager::Render()
 
 	enemyManager.Render();
 	player.Render();
-	RenderUI();
+	enemyManager.RenderUI();
 	if (currentLevel == 1)
 	{
-		RenderTutorial();
+		tutorial.Render();
 	}
 	filter.Render();
 	EndMode2D();
 	if (levelDarkMode)
 	{
-		RenderDarkMode();
+		darkMode.Render();
 	}
 	
 	RenderHpBars();
-	if (currentLevel == 10)
+	if (currentLevel == CURRENT_LAST_LEVEL)
 	{
 		RenderCredit();
 	}
 	EndDrawing();
-}
-
-void LevelManager::RenderUI()
-{
-	
-	enemyManager.RenderUI();
-}
-
-void LevelManager::RenderBackground()
-{
-	background.Render();
 }
 
 void LevelManager::LevelSetup()
@@ -517,9 +520,9 @@ void LevelManager::LevelSetup()
 	currentTileTextures = levels.GetLevelTexture();
 	cutsceneManager.SwitchCutscene(levels.GetCutsceneID());
 
-	sLevel = levels.GetLevel();
-	nLevelWidth = levels.GetLevelWidth();
-	nLevelHeight = levels.GetLevelHeight();
+	levelString = levels.GetLevel();
+	levelWidth = levels.GetLevelWidth();
+	levelHeight = levels.GetLevelHeight();
 	levelDarkMode = levels.GetLevelDarkMode();
 	
 	background.SetLevelBackground(levels.GetBackgroundTextures());
@@ -534,11 +537,11 @@ void LevelManager::LevelSetup()
 	
 
 	
-	std::vector<Vector2> enemyPos{};
+	//std::vector<Vector2> enemyPos{};
 
-	for (int y = 0; y < nLevelHeight; y++)
+	for (int y = 0; y < levelHeight; y++)
 	{
-		for (int x = 0; x < nLevelWidth; x++)
+		for (int x = 0; x < levelWidth; x++)
 		{
 			SetupTile(x, y);
 		}
@@ -549,35 +552,35 @@ void LevelManager::LevelSetup()
 void LevelManager::LevelRender()
 {
 	
-	int nTileWidth = 64;
-	int nTileHeight = 64;
-	int nVisibleTilesX = screenWidth / nTileWidth;
-	int nVisibleTilesY = screenHeight / nTileHeight;
+	int tileWidth = (int)config.tileSize;
+	int tileHeight = (int)config.tileSize;
+	int visibleTilesX = screenWidth / tileWidth;
+	int visibleTilesY = screenHeight / tileHeight;
 
 
 
-	cam.target = { cameraTargetPos.x * nTileWidth, cameraTargetPos.y * nTileHeight };
+	cam.target = { cameraTargetPos.x * tileWidth, cameraTargetPos.y * tileHeight };
 
 	float halfWidth = screenWidth / 2.f;
 	float halfHeight = screenHeight / 2.f;
 	
 	if (cam.target.x < halfWidth) cam.target.x = halfWidth;
 	if (cam.target.y < halfHeight) cam.target.y = halfHeight;
-	if (cam.target.x > (nTileWidth * nLevelWidth) - halfWidth) cam.target.x = (nTileWidth * nLevelWidth) - halfWidth;
-	if (cam.target.y > (nTileHeight * nLevelHeight) - halfHeight) cam.target.y = (nTileHeight * nLevelHeight) - halfHeight;
+	if (cam.target.x > (tileWidth * levelWidth) - halfWidth) cam.target.x = (tileWidth * levelWidth) - halfWidth;
+	if (cam.target.y > (tileHeight * levelHeight) - halfHeight) cam.target.y = (tileHeight * levelHeight) - halfHeight;
 
-	cameraTargetPos.x = cam.target.x / nTileWidth;
-	cameraTargetPos.y = cam.target.y / nTileHeight;
+	cameraTargetPos.x = cam.target.x / tileWidth;
+	cameraTargetPos.y = cam.target.y / tileHeight;
 
 
 	
 	Rectangle dst{ 0.f, 0.f,0.f,0.f };
 
-	for (int y = static_cast<int>((cameraTargetPos.y - (nVisibleTilesY / 2.f) - 2)) ; y < (cameraTargetPos.y) +(nVisibleTilesY / 2.f) +1 ; y++)
+	for (int y = static_cast<int>((cameraTargetPos.y - (visibleTilesY / 2.f) - 2)) ; y < (cameraTargetPos.y) +(visibleTilesY / 2.f) +1 ; y++)
 	{
-		for (int x = static_cast<int>((cameraTargetPos.x - (nVisibleTilesX / 2.f) - 2)) ; x < (cameraTargetPos.x) +(nVisibleTilesX / 2.f) + 1  ; x++)
+		for (int x = static_cast<int>((cameraTargetPos.x - (visibleTilesX / 2.f) - 2)) ; x < (cameraTargetPos.x) +(visibleTilesX / 2.f) + 1  ; x++)
 		{
-			dst = { (float)x * nTileWidth,(float)y * nTileHeight,(float)nTileWidth, (float)nTileHeight };
+			dst = { (float)x * tileWidth,(float)y * tileHeight,(float)tileWidth, (float)tileHeight };
 			RenderTile(x, y, dst);
 			
 		}
@@ -588,51 +591,22 @@ void LevelManager::LevelRender()
 
 }
 
-void LevelManager::RenderTutorial()
-{
-	float tut1Dist = GetDist(player.pos, tutorialPos1);
-	float tut2Dist = GetDist(player.pos, tutorialPos2);
-	float tut3Dist = GetDist(player.pos, tutorialPos3);
-
-	float range = 5.f;
-	if (tut1Dist < range)
-	{
-		txtRend.RenderText("'A and D' for Movement", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize), 30, WHITE, BLACK);
-	
-		txtRend.RenderText("'Space' to Jump", static_cast<int>(tutorialPos1.x * config.tileSize), static_cast<int>(tutorialPos1.y * config.tileSize + 30), 30, WHITE, BLACK);
-		
-	}
-	else if (tut2Dist < range)
-	{
-		txtRend.RenderText("'O' for Ordinary Attacks", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize), 30, WHITE, BLACK);
-		
-
-		txtRend.RenderText("'P' to Parry", static_cast<int>(tutorialPos2.x * config.tileSize), static_cast<int>(tutorialPos2.y * config.tileSize + 30), 30, WHITE, BLACK);
-		
-	}
-	else if (tut3Dist < range)
-	{
-		txtRend.RenderText("Press 'E' to claim a nearby Checkpoint", static_cast<int>(tutorialPos3.x * config.tileSize), static_cast<int>(tutorialPos3.y * config.tileSize), 30, WHITE, BLACK);
-	
-	}
-}
-
 char LevelManager::GetTile(int x, int y)
 {
-	if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
+	if (x >= 0 && x < levelWidth && y >= 0 && y < levelHeight)
 	{
-		int index = y * nLevelWidth + x;
-		return sLevel[index];
+		int index = y * levelWidth + x;
+		return levelString[index];
 	}
 	return ' ';
 }
 
 void LevelManager::SetTile(int x, int y, char c)
 {
-	if (x >= 0 && x < nLevelWidth && y >= 0 && y < nLevelHeight)
+	if (x >= 0 && x < levelWidth && y >= 0 && y < levelHeight)
 	{
-		int index = y * nLevelWidth + x;
-		sLevel[index] = c;
+		int index = y * levelWidth + x;
+		levelString[index] = c;
 	}
 }
 
@@ -646,7 +620,6 @@ void LevelManager::SetTile(float x, float y, char c)
 {
 	SetTile((int)x, (int)y, c);
 }
-
 
 void LevelManager::RenderHpBars()
 {
@@ -673,36 +646,9 @@ void LevelManager::RenderHpBars()
 
 }
 
-float LevelManager::GetDist(Vector2 vec1, Vector2 vec2)
-{
-	float x = vec1.x - vec2.x;
-	float y = vec1.y - vec2.y;
-	return sqrtf((x * x) + (y * y));
-}
-
 void LevelManager::RenderCredit()
 {
 	DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
-}
-
-void LevelManager::RenderDarkMode() 
-{
-	float halfWidth = (float)screenWidth / 2.f;
-
-	Rectangle leftDark = {0.f, 0.f, halfWidth, (float)screenHeight};
-	Rectangle rightDark = { halfWidth, 0.f, halfWidth, (float)screenHeight };
-
-	float margin = (float)screenHeight / 5.f;
-	Rectangle topBar = { 0.f, 0.f, (float)screenWidth, margin };
-	Rectangle botBar = { 0.f, (float)screenHeight - margin , (float)screenWidth, margin };
-
-	leftDark.x = std::lerp(-64.f, -halfWidth + margin, darkProgress);
-	rightDark.x = std::lerp((float)screenWidth - margin, halfWidth +64.f, darkProgress);
-
-	DrawRectangleRec(leftDark, BLACK);
-	DrawRectangleRec(rightDark, BLACK);
-	DrawRectangleRec(topBar, BLACK);
-	DrawRectangleRec(botBar, BLACK);
 }
 
 void LevelManager::SetupTile(int x, int y)
@@ -810,19 +756,22 @@ void LevelManager::SetupTile(int x, int y)
 	}
 	if (GetTile(x, y) == L'1')
 	{
-		tutorialPos1 = Vector2((float)x, (float)y);
+		tutorial.Setup(Vector2((float)x, (float)y), 0);
+		//tutorialPos1 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}
 	if (GetTile(x, y) == L'2')
 	{
-		tutorialPos2 = Vector2((float)x, (float)y);
+		tutorial.Setup(Vector2((float)x, (float)y), 1);
+		//tutorialPos2 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}
 	if (GetTile(x, y) == L'3')
 	{
-		tutorialPos3 = Vector2((float)x, (float)y);
+		tutorial.Setup(Vector2((float)x, (float)y), 2);
+		//tutorialPos3 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}

@@ -23,6 +23,7 @@ private:
 	static const int miscSetSize = 5;
 	static const int miscObjSize = 3;
 	Texture2D txrList[miscSetSize][miscObjSize]{}; 
+	const int FAIL_VALUE = 4444;
 
 public:
 	void Unload();

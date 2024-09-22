@@ -123,7 +123,7 @@ int MiscManager::UpdateCheckPoints()
 {
 	if (checkPointList.empty())
 	{
-		return 4444;
+		return FAIL_VALUE;
 	}
 	for (int i = 0; i < checkPointList.size(); i++)
 	{
@@ -134,14 +134,14 @@ int MiscManager::UpdateCheckPoints()
 			return i;
 		}
 	}
-	return 4444;
+	return FAIL_VALUE;
 }
 int MiscManager::UpdateGrapplingPoints()
 {
 	
 	if (grappPointList.empty())
 	{
-		return 4444;
+		return FAIL_VALUE;
 	}
 	for (int i = 0; i < grappPointList.size(); i++)
 	{
@@ -149,7 +149,7 @@ int MiscManager::UpdateGrapplingPoints()
 		grappPointList.at(i).SetIdeal(false);
 	}
 	int idealIndex = GetMostViableGrapplingIndex();
-	if (idealIndex != 4444)
+	if (idealIndex != FAIL_VALUE)
 	{
 		grappPointList.at(idealIndex).SetIdeal(true);
 	}
@@ -157,7 +157,7 @@ int MiscManager::UpdateGrapplingPoints()
 	{
 		return idealIndex;
 	}
-	return 4444;
+	return FAIL_VALUE;
 }
 void MiscManager::UpdateDartTrapsPoints(float dt)
 {
@@ -209,7 +209,7 @@ int MiscManager::GetMostViableGrapplingIndex()
 	}
 	if (validIndexes.empty())
 	{
-		return 4444;
+		return FAIL_VALUE;
 	}
 	int closestIndex = 0;
 	for (int i = 0; i < validIndexes.size(); i++)
@@ -225,7 +225,7 @@ int MiscManager::GetMostViableGrapplingIndex()
 	
 	if (!grappPointList.at(closestIndex).GetInRange())
 	{
-		return 4444;
+		return FAIL_VALUE;
 	}
 	return closestIndex;
 }

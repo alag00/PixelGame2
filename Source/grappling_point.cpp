@@ -2,13 +2,13 @@
 
 void GrapplingPoint::Setup(Vector2 newPos, Entity& ref)
 {
-	pos = { newPos.x + 0.5f, newPos.y + 0.5f };
+	pos = { newPos.x + OFFSET_TO_CENTER, newPos.y + OFFSET_TO_CENTER };
 	playerRef = &ref;
 }
 void GrapplingPoint::Update()
 {
-	float x = (pos.x + 0.0f) - playerRef->GetCenter().x;
-	float y = (pos.y + 0.0f) - playerRef->GetCenter().y;
+	float x = pos.x - playerRef->GetCenter().x;
+	float y = pos.y - playerRef->GetCenter().y;
 	dist = sqrtf((x * x) + (y * y));
 
 	inRange = false;
@@ -25,6 +25,6 @@ void GrapplingPoint::Render()
 		return;
 	}
 
-	DrawText("'Q'", (int)pos.x * 64 + 16, (int)pos.y * 64 +64, 40, WHITE);
+	DrawText("'Q'", (int)pos.x * (int)config.tileSize + OFFSET_X_TEXT, (int)pos.y * (int)config.tileSize + (int)config.tileSize, FONT_SIZE, WHITE);
 
 }

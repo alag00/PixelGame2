@@ -31,7 +31,7 @@ void DartTrap::Update(float dt)
 	if (timeAlive < 0.f)
 	{
 		bulletPos = pos;
-		timeAlive = 3.f;
+		timeAlive = FULL_TIME_ALIVE;
 		active = true;
 	}
 	
@@ -43,7 +43,7 @@ void DartTrap::Update(float dt)
 	
 
 
-	Rectangle bulletBox{bulletPos.x, bulletPos.y, 2.f, 1.f};
+	Rectangle bulletBox{bulletPos.x, bulletPos.y, BULLET_TILE_WIDTH, BULLET_TILE_HEIGHT};
 	if (CheckCollisionRecs(playerRef->hitBox, bulletBox))
 	{
 		playerRef->GetHit(bulletPos, ATTACK_DAMAGE);
@@ -59,7 +59,7 @@ void DartTrap::Render()
 	{
 		return;
 	}
-	Rectangle dst{bulletPos.x * 64.f, bulletPos.y * 64.f, 32.f * 3.f, 16.f* 3.f};
+	Rectangle dst{bulletPos.x * config.tileSize, bulletPos.y * config.tileSize, BULLET_PIXEL_WIDTH * config.pixelScale, BULLET_PIXEL_HEIGHT * config.pixelScale};
 	Vector2 origin{0.f,0.f};
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 

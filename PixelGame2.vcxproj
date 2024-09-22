@@ -143,6 +143,7 @@
     <ClCompile Include="Source\check_point.cpp" />
     <ClCompile Include="Source\cutscene.cpp" />
     <ClCompile Include="Source\cutscene_manager.cpp" />
+    <ClCompile Include="Source\dark_mode.cpp" />
     <ClCompile Include="Source\dart_trap_point.cpp" />
     <ClCompile Include="Source\dialogue.cpp" />
     <ClCompile Include="Source\enemy.cpp" />
@@ -164,6 +165,7 @@
     <ClCompile Include="Source\scene_manager.cpp" />
     <ClCompile Include="Source\screen_effects.cpp" />
     <ClCompile Include="Source\text_render.cpp" />
+    <ClCompile Include="Source\tutorial_texts.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Source\animation.h" />
@@ -172,6 +174,7 @@
     <ClInclude Include="Source\check_point.h" />
     <ClInclude Include="Source\cutscene.h" />
     <ClInclude Include="Source\cutscene_manager.h" />
+    <ClInclude Include="Source\dark_mode.h" />
     <ClInclude Include="Source\dart_trap_point.h" />
     <ClInclude Include="Source\dialogue.h" />
     <ClInclude Include="Source\enemy.h" />
@@ -195,6 +198,7 @@
     <ClInclude Include="Source\screen_effects.h" />
     <ClInclude Include="Source\config.h" />
     <ClInclude Include="Source\text_render.h" />
+    <ClInclude Include="Source\tutorial_texts.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

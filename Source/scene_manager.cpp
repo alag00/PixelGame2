@@ -1,14 +1,18 @@
 #include "scene_manager.h"
 
 SceneManager::SceneManager() {
-	MainMenu* mainMenu = new MainMenu();
-	currentScene = mainMenu;
-	currentScene->LoadScene();
+	//Setup();
 }
 SceneManager::~SceneManager()
 {
 	delete currentScene;
 	currentScene = nullptr;
+}
+void SceneManager::Setup()
+{
+	MainMenu* mainMenu = new MainMenu();
+	currentScene = mainMenu;
+	currentScene->LoadScene();
 }
 void SceneManager::Update() {
 

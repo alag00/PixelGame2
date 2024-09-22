@@ -32,7 +32,7 @@ void CastleCutscene::SetupStageOne()
 {
 	playerAnim.SetAnimation(playerIdle, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm, now where did I put the tome?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm, now where did I put my necromancy books?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I could have sworn I put it right here...", false, PURPLE);
 
 	dialogue.SetActive(true);
@@ -50,15 +50,15 @@ void CastleCutscene::SetupStageTwo()
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How long have you been standing there?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, I know you!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, I remember you!", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How are you still alive?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "All I will say is.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "You should have thrown me into a deeper well", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "Divine Intervention", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Is that so?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "I'm back to take what's mine", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Fine, if you want to die so be it", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Just another body for my collection", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Just another body for my pile", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "He He He", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 2;
@@ -254,6 +254,7 @@ void GraveyardCutscene::SetupStageEight()
 
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Agreed", false, enemyCol);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Let us Draw our blades so that we may have our fun.", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "He He He", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 8;

@@ -10,7 +10,7 @@ void Enemy::Update(float dt)
 		return;
 	}
 	timer += dt;
-	if (timer >= refreshRate)
+	if (timer >= REFRESH_RATE)
 	{
 		timer = 0.f;
 		Sense();

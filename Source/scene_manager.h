@@ -9,6 +9,7 @@ private:
 public:
 	SceneManager();
 	~SceneManager();
+	void Setup();
 	void Update();
 	void ChangeScene(SCENE_TYPE sceneType);
 

@@ -8,12 +8,12 @@ BackgroundObject::~BackgroundObject()
 void BackgroundObject::Setup(Vector2 newPos)
 {
 	pos = newPos;
-	pos.y -= ((float)txr.height / 16.f) -1;
+	pos.y -= ((float)txr.height / PIXELS_PER_TILE) - OFFSET_Y;
 
-	pos.x -= ((float)txr.width / 32.f) -0.5f;
+	pos.x -= ((float)txr.width / HALF_OF_TILE) - OFFSET_X;
 
-	size.x = (float)txr.width * 4.f;
-	size.y = (float)txr.height * 4.f;
+	size.x = (float)txr.width * PIXEL_SCALE;
+	size.y = (float)txr.height * PIXEL_SCALE;
 }
 
 void BackgroundObject::SetTextue(Texture2D newTxr)
@@ -24,7 +24,7 @@ void BackgroundObject::SetTextue(Texture2D newTxr)
 void BackgroundObject::Render()
 {
 	Rectangle src {0.f,0.f, (float)txr.width, (float)txr.height};
-	Rectangle dst{pos.x * 64.f, pos.y * 64.f, size.x, size.y};
+	Rectangle dst{pos.x * config.tileSize, pos.y * config.tileSize, size.x, size.y};
 	Vector2 origin{0.f,0.f};
 	DrawTexturePro(txr, src, dst, origin, 0.f, WHITE);
 }

@@ -3,7 +3,7 @@
 
 void Background::Unload()
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < BACKGROUND_AMOUNT; i++)
 	{
 		UnloadTexture(activeTxr[i]);
 	}
@@ -11,7 +11,7 @@ void Background::Unload()
 
 void Background::SetLevelBackground(Texture2D newTxr[])
 {
-	for (int i = 0; i < 3; i++)
+	for (int i = 0; i < BACKGROUND_AMOUNT; i++)
 	{
 		activeTxr[i] = newTxr[i];
 	}
@@ -42,29 +42,29 @@ void Background::Update(Vector2 newCamPos, float dt)
 		return;
 	}
 
-	txr2pos[0].x -= vel.x * dt * xSpeed;
-	txr2pos[1].x -= vel.x * dt * xSpeed;
-	txr2pos[2].x -= vel.x * dt * xSpeed;
+	txr2pos[0].x -= vel.x * dt * SPEED_X;
+	txr2pos[1].x -= vel.x * dt * SPEED_X;
+	txr2pos[2].x -= vel.x * dt * SPEED_X;
 
 	CheckPos(txr2pos[0].x);
 	CheckPos(txr2pos[1].x);
 	CheckPos(txr2pos[2].x);
 
-	txr2pos[0].y -= vel.y * dt * ySpeed;
-	txr2pos[1].y -= vel.y * dt * ySpeed;
-	txr2pos[2].y -= vel.y * dt * ySpeed;
+	txr2pos[0].y -= vel.y * dt * SPEED_Y;
+	txr2pos[1].y -= vel.y * dt * SPEED_Y;
+	txr2pos[2].y -= vel.y * dt * SPEED_Y;
 
-	txr3pos[0].x -= vel.x * dt * (xSpeed * 2.f);
-	txr3pos[1].x -= vel.x * dt * (xSpeed * 2.f);
-	txr3pos[2].x -= vel.x * dt * (xSpeed * 2.f);
+	txr3pos[0].x -= vel.x * dt * (SPEED_X * SPEED_FOREGROUND_BONUS);
+	txr3pos[1].x -= vel.x * dt * (SPEED_X * SPEED_FOREGROUND_BONUS);
+	txr3pos[2].x -= vel.x * dt * (SPEED_X * SPEED_FOREGROUND_BONUS);
 
 	CheckPos(txr3pos[0].x);
 	CheckPos(txr3pos[1].x);
 	CheckPos(txr3pos[2].x);
 
-	txr3pos[0].y -= vel.y * dt * (ySpeed * 2.f);
-	txr3pos[1].y -= vel.y * dt * (ySpeed * 2.f);
-	txr3pos[2].y -= vel.y * dt * (ySpeed * 2.f);
+	txr3pos[0].y -= vel.y * dt * (SPEED_Y * SPEED_FOREGROUND_BONUS);
+	txr3pos[1].y -= vel.y * dt * (SPEED_Y * SPEED_FOREGROUND_BONUS);
+	txr3pos[2].y -= vel.y * dt * (SPEED_Y * SPEED_FOREGROUND_BONUS);
 }
 void Background::Render()
 {

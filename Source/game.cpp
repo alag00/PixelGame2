@@ -2,7 +2,7 @@
 
 Game::Game()
 {
-	
+	SetConfigFlags(FLAG_VSYNC_HINT);
 	InitWindow(screenWidth, screenHeight, "Unholy Trek");
 	InitAudioDevice();
 	SetTargetFPS(60);
@@ -10,7 +10,7 @@ Game::Game()
 	SetWindowIcon(icon);
 	UnloadImage(icon);
 	HideCursor();
-
+	sceneManager.Setup();
 	int monitor = GetCurrentMonitor();
 	if (GetMonitorWidth(monitor) == screenWidth && GetMonitorHeight(monitor) == screenHeight)
 	{

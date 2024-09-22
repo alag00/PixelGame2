@@ -14,7 +14,9 @@
 #include "scene.h"
 #include "cutscene_manager.h"
 #include <cmath>
-#include "text_render.h"
+
+#include "tutorial_texts.h"
+#include "dark_mode.h"
 
 enum Events
 {
@@ -35,9 +37,9 @@ private:
 	int screenHeight = 1080;
 
 	
-	std::string sLevel;
-	int nLevelWidth;
-	int nLevelHeight;
+	std::string levelString;
+	int levelWidth;
+	int levelHeight;
 
 	
 	Player player;
@@ -68,9 +70,7 @@ private:
 	
 	Background background;
 
-	Vector2 tutorialPos1 = { 0.f,0.f };
-	Vector2 tutorialPos2 = { 0.f,0.f };
-	Vector2 tutorialPos3 = { 0.f,0.f };
+	Tutorial tutorial;
 
 
 	MiscManager miscManager;
@@ -83,29 +83,37 @@ private:
 	CutsceneManager cutsceneManager;
 	bool cutscenePlayed = false;
 
+	DarkMode darkMode;
 	bool levelDarkMode = false;
-	float darkProgress = 0.f; 
-	TextRenderer txtRend;
+	
+	const int CURRENT_LAST_LEVEL = 10;
+	const int MISC_FAIL_CODE = 4444;
+	const float DELTA_FAILSAFE_LIMIT = 0.1f;
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }
 	void LoadScene();
 	void LeaveScene();
+
 	bool Update();
+	void UpdateEntities(float dt);
+	void UpdateMiscs(float dt);
 	void Render();
-	void RenderUI();
-	void RenderBackground();
+	
 	void UpdateCam(float dt);
 
 	void LevelSetup();
+	void SetupTile(int x, int y);
+
 	void LevelRender();
-	void RenderTutorial();
+	void RenderTile(int x, int y, Rectangle dst);
+
 	char GetTile(int x, int y);
 	void SetTile(int x, int y, char c);
 	char GetTile(float x, float y);
 	void SetTile(float x, float y, char c);
 
-	void CollisionCheck(float dt);
+
 
 	void AdjustPlayer(float dt);
 	bool IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo);
@@ -113,12 +121,10 @@ public:
 	
 
 	void RenderHpBars();
-	float GetDist(Vector2 vec1, Vector2 vec2);
+	
 	void RenderCredit();
-	void RenderDarkMode();
 
-	void SetupTile(int x, int y);
-	void RenderTile(int x, int y, Rectangle dst);
+
 
 	void StartBoss();
 };

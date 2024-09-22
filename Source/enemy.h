@@ -19,7 +19,7 @@ class Enemy : public Entity
 {
 private:
 	float timer = 0.f;
-	float refreshRate = 0.1f;
+	const float REFRESH_RATE = 0.1f;
 	bool isAlive = true;
 public:
 	bool active = true;

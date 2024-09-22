@@ -15,6 +15,9 @@ private:
 	Vector2 pos{ 0.f,0.f };
 	Entity* playerRef = nullptr;
 	Config config;
+	const float OFFSET_TO_CENTER = 0.5f;
+	const int FONT_SIZE = 40;
+	const int OFFSET_X_TEXT = 16;
 public:
 	void SetIdeal(bool newValue) { isIdeal = newValue; }
 	bool GetIdeal() { return isIdeal; }
