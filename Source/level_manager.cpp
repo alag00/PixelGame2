@@ -223,36 +223,36 @@ void LevelManager::AdjustPlayer(float dt)
 
 
 	// Calculate potential new position
-	float fNewPlayerPosX = player.GetPosition().x + player.GetVelocity().x * dt;
-	float fNewPlayerPosY = player.GetPosition().y + player.GetVelocity().y * dt;
+	float newPlayerPosX = player.GetPosition().x + player.GetVelocity().x * dt;
+	float newPlayerPosY = player.GetPosition().y + player.GetVelocity().y * dt;
 
 	
 	// Check for Collision
 	if (player.GetVelocity().x < 0) 
 	{
 
-		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.0f);
-		char tileTypeTwo = GetTile(fNewPlayerPosX + 0.0f, player.GetPosition().y + 0.9f);
+		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.0f);
+		char tileTypeTwo = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.9f);
 
 		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosX = static_cast<float>((int)fNewPlayerPosX + 1);
+				newPlayerPosX = static_cast<float>((int)newPlayerPosX + 1);
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
 	}
 	else if (player.GetVelocity().x > 0)
 	{
-		char tileTypeOne = GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.0f);
-		char tileTypeTwo = GetTile(fNewPlayerPosX + 1.0f, player.GetPosition().y + 0.9f);
+		char tileTypeOne = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.0f);
+		char tileTypeTwo = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.9f);
 
 		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosX = static_cast<float>((int)fNewPlayerPosX);
+				newPlayerPosX = static_cast<float>((int)newPlayerPosX);
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
@@ -262,14 +262,14 @@ void LevelManager::AdjustPlayer(float dt)
 	player.SetOnGround(false);
 	if (player.GetVelocity().y < 0) 
 	{
-		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY);
-		char tileTypeTwo = GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY);
+		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY);
+		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY);
 
 		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosY = static_cast<float>((int)fNewPlayerPosY + 1);
+				newPlayerPosY = static_cast<float>((int)newPlayerPosY + 1);
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 			}
 		}
@@ -277,23 +277,45 @@ void LevelManager::AdjustPlayer(float dt)
 	}
 	else if (player.GetVelocity().y > 0) 
 	{
-		char tileTypeOne = GetTile(fNewPlayerPosX + 0.0f, fNewPlayerPosY + 1.0f);
-		char tileTypeTwo = GetTile(fNewPlayerPosX + 0.9f, fNewPlayerPosY + 1.0f);
+		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY + 1.0f);
+		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY + 1.0f);
 
 		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 		{
 			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
 			{
-				fNewPlayerPosY = static_cast<float>((int)fNewPlayerPosY);
+				newPlayerPosY = static_cast<float>((int)newPlayerPosY);
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 				player.SetOnGround(true);
 			}
 		}
 	
 	}
+	//newPlayerPosX = std::clamp(newPlayerPosX, 0.f, (float)levelWidth);
+	//newPlayerPosY = std::clamp(newPlayerPosY, 0.f, (float)levelHeight);
 
+	if (newPlayerPosX < 0.f)
+	{
+		newPlayerPosX = 0.f;
+		player.SetVelocity(0.f, player.GetVelocity().y);
+	}
+	if (newPlayerPosX > (float)levelWidth)
+	{
+		newPlayerPosX = (float)levelWidth;
+		player.SetVelocity(0.f, player.GetVelocity().y);
+	}
+	if (newPlayerPosY < 0.f)
+	{
+		newPlayerPosY = 0.f;
+		player.SetVelocity(player.GetVelocity().x, 0.f);
+	}
+	if (newPlayerPosY > (float)levelHeight)
+	{
+		newPlayerPosY = (float)levelHeight;
+		player.SetVelocity(player.GetVelocity().x, 0.f);
+	}
 	
-	player.SetPosition(fNewPlayerPosX, fNewPlayerPosY);
+	player.SetPosition(newPlayerPosX, newPlayerPosY);
 
 	
 	float camOffset = 0.f;
@@ -347,6 +369,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	if (tileTypeOne == L's' || tileTypeTwo == L's')
 	{
 		// entrance block
+		return true;
+	}
+	if (tileTypeOne == L'i' || tileTypeTwo == L'i')
+	{
+		// invisible block
 		return true;
 	}
 	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
@@ -479,9 +506,9 @@ void LevelManager::Render()
 	if (isCutscening)
 	{
 		cutsceneManager.Render();
-		filter.Render();
 		EndMode2D();
 		cutsceneManager.RenderUI();
+		filter.Render();
 		EndDrawing();
 		return;
 	}
@@ -493,7 +520,7 @@ void LevelManager::Render()
 	{
 		tutorial.Render();
 	}
-	filter.Render();
+	
 	EndMode2D();
 	if (levelDarkMode)
 	{
@@ -505,6 +532,7 @@ void LevelManager::Render()
 	{
 		RenderCredit();
 	}
+	filter.Render();
 	EndDrawing();
 }
 
@@ -662,7 +690,7 @@ void LevelManager::SetupTile(int x, int y)
 	{
 		currentCheckPoint = { (float)x, (float)y };
 		player.SetPosition((float)x, (float)y);
-		SetTile(x, y, L'.');
+		SetTile(x, y, levels.GetSpawnChar());
 		return;
 	}
 	if (GetTile(x, y) == L'K')

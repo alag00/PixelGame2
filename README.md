@@ -1,3 +1,5 @@
 Github: https://github.com/alag00
 
-1 Month Development for a 2D platformer/Metroidvania
+Second Month of Development for a 2D platformer/Metroidvania
+
+To Start the game: Run PixelGame2.exe

@@ -14,7 +14,7 @@
 #include "scene.h"
 #include "cutscene_manager.h"
 #include <cmath>
-
+//#include <algorithm>
 #include "tutorial_texts.h"
 #include "dark_mode.h"
 

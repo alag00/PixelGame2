@@ -10,6 +10,7 @@ private:
 	int currentevelHeight = 0;
 	char bossChar = ' ';
 	int cutsceneID = 0;
+	char spawnChar = ' ';
 
 	Music currentSong{};
 	Music songList[3];
@@ -30,6 +31,7 @@ public:
 	int GetLevelWidth() { return currentLevelWidth; }
 	int GetLevelHeight() { return currentevelHeight; }
 	char GetBossChar() { return bossChar; }
+	char GetSpawnChar() { return spawnChar; }
 	int GetCutsceneID() { return cutsceneID; }
 	Music GetLevelSong() { return currentSong; }
 	Music GetBossSong() { return currentBossSong; }

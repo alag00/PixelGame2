@@ -118,7 +118,14 @@ void Player::Update(float dt)
 			anim.SetAnimation(idleAtlas, 8, true);
 		}
 		break;
-		
+	case STATUS::AIRMOVEMENT:
+		antiControlTimer -= dt;
+		if (antiControlTimer < 0.f)
+		{
+			Control(dt);
+		}
+		Movement(dt);
+		break;
 	default:
 		Control(dt);
 		Movement(dt);
@@ -481,15 +488,19 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage)
 
 	PlaySoundWithPitchDiff(hitSound);
 
-	if (status != STATUS::DEFLECT)
+	if (status == STATUS::DEFLECT)
+	{
+
+		anim.SetAnimation(successDeflectAtlas, 5, false);
+		vel.x = (sourcePos.x > pos.x) ? -KNOCKED_BACK_FORCE : KNOCKED_BACK_FORCE;
+
+		ActivateParticles(sourcePos);
+	}
+	else
 	{
 		Damaged(sourcePos, potentialDamage);
 		return true;
 	}
-	anim.SetAnimation(successDeflectAtlas, 5, false);
-	vel.x = (sourcePos.x > pos.x) ? -KNOCKED_BACK_FORCE : KNOCKED_BACK_FORCE;
-
-	ActivateParticles(sourcePos);
 
 
 	return false;
@@ -595,6 +606,10 @@ void Player::InitDeflect()
 
 void Player::LoseAdvantage()
 {
+	if (status == STATUS::AIRRECOVERY)
+	{
+		return;
+	}
 	anim.SetAnimation(loseAdvantageAtlas, 7, false);
 	status = STATUS::LOSTADVANTAGE;
 	vel.x = (lookRight) ? -LOST_ADVANTAGE_SPEED : LOST_ADVANTAGE_SPEED;
@@ -627,6 +642,7 @@ void Player::ClimbControl(float dt)
 		FlipPlayer();
 
 		RecoilJump();
+		antiControlTimer = ANTI_CONTROL_TIME;
 		vel.y += WALL_JUMP_BOOST;
 		return;
 	}
@@ -646,6 +662,7 @@ void Player::ClimbControl(float dt)
 		anim.SetAnimation(climbAtlas, 8, true);
 	}
 	status = STATUS::FALLING;
+
 	
 }
 

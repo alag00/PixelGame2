@@ -117,6 +117,8 @@ private:
 	const Color GRAPPLING_COLOR = { 241, 242, 224, 255 };
 	Vector2 grapplingPoint = {0.f,0.f};
 	bool inGrapplingAnim = true;
+	const float ANTI_CONTROL_TIME = 0.2f;
+	float antiControlTimer = 0.f;
 
 	// DANCE VARIABLES
 	const float TIME_TILL_DANCE = 5.f;

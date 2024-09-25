@@ -50,8 +50,8 @@ void MainMenu::Render()
 	{
 		txtRend.RenderText("Press 'Space'", ((int)screenWidth / 2) - OFFSET, GetScreenHeight() - OFFSET, FONT_SIZE, YELLOW, BLACK);
 	}
-	//DrawText("Press 'Space'", OFFSET, GetScreenHeight() - OFFSET, FONT_SIZE, YELLOW);
-
+	//DrawText(CURRENT_VERSION, FONT_SIZE, GetScreenHeight() - FONT_SIZE, FONT_SIZE, YELLOW);
+	txtRend.RenderText(CURRENT_VERSION, FONT_SIZE / 2, GetScreenHeight() - FONT_SIZE, FONT_SIZE, WHITE, BLACK);
 	EndDrawing();
 }
 void MainMenu::RenderUI()

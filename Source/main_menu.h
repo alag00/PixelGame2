@@ -6,6 +6,8 @@
 class MainMenu : public Scene
 {
 private:
+
+	const char* CURRENT_VERSION = "v0.2.1-beta";
 	float screenWidth = 0.f;
 	float sceenHeight = 0.f;
 	Texture2D bg{};
