@@ -79,6 +79,7 @@ private:
 	const float MIN_SPEED = 10.f;
 	const float MIN_ATTACK_SPEED = 5.f;
 	const float MAX_ATTACK_SPEED = 15.f;
+	const float SLOW_AIR_MOVEMENT_SPEED = 2.5f;
 
 	// ATTACK VARIABLES
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
@@ -108,6 +109,8 @@ private:
 	const float SLIDE_DOWN_SPEED = 5.f;
 	const float FORCE_TO_WALL = 10.f;
 	const float WALL_JUMP_BOOST = -3.f;
+	const float ANTI_CONTROL_TIME = 0.2f;
+	float antiControlTimer = 0.f;
 
 	// GRAPPLING HOOK VARIABLES
 	const float GRAPPLING_SPEED = 25.f;
@@ -117,8 +120,7 @@ private:
 	const Color GRAPPLING_COLOR = { 241, 242, 224, 255 };
 	Vector2 grapplingPoint = {0.f,0.f};
 	bool inGrapplingAnim = true;
-	const float ANTI_CONTROL_TIME = 0.2f;
-	float antiControlTimer = 0.f;
+
 
 	// DANCE VARIABLES
 	const float TIME_TILL_DANCE = 5.f;
@@ -129,6 +131,11 @@ private:
 	Vector2 particlePos{ 0.f,0.f };
 	bool playParticle = false;
 
+	// TICK DAMAGE
+	const float TICK_TIME = 0.2f;
+	float tickTimer = TICK_TIME;
+	const int TICK_DAMAGE = 10;
+		
 	// AUDIO VARIABLES
 	Sound hitSound{};
 	Sound deathSound{};
@@ -199,4 +206,7 @@ public:
 	void ActivateParticles(Vector2 enemyPos);
 	void EndAttack(Entity& enemy);
 	void DeactivateAttackBox();
+
+	void SlowAirControl(float dt);
+	void TakeTickDamage();
 };

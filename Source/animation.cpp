@@ -65,4 +65,9 @@ void Animator::RestartAnimation()
 	currentFrame = 0;
 }
 
+void Animator::CustomFPS(float newFps)
+{
+	fps = newFps;
+}
+
 

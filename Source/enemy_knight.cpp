@@ -117,6 +117,14 @@ void KnightEnemy::Act(float dt)
 	anim.UpdateAnimator(dt);
 	hitBox = { pos.x, pos.y - 1.f , 1.5f,2.f };
 	hitBox.x = (lookRight) ? pos.x - 1.f : pos.x - 0.5f;
+	if (!hasAdvantage)
+	{
+		switchTimer -= dt;
+		if (switchTimer <= 0.f)
+		{
+			hasAdvantage = true;
+		}
+	}
 	switch (dec)
 	{
 	case DECISION::IDLE:
@@ -224,11 +232,12 @@ void KnightEnemy::UpdateAgroSwitch()
 	{
 		switchAgroCounter = 2;
 		hasAdvantage = !hasAdvantage;
-
+	
 		if (!hasAdvantage)
 		{
 			dec = DAMAGED;
 			anim.SetAnimation(textures[5], 5, false);
+			switchTimer = SWITCH_TIME;
 		}
 		if (hasAdvantage)
 		{

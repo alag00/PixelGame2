@@ -43,8 +43,7 @@ void CastleCutscene::SetupStageTwo()
 {
 	
 
-	enemyAnim.FlipAnimationHorizontal();
-	enemyPos.x--;
+
 
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Woah!", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
@@ -60,7 +59,6 @@ void CastleCutscene::SetupStageTwo()
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "He He He", true, YELLOW);
 
-	dialogue.SetActive(true);
 	cutsceneStage = 2;
 }
 
@@ -87,6 +85,27 @@ bool CastleCutscene::Update(float dt)
 		}
 		break;
 	case 2:
+		pauseTimer -= dt;
+		if (pauseTimer <= 0.f)
+		{
+			if (!enemyFlipped)
+			{
+				//pauseTimer = PAUSE_TIMER;
+				enemyAnim.FlipAnimationHorizontal();
+				enemyPos.x--;
+				enemyFlipped = true;
+			}
+
+			enemyPos.x += ENEMY_SCARED_SPEED * dt;
+			if( enemyPos.x >= 93.f)
+			{
+				dialogue.SetActive(true);
+				cutsceneStage = 3;
+			}
+		}
+	
+		break;
+	case 3:
 		if (!dialogue.GetActive())
 		{
 			return true;
@@ -97,7 +116,7 @@ bool CastleCutscene::Update(float dt)
 
 	*camRef = { 90.f, 8.f };
 
-	dialogue.Update();
+	dialogue.Update(dt);
 
 	if (IsKeyPressed(KEY_P))
 	{
@@ -338,7 +357,7 @@ bool GraveyardCutscene::Update(float dt)
 
 	*camRef = { 237.f, 16.f };
 
-	dialogue.Update();
+	dialogue.Update(dt);
 
 	if (IsKeyPressed(KEY_P))
 	{

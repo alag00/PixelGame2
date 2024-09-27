@@ -21,4 +21,5 @@ public:
 
 	void UpdateAnimator(float dt);
 	void RestartAnimation();
+	void CustomFPS(float newFps);
 };

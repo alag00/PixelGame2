@@ -50,7 +50,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 1;
+	int currentLevel = 6;
 
 	Effect filter;
 
@@ -116,6 +116,9 @@ public:
 
 
 	void AdjustPlayer(float dt);
+	bool CheckMovingPlayer(float playerPosX, float playerPosY, float t1Xoffset, float t1Yoffset, float t2Xoffset, float t2Yoffset);
+	//void CheckDeathBlock(Vector2 playerPos, Vector2 tilePos);
+	//bool LineBoxCollisionCheck(Vector2 l1, Vector2 l2, Rectangle box);
 	bool IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo);
 	void CheckEvent();
 	

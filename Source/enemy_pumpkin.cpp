@@ -148,7 +148,8 @@ void PumpkinEnemy::Render()
 	Color color = (dec != DAMAGED) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-	
+	//DrawCircle((int)leftBorder.x * 64, (int)leftBorder.y * 64, 5.f, PINK);
+	//DrawCircle((int)rightBorder.x * 64, (int)rightBorder.y * 64, 5.f, PINK);
 }
 
 void PumpkinEnemy::CollisionCheck()
@@ -158,7 +159,7 @@ void PumpkinEnemy::CollisionCheck()
 		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
 			health -= DEFLECTED_DAMAGE;
-		
+			spinCollisionTimer = SPIN_COLLISION_TIME;
 			if (health <= 0)
 			{
 				dec = DAMAGED;
@@ -196,6 +197,7 @@ void PumpkinEnemy::Attack(float dt)
 			currentAttackStage = 2;
 			anim.SetAnimation(textures[3], 4, true);
 			spinTimer = spinTime;
+			spinCollisionTimer = 0.f;
 		}
 		return;
 	}
@@ -208,11 +210,22 @@ void PumpkinEnemy::Attack(float dt)
 
 		pos.x += dt * speed * 0.5f;
 	}
+	if (pos.x < leftBorder.x + SPIN_WALL_STOP_OFFSET)
+	{
+		pos.x = leftBorder.x + SPIN_WALL_STOP_OFFSET;
+	}
+	if (pos.x > rightBorder.x - SPIN_WALL_STOP_OFFSET)
+	{
+		pos.x = rightBorder.x - SPIN_WALL_STOP_OFFSET;
+	}
 	spinTimer -= dt;
 
-	attackBox = { pos.x - 1, pos.y - 0.5f , 2, 1.5f };
-	
-	CollisionCheck();
+	spinCollisionTimer -= dt;
+	if (spinCollisionTimer <= 0.f)
+	{
+		attackBox = { pos.x - 1, pos.y - 0.5f , 2, 1.5f };
+		CollisionCheck();
+	}
 	if (spinTimer <= 0.f)
 	{
 		dec = IDLE;

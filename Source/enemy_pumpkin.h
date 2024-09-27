@@ -43,6 +43,10 @@ class PumpkinEnemy : public Enemy
 	int currentAttackStage = 1;
 	float spinTime = 2.f;
 	float spinTimer = spinTime;
+
+	const float SPIN_COLLISION_TIME = 0.5f;
+	float spinCollisionTimer = SPIN_COLLISION_TIME;
+	const float SPIN_WALL_STOP_OFFSET = 0.5f;
 public:
 	~PumpkinEnemy();
 	void SetTextures(Texture2D txr[]);

@@ -2,6 +2,9 @@
 #include "raylib.h"
 #include "scene.h"
 #include "text_render.h"
+#include "animation.h"
+#include "screen_effects.h"
+
 
 class MainMenu : public Scene
 {
@@ -9,7 +12,7 @@ private:
 
 	const char* CURRENT_VERSION = "v0.2.1-beta";
 	float screenWidth = 0.f;
-	float sceenHeight = 0.f;
+	float screenHeight = 0.f;
 	Texture2D bg{};
 	Texture2D title{};
 	SCENE_TYPE nextScene = SCENE_TYPE::NONE;
@@ -24,6 +27,13 @@ private:
 	TextRenderer txtRend;
 
 	Music menuSong{};
+
+	Animator anim;
+	float backgroundFPS = 3.f; // 12.f default
+
+	Effect filter;
+	Camera2D cam;
+	bool endScene = false;
 public:
 
 
@@ -38,6 +48,8 @@ public:
 	SCENE_TYPE GetNewScene() override { return nextScene; }
 
 	void DrawBackground();
+
+	bool CheckEvent();
 	//void LoadTextures();
 
 };

@@ -3,6 +3,8 @@
 #include "raylib.h"
 #include <vector>
 #include "text_render.h"
+#include <string>
+
 struct Speech 
 {
 	const char* text = nullptr;
@@ -16,6 +18,12 @@ class Dialogue
 {
 private:
 	std::vector<Speech> speechList{};
+	std::string currentChars = "";
+	int currentCharsNum = 0;
+
+	const float TIME_BETWEEN_LETTERS = 0.03f;
+	float letterTimer = TIME_BETWEEN_LETTERS;
+
 	bool active = false;
 	TextRenderer txtRend;
 	const float TEXT_BOX_HEIGHT = 200.f;
@@ -29,6 +37,6 @@ public:
 	bool GetActive() { return active; }
 	
 
-	void Update();
+	void Update(float dt);
 	void Render();
 };

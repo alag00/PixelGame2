@@ -29,6 +29,9 @@ class KnightEnemy : public Enemy
 
 	bool hasAdvantage = true;
 	int switchAgroCounter = 2;
+	float SWITCH_TIME = 1.f;
+	float switchTimer = SWITCH_TIME;
+	
 
 	const short int ATTACK_DAMAGE = 10;
 	const short int DEFLECTED_DAMAGE = 5;

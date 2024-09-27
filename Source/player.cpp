@@ -74,6 +74,7 @@ void Player::Update(float dt)
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
 	DanceCheck(dt);
+	tickTimer -= dt;
 	hitBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
 	switch (status)
 	{
@@ -111,12 +112,7 @@ void Player::Update(float dt)
 		break;
 		
 	case STATUS::AIRRECOVERY:
-		vel.y += GRAVITY_STRONG * dt;
-		if (onGround)
-		{
-			status = STATUS::IDLE;
-			anim.SetAnimation(idleAtlas, 8, true);
-		}
+		SlowAirControl(dt);
 		break;
 	case STATUS::AIRMOVEMENT:
 		antiControlTimer -= dt;
@@ -488,7 +484,7 @@ bool Player::GetHit(Vector2 sourcePos, int potentialDamage)
 
 	PlaySoundWithPitchDiff(hitSound);
 
-	if (status == STATUS::DEFLECT)
+	if (status == STATUS::DEFLECT && anim.GetCurrentFrame() >= 2)
 	{
 
 		anim.SetAnimation(successDeflectAtlas, 5, false);
@@ -776,4 +772,33 @@ void Player::DeactivateAttackBox()
 {
 	attackBox.width = ZERO;
 	attackBox.height = ZERO;
+}
+
+void Player::SlowAirControl(float dt)
+{
+	vel.y += GRAVITY_STRONG * dt;
+	
+
+	if (IsKeyDown(KEY_A))
+	{
+		vel.x = (lookRight) ?  MOVEMENT_SPEED - SLOW_AIR_MOVEMENT_SPEED : -MOVEMENT_SPEED - (SLOW_AIR_MOVEMENT_SPEED / 2.f);
+	}
+	if (IsKeyDown(KEY_D))
+	{
+		vel.x = (lookRight) ? MOVEMENT_SPEED + (SLOW_AIR_MOVEMENT_SPEED / 2.f)  : -MOVEMENT_SPEED + SLOW_AIR_MOVEMENT_SPEED;
+	}
+	if (onGround)
+	{
+		status = STATUS::IDLE;
+		anim.SetAnimation(idleAtlas, 8, true);
+	}
+}
+
+void Player::TakeTickDamage()
+{
+	if (tickTimer <= 0.f)
+	{
+		tickTimer = TICK_TIME;
+		health -= TICK_DAMAGE;
+	}
 }

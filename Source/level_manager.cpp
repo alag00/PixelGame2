@@ -230,7 +230,12 @@ void LevelManager::AdjustPlayer(float dt)
 	// Check for Collision
 	if (player.GetVelocity().x < 0) 
 	{
-
+		if (CheckMovingPlayer(newPlayerPosX, player.GetPosition().y, 0.f, 0.f, 0.f, 0.9f))
+		{
+			newPlayerPosX = static_cast<float>((int)newPlayerPosX + 1);
+			player.SetVelocity(0.f, player.GetVelocity().y);
+		}
+		/*
 		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.0f);
 		char tileTypeTwo = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.9f);
 
@@ -242,9 +247,16 @@ void LevelManager::AdjustPlayer(float dt)
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
+		*/
 	}
 	else if (player.GetVelocity().x > 0)
 	{
+		if (CheckMovingPlayer(newPlayerPosX, player.GetPosition().y, 1.f, 0.f, 1.f, 0.9f))
+		{
+			newPlayerPosX = static_cast<float>((int)newPlayerPosX);
+			player.SetVelocity(0.f, player.GetVelocity().y);
+		}
+		/*
 		char tileTypeOne = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.0f);
 		char tileTypeTwo = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.9f);
 
@@ -256,12 +268,20 @@ void LevelManager::AdjustPlayer(float dt)
 				player.SetVelocity(0.f, player.GetVelocity().y);
 			}
 		}
+		*/
 
 	}
 
 	player.SetOnGround(false);
 	if (player.GetVelocity().y < 0) 
 	{
+		if (CheckMovingPlayer(newPlayerPosX, newPlayerPosY, 0.f, 0.f, 0.9f, 0.f))
+		{
+			newPlayerPosY = static_cast<float>((int)newPlayerPosY + 1);
+			player.SetVelocity(player.GetVelocity().x, 0.f);
+		}
+
+		/*
 		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY);
 		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY);
 
@@ -273,10 +293,18 @@ void LevelManager::AdjustPlayer(float dt)
 				player.SetVelocity(player.GetVelocity().x, 0.f);
 			}
 		}
-	
+	*/
 	}
 	else if (player.GetVelocity().y > 0) 
 	{
+		if (CheckMovingPlayer(newPlayerPosX, newPlayerPosY, 0.f, 1.f, 0.9f, 1.f))
+		{
+			newPlayerPosY = static_cast<float>((int)newPlayerPosY);
+			player.SetVelocity(player.GetVelocity().x, 0.f);
+			player.SetOnGround(true);
+		}
+
+		/*
 		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY + 1.0f);
 		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY + 1.0f);
 
@@ -289,6 +317,7 @@ void LevelManager::AdjustPlayer(float dt)
 				player.SetOnGround(true);
 			}
 		}
+		*/
 	
 	}
 	//newPlayerPosX = std::clamp(newPlayerPosX, 0.f, (float)levelWidth);
@@ -329,6 +358,95 @@ void LevelManager::AdjustPlayer(float dt)
 
 }
 
+bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t1Xoffset, float t1Yoffset, float t2Xoffset, float t2Yoffset)
+{
+	Vector2 t1 = { playerPosX + t1Xoffset, playerPosY + t1Yoffset };
+	Vector2 t2 = { playerPosX + t2Xoffset, playerPosY + t2Yoffset };
+
+	char tileTypeOne = GetTile(t1.x, t1.y);
+	char tileTypeTwo = GetTile(t2.x, t2.y);
+	/*
+	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
+	{
+	
+		player.TakeTickDamage();
+		return false;
+	}
+	*/
+	if (tileTypeOne != L'.' || tileTypeTwo != L'.')
+	{
+		if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
+		{
+			return true;
+		}
+	}
+	return false;
+}
+/*
+void LevelManager::CheckDeathBlock(Vector2 playerPos, Vector2 tilePos)
+{
+	/*
+	float offset = 0.1f;
+	Rectangle tileBox = {tilePos.x + offset, tilePos.y + offset, 1.f - offset * 2.f, 1.f };
+	
+	//Rectangle tileBox = { tilePos.x , tilePos.y , 1.f , 1.f};
+	Rectangle playerBox = { playerPos.x, playerPos.y, 1.f, 1.f };
+	if (CheckCollisionRecs(tileBox, playerBox))
+	{
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = Die;
+		player.Die();
+	}
+	
+	Vector2 lpos = { tilePos.x, tilePos.y + 1.f };
+	Vector2 mpos = { tilePos.x + 1.f, tilePos.y};
+	//Vector2 rpos = { tilePos.x , tilePos.y + 1.f };
+
+	Rectangle playerBox = {playerPos.x, playerPos.y, 1.f, 1.f};
+	if (LineBoxCollisionCheck(lpos, mpos, playerBox))// || LineBoxCollisionCheck(rpos, mpos, playerBox))
+	{
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = Die;
+		player.Die();
+	}
+	
+	Vector2 center = { tilePos.x + 0.5f, tilePos.y + 1.f };
+	Rectangle playerBox = { playerPos.x, playerPos.y, 1.f, 1.f };
+	if (CheckCollisionCircleRec(center, 0.5f, playerBox))// || LineBoxCollisionCheck(rpos, mpos, playerBox))
+	{
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = Die;
+		player.Die();
+	}
+}
+
+bool LevelManager::LineBoxCollisionCheck(Vector2 l1, Vector2 l2, Rectangle box)
+{
+	Vector2 boxMin = {box.x, box.y}; // Top-left corner
+	Vector2 boxMax = { box.x + box.width, box.y + box.height }; // Bottom-right corner
+
+	float tmin = (boxMin.x - l1.x) / (l2.x - l1.x);
+	float tmax = (boxMax.x - l1.x) / (l2.x - l1.x);
+
+	if (tmin > tmax) std::swap(tmin, tmax);
+
+	float tymin = (boxMin.y - l1.y) / (l2.y - l1.y);
+	float tymax = (boxMax.y - l1.y) / (l2.y - l1.y);
+
+	if (tymin > tymax) std::swap(tymin, tymax);
+
+	// Check for overlap in both x and y axis
+	if ((tmin > tymax) || (tymin > tmax)) return false;
+
+	tmin = std::max(tmin, tymin);
+	tmax = std::min(tmax, tymax);
+
+	// If tmax < 0, the line is completely outside of the AABB
+	if (tmax < 0) return false;
+
+	return true;
+}
+*/
 bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 {
 	if (tileTypeOne == L'#' || tileTypeTwo == L'#')
@@ -419,12 +537,13 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		
 		return false;
 	}
+	
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
+		player.TakeTickDamage();
 		return false;
 	}
+	
 	if (tileTypeOne == L'+' || tileTypeTwo == L'+')
 	{
 		// Next Level

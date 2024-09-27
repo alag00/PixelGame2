@@ -16,21 +16,51 @@ void Dialogue::SetActive(bool newValue)
 	active = newValue;
 }
 
-void Dialogue::Update()
+void Dialogue::Update(float dt)
 {
 	if (!active)
 	{
 		return;
 	}
+
+	letterTimer -= dt;
+	if (letterTimer <= 0.f)
+	{
+		letterTimer = TIME_BETWEEN_LETTERS;
+		currentCharsNum++;
+		if (currentCharsNum > strlen(speechList.front().text))
+		{
+			currentCharsNum = (int)strlen(speechList.front().text);
+		}
+		
+		currentChars = "";
+
+		for (int i = 0; i < currentCharsNum; i++)
+		{
+			currentChars += speechList.front().text[i];
+		}
+		
+	}
+	
 	
 	if (IsKeyPressed(KEY_SPACE))
 	{
-	
-		speechList.erase(speechList.begin());
-		if (speechList.empty())
+		if (currentCharsNum == strlen(speechList.front().text))
 		{
-			active = false;
-			return;
+
+			currentCharsNum = 0;
+			currentChars = "";
+			speechList.erase(speechList.begin());
+			if (speechList.empty())
+			{
+				active = false;
+				return;
+			}
+		}
+		else
+		{
+			currentChars = speechList.front().text;
+			currentCharsNum = (int)strlen(speechList.front().text);
 		}
 	}
 }
@@ -84,6 +114,6 @@ void Dialogue::Render()
 		DrawTexturePro(speechList.front().rPort, src, dst, origin, 0.f, WHITE);
 	}
 	
-	txtRend.RenderText(speechList.front().text, (int)textBox.x + FONT_SIZE, (int)textBox.y + FONT_SIZE, FONT_SIZE, speechList.front().textCol, BLACK);
+	txtRend.RenderText(currentChars, (int)textBox.x + FONT_SIZE, (int)textBox.y + FONT_SIZE, FONT_SIZE, speechList.front().textCol, BLACK);
 	
 }

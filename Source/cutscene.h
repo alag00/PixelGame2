@@ -44,6 +44,12 @@ private:
 	TextRenderer txtRend;
 
 	int cutsceneStage = 0;
+
+	//const float PAUSE_TIMER = 1.f;
+	float pauseTimer = 0.3f;
+	bool enemyFlipped = false;
+	const float ENEMY_SCARED_SPEED = 5.f;
+
 public:
 	void Setup(Vector2& ref) override;
 	void SetupStageOne();
