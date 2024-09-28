@@ -160,7 +160,7 @@ void LevelManager::UpdateMiscs(float dt)
 		}
 	}
 	miscManager.UpdateDartTrapsPoints(dt);
-	if (miscManager.UpdateDeathBlocks())
+	if (miscManager.UpdateHurtBlocks())
 	{
 
 		//filter.StartEffect(FADE_TO_BLACK);
@@ -553,9 +553,17 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		
 		return false;
 	}
-	
+	if (tileTypeOne == L'H' || tileTypeTwo == L'H')
+	{
+
+
+		return false;
+	}
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
+		filter.StartEffect(FADE_TO_BLACK);
+		currentEvent = Die;
+		player.Die();
 		return false;
 	}
 	
@@ -896,9 +904,9 @@ void LevelManager::SetupTile(int x, int y)
 		SetTile(x, y, L'T');
 		return;
 	}
-	if (GetTile(x, y) == L'D')
+	if (GetTile(x, y) == L'H')
 	{
-		miscManager.CreateDeathBlock(x, y);
+		miscManager.CreateHurtBlock(x, y);
 		return;
 	}
 	if (GetTile(x, y) == L'v')
@@ -997,8 +1005,11 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 	case L'=': // Barrier Block
 		src = { 80.f,16.f, 16.f, 16.f };
 		break;
+	case L'H': // Hurt Block
+		src = { 64.f,16.f, 16.f, 16.f };
+		break;
 	case L'D': // Death Block
-		src = { 80.f,32.f, 16.f, 16.f };
+		src = { 64.f,0.f, 16.f, 16.f };
 		break;
 	case L'C': // CheckPoint Unclaimed
 		src = { 96.f,0.f, 16.f, 16.f };
@@ -1013,7 +1024,7 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 		src = { 96.f,48.f, 16.f, 16.f };
 		break;
 	case L'T': // Dart Trap
-		src = { 80.f,48.f, 16.f, 16.f };
+		src = { 64.f,32.f, 16.f, 16.f };
 		break;
 	case L'{': // Misc 1
 		src = { 112.f,0.f, 16.f, 16.f };

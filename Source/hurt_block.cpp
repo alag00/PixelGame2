@@ -1,6 +1,6 @@
-#include "death_block.h"
+#include "hurt_block.h"
 
-void DeathBlock::Setup(Vector2 newPos, Entity& ref)
+void HurtBlock::Setup(Vector2 newPos, Entity& ref)
 {
 	centerPos.x = newPos.x + CENTER_OFFSET;
 	centerPos.y = newPos.y + CENTER_OFFSET;
@@ -15,7 +15,7 @@ void DeathBlock::Setup(Vector2 newPos, Entity& ref)
 	//hitBox = {newPos.x, newPos.y + 0.2f , 1.f, 1.f};
 }
 
-bool DeathBlock::Update()
+bool HurtBlock::Update()
 {
 	if (GetDist(centerPos, playerRef->GetCenter()) >= MIN_ACTIVATION_DIST)
 	{
@@ -24,7 +24,7 @@ bool DeathBlock::Update()
 	return CollisionCheck();
 }
 
-bool DeathBlock::CollisionCheck()
+bool HurtBlock::CollisionCheck()
 {
 	/*
 	lPos = {centerPos.x - CENTER_OFFSET, centerPos.y + CENTER_OFFSET};
@@ -68,7 +68,7 @@ bool DeathBlock::CollisionCheck()
 
 
 
-void DeathBlock::Render()
+void HurtBlock::Render()
 {
 
 	float size = 64.f;
@@ -82,7 +82,7 @@ void DeathBlock::Render()
 }
 
 
-float DeathBlock::GetDist(Vector2 vec1, Vector2 vec2)
+float HurtBlock::GetDist(Vector2 vec1, Vector2 vec2)
 {
 	float x = vec1.x - vec2.x;
 	float y = vec1.y - vec2.y;

@@ -3,7 +3,7 @@
 #include "raylib.h"
 #include <cmath>
 
-class DeathBlock
+class HurtBlock
 {
 private:
 	Entity* playerRef = nullptr;

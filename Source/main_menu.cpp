@@ -8,7 +8,7 @@ void MainMenu::LoadScene()
 	screenWidth = (float)GetScreenWidth();
 	screenHeight = (float)GetScreenHeight();
 
-	bg = LoadTexture("Assets/MainMenu/AnimatedBackgroundAtlas.png");
+	bg = LoadTexture("Assets/MainMenu/AnimatedBackgroundAtlasAlter.png");
 	title = LoadTexture("Assets/MainMenu/MainTitle.png");
 
 	menuSong = LoadMusicStream("Assets/Audio/Music/CutsceneTheme.mp3");

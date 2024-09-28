@@ -7,6 +7,11 @@
 class Cutscene
 {
 private:
+	const float BLINK_RATE = 0.5f;
+	float blinkTimer = 0.f;
+	bool showSkipText = true;
+	TextRenderer txtRend;
+	float barThickness = 100.f;
 public:
 	virtual void Setup(Vector2& ref) { (void)ref; };
 
@@ -14,6 +19,8 @@ public:
 	virtual void Render(){};
 	virtual void RenderUI() {};
 	virtual void Unload() {};
+	void UpdateSkipText(float dt);
+	void RenderSkipText();
 };
 
 class CastleCutscene : public Cutscene
@@ -41,7 +48,7 @@ private:
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
-	TextRenderer txtRend;
+	
 
 	int cutsceneStage = 0;
 
@@ -49,6 +56,8 @@ private:
 	float pauseTimer = 0.3f;
 	bool enemyFlipped = false;
 	const float ENEMY_SCARED_SPEED = 5.f;
+
+
 
 public:
 	void Setup(Vector2& ref) override;
@@ -87,7 +96,7 @@ private:
 	Texture2D enemyListenPort{};
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
-	TextRenderer txtRend;
+	
 
 	int cutsceneStage = 1;
 public:

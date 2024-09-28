@@ -102,7 +102,7 @@
     <ClCompile Include="Source\dark_mode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Source\death_block.cpp">
+    <ClCompile Include="Source\hurt_block.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -200,7 +200,7 @@
     <ClInclude Include="Source\dark_mode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Source\death_block.h">
+    <ClInclude Include="Source\hurt_block.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

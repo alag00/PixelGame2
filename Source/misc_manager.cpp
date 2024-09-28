@@ -46,7 +46,7 @@ void MiscManager::ClearLists()
 	checkPointList.clear();
 	barrierList.clear();
 	grappPointList.clear();
-	deathBlockList.clear();
+	hurtBlockList.clear();
 
 	for (int i = 0; i < dartTrapList.size(); i++)
 	{
@@ -120,11 +120,11 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 	objectList.push_back(newObject);
 }
 
-void MiscManager::CreateDeathBlock(int x, int y)
+void MiscManager::CreateHurtBlock(int x, int y)
 {
-	DeathBlock newDeathBlock;
-	newDeathBlock.Setup(Vector2((float)x, (float)y), *playerRef);
-	deathBlockList.push_back(newDeathBlock);
+	HurtBlock newHurtBlock;
+	newHurtBlock.Setup(Vector2((float)x, (float)y), *playerRef);
+	hurtBlockList.push_back(newHurtBlock);
 }
 
 int MiscManager::UpdateCheckPoints()
@@ -179,11 +179,11 @@ void MiscManager::UpdateDartTrapsPoints(float dt)
 	}
 }
 
-bool MiscManager::UpdateDeathBlocks()
+bool MiscManager::UpdateHurtBlocks()
 {
-	for (int i = 0; i < deathBlockList.size(); i++)
+	for (int i = 0; i < hurtBlockList.size(); i++)
 	{
-		if (deathBlockList.at(i).Update())
+		if (hurtBlockList.at(i).Update())
 		{
 			return true;
 		}

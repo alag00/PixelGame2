@@ -1,5 +1,27 @@
 #include "cutscene.h"
 
+
+void Cutscene::UpdateSkipText(float dt)
+{
+	blinkTimer -= dt;
+	if (blinkTimer <= 0.f)
+	{
+		blinkTimer = BLINK_RATE;
+		showSkipText = !showSkipText;
+	}
+}
+
+void Cutscene::RenderSkipText()
+{
+	if (showSkipText)
+	{
+		txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
+	}
+}
+
+
+
+
 void CastleCutscene::Setup(Vector2&ref)
 {
 	camRef = &ref;
@@ -64,6 +86,7 @@ void CastleCutscene::SetupStageTwo()
 
 bool CastleCutscene::Update(float dt)
 {
+	UpdateSkipText(dt);
 	playerAnim.UpdateAnimator(dt);
 	enemyAnim.UpdateAnimator(dt);
 	switch (cutsceneStage)
@@ -130,7 +153,6 @@ bool CastleCutscene::Update(float dt)
 
 void CastleCutscene::Render()
 {
-	
 	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
@@ -145,7 +167,7 @@ void CastleCutscene::Render()
 void CastleCutscene::RenderUI()
 {
 	dialogue.Render();
-	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
+	RenderSkipText();
 
 }
 
@@ -287,6 +309,7 @@ void GraveyardCutscene::SetupStageNine()
 
 bool GraveyardCutscene::Update(float dt)
 {
+	UpdateSkipText(dt);
 	playerAnim.UpdateAnimator(dt);
 	enemyAnim.UpdateAnimator(dt);
 	switch (cutsceneStage)
@@ -371,7 +394,7 @@ bool GraveyardCutscene::Update(float dt)
 
 void GraveyardCutscene::Render()
 {
-	
+
 	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
 	Vector2 origin = { 0.f, dst.height * 0.5f + 32.f };
 	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
@@ -388,7 +411,7 @@ void GraveyardCutscene::RenderUI()
 {
 	dialogue.Render();
 
-	txtRend.RenderText("Press 'P' to Skip", 30, 30, 30, WHITE, BLACK);
+	RenderSkipText();
 
 }
 
@@ -406,4 +429,7 @@ void GraveyardCutscene::Unload()
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }
+
+
+
 

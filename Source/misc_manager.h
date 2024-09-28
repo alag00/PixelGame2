@@ -6,7 +6,7 @@
 #include "grappling_point.h"
 #include "dart_trap_point.h"
 #include "background_object.h"
-#include "death_block.h"
+#include "hurt_block.h"
 
 
 class MiscManager
@@ -20,7 +20,7 @@ private:
 	Texture2D dartTxr{};
 
 	Sound checkPointSound{};
-	std::vector<DeathBlock> deathBlockList{};
+	std::vector<HurtBlock> hurtBlockList{};
 
 	std::vector<BackgroundObject*> objectList{};
 	static const int miscSetSize = 5;
@@ -38,7 +38,7 @@ public:
 	void CreateGrapplingPoint(int x, int y);
 	void CreateDartTrapPoint(int x, int y, bool left);
 	void CreateObject(int x, int y, int world, int index);
-	void CreateDeathBlock(int x, int y);
+	void CreateHurtBlock(int x, int y);
 
 	std::vector<CheckPoint> GetCheckPointList() { return checkPointList; }
 	std::vector<Vector2> GetBarrierList() { return barrierList; }
@@ -50,6 +50,6 @@ public:
 	
 	int UpdateGrapplingPoints();
 	void UpdateDartTrapsPoints(float dt);
-	bool UpdateDeathBlocks();
+	bool UpdateHurtBlocks();
 	void Render();
 };
