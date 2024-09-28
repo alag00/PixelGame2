@@ -132,10 +132,18 @@ void Player::Update(float dt)
 
 void Player::Render()
 {
+	Color color = WHITE;
+	if (tickTimer > 0.f || status == STATUS::DAMAGED)
+	{
+		color = RED;
+		color.a = 200;
+	}
+	
+
 	Rectangle dst = { pos.x, pos.y, size.x, size.y };
 	dst = { pos.x * config.tileSize + config.tileSize / DIVIDER, pos.y * config.tileSize + OFFSET_PLAYER_Y, size.x, size.y };
 	Vector2 origin = { dst.width / DIVIDER, dst.height / DIVIDER };
-	anim.DrawAnimationPro(dst, origin, ZERO, WHITE);
+	anim.DrawAnimationPro(dst, origin, ZERO, color);
 
 
 
@@ -794,11 +802,15 @@ void Player::SlowAirControl(float dt)
 	}
 }
 
-void Player::TakeTickDamage()
+bool Player::TakeTickDamage()
 {
 	if (tickTimer <= 0.f)
 	{
 		tickTimer = TICK_TIME;
 		health -= TICK_DAMAGE;
+		PlaySoundWithPitchDiff(hitSound);
+
+		return true;
 	}
+	return false;
 }

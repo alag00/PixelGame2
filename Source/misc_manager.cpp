@@ -46,6 +46,7 @@ void MiscManager::ClearLists()
 	checkPointList.clear();
 	barrierList.clear();
 	grappPointList.clear();
+	deathBlockList.clear();
 
 	for (int i = 0; i < dartTrapList.size(); i++)
 	{
@@ -119,6 +120,13 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 	objectList.push_back(newObject);
 }
 
+void MiscManager::CreateDeathBlock(int x, int y)
+{
+	DeathBlock newDeathBlock;
+	newDeathBlock.Setup(Vector2((float)x, (float)y), *playerRef);
+	deathBlockList.push_back(newDeathBlock);
+}
+
 int MiscManager::UpdateCheckPoints()
 {
 	if (checkPointList.empty())
@@ -171,6 +179,18 @@ void MiscManager::UpdateDartTrapsPoints(float dt)
 	}
 }
 
+bool MiscManager::UpdateDeathBlocks()
+{
+	for (int i = 0; i < deathBlockList.size(); i++)
+	{
+		if (deathBlockList.at(i).Update())
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
 void MiscManager::Render() 
 {
 	for (int i = 0; i < checkPointList.size(); i++)
@@ -189,6 +209,12 @@ void MiscManager::Render()
 	{
 		objectList.at(i)->Render();
 	}
+	/*
+	for (int i = 0; i < deathBlockList.size(); i++)
+	{
+		deathBlockList.at(i).Render();
+	}
+	*/
 }
 
 int MiscManager::GetMostViableGrapplingIndex()

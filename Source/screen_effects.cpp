@@ -35,6 +35,7 @@ void Effect::Update(float dt)
 	progress += dt;
 	if (progress > duration)
 	{
+		camera->rotation = 0.f;
 		isActive = false;
 	}
 }

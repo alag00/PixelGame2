@@ -160,6 +160,22 @@ void LevelManager::UpdateMiscs(float dt)
 		}
 	}
 	miscManager.UpdateDartTrapsPoints(dt);
+	if (miscManager.UpdateDeathBlocks())
+	{
+
+		//filter.StartEffect(FADE_TO_BLACK);
+		//currentEvent = Die;
+		//player.Die();
+		
+		if (player.TakeTickDamage())
+		{
+			//currentEvent = HitFreeze;
+			//filter.StartEffect(HIT_FREEZE);
+			currentEvent = ScreenShake;
+			filter.StartEffect(SCREEN_SHAKE);
+		}
+		
+	}
 }
 
 void LevelManager::CheckEvent()
@@ -540,7 +556,6 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
-		player.TakeTickDamage();
 		return false;
 	}
 	
@@ -733,7 +748,9 @@ void LevelManager::LevelRender()
 		}
 	}
 
-
+	//Color pCol = YELLOW;
+	//pCol.a = 40;
+	//DrawRectangle(static_cast<int>(player.pos.x * tileWidth), static_cast<int>(player.pos.y * tileHeight), tileWidth, tileHeight, pCol);
 
 
 }
@@ -877,6 +894,11 @@ void LevelManager::SetupTile(int x, int y)
 	{
 		miscManager.CreateDartTrapPoint(x, y, false);
 		SetTile(x, y, L'T');
+		return;
+	}
+	if (GetTile(x, y) == L'D')
+	{
+		miscManager.CreateDeathBlock(x, y);
 		return;
 	}
 	if (GetTile(x, y) == L'v')
