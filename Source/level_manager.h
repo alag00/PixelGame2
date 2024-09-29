@@ -50,7 +50,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 1;
+	int currentLevel = 11;
 
 	Effect filter;
 
@@ -86,7 +86,7 @@ private:
 	DarkMode darkMode;
 	bool levelDarkMode = false;
 	
-	const int CURRENT_LAST_LEVEL = 10;
+	const int CURRENT_LAST_LEVEL = 15;
 	const int MISC_FAIL_CODE = 4444;
 	const float DELTA_FAILSAFE_LIMIT = 0.1f;
 public:

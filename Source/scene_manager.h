@@ -2,6 +2,7 @@
 #include "scene.h"
 #include "main_menu.h"
 #include "level_manager.h"
+#include "developer_scene.h"
 
 class SceneManager {
 private:

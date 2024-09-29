@@ -10,8 +10,8 @@ SceneManager::~SceneManager()
 }
 void SceneManager::Setup()
 {
-	MainMenu* mainMenu = new MainMenu();
-	currentScene = mainMenu;
+	DeveloperScene* devLogo = new DeveloperScene();
+	currentScene = devLogo;
 	currentScene->LoadScene();
 }
 void SceneManager::Update() {

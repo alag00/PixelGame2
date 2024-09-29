@@ -95,6 +95,21 @@ void Levels::CreateLevel(int level)
 	case 10:
 		CreateLevelTen();
 		break;
+	case 11:
+		CreateLevelEleven();
+		break;
+	case 12:
+		CreateLevelTwelve();
+		break;
+	case 13:
+		CreateLevelThirteen();
+		break;
+	case 14:
+		CreateLevelFourteen();
+		break;
+	case 15:
+		CreateLevelFifteen();
+		break;
 	}
 }
 
@@ -594,30 +609,156 @@ void Levels::CreateLevelNine()
 
 void Levels::CreateLevelTen()
 {
-	darkMode = false;
 	currentLevel = "";
-	spawnChar = L'-';
-	currentSong = songList[2];
-	currentTileTxr = tileTextures[1];
-	SetCurrentBackground(4);
-	currentLevelWidth = 62;
-	currentevelHeight = 16;
 
-	currentLevel += "#ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss#";
-	currentLevel += "##ssssssssssssssssssssssssssssssssssssssssssssssssssssssssss##";
-	currentLevel += "######################################################ssssss##";
-	currentLevel += "#######################################################ssss###";
-	currentLevel += "####--....----....----....----....----....----....--###ssss###";
-	currentLevel += "###---....----....----....----....----....----....---##ssss###";
-	currentLevel += "###---....----....----....----....----....----....---###sss###";
-	currentLevel += "###---....----....----....----....----....----....---#########";
-	currentLevel += "s-----....----....----....----....----....----....----########";
-	currentLevel += "sS----....----....----....----....----....----....-----------E";
-	currentLevel += "s------..------..------..------..------..------..------------E";
-	currentLevel += "##############################################################";
-	currentLevel += "##############################################################";
-	currentLevel += "###ssssssssssssssssssssssssssssssssssssssssssssssssssssssss###";
-	currentLevel += "#ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss#";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentTileTxr = tileTextures[0];
+	currentSong = songList[0];
+	SetCurrentBackground(0);
+	currentLevelWidth = 128;
+	currentevelHeight = 58;
+	cutsceneID = 0;
+	spawnChar = L',';
+
+
+	darkMode = true;
+	// maze level???
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*****************************************************ssssss****************************sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*****************************************************ssssss****************************sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**ssssss***************,,,,,,,,*****sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**ssssss**,,,,,,,,,,,,,,,,,,,,,,,+**sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**ssssss*L,,,,,,,,,,,,,,,,,,,,,,,+**sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,******************,,,***************************ssssss*L,,,,,,,,,,,,,,************sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L****************L,,,L**************************ssssss*L,,,***********************sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L*ssssssssssssss*L,,,L*sssssssssssssssssssssssssssssss*L,,,L***********ssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L*ssssssssssssss*L,,,L*sssssssssssssssssssssssssssssss*L,,,L*ssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssss****************L,,,L*ssssssssssssss*L,,,L*sssssssssssssssssssssssssssssss*L,,,L*ssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssss*****************,,,L*ssssssssssssss*L,,,L*sssssssssssssssssssssssssssssss*L,,,L*ssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,,L*ssssssssssssss*L,,,L*********************************L,,,L*ssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,,L*ssssssssssssss*L,,,***********************************,,,L*ssssssss*************sssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,,L*ssssssssssssss*L,,,,,,,,,,,,,,,,,,...,,,,,,,,,,,,,,,,,,,,L*ssssssss*************sssssssssssss";
+	currentLevel += "sssssssssssss*****************,,,L*ssssssssssssss*L,,,,,,,,,,,,,,,,...,,,,,,,,,,,,,,,,,,,,,,L*ssssssss**,,,,,,,,,**sssssssssssss";
+	currentLevel += "sssssssssssss****************L,,,L*ssssssssssssss**,,,,,,,,,,,,,,,...,,,,,,,,,,,,,,,,,,,,,,,**ssssssss*L,,,,,,,,,**sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L*ssssssssssssss*********************************************ssssssss*L,,,,,,,,,**sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L*ssssssssssssss*********************************************ssssssss*L,,,********sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,L**********************************ssssssssssssssssssssssssssssssssss*L,,,L*******sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,**********************************************************************L,,,L*sssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,,,,,,**************************************,,,L*sssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L*sssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**,,,,,,,,,,,,,,,,..,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L*sssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss***********************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L*sssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssss**********************************L,,,**************************************,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*L,,,L************************************L,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*L,,,L*****************ssssssssssssssssss*L,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*L,,,*************************************L,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssss*********************sssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,**********************,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssss*********************sssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,........,,,,,,,,,,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,**sssssssssssssssssssssssssss**,,,,,,,,,,,,,,,,,,,,,,,........,,,,,,,,,,,,,L*sssssssssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,***********************************************,,,,,.........,,,,,,,,,,,,,,**sssssssssssssssssss";
+	currentLevel += "sssssssssssss**,,,,,,,,,,,,,,,,,**********************************************L,,,...........,,**************sssssssssssssssssss";
+	currentLevel += "sssssssssssss****************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**ssssss*L,,...........,,,L*************sssssssssssssssssss";
+	currentLevel += "sssssssssssss***************L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L*ssssss*L,...........,,,,L*sssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L*ssssss**..........,,,,,,L*******************sssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,**********************************,,,L*ssssss***************,,,********************sssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,L********************************L,,,L*ssssss**************L,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,L*ssssssssssssssssssssssssssssss*L,,,L*sssssssssssssssssss*L,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,L*sssssssssssssssssssssssss******L,,,L*********************L,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssss*L,,,L*sssssssssssssssssssssssss*******,,,***********************,,,********************sssssssssssss";
+	currentLevel += "ssssssssssssssssssss********L,,,L**************ssssssssssss**,,,,,,,,,,,...,,,,,,,,,,...,,,,,,,L*******************sssssssssssss";
+	currentLevel += "sssssssssssssssssss**********,,,***************ssssssssssss**,,,,,,,,,....,,,,,,,,,,,,...,,,,,,L*sssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss***,,,,,,,,,,,....,,,,,,,,**ssssssssssss*L,,,,,,,,...,,,,,,,,,,,,,,,,..,,,,,**sssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssss**,,,,,,,,,....,,,,,,,,,,,**ssssssssssss*L,,,************,,,******************sssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssss********,,,,,,,....,,,,,,,,,,,,,***************L,,,L**********L,,,L***********************************sssssssssssss";
+	currentLevel += "ssssssssssss********,,,,,****************,,,,,***************,,,L*ssssssss*L,,,************************************sssssssssssss";
+	currentLevel += "ssssssssssss***,,,,,,,,,******************,,,,,,,,,,,,,,,,,,,,,,L*ssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "ssssssssssss**s,,,,,,,,,**ssssssssssssss**,,,,,,,,,,,,,,,,,,,,,,L*ssssssss*L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "ssssssssssss**sS,,,,,,,,**ssssssssssssss**,,,,,,,,,,,,,,,,,,,,,,**ssssssss**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**sssssssssssss";
+	currentLevel += "ssssssssssss**************ssssssssssssss**************************ssssssss*****************************************sssssssssssss";
+	currentLevel += "sssssssssssss************ssssssssssssssss************************sssssssss*****************************************sssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 
 }
+
+void Levels::CreateLevelEleven()
+{
+	currentLevel = "";
+
+	currentTileTxr = tileTextures[0];
+	currentSong = songList[0];
+	SetCurrentBackground(0);
+	currentLevelWidth = 128;
+	currentevelHeight = 30;
+	cutsceneID = 0;
+	spawnChar = L',';
+
+	darkMode = false;
+	// last cave level
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,********************************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,********************************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,********************************************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,***H,,,,,,,,**H,,,,,,,,**H,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**H,,,,,,,***H,,,,,,,***H,,,,,,,*************,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,,,,,,,,,,,,,,*********,,,,,,,,,,G,,,**H,,,,G,,,**H,,,,G,,,**H,,,,G,,,,,,,,,,,,,,***,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,,,*************************HHHH,,,,,,,,**,,,,,,,,,**,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,,,,*****,,,,,,,,,,,,,,,***********,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,,,***,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,H*,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += ",,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*,*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,H*,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "**,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,H*,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,HH*,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HHH**,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*,S,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,HHHH***,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*************,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,HHHHHHH****,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "*************HHHHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHH*******,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,";
+	currentLevel += "sssssssssss**************************************************************************sssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssss*************************************************************************sssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+
+
+
+
+}
+
+void Levels::CreateLevelTwelve()
+{
+}
+
+void Levels::CreateLevelThirteen()
+{
+}
+
+void Levels::CreateLevelFourteen()
+{
+}
+
+void Levels::CreateLevelFifteen()
+{
+}
+
+// Level Plans
+// Remove lvl 10 and maybe lvl 5
+// Have a Mansion level with puzzles and ghost enemies between lvl 7 and 8 (the two spooky levels)
+// Have 1-2 more cave levels after level 9 (fight the player's old faction)
+// Have 2-3 Winter levels where player utilizes new Mechanic(wind blow which affects player velocity);
+// Have 1-2 Ice Castle levels Ending with Cryomancer boss fight
+
+// Out of scope plans
+// Cutscene after Cryoancer defeat, fight against final boss (Extremely Difficult)
+// If win, special ending
+// If lose, player dies and goes to hell
+// Some Hell levels, Fight against Lucifer or Satan or something
+// Would be cool to have some feature to show all enemies you have defeated

@@ -145,6 +145,7 @@
     <ClCompile Include="Source\cutscene_manager.cpp" />
     <ClCompile Include="Source\dark_mode.cpp" />
     <ClCompile Include="Source\dart_trap_point.cpp" />
+    <ClCompile Include="Source\developer_scene.cpp" />
     <ClCompile Include="Source\hurt_block.cpp" />
     <ClCompile Include="Source\dialogue.cpp" />
     <ClCompile Include="Source\enemy.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Source\cutscene_manager.h" />
     <ClInclude Include="Source\dark_mode.h" />
     <ClInclude Include="Source\dart_trap_point.h" />
+    <ClInclude Include="Source\developer_scene.h" />
     <ClInclude Include="Source\hurt_block.h" />
     <ClInclude Include="Source\dialogue.h" />
     <ClInclude Include="Source\enemy.h" />
