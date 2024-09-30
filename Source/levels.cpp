@@ -15,7 +15,7 @@ void Levels::Load()
 	// TexturePack
 	tileTextures[0] = LoadTexture("Assets/TileTextures/WorldTileTextures1.png");
 	tileTextures[1] = LoadTexture("Assets/TileTextures/WorldTileTextures2.png");
-
+	tileTextures[2] = LoadTexture("Assets/TileTextures/WorldTileTextures3.png");
 
 	// Background
 	backgroundTxrs[0][0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1.png");
@@ -41,7 +41,7 @@ void Levels::Load()
 
 void Levels::Unload()
 {
-	for (int i = 0; i < 2; i++)
+	for (int i = 0; i < 3; i++)
 	{
 		UnloadTexture(tileTextures[i]);
 	}
@@ -498,34 +498,34 @@ void Levels::CreateLevelEight()
 	currentSong = songList[1];
 	currentBossSong = bossSongList[1];
 	SetCurrentBackground(4);
-	currentLevelWidth = 70;
+	currentLevelWidth = 84;
 	currentevelHeight = 22;
 	cutsceneID = 2;
 
-	darkMode = false;
+	darkMode = true;
 
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += "......................................................................";
-	currentLevel += ".......................................HH.................DD..........";
-	currentLevel += "...............................HH......%%...........DD....%%..........";
-	currentLevel += ".............s%..S......HH.....%%......%%......DD...%%....%%..........";
-	currentLevel += ".............s%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
-	currentLevel += "ssssssssssssss________________________ssssssssssssssssssssss..........";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss..........";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss..........";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss..........";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss........................................................ssssssssssssss";
+	currentLevel += "ssssssssssssss.........................HH.................DD..........ssssssssssssss";
+	currentLevel += "ssssssssssssss.................HH......%%...........DD....%%..........ssssssssssssss";
+	currentLevel += "ssssssssssssss%..S......HH.....%%......%%......DD...%%....%%..........ssssssssssssss";
+	currentLevel += "ssssssssssssss%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%ssssssssssssss";
+	currentLevel += "ssssssssssssss________________________________________________________ssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 
 }
 
@@ -779,6 +779,39 @@ void Levels::CreateLevelTwelve()
 
 void Levels::CreateLevelThirteen()
 {
+	currentLevel = "";
+	cutsceneID = 0;
+	currentSong = songList[1];
+	currentTileTxr = tileTextures[2];
+	spawnChar = L'd';
+	SetCurrentBackground(2);
+
+	currentLevelWidth = 128;
+	currentevelHeight = 22;
+
+	currentLevel += "................................................................................................................................";
+	currentLevel += "................................................................................................................................";
+	currentLevel += "................................................................................................................................";
+	currentLevel += "%...............................................................................................................................";
+	currentLevel += "_...............................................................................................................................";
+	currentLevel += "_...............................................................................................................................";
+	currentLevel += "_%..............................................................................................................................";
+	currentLevel += "__..............................................................................................................................";
+	currentLevel += "__..............................................................................................................................";
+	currentLevel += "__..............................................................................................................................";
+	currentLevel += "sd......................[.......................................................................................................";
+	currentLevel += "sS.....................}%{.}%%%%%%%%%%..........................................................................................";
+	currentLevel += "*_%%%%%{..[......}%%%%%%%%%%%________%..........................................................................................";
+	currentLevel += "**____%%%%%%%%%%%%%________%%%%%%%%%%%..........................................................................................";
+	currentLevel += "**%%%%%%_________%%%%%%%%%%%%%%%%%%%%%..........................................................................................";
+	currentLevel += "**%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..........................................................................................";
+	currentLevel += "***%%%%%%%%%%%%%%%%%%%%%%%%%**********..........................................................................................";
+	currentLevel += "s******%%%%%%%%%%%********************..........................................................................................";
+	currentLevel += "ss**************************ssssssssss..........................................................................................";
+	currentLevel += "sssssss***********ssssssssssssssssssss..........................................................................................";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssss..........................................................................................";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssss..........................................................................................";
+
 }
 
 void Levels::CreateLevelFourteen()

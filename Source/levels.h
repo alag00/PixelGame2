@@ -22,7 +22,7 @@ private:
 	Texture2D backgroundTxrs[5][3]{};
 
 	Texture2D currentTileTxr{};
-	Texture2D tileTextures[2];
+	Texture2D tileTextures[3];
 	bool darkMode = false;
 public:
 	void Load();
