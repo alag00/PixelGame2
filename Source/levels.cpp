@@ -498,6 +498,45 @@ void Levels::CreateLevelEight()
 	currentSong = songList[1];
 	currentBossSong = bossSongList[1];
 	SetCurrentBackground(4);
+	currentLevelWidth = 60;
+	currentevelHeight = 22;
+	cutsceneID = 2;
+
+	darkMode = true;
+
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += "............................................................";
+	currentLevel += ".............s%..S..........................................";
+	currentLevel += ".............s%%%%%%%%%%%%%%%%%%%%%%%%.....................+";
+	currentLevel += "ssssssssssssss________________________ssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+
+}
+
+void Levels::CreateLevelNine()
+{
+	currentLevel = "";
+	spawnChar = L'.';
+	currentTileTxr = tileTextures[1];
+	currentSong = songList[1];
+	currentBossSong = bossSongList[1];
+	SetCurrentBackground(4);
 	currentLevelWidth = 270;
 	currentevelHeight = 22;
 	bossChar = L'P';
@@ -531,7 +570,7 @@ void Levels::CreateLevelEight()
 }
 
 
-void Levels::CreateLevelNine() 
+void Levels::CreateLevelTen() 
 {
 
 	currentLevel = "";
@@ -607,7 +646,7 @@ void Levels::CreateLevelNine()
 	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 }
 
-void Levels::CreateLevelTen()
+void Levels::CreateLevelEleven()
 {
 	currentLevel = "";
 
@@ -683,7 +722,7 @@ void Levels::CreateLevelTen()
 
 }
 
-void Levels::CreateLevelEleven()
+void Levels::CreateLevelTwelve()
 {
 	currentLevel = "";
 
@@ -729,7 +768,7 @@ void Levels::CreateLevelEleven()
 	currentLevel += "*************,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,HHHHHHH********sssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*************HHHHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHH************ssssssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "sssssssssss*********************************************************************************ssssssssssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
-	currentLevel += "ssssssssssss*************************************************************************sssssssssssssssssssssssssssssssssssssssssssss**,,,,,,,,,,,,,,,,,**sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "ssssssssssss*************************************************************************sssssssssssssssssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**DDDDDDDDDDDDDDDDD**sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 
 
@@ -737,9 +776,6 @@ void Levels::CreateLevelEleven()
 
 }
 
-void Levels::CreateLevelTwelve()
-{
-}
 
 void Levels::CreateLevelThirteen()
 {

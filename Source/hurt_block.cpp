@@ -12,7 +12,6 @@ void HurtBlock::Setup(Vector2 newPos, Entity& ref)
 	mPos = { centerPos.x, newPos.y + HIT_PEAK_OFFSET };
 	rPos = { centerPos.x + CENTER_OFFSET, centerPos.y + CENTER_OFFSET };
 	
-	//hitBox = {newPos.x, newPos.y + 0.2f , 1.f, 1.f};
 }
 
 bool HurtBlock::Update()
@@ -26,13 +25,6 @@ bool HurtBlock::Update()
 
 bool HurtBlock::CollisionCheck()
 {
-	/*
-	lPos = {centerPos.x - CENTER_OFFSET, centerPos.y + CENTER_OFFSET};
-	mPos = { centerPos.x, centerPos.y };
-	rPos = { centerPos.x + CENTER_OFFSET, centerPos.y + CENTER_OFFSET };
-	*/
-	
-	//Rectangle playerBox = {playerRef->pos.x, playerRef->pos.y, 1.f, 1.f};
 	Vector2 pp1 = playerRef->pos;
 	Vector2 pp2 = {pp1.x + 1.f, pp1.y};
 	Vector2 pp3 = { pp1.x + 1.f, pp1.y + 1.f};
@@ -54,13 +46,6 @@ bool HurtBlock::CollisionCheck()
 	{
 		return true;
 	}
-	/*
-	if (CheckCollisionRecs(hitBox, playerBox))
-	{
-		return true;
-	}
-	*/
-	
 
 	
 	return false;
@@ -70,13 +55,7 @@ bool HurtBlock::CollisionCheck()
 
 void HurtBlock::Render()
 {
-
 	float size = 64.f;
-	//ectangle rendBox = { hitBox.x * size, hitBox.y * size ,hitBox.width * size ,hitBox.height * size };
-
-	//Color col = YELLOW;
-	//col.a = 60;
-	//DrawRectangleRec(rendBox, col);
 	DrawLine(static_cast<int>(lPos.x * size), static_cast<int>(lPos.y * size), static_cast<int>(mPos.x * size), static_cast<int>(mPos.y * size), YELLOW);
 	DrawLine(static_cast<int>(rPos.x * size), static_cast<int>(rPos.y * size), static_cast<int>(mPos.x * size), static_cast<int>(mPos.y * size), YELLOW);
 }

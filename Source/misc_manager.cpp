@@ -94,7 +94,9 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 	switch (level)
 	{
 	case 1:
-	case 9:
+	case 10:
+	case 11:
+	case 12:
 		worldMisc = 0;
 		break;
 	case 2:
@@ -106,11 +108,11 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 		worldMisc = 2;
 		break;
 	case 6:
-	case 10:
 		worldMisc = 4;
 		break;
 	case 7:
 	case 8:
+	case 9:
 		worldMisc = 3;
 		break;
 	}

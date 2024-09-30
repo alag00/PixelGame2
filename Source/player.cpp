@@ -656,9 +656,15 @@ void Player::ClimbControl(float dt)
 		anim.SetAnimation(climbSlideAtlas, 4, true);
 		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
+			//FlipPlayer();
+			//status = STATUS::FALLING;
+			//anim.SetAnimation(fallAtlas, 4, true);
 			FlipPlayer();
-			status = STATUS::FALLING;
-			anim.SetAnimation(fallAtlas, 4, true);
+
+			RecoilJump();
+			//antiControlTimer = ANTI_CONTROL_TIME;
+			vel.y = 1.f;;
+			return;
 		}
 	}
 	else

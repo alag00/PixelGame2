@@ -24,3 +24,12 @@ public:
 	void Render();
 	float GetDist(Vector2 vec1, Vector2 vec2);
 };
+
+// PLANS:
+/*
+* 
+* hURTBLOCK HAS bool for instakill or tickdamage
+* during setuptile() if D set instakill bool to true, if H set instakill bool to false
+* when player collides with D or H tiles, miscManager.GetHurtBlock(x,y).SetActive(true);
+* active D, H tiles check distance from player, if distance is too far, set active to false;
+*/
