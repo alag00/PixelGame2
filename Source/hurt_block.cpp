@@ -2,25 +2,44 @@
 
 void HurtBlock::Setup(Vector2 newPos, Entity& ref)
 {
+	oriPos = newPos;
+
 	centerPos.x = newPos.x + CENTER_OFFSET;
 	centerPos.y = newPos.y + CENTER_OFFSET;
 
 	playerRef = &ref;
 
 	
-	lPos = { centerPos.x - CENTER_OFFSET, centerPos.y + CENTER_OFFSET };
+	lPos = { centerPos.x - EDGE_OFFSET, centerPos.y + CENTER_OFFSET };
 	mPos = { centerPos.x, newPos.y + HIT_PEAK_OFFSET };
-	rPos = { centerPos.x + CENTER_OFFSET, centerPos.y + CENTER_OFFSET };
+	rPos = { centerPos.x + EDGE_OFFSET, centerPos.y + CENTER_OFFSET };
 	
 }
 
 bool HurtBlock::Update()
 {
-	if (GetDist(centerPos, playerRef->GetCenter()) >= MIN_ACTIVATION_DIST)
+	if (!activated)
 	{
 		return false;
 	}
-	return CollisionCheck();
+
+	if (GetDist(centerPos, playerRef->GetCenter()) >= MIN_ACTIVATION_DIST)
+	{
+		activated = false;
+		return false;
+	}
+	if (CollisionCheck())
+	{
+		if (instakill)
+		{
+			playerRef->Kill();
+		}
+		else
+		{
+			return playerRef->TakeTickDamage(TICK_DAMAGE);
+		}
+	}
+	return false;
 }
 
 bool HurtBlock::CollisionCheck()

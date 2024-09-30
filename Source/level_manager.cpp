@@ -162,11 +162,12 @@ void LevelManager::UpdateMiscs(float dt)
 	miscManager.UpdateDartTrapsPoints(dt);
 	if (miscManager.UpdateHurtBlocks())
 	{
-
+		currentEvent = ScreenShake;
+		filter.StartEffect(SCREEN_SHAKE);
 		//filter.StartEffect(FADE_TO_BLACK);
 		//currentEvent = Die;
 		//player.Die();
-		
+		/*
 		if (player.TakeTickDamage())
 		{
 			//currentEvent = HitFreeze;
@@ -174,7 +175,7 @@ void LevelManager::UpdateMiscs(float dt)
 			currentEvent = ScreenShake;
 			filter.StartEffect(SCREEN_SHAKE);
 		}
-		
+		*/
 	}
 }
 
@@ -381,14 +382,20 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 
 	char tileTypeOne = GetTile(t1.x, t1.y);
 	char tileTypeTwo = GetTile(t2.x, t2.y);
-	/*
-	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
-	{
 	
-		player.TakeTickDamage();
+	if (tileTypeOne == L'D' || tileTypeTwo == L'D' || tileTypeOne == L'H' || tileTypeTwo == L'H')
+	{
+		if (tileTypeOne == L'D' || tileTypeOne == L'H')
+		{
+			miscManager.ActivateHurtBlockAt((int)t1.x, (int)t1.y);
+		}
+		if (tileTypeTwo == L'D' || tileTypeTwo == L'H')
+		{
+			miscManager.ActivateHurtBlockAt((int)t2.x, (int)t2.y);
+		}
 		return false;
 	}
-	*/
+	
 	if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 	{
 		if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
@@ -553,6 +560,7 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		
 		return false;
 	}
+	/*
 	if (tileTypeOne == L'H' || tileTypeTwo == L'H')
 	{
 
@@ -561,12 +569,9 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	}
 	if (tileTypeOne == L'D' || tileTypeTwo == L'D')
 	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
-		player.Die();
 		return false;
 	}
-	
+	*/
 	if (tileTypeOne == L'+' || tileTypeTwo == L'+')
 	{
 		// Next Level
@@ -906,7 +911,12 @@ void LevelManager::SetupTile(int x, int y)
 	}
 	if (GetTile(x, y) == L'H')
 	{
-		miscManager.CreateHurtBlock(x, y);
+		miscManager.CreateHurtBlock(x, y, false);
+		return;
+	}
+	if (GetTile(x, y) == L'D')
+	{
+		miscManager.CreateHurtBlock(x, y, true);
 		return;
 	}
 	if (GetTile(x, y) == L'v')

@@ -808,12 +808,12 @@ void Player::SlowAirControl(float dt)
 	}
 }
 
-bool Player::TakeTickDamage()
+bool Player::TakeTickDamage(int damage)
 {
 	if (tickTimer <= 0.f)
 	{
 		tickTimer = TICK_TIME;
-		health -= TICK_DAMAGE;
+		health -= damage;
 		PlaySoundWithPitchDiff(hitSound);
 
 		return true;

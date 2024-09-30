@@ -38,13 +38,14 @@ public:
 	void CreateGrapplingPoint(int x, int y);
 	void CreateDartTrapPoint(int x, int y, bool left);
 	void CreateObject(int x, int y, int world, int index);
-	void CreateHurtBlock(int x, int y);
+	void CreateHurtBlock(int x, int y, bool instakill);
 
 	std::vector<CheckPoint> GetCheckPointList() { return checkPointList; }
 	std::vector<Vector2> GetBarrierList() { return barrierList; }
 	std::vector<GrapplingPoint> GetGrapPointList() { return grappPointList; }
 	std::vector<DartTrap*> GetDartPointList() { return dartTrapList; }
 	int GetMostViableGrapplingIndex();
+	void ActivateHurtBlockAt(int x, int y);
 
 	int UpdateCheckPoints();
 	

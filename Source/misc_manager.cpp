@@ -122,10 +122,11 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 	objectList.push_back(newObject);
 }
 
-void MiscManager::CreateHurtBlock(int x, int y)
+void MiscManager::CreateHurtBlock(int x, int y, bool instakill)
 {
 	HurtBlock newHurtBlock;
 	newHurtBlock.Setup(Vector2((float)x, (float)y), *playerRef);
+	newHurtBlock.SetInstakill(instakill);
 	hurtBlockList.push_back(newHurtBlock);
 }
 
@@ -212,9 +213,9 @@ void MiscManager::Render()
 		objectList.at(i)->Render();
 	}
 	/*
-	for (int i = 0; i < deathBlockList.size(); i++)
+	for (int i = 0; i < hurtBlockList.size(); i++)
 	{
-		deathBlockList.at(i).Render();
+		hurtBlockList.at(i).Render();
 	}
 	*/
 }
@@ -256,4 +257,17 @@ int MiscManager::GetMostViableGrapplingIndex()
 		return FAIL_VALUE;
 	}
 	return closestIndex;
+}
+
+void MiscManager::ActivateHurtBlockAt(int x, int y)
+{
+	for (int i = 0; i < hurtBlockList.size(); i++)
+	{
+		if (hurtBlockList.at(i).GetPos().x == x && hurtBlockList.at(i).GetPos().y == y)
+		{
+			hurtBlockList.at(i).SetActivated(true);
+			return;
+		}
+	}
+
 }

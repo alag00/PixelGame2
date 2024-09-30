@@ -134,7 +134,7 @@ private:
 	// TICK DAMAGE
 	const float TICK_TIME = 0.2f;
 	float tickTimer = 0.f;
-	const int TICK_DAMAGE = 10;
+	//const int TICK_DAMAGE = 10;
 		
 	// AUDIO VARIABLES
 	Sound hitSound{};
@@ -208,5 +208,5 @@ public:
 	void DeactivateAttackBox();
 
 	void SlowAirControl(float dt);
-	bool TakeTickDamage();
+	bool TakeTickDamage(int damage) override;
 };
