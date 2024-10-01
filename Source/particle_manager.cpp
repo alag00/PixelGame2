@@ -15,25 +15,25 @@ void ParticleManager::ClearList()
 	particleList.clear();
 }
 
-void ParticleManager::QueueParticle(PARTICLE_TYPE type)
+void ParticleManager::QueueParticle(PARTICLE_TYPE type, Vector2 position)
 {
 	switch (type)
 	{
 	case PARTICLE_TYPE::SWORD_CLASH:
 	{
-		SwordClashParticle* swordClash = new SwordClashParticle();
+		SwordClashParticle* swordClash = new SwordClashParticle(position, *camRef);
 		particleList.push_back(swordClash);
 	}
 		break;
 	case PARTICLE_TYPE::FALLING_LEAVES:
 	{
-		LeafParticle* leafFall = new LeafParticle();
+		LeafParticle* leafFall = new LeafParticle(*camRef);
 		particleList.push_back(leafFall);
 	}
 		break;
 	case PARTICLE_TYPE::FALLING_SNOW:
 	{
-		SnowParticle* snowFall = new SnowParticle();
+		SnowParticle* snowFall = new SnowParticle(*camRef);
 		particleList.push_back(snowFall);
 	}
 		break;
@@ -61,6 +61,7 @@ void ParticleManager::Update(float dt)
 	{
 		return;
 	}
+
 	for (int i = 0; i < deadIndexes.size(); i++)
 	{
 		delete particleList.at(deadIndexes.back());

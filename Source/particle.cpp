@@ -12,8 +12,10 @@ void ParticleEffect::Update(float dt)
 	}
 }
 
-SnowParticle::SnowParticle()
+SnowParticle::SnowParticle(Camera2D& ref)
 {
+	camRef = &ref;
+
 	screenWidth = GetScreenWidth();
 	screenHeight = GetScreenHeight();
 
@@ -55,14 +57,18 @@ void SnowParticle::Update(float dt)
 		if (particles[i].col.a <= 2)
 		{
 			particles[i].col.a = 255;
-			particles[i].pos.y = 0.f;
+			particles[i].pos.y = camRef->target.y - camRef->offset.y;
 			timeTillFadeTimer[i] = TIME_TILL_FADE;
 			particles[i].size.x = PARTICLE_SIZE;
 			particles[i].size.y = PARTICLE_SIZE;
 		}
-		if (particles[i].pos.x < 0.f)
+		if (particles[i].pos.x < camRef->target.x - camRef->offset.x)
 		{
-			particles[i].pos.x = (float)screenWidth;
+			particles[i].pos.x = camRef->target.x - camRef->offset.x + (float)screenWidth;
+		}
+		else if (particles[i].pos.x > camRef->target.x - camRef->offset.x + (float)screenWidth)
+		{
+			particles[i].pos.x = camRef->target.x - camRef->offset.x;
 		}
 	}
 
@@ -77,8 +83,10 @@ void SnowParticle::Render()
 
 
 
-LeafParticle::LeafParticle()
+LeafParticle::LeafParticle(Camera2D& ref)
 {
+	camRef = &ref;
+
 	screenWidth = GetScreenWidth();
 	screenHeight = GetScreenHeight();
 
@@ -94,36 +102,38 @@ LeafParticle::LeafParticle()
 		particles[i].size.y = PARTICLE_SIZE;
 
 		timeTillFadeTimer[i] = (float)GetRandomValue(0, ((int)TIME_TILL_FADE * ONE_DECIMAL_FLOAT_CONVERT)) / (float)ONE_DECIMAL_FLOAT_CONVERT;
+		//particles[i].col.a = (char)GetRandomValue(10, 255);
 
-		
-		int randCol = GetRandomValue(1, 3);
-		switch (randCol)
+		int randNum = GetRandomValue(1, 3);
+		switch (randNum)
 		{
 		case 1:
 			particles[i].col = BROWN;
 			break;
 		case 2:
-			particles[i].col = DARKBROWN;
+			particles[i].col = YELLOW;
 			break;
 		case 3:
 			particles[i].col = ORANGE;
 			break;
 		}
-		//particles[i].col.a = (char)GetRandomValue(10, 255);
-
 	}
 }
 
 void LeafParticle::Update(float dt)
 {
 	//ParticleEffect::Update(dt);
+	progress += dt;
 	for (int i = 0; i < PARTICLE_NUM; i++)
 	{
 		particles[i].pos.x += particles[i].vel.x * dt;
 		particles[i].pos.y += particles[i].vel.y * dt;
 
-		timeTillFadeTimer[i] -= dt;
 		
+		particles[i].vel.x = cos(progress) * 100.f;
+
+		timeTillFadeTimer[i] -= dt;
+
 
 		if (timeTillFadeTimer[i] <= 0.f)
 		{
@@ -135,14 +145,18 @@ void LeafParticle::Update(float dt)
 		if (particles[i].col.a <= 2)
 		{
 			particles[i].col.a = 255;
-			particles[i].pos.y = 0.f;
+			particles[i].pos.y = camRef->target.y - camRef->offset.y;
 			timeTillFadeTimer[i] = TIME_TILL_FADE;
 			particles[i].size.x = PARTICLE_SIZE;
 			particles[i].size.y = PARTICLE_SIZE;
 		}
-		if (particles[i].pos.x < 0.f)
+		if (particles[i].pos.x < camRef->target.x - camRef->offset.x)
 		{
-			particles[i].pos.x = (float)screenWidth;
+			particles[i].pos.x = camRef->target.x - camRef->offset.x + (float)screenWidth;
+		}
+		else if (particles[i].pos.x > camRef->target.x - camRef->offset.x + (float)screenWidth)
+		{
+			particles[i].pos.x = camRef->target.x - camRef->offset.x;
 		}
 	}
 
@@ -155,16 +169,51 @@ void LeafParticle::Render()
 	}
 }
 
-SwordClashParticle::SwordClashParticle(Vector2 pos, Camera2D ref)
+SwordClashParticle::SwordClashParticle(Vector2 pos, Camera2D& ref)
 {
+	position = pos;
+	camRef = &ref;
+	SetTimeAlive(TIME);
+
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		particles[i].pos = position;
+		particles[i].vel.x = static_cast<float>(GetRandomValue(SPEED_MIN, SPEED_MAX) / CONVERTER);
+		particles[i].vel.y = static_cast<float>(GetRandomValue(SPEED_MIN, SPEED_MAX) / CONVERTER);
+		if (particles[i].vel.x == 0.f && particles[i].vel.y == 0)
+		{
+			particles[i].vel.x = static_cast<float>((SPEED_MIN / 2) / CONVERTER);
+			particles[i].vel.y = static_cast<float>((SPEED_MIN / 2) / CONVERTER);
+		}
+		particles[i].size = { PARTICLE_SIZE, PARTICLE_SIZE };
+		particles[i].col = ORANGE;
+	}
 }
 
 void SwordClashParticle::Update(float dt)
 {
 	ParticleEffect::Update(dt);
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		particles[i].pos.x += particles[i].vel.x * dt;
+		particles[i].pos.y += particles[i].vel.y * dt;
+
+		float procent = GetTimeAlive() / TIME;
+		particles[i].col.a = (char)std::lerp(1, 255, procent);
+		//particles[i].col.a--;
+		particles[i].col.g = (char)std::lerp(160, 255, procent);
+	}
 }
 
 void SwordClashParticle::Render()
 {
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		DrawRectangle(static_cast<int>(particles[i].pos.x * TILE_SIZE), 
+			static_cast<int>(particles[i].pos.y * TILE_SIZE),
+			static_cast<int>(particles[i].size.x),
+			static_cast<int>(particles[i].size.y),
+			particles[i].col);
+	}
 }
 

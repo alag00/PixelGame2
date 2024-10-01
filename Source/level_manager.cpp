@@ -25,7 +25,7 @@ void LevelManager::LoadScene()
 	cam.zoom = 1.f;
 
 	filter.Setup(cam, screenWidth, screenHeight);
-
+	particleManager.SetCameraRef(cam);
 
 	
 
@@ -104,6 +104,12 @@ bool LevelManager::Update()
 
 void LevelManager::UpdateEntities(float dt)
 {
+
+	if (IsKeyPressed(KEY_I))
+	{
+		particleManager.QueueParticle(SWORD_CLASH, player.GetCenter());
+	}
+
 	player.Update(dt);
 	AdjustPlayer(dt);
 
@@ -658,8 +664,8 @@ void LevelManager::Render()
 	if (isCutscening)
 	{
 		cutsceneManager.Render();
-		EndMode2D();
 		particleManager.Render();
+		EndMode2D();
 		cutsceneManager.RenderUI();
 		filter.Render();
 		EndDrawing();
@@ -673,7 +679,7 @@ void LevelManager::Render()
 	{
 		tutorial.Render();
 	}
-	
+	particleManager.Render();
 	EndMode2D();
 	if (levelDarkMode)
 	{
@@ -685,7 +691,7 @@ void LevelManager::Render()
 	{
 		RenderCredit();
 	}
-	particleManager.Render();
+	
 	filter.Render();
 	EndDrawing();
 }
