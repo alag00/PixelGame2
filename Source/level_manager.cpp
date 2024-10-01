@@ -15,6 +15,7 @@ void LevelManager::LoadScene()
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
 	levels.Load();
+	levels.SetParticleRef(particleManager);
 	tutorial.SetPlayerRef(player);
 	darkMode.Setup(player, screenWidth, screenHeight);
 
@@ -25,6 +26,7 @@ void LevelManager::LoadScene()
 
 	filter.Setup(cam, screenWidth, screenHeight);
 
+
 	
 
 	currentLevelSong = currentSong;
@@ -33,6 +35,8 @@ void LevelManager::LoadScene()
 	cutsceneManager.Setup(cameraTargetPos);
 
 	LevelSetup();
+
+	//particleManager.QueueParticle(FALLING_SNOW);
 	
 }
 
@@ -57,6 +61,7 @@ bool LevelManager::Update()
 	{
 		return exitLevel;
 	}
+	particleManager.Update(dt);
 	filter.Update(dt);
 	if (currentEvent != None && currentEvent != ScreenShake)
 	{
@@ -654,6 +659,7 @@ void LevelManager::Render()
 	{
 		cutsceneManager.Render();
 		EndMode2D();
+		particleManager.Render();
 		cutsceneManager.RenderUI();
 		filter.Render();
 		EndDrawing();
@@ -679,13 +685,14 @@ void LevelManager::Render()
 	{
 		RenderCredit();
 	}
+	particleManager.Render();
 	filter.Render();
 	EndDrawing();
 }
 
 void LevelManager::LevelSetup()
 {
-	
+	particleManager.ClearList();
 	levels.CreateLevel(currentLevel);
 	currentSong = levels.GetLevelSong();
 	PlayMusicStream(currentSong);

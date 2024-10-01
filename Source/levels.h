@@ -1,6 +1,7 @@
 #pragma once
 #include <string>
 #include "raylib.h"
+#include "particle_manager.h"
 
 class Levels
 {
@@ -24,6 +25,8 @@ private:
 	Texture2D currentTileTxr{};
 	Texture2D tileTextures[3];
 	bool darkMode = false;
+
+	ParticleManager* particleRef = nullptr;
 public:
 	void Load();
 	void Unload();
@@ -40,6 +43,8 @@ public:
 	bool GetLevelDarkMode() { return darkMode; }
 	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }
 	void SetCurrentBackground(int index);
+	void SetParticleRef(ParticleManager& ref) { particleRef = &ref; }
+
 
 	void CreateLevel(int level);
 

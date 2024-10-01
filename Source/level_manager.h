@@ -17,6 +17,7 @@
 //#include <algorithm>
 #include "tutorial_texts.h"
 #include "dark_mode.h"
+#include "particle_manager.h"
 
 enum Events
 {
@@ -50,7 +51,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 13;
+	int currentLevel = 2;
 
 	Effect filter;
 
@@ -89,6 +90,8 @@ private:
 	const int CURRENT_LAST_LEVEL = 15;
 	const int MISC_FAIL_CODE = 4444;
 	const float DELTA_FAILSAFE_LIMIT = 0.1f;
+
+	ParticleManager particleManager;
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }
