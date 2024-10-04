@@ -10,9 +10,10 @@ CutsceneManager::~CutsceneManager()
 	camRef = nullptr;
 }
 
-void CutsceneManager::Setup(Vector2& ref)
+void CutsceneManager::Setup(Vector2& newCamRef, Effect& newFilterRef)
 {
-	camRef = &ref;
+	camRef = &newCamRef;
+	filterRef = &newFilterRef;
 }
 
 void CutsceneManager::SwitchCutscene(int cutsceneID)
@@ -29,9 +30,22 @@ void CutsceneManager::SwitchCutscene(int cutsceneID)
 	case 0:
 		return;
 	case 1:
-		currentCutscene = new CastleCutscene();
+		currentCutscene = new IntroCutscene(*filterRef);
 		break;
 	case 2:
+		currentCutscene = new CastleCutscene();
+		break;
+	case 3:
+		currentCutscene = new CatCutscene();
+		break;
+		// Boss Cutscenes
+	case -1:
+		currentCutscene = new CastleBossCutscene();
+		break;
+	case -2:
+		currentCutscene = new MansionBossCutscene();
+		break;
+	case -3:
 		currentCutscene = new GraveyardCutscene();
 		break;
 	}

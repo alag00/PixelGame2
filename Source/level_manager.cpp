@@ -32,7 +32,7 @@ void LevelManager::LoadScene()
 	currentLevelSong = currentSong;
 	PlayMusicStream(currentSong);
 
-	cutsceneManager.Setup(cameraTargetPos);
+	cutsceneManager.Setup(cameraTargetPos, filter);
 
 	LevelSetup();
 
@@ -233,11 +233,13 @@ void LevelManager::CheckEvent()
 	case EndCutscene:
 		filter.StartEffect(FADE_FROM_BLACK);
 		isCutscening = false;
-		if (levels.GetCutsceneID() > 0)
+		if (levels.GetCutsceneID() < 0)
 		{
 			StartBoss();
+			break;
 		}
-		
+		currentSong = currentLevelSong;
+		PlayMusicStream(currentSong);
 		break;
 	}
 

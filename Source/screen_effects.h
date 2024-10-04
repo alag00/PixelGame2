@@ -31,4 +31,5 @@ public:
 	void Update(float dt);
 	void Render();
 	void StartEffect(EFFECT_TYPE newEffect);
+	void CustomDuration(float newValue) { duration = newValue; }
 };

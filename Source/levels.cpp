@@ -121,7 +121,7 @@ void Levels::CreateLevelOne()
 
 	bossChar = L'K';
 	spawnChar = L'.';
-	cutsceneID = 0;
+	cutsceneID = 1;
 	currentSong = songList[0];
 	currentBossSong = bossSongList[0];
 	currentTileTxr = tileTextures[0];
@@ -160,7 +160,7 @@ void Levels::CreateLevelOne()
 	currentLevel += "oo,,cccccc,,,,,,,,,,,......,,,,,cccc,cc,***___o**cc,,,,****oo*___*oo**oo*****_________________*oo*ssss";
 	currentLevel += "ooccc1,,cccccc,,,,,,......,,,,,cccc,,,,,*ooo**o**cccc,,**ss****o****ss****oooo***oooo***____*oo**sssss";
 	currentLevel += "o*,,..,,,,ccc,,,,,,..}..[.,v,,ccc,,,,,,,,**ooo**,,,cccc*ossss*ooo*ssssssssss**ooooo**oooo******sssssss";
-	currentLevel += "o*,..,,,,,,,,oo*____________________o*,,,cccccc,,,,,cccoossssssssssssssssssssssssssssss**ooo*sssssssss";
+	currentLevel += "o*,..,,,,,V,,oo*____________________o*,,,cccccc,,,,,cccoossssssssssssssssssssssssssssss**ooo*sssssssss";
 	currentLevel += "**,.{S],*ooooo***oo*______________***oocccccc,,ccc,,,,,o*sssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*oo____***oo***************************ooooo*******oooo**sssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*oo*******o****ssssssssssssssssssssss********************sssssssssssssssssssssssssssssssssssssssssssss";
@@ -258,7 +258,7 @@ void Levels::CreateLevelFour()
 	currentLevel = "";
 	bossChar = L'N';
 	spawnChar = L'-';
-	cutsceneID = 1;
+	cutsceneID = -1;
 	currentSong = songList[2];
 	currentBossSong = bossSongList[1];
 	currentTileTxr = tileTextures[0];
@@ -338,7 +338,8 @@ void Levels::CreateLevelFive()
 {
 
 	currentLevel = "";
-	spawnChar = L'-';
+	spawnChar = L'.';
+	cutsceneID = 2;
 	currentSong = songList[2];
 	currentTileTxr = tileTextures[0];
 	SetCurrentBackground(2);
@@ -354,8 +355,8 @@ void Levels::CreateLevelFive()
 	currentLevel += "###---....----....----....----....----....----....---###sss###";
 	currentLevel += "###---....----....----....----....----....----....---#########";
 	currentLevel += "s-----....----....----....----....----....----....----########";
-	currentLevel += "sS----....----....----....----....----....----....-----------+";
-	currentLevel += "s------..------..------..------..------..------..------------+";
+	currentLevel += "s-----....----....----....----....----....----....-----------+";
+	currentLevel += "s------..------..------..------SV------..------..------------+";
 	currentLevel += "##############################################################";
 	currentLevel += "##############################################################";
 	currentLevel += "###ssssssssssssssssssssssssssssssssssssssssssssssssssssssss###";
@@ -457,12 +458,12 @@ void Levels::CreateLevelSeven()
 	currentTileTxr = tileTextures[1];
 	currentSong = songList[1];
 	currentBossSong = bossSongList[0];
-
+	
 	bossChar = L'p';
 	SetCurrentBackground(4);
 	currentLevelWidth = 274;
 	currentevelHeight = 26;
-	cutsceneID = 0;
+	cutsceneID = 3;
 	spawnChar = L'.';
 
 	darkMode = false;
@@ -486,7 +487,7 @@ void Levels::CreateLevelSeven()
 	currentLevel += "sS........................##L....L##..........####............................L______............ddd,,,,************,ddddddddL**sssssssssssssss*****__*______________*___*___*************ssssss**___%%%HH___HHHHHH___HH____H%%____%%%___________________HHHDHHHHHHHHHHHHHH%%%____";
 	currentLevel += "s}}}}}}...................###....L###.........####............................L______}}}}........ddd,,,,,,,,,,,,,,,,,,dddddddL**sssssssssssssss*********_____**_______**************ssssssssssss**______%%___%%%%%%___%%____%______________*___**________%%%%%%%%%%%%%%%%%%______*";
 	currentLevel += "####%%%}}}v}}}}}..........---....L###..{n[.}..####............................L______%%%%}}b}}}Z}dddd,,,,,,,,,,,,,,,,,,ddddddL**sssssssssssssssssss*******_********_**********ssssssssssssssssss***_________________*____*__________________****____**__________________________**";
-	currentLevel += "####___%%%%%%%%%}}}}b}}}}}---}}}}L###*************............................***________%%%%%%%%%__***,,,,,,,,,,,,,,,,,,ddd****sssssssssssssssssssssss****************ssssssssssssssssssssssssss****______**______**___***____***_______*_**********________________________*_***";
+	currentLevel += "####___%%%%%%%%%}}}}b}}}}}-V-}}}}L###*************............................***________%%%%%%%%%__***,,,,,,,,,,,,,,,,,,ddd****sssssssssssssssssssssss****************ssssssssssssssssssssssssss****______**______**___***____***_______*_**********________________________*_***";
 	currentLevel += "*_______________%%%%%%%%%%%%%%%%%*****************............................******_______________*****************************ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*****_*******_***************************************_____**_______**_______***s";
 	currentLevel += "**____**___*____________________*****ssssssssss***............................*******_*__*________*****************************sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss**************************************ssssssssss*****__**_________**___*****ss";
 	currentLevel += "***_*****_****______*___**_____***ssssssssssssss**............................**sss******____**___**ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss*********_***************sss";
@@ -505,7 +506,7 @@ void Levels::CreateLevelEight()
 	SetCurrentBackground(4);
 	currentLevelWidth = 84;
 	currentevelHeight = 22;
-	cutsceneID = 2;
+	cutsceneID = -2;
 
 	darkMode = false;
 
@@ -545,7 +546,7 @@ void Levels::CreateLevelNine()
 	currentLevelWidth = 270;
 	currentevelHeight = 22;
 	bossChar = L'P';
-	cutsceneID = 2;
+	cutsceneID = -3;
 
 	darkMode = false;
 

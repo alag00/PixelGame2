@@ -19,10 +19,472 @@ void Cutscene::RenderSkipText()
 	}
 }
 
+IntroCutscene::IntroCutscene(Effect& filterRef)
+{
+	filter = &filterRef;
+}
+
+void IntroCutscene::Setup(Vector2& ref)
+{
+	camRef = &ref;
+
+	playerFall = LoadTexture("Assets/PlayerTextures/BackFlipAtlas.png");
+	playerRise = LoadTexture("Assets/PlayerTextures/StandUpAtlas.png");
+
+	playerSize.x = 48.f * scale;
+	playerSize.y = 48.f * scale;
+	playerPos = { 5.f, 8.f };
+	playerAnim.SetAnimation(playerFall, 8, true);
+
+
+	angelPos = { 7.f,30.f };
+	angelYOrigin = angelPos.y;
+	angelSize = {32.f * scale, 32.f * scale};
+	angelCol.a = 0;
+
+	angelTxr = LoadTexture("Assets/NPC/Disguise01.png");
+	angelPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+
+	cutsceneStage = 1;
+}
+
+void IntroCutscene::SetupStageOne()
+{
+}
+
+void IntroCutscene::SetupStageFour()
+{
+	
+	dialogue.SetActive(true);
+	cutsceneStage = 4;
+
+	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Your prayers has not been in vain.", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "I shall lend you some of my power.", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Now rise.", false, YELLOW);
+}
+
+bool IntroCutscene::Update(float dt)
+{
+	UpdateSkipText(dt);
+	switch (cutsceneStage)
+	{
+	case 1:
+		speed += dt;
+		playerPos.y += dt* speed;
+		playerAnim.UpdateAnimator(dt);
+		if (playerPos.y >= 30)
+		{
+			playerPos.y = 30.f;
+			cutsceneStage = 2;
+			playerAnim.SetAnimation(playerRise, 9, false);
+			filter->StartEffect(FADE_TO_BLACK);
+			//SetupStageThree();
+		}
+		*camRef = playerPos;
+		break;
+	case 2:
+		//pauseTimer -= dt;
+
+		if (!filter->IsActive())
+		{
+			
+			if (!hasFadeOut )
+			{
+				hasFadeOut = true;
+				filter->StartEffect(FADE_FROM_BLACK);
+				
+			}
+			else 
+			{
+				cutsceneStage = 3;
+			}
+		}
+		// FADe out and fade in
+		break;
+	case 3:
+	{
+
+		pauseTimer -= dt;
+		float procent = pauseTimer / PAUSE_TIME;
+		angelCol.a = (char)std::lerp(200, 0, procent);
+		if (pauseTimer <= 0.f)
+		{
+			SetupStageFour();
+		}
+	}
+		break;
+	case 4:
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 5;
+			playerAnim.CustomFPS(6.f);
+			pauseTimer = PAUSE_TIME;
+		}
+		break;
+	case 5:
+	{
+
+		pauseTimer -= dt;
+		
+		if (pauseTimer <= 0.f)
+		{
+			angelCol.a = 0;
+			playerAnim.UpdateAnimator(dt);
+			if (playerAnim.GetCurrentFrame() >= 8)
+			{
+				return true;
+			}
+		}
+		else
+		{
+			float procent = pauseTimer / PAUSE_TIME;
+			angelCol.a = (char)std::lerp(0, 200, procent);
+		}
+	}
+		break;
+	}
+	dialogue.Update(dt);
+	progress += dt;
+	angelPos.y = angelYOrigin + sin(progress) / 2.f;
+
+	if (IsKeyPressed(KEY_P))
+	{
+		dialogue.SetActive(false);
+		return true;
+	}
+
+	
+	return false;
+}
+
+void IntroCutscene::Render()
+{
+	Rectangle dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
+	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+	if (!hasFadeOut)
+	{
+		return;
+	}
+	Rectangle src = { 0.f,0.f, (float)angelTxr.width, (float)angelTxr.height };
+	dst = { angelPos.x * 64.f, angelPos.y * 64.f , angelSize.x, angelSize.y };
+	DrawTexturePro(angelTxr, src, dst, origin, 0.f, angelCol);
+}
+
+void IntroCutscene::RenderUI()
+{
+	dialogue.Render();
+	RenderSkipText();
+}
+
+void IntroCutscene::Unload()
+{
+	UnloadTexture(playerFall);
+	UnloadTexture(playerRise);
+	UnloadTexture(angelTxr);
+	UnloadTexture(angelPort);
+}
 
 
 
-void CastleCutscene::Setup(Vector2&ref)
+
+void CastleBossCutscene::Setup(Vector2& ref)
+{
+	ref;
+}
+
+bool CastleBossCutscene::Update(float dt)
+{
+	dt;
+	return true;
+}
+
+void CastleBossCutscene::Render()
+{
+}
+
+void CastleBossCutscene::RenderUI()
+{
+}
+
+void CastleBossCutscene::Unload()
+{
+}
+
+
+
+
+void CastleCutscene::Setup(Vector2& ref)
+{
+	camRef = &ref;
+
+	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
+	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+
+	playerSize.x = 48.f * scale;
+	playerSize.y = 48.f * scale;
+	playerPos = { 1.f, 10.f };
+	playerAnim.SetAnimation(playerWalk, 8, true);
+
+
+	angelPos = { 36.f,10.f };
+	angelYOrigin = angelPos.y;
+	angelSize = { 32.f * scale, 32.f * scale };
+	angelCol.a = 0;
+
+	angelTxr1 = LoadTexture("Assets/NPC/Disguise01.png");
+	angelTxr2 = LoadTexture("Assets/NPC/Disguise02.png");
+	angelPort1 = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+	angelPort2 = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+
+	cutsceneStage = 1;
+}
+
+void CastleCutscene::SetupStageThree()
+{
+	dialogue.SetActive(true);
+	cutsceneStage = 3;
+
+	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Your prayers has not been in vain.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "I shall lend you some of my power.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Now rise.", false, YELLOW);
+
+	pauseTimer = PAUSE_TIME;
+}
+
+void CastleCutscene::SetupStageFour()
+{
+	hasRevealed = true;
+	dialogue.SetActive(true);
+	cutsceneStage = 4;
+
+	dialogue.QueueDialogue(playerPort, angelPort2, "...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Your prayers has not been in vain.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "I shall lend you some of my power.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Now rise.", false, YELLOW);
+
+}
+
+bool CastleCutscene::Update(float dt)
+{
+	UpdateSkipText(dt);
+	playerAnim.UpdateAnimator(dt);
+	dialogue.Update(dt);
+	progress += dt;
+	angelPos.y = angelYOrigin + sin(progress) / 2.f;
+	*camRef = playerPos;
+
+	switch (cutsceneStage)
+	{
+	case 1:
+		playerPos.x += dt * speed;
+		if (playerPos.x >= 32.f)
+		{
+			playerPos.x = 32.f;
+			cutsceneStage = 2;
+			playerAnim.SetAnimation(playerIdle, 8, true);
+		}
+		break;
+	case 2:
+	{
+		pauseTimer -= dt;
+		float procent = pauseTimer / PAUSE_TIME;
+		angelCol.a = (char)std::lerp(200, 0, procent);
+		if (pauseTimer <= 0.f)
+		{
+			SetupStageThree();
+		}
+	}
+		break;
+	case 3:
+		if (!dialogue.GetActive())
+		{
+			SetupStageFour();
+		}
+		break;
+	case 4:
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 5;
+		}
+		break;
+	case 5:
+	{
+		pauseTimer -= dt;
+		float procent = pauseTimer / PAUSE_TIME;
+		angelCol.a = (char)std::lerp(0, 200, procent);
+		if (pauseTimer <= 0.f)
+		{
+			return true;
+		}
+	}
+	break;
+	}
+	if (IsKeyPressed(KEY_P))
+	{
+		dialogue.SetActive(false);
+		return true;
+	}
+	return false;
+}
+
+void CastleCutscene::Render()
+{
+	Rectangle dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
+	Vector2 origin = { dst.width / 2.f, dst.height / 2.f };
+	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+
+	Rectangle src = { 0.f,0.f, (float)angelTxr1.width, (float)angelTxr1.height };
+	dst = { angelPos.x * 64.f, angelPos.y * 64.f , angelSize.x, angelSize.y };
+	if (!hasRevealed)
+	{
+		
+		DrawTexturePro(angelTxr1, src, dst, origin, 0.f, angelCol);
+		return;
+	}
+	DrawTexturePro(angelTxr2, src, dst, origin, 0.f, angelCol);
+}
+
+void CastleCutscene::RenderUI()
+{
+	dialogue.Render();
+	RenderSkipText();
+}
+
+void CastleCutscene::Unload()
+{
+	UnloadTexture(angelTxr1);
+	UnloadTexture(angelTxr2);
+	UnloadTexture(angelPort1);
+	UnloadTexture(angelPort2);
+
+	UnloadTexture(playerIdle);
+	UnloadTexture(playerWalk);
+	UnloadTexture(playerPort);
+}
+
+
+
+
+void CatCutscene::Setup(Vector2& ref)
+{
+	camRef = &ref;
+
+	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
+	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+
+	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+
+
+	catAtlas = LoadTexture("Assets/NPC/CatsAtlas.png");
+	catPort = LoadTexture("Assets/Portraits/GnobPortrait.png");
+
+	catPos = { 5.f, 17.f };
+	catSize.x = 32.f * scale;
+	catSize.y = 32.f * scale;
+	catAnim.SetAnimation(catAtlas, 8, true);
+
+	playerPos = { 1.f, 17.f };
+	playerSize.x = 48.f * scale;
+	playerSize.y = 48.f * scale;
+	playerAnim.SetAnimation(playerWalk, 8, true);
+
+	cutsceneStage = 1;
+}
+
+void CatCutscene::SetupStageTwo()
+{
+
+	playerAnim.SetAnimation(playerIdle, 8, true);
+	cutsceneStage = 2;
+	dialogue.SetActive(true);
+
+	dialogue.QueueDialogue(playerPort, catPort, "...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, catPort, "Your prayers has not been in vain.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, catPort, "I shall lend you some of my power.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, catPort, "...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, catPort, "Now rise.", false, PURPLE);
+}
+
+
+
+bool CatCutscene::Update(float dt)
+{
+	playerAnim.UpdateAnimator(dt);
+	catAnim.UpdateAnimator(dt);
+	UpdateSkipText(dt);
+	dialogue.Update(dt);
+	*camRef = playerPos;
+	switch (cutsceneStage)
+	{
+	case 1:
+		playerPos.x += dt;
+		if (playerPos.x >= 4.f)
+		{
+			SetupStageTwo();
+		}
+		break;
+	case 2:
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 3;
+		}
+		break;
+	case 3:
+		// Cat disappears
+		return true;
+		break;
+	}
+	if (IsKeyPressed(KEY_P))
+	{
+		dialogue.SetActive(false);
+		return true;
+	}
+	return false;
+}
+
+void CatCutscene::Render()
+{
+
+	Rectangle dst = { catPos.x * 64.f , catPos.y * 64.f , catSize.x, catSize.y };
+	Vector2 origin = { 0.f, 32.f};
+	catAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+
+	dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
+	origin = { dst.width / 2.f, dst.height / 2.f };
+	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+}
+
+void CatCutscene::RenderUI()
+{
+	dialogue.Render();
+	RenderSkipText();
+}
+
+void CatCutscene::Unload()
+{
+	UnloadTexture(playerIdle);
+	UnloadTexture(playerWalk);
+	UnloadTexture(playerPort);
+
+	UnloadTexture(catAtlas);
+	UnloadTexture(catPort);
+}
+
+
+
+
+void MansionBossCutscene::Setup(Vector2&ref)
 {
 	camRef = &ref;
 
@@ -50,7 +512,7 @@ void CastleCutscene::Setup(Vector2&ref)
 	
 }
 
-void CastleCutscene::SetupStageOne()
+void MansionBossCutscene::SetupStageOne()
 {
 	playerAnim.SetAnimation(playerIdle, 8, true);
 
@@ -61,7 +523,7 @@ void CastleCutscene::SetupStageOne()
 	cutsceneStage = 1;
 }
 
-void CastleCutscene::SetupStageTwo()
+void MansionBossCutscene::SetupStageTwo()
 {
 	
 
@@ -84,7 +546,7 @@ void CastleCutscene::SetupStageTwo()
 	cutsceneStage = 2;
 }
 
-bool CastleCutscene::Update(float dt)
+bool MansionBossCutscene::Update(float dt)
 {
 	UpdateSkipText(dt);
 	playerAnim.UpdateAnimator(dt);
@@ -151,7 +613,7 @@ bool CastleCutscene::Update(float dt)
 
 }
 
-void CastleCutscene::Render()
+void MansionBossCutscene::Render()
 {
 	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
@@ -164,14 +626,14 @@ void CastleCutscene::Render()
 	
 }
 
-void CastleCutscene::RenderUI()
+void MansionBossCutscene::RenderUI()
 {
 	dialogue.Render();
 	RenderSkipText();
 
 }
 
-void CastleCutscene::Unload()
+void MansionBossCutscene::Unload()
 {
 	UnloadTexture(playerIdle);
 	UnloadTexture(playerWalk);
@@ -182,6 +644,9 @@ void CastleCutscene::Unload()
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }
+
+
+
 
 void GraveyardCutscene::Setup(Vector2& ref)
 {
@@ -429,7 +894,5 @@ void GraveyardCutscene::Unload()
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 }
-
-
 
 
