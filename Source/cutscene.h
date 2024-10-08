@@ -113,13 +113,14 @@ private:
 
 	int cutsceneStage = 0;
 
-	float speed = 10.f;
+	float speed = 7.f;
 
 	const float PAUSE_TIME = 1.0f;
 	float pauseTimer = PAUSE_TIME;
 	float progress = 0.f;
 
 	bool hasRevealed = false;
+	bool hasPausedOnce = false;
 public:
 	void Setup(Vector2& ref) override;
 	void SetupStageThree();
@@ -145,7 +146,8 @@ private:
 	Vector2 playerPos{ 0.f,0.f };
 	Vector2 playerSize{ 0.f,0.f };
 
-	Texture2D catAtlas{};
+	Texture2D catIdle{};
+	Texture2D catLeave{};
 	Animator catAnim;
 	Vector2 catPos{ 0.f,0.f };
 	Vector2 catSize{ 0.f,0.f };
@@ -154,7 +156,11 @@ private:
 	Texture2D catPort{};
 	Dialogue dialogue;
 
+	const float PLAYER_SPEED = 3.f;
 	int cutsceneStage = 0;
+
+	const float PAUSE_TIME = 0.5f;
+	float pauseTimer = PAUSE_TIME;
 
 public:
 	void Setup(Vector2& ref) override;

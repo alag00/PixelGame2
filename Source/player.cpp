@@ -663,7 +663,7 @@ void Player::ClimbControl(float dt)
 
 			RecoilJump();
 			//antiControlTimer = ANTI_CONTROL_TIME;
-			vel.y = 1.f;;
+			vel.y = CLIMB_JUMP_DOWN;
 			return;
 		}
 	}

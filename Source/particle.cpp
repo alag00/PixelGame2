@@ -108,13 +108,13 @@ LeafParticle::LeafParticle(Camera2D& ref)
 		switch (randNum)
 		{
 		case 1:
-			particles[i].col = BROWN;
+			particles[i].col = col1;
 			break;
 		case 2:
-			particles[i].col = YELLOW;
+			particles[i].col = col2;
 			break;
 		case 3:
-			particles[i].col = ORANGE;
+			particles[i].col = col3;
 			break;
 		}
 	}

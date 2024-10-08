@@ -515,6 +515,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// Stone2
 		return true;
 	}
+	if (tileTypeOne == L'w' || tileTypeTwo == L'w')
+	{
+		// wood
+		return true;
+	}
 	if (tileTypeOne == L'=' || tileTypeTwo == L'=')
 	{
 		// BARRIER
@@ -617,6 +622,11 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	if (tileTypeOne == L'd' || tileTypeTwo == L'd')
 	{
 		// Dirt Background
+		return false;
+	}
+	if (tileTypeOne == L':' || tileTypeTwo == L':')
+	{
+		// wood Background
 		return false;
 	}
 	if (tileTypeOne == L'{' || tileTypeTwo == L'{')
@@ -1023,6 +1033,12 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 		break;
 	case L'd': // Dirt Wall
 		src = { 32.f,32.f, 16.f, 16.f };
+		break;
+	case L'w': // Wood 1
+		src = { 48.f, 0.f, 16.f, 16.f };
+		break;
+	case L':': // Wood wall
+		src = { 48.f, 16.f, 16.f, 16.f };
 		break;
 	case L'L': // Climb Block
 		src = { 80.f,0.f, 16.f, 16.f };

@@ -340,9 +340,9 @@ void Projectiles::CollisionCheck()
 
 		if (!playerRef->GetHit(pos, ATTACK_DAMAGE))
 		{
-			timeAlive = 0.f;
+			
 		}
-
+		timeAlive = 0.f;
 	}
 }
 void Projectiles::Render() 

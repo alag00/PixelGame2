@@ -23,7 +23,7 @@ private:
 	Texture2D backgroundTxrs[5][3]{};
 
 	Texture2D currentTileTxr{};
-	Texture2D tileTextures[3];
+	Texture2D tileTextures[4];
 	bool darkMode = false;
 
 	ParticleManager* particleRef = nullptr;

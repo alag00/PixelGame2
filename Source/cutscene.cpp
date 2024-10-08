@@ -231,7 +231,7 @@ void CastleCutscene::Setup(Vector2& ref)
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
 
-	angelPos = { 36.f,10.f };
+	angelPos = { 28.f,10.f };
 	angelYOrigin = angelPos.y;
 	angelSize = { 32.f * scale, 32.f * scale };
 	angelCol.a = 0;
@@ -285,9 +285,9 @@ bool CastleCutscene::Update(float dt)
 	{
 	case 1:
 		playerPos.x += dt * speed;
-		if (playerPos.x >= 32.f)
+		if (playerPos.x >= 24.f)
 		{
-			playerPos.x = 32.f;
+			playerPos.x = 24.f;
 			cutsceneStage = 2;
 			playerAnim.SetAnimation(playerIdle, 8, true);
 		}
@@ -295,11 +295,19 @@ bool CastleCutscene::Update(float dt)
 	case 2:
 	{
 		pauseTimer -= dt;
-		float procent = pauseTimer / PAUSE_TIME;
-		angelCol.a = (char)std::lerp(200, 0, procent);
-		if (pauseTimer <= 0.f)
+		if (!hasPausedOnce && pauseTimer <= 0.f)
 		{
-			SetupStageThree();
+			hasPausedOnce = true;
+			pauseTimer = PAUSE_TIME;
+		}
+		if (hasPausedOnce)
+		{
+			float procent = pauseTimer / PAUSE_TIME;
+			angelCol.a = (char)std::lerp(200, 0, procent);
+			if (pauseTimer <= 0.f)
+			{
+				SetupStageThree();
+			}
 		}
 	}
 		break;
@@ -384,13 +392,14 @@ void CatCutscene::Setup(Vector2& ref)
 	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
 
 
-	catAtlas = LoadTexture("Assets/NPC/CatsAtlas.png");
-	catPort = LoadTexture("Assets/Portraits/GnobPortrait.png");
+	catIdle = LoadTexture("Assets/NPC/CatsIdleAtlas.png");
+	catLeave = LoadTexture("Assets/NPC/CatsLeaveAtlas.png");
+	catPort = LoadTexture("Assets/Portraits/CatPortrait.png");
 
 	catPos = { 5.f, 17.f };
 	catSize.x = 32.f * scale;
 	catSize.y = 32.f * scale;
-	catAnim.SetAnimation(catAtlas, 8, true);
+	catAnim.SetAnimation(catIdle, 8, true);
 
 	playerPos = { 1.f, 17.f };
 	playerSize.x = 48.f * scale;
@@ -414,8 +423,6 @@ void CatCutscene::SetupStageTwo()
 	dialogue.QueueDialogue(playerPort, catPort, "Now rise.", false, PURPLE);
 }
 
-
-
 bool CatCutscene::Update(float dt)
 {
 	playerAnim.UpdateAnimator(dt);
@@ -426,7 +433,7 @@ bool CatCutscene::Update(float dt)
 	switch (cutsceneStage)
 	{
 	case 1:
-		playerPos.x += dt;
+		playerPos.x += dt * PLAYER_SPEED;
 		if (playerPos.x >= 4.f)
 		{
 			SetupStageTwo();
@@ -435,12 +442,26 @@ bool CatCutscene::Update(float dt)
 	case 2:
 		if (!dialogue.GetActive())
 		{
-			cutsceneStage = 3;
+			pauseTimer -= dt;
+			if (pauseTimer <= 0.f)
+			{
+				cutsceneStage = 3;
+				catAnim.SetAnimation(catLeave, 10, false);
+				catAnim.CustomFPS(9.f);
+				pauseTimer = PAUSE_TIME;
+			}
 		}
 		break;
 	case 3:
 		// Cat disappears
-		return true;
+		if (catAnim.GetCurrentFrame() >= 9)
+		{
+			pauseTimer -= dt;
+			if (pauseTimer <= 0.f)
+			{
+				return true;
+			}
+		}
 		break;
 	}
 	if (IsKeyPressed(KEY_P))
@@ -477,7 +498,8 @@ void CatCutscene::Unload()
 	UnloadTexture(playerWalk);
 	UnloadTexture(playerPort);
 
-	UnloadTexture(catAtlas);
+	UnloadTexture(catIdle);
+	UnloadTexture(catLeave);
 	UnloadTexture(catPort);
 }
 
@@ -497,18 +519,18 @@ void MansionBossCutscene::Setup(Vector2&ref)
 	enemyListenPort = LoadTexture("Assets/Portraits/NecromancerPortrait.png");
 	enemySpeakPort = LoadTexture("Assets/Portraits/NecromancerPortraitTalk.png");
 
-	enemyPos = {93.f, 8.f};
+	enemyPos = {53.f, 54.f};
 	enemySize.x = 144.f * scale;
 	enemySize.y = 112.f * scale;
 	enemyAnim.SetAnimation(enemyIdle, 8, true);
 
-	playerPos = { 80.f, 8.f };
+	playerPos = { 40.f, 54.f };
 	playerSize.x = 48.f * scale;
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
 
-
-
+	
+	
 	
 }
 
@@ -554,10 +576,10 @@ bool MansionBossCutscene::Update(float dt)
 	switch (cutsceneStage)
 	{
 	case 0:
-		if (playerPos.x < 87.f)
+		if (playerPos.x < 47.f)
 		{
 			playerPos.x += dt * 5.f;
-			if (playerPos.x >= 87.f)
+			if (playerPos.x >= 47.f)
 			{
 				SetupStageOne();
 			}
@@ -582,7 +604,7 @@ bool MansionBossCutscene::Update(float dt)
 			}
 
 			enemyPos.x += ENEMY_SCARED_SPEED * dt;
-			if( enemyPos.x >= 93.f)
+			if( enemyPos.x >= 53.f)
 			{
 				dialogue.SetActive(true);
 				cutsceneStage = 3;
@@ -599,7 +621,7 @@ bool MansionBossCutscene::Update(float dt)
 	}
 	
 
-	*camRef = { 90.f, 8.f };
+	*camRef = { 50.f, 54.f };
 
 	dialogue.Update(dt);
 

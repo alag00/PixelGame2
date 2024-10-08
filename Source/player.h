@@ -111,6 +111,7 @@ private:
 	const float WALL_JUMP_BOOST = -3.f;
 	const float ANTI_CONTROL_TIME = 0.2f;
 	float antiControlTimer = 0.f;
+	const float CLIMB_JUMP_DOWN = 7.f;
 
 	// GRAPPLING HOOK VARIABLES
 	const float GRAPPLING_SPEED = 25.f;

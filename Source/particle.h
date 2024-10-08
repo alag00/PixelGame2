@@ -63,6 +63,10 @@ private:
 	const float PARTICLE_SIZE = 8.f;
 
 	float progress = 0.f;
+	
+	const Color col1 = {128, 91, 51, 255};
+	const Color col2 = {163, 111, 55, 255};
+	const Color col3 = {202, 135, 62, 255};
 public:
 	LeafParticle(Camera2D& ref);
 	void Update(float dt) override;
