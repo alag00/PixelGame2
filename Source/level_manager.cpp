@@ -911,6 +911,12 @@ void LevelManager::SetupTile(int x, int y)
 		SetTile(x, y, L'.');
 		return;
 	}
+	if (GetTile(x, y) == L'U')
+	{
+		enemyManager.CreateGhost(Vector2((float)x, (float)y));
+		SetTile(x, y, L'.');
+		return;
+	}
 	if (GetTile(x, y) == L'=')
 	{
 		miscManager.CreateBarrierPoint(Vector2((float)x, (float)y));

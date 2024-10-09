@@ -122,6 +122,7 @@ void EnemyManager::LoadEnemyAssets()
 	pumpkinTextures[4] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinHurtAtlas.png");
 	pumpkinTextures[5] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinDeathAtlas.png");
 
+	ghostTextures = LoadTexture("Assets/EnemyTextures/Specter/Specter.png");
 	
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
 	swingAttackSound = LoadSound("Assets/Audio/SFX/EnemySwing.mp3");
@@ -222,6 +223,17 @@ void EnemyManager::CreatePumpkin(Vector2 pos, bool isBoss)
 		bossRef = newEnemy;
 		newEnemy->isBoss = true;
 	}
+	enemyList.push_back(newEnemy);
+}
+
+void EnemyManager::CreateGhost(Vector2 pos)
+{
+	GhostEnemy* newEnemy = new GhostEnemy();
+	newEnemy->SetPlayerRef(*playerRef);
+	newEnemy->SetStartPos(pos);
+	newEnemy->SetTextures(ghostTextures);
+	newEnemy->Setup();
+
 	enemyList.push_back(newEnemy);
 }
 

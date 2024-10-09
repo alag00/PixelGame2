@@ -7,6 +7,7 @@
 #include "enemy_pyromancer.h"
 #include "enemy_statue.h"
 #include "enemy_pumpkin.h"
+#include "enemy_ghost.h"
 #include <vector>
 
 class EnemyManager
@@ -19,6 +20,7 @@ private:
 	Texture2D pyromancerP2Textures[11];
 	Texture2D weepingAngelTxr;
 	Texture2D pumpkinTextures[6];
+	Texture2D ghostTextures{};
 
 	Sound initAttackSound{};
 	Sound swingAttackSound{};
@@ -43,6 +45,7 @@ public:
 	void CreatePyromancer(Vector2 pos, bool isBoss);
 	void CreateWeepingAngel(Vector2 pos);
 	void CreatePumpkin(Vector2 pos, bool isBoss);
+	void CreateGhost(Vector2 pos);
 
 	void Render();
 	void RenderUI();

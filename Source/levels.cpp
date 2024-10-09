@@ -19,25 +19,25 @@ void Levels::Load()
 	tileTextures[3] = LoadTexture("Assets/TileTextures/WorldTileTextures4.png");
 
 	// Background
-	backgroundTxrs[0][0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1.png");
-	backgroundTxrs[0][1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2.png");
-	backgroundTxrs[0][2] = LoadTexture("Assets/BackgroundTextures/CaveBackground3.png");
+	backgroundTxrs[0][0] = LoadTexture("Assets/BackgroundTextures/CaveBackground1Alter.png");
+	backgroundTxrs[0][1] = LoadTexture("Assets/BackgroundTextures/CaveBackground2Alter.png");
+	backgroundTxrs[0][2] = LoadTexture("Assets/BackgroundTextures/CaveBackground3Alter.png");
 
-	backgroundTxrs[1][0] = LoadTexture("Assets/BackgroundTextures/ForestBackground1.png");
-	backgroundTxrs[1][1] = LoadTexture("Assets/BackgroundTextures/ForestBackground2.png");
-	backgroundTxrs[1][2] = LoadTexture("Assets/BackgroundTextures/ForestBackground3.png");
+	backgroundTxrs[1][0] = LoadTexture("Assets/BackgroundTextures/ForestBackground1Alter.png");
+	backgroundTxrs[1][1] = LoadTexture("Assets/BackgroundTextures/ForestBackground2Alter.png");
+	backgroundTxrs[1][2] = LoadTexture("Assets/BackgroundTextures/ForestBackground3Alter.png");
 
-	backgroundTxrs[2][0] = LoadTexture("Assets/BackgroundTextures/SkyBackground1.png");
-	backgroundTxrs[2][1] = LoadTexture("Assets/BackgroundTextures/SkyBackground2.png");
-	backgroundTxrs[2][2] = LoadTexture("Assets/BackgroundTextures/SkyBackground3.png");
+	backgroundTxrs[2][0] = LoadTexture("Assets/BackgroundTextures/SkyBackground1Alter.png");
+	backgroundTxrs[2][1] = LoadTexture("Assets/BackgroundTextures/SkyBackground2Alter.png");
+	backgroundTxrs[2][2] = LoadTexture("Assets/BackgroundTextures/SkyBackground3Alter.png");
 
-	backgroundTxrs[3][0] = LoadTexture("Assets/BackgroundTextures/CastleBackground1.png");
-	backgroundTxrs[3][1] = LoadTexture("Assets/BackgroundTextures/CastleBackground2.png");
-	backgroundTxrs[3][2] = LoadTexture("Assets/BackgroundTextures/CastleBackground3.png");
+	backgroundTxrs[3][0] = LoadTexture("Assets/BackgroundTextures/CastleBackground1Alter.png");
+	backgroundTxrs[3][1] = LoadTexture("Assets/BackgroundTextures/CastleBackground2Alter.png");
+	backgroundTxrs[3][2] = LoadTexture("Assets/BackgroundTextures/CastleBackground3Alter.png");
 
-	backgroundTxrs[4][0] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground1.png");
-	backgroundTxrs[4][1] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground2.png");
-	backgroundTxrs[4][2] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground3.png");
+	backgroundTxrs[4][0] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground1Alter.png");
+	backgroundTxrs[4][1] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground2Alter.png");
+	backgroundTxrs[4][2] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground3Alter.png");
 }
 
 void Levels::Unload()
@@ -401,7 +401,7 @@ void Levels::CreateLevelSix()
 	currentLevel += "#####------..----..--------l#L----L##ssssss##L----..-----L####L-----.########---------####################L----.....----L##sssss";
 	currentLevel += "#####------HH----HH--------##L----L##ssssss##L---..------L####L---.......-------------###ssssssssssssss###L----HHHHH----L##sssss";
 	currentLevel += "####s------##----##--------###----L##ssssss##L-....-...--L####L--.........------------##ssssssssssssssss##L.---#####----L##sssss";
-	currentLevel += "####sS-----##----##---------------L##ssssss##L..........-L####L.............----------##ssssssssssssssss##L..-----------L##sssss";
+	currentLevel += "####s------##----##---------------L##ssssss##L..........-L####L.............----------##ssssssssssssssss##L..-----------L##sssss";
 	currentLevel += "#####################-------------L##ssssss##L...........L####L............Z.---------##ssssssssssssssss##L..-----------L##sssss";
 	currentLevel += "#####################################ssssss###HHHHHHHHHHH######HHHHHHHH#######-------.##ssssssssssssssss##L...----------L##sssss";
 	currentLevel += "#####sssssssssssssss#################ssssss###################################-----...##ssssssssssssssss##L....---------L##sssss";
@@ -418,7 +418,7 @@ void Levels::CreateLevelSix()
 	currentLevel += "sss##----..-----.........................-----------...............-------..................-l##ss#########HHHHHH------.###sssss";
 	currentLevel += "sss##---....---............................--------....G............-----....................####################----..-###sssss";
 	currentLevel += "sss##-......---............................----C---..............G..-----....................-#####-----------------..--###sssss";
-	currentLevel += "sss##.......---............................########.................-----..G..................---------------------.Z---####ssss";
+	currentLevel += "sss##.......---............................########.................-----..G..................--------------S------.Z---####ssss";
 	currentLevel += "sss#r.......---............................l######r.................-----............G.........----------#####################ss";
 	currentLevel += "sss##.......---..................G.........########.................-----.....................------##########################ss";
 	currentLevel += "sss##......-----...........................########.................-----....................-###########sssssssssssssssssssssss";
@@ -530,48 +530,48 @@ void Levels::CreateLevelEight()
 	currentLevel += "..wwL::::::::::::::::::::::::wwwww:::::::::::wwwww:::::::::::::::::::::::::Lww..";
 	currentLevel += "..wwL:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::Z::Lww..";
 	currentLevel += "..wwL::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::wwwwwwwww..";
-	currentLevel += "..wwL:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::wwwwwwwww...";
-	currentLevel += "..wwL::::::::::::::::p:::::::::::::::::::::::::::::::::::::::::::::www:::::ww...";
-	currentLevel += "..wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww:::::::::::::::::::::::::www::::::ww...";
-	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww:::::::::::::::::::::::www::::::www...";
-	currentLevel += "...wwssssssssssssssssssssswwwwww::::::::www:::::::::::::::::::::www:::::::ww....";
-	currentLevel += "...wwsssssssssssssssssssswwww::::::::::::www:::::::::::::::::::www::::::::ww....";
+	currentLevel += "..wwL:::::::::::::::::::::::::::::::::::::::::::::::::::::::::..::::wwwwwwwww...";
+	currentLevel += "..wwL::::::::::::::::p:::::::::::::::::::::::::::::::.::::::::..:::www:::::ww...";
+	currentLevel += "..wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::.::::::::::::www::::::ww...";
+	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::...::::::::::www::::::www...";
+	currentLevel += "...wwssssssssssssssssssssswwwwww::::::::www:::::::::...:::::::::www:::::::ww....";
+	currentLevel += "...wwsssssssssssssssssssswwww::::::::::::www::::::::...::::::::www::::::::ww....";
 	currentLevel += "...wwssssssssssssssssssswww:::::::::::::::::::::::::::::::::::::::::::::::ww....";
 	currentLevel += "...wwwwwwwwwwwwwwwwsssssww:::::::::::::::::::::::::::::::::::::::::::U::::ww....";
 	currentLevel += "...wwwwwwwwwwwwwwwwsssssww::::::::::::::::::::wwwwwwwwwwwwwwww::::::::::::ww....";
 	currentLevel += "...wwD:::::::::::wwwwwwwww:::::::::::::::::::wwwwwwwwwwwwwwwww::::::::::::ww....";
 	currentLevel += "...wwD:::::::::::wwwwwwwww::::::::::::::::::www:::::::::::::::::::::::::::www...";
 	currentLevel += "...wwD::::::::G::::::::::G:::::::::::::::::www:::::::::::::::::::::::::::::ww...";
-	currentLevel += "...wwD:::::::::www::::::::::::::::::::::::www::::::::::::::::::::ww::::::::ww...";
-	currentLevel += "...wwD:::::::::lwwDDDDDDDDww:::::::::::::www:::::::::::::::::::::::::::::::ww...";
+	currentLevel += "...wwD:::::::::www::::::::::::::::::..::::www::::::::::::::::::::ww::::::::ww...";
+	currentLevel += "...wwD:::::::::lwwDDDDDDDDww::::::::..:::www:::::::::::::::::::::::::::::::ww...";
 	currentLevel += "...wwD:::::::::lwwwwwwwwwwww::::::::::::www::::::::::::::::::::::::::::::::ww...";
 	currentLevel += "..wwwD:::::::::lwwwwwwwwwwww:::::::::::www:::::::::::::::::::::::::::::::::ww...";
-	currentLevel += "..wwwD:::::::::lwwwwwwwwwwww::::::::::www:::::::::::::::::::::::::::::::wwwww...";
-	currentLevel += "..wwwD:::::::::wwwwwwwwwwww::::::::::www:::::::::::::::::::::::::::::::::::ww...";
-	currentLevel += "..wwwD:::::::::Lwwwwwwwwww:::::::::::::::::::::::::::::::::::::::::::::::::ww...";
-	currentLevel += "..wwwDG::::::::Lwwwwwwwwww:::::::::::::::::::::::::::::::::::::::::::::::::ww...";
-	currentLevel += "..wwwD:::::::::wwwwwwwwwww:::::::::::::U:::::::::::::::::wwwwwwwwwwwwwwwwwwww...";
-	currentLevel += "..wwwD:::::::::lwwwwwwwwwwwwwwwww:::::::::::::::::::U:::::wwwwwwwwwwwwwwwwwww...";
-	currentLevel += "..wwwD:::::::::lwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::::::::::wwwwwww...";
-	currentLevel += "..wwwD:::::::::lwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww:::::::::::::::::::::::wwwwww..";
-	currentLevel += "..wwwD:::::::::wwwwwwwwwwwwwwwwwwsssssssssssssswww:::::::::::::::::::::::wwwww..";
-	currentLevel += "..wwwL::::::::::wwwwwwwwwwwwwwwwwwwwwwsssssssssswww:::::::::::::::::::::::wwww..";
-	currentLevel += "..wwwL::::G::::::::::wwwwwwwwwwwwwwwwwwwwwwwwsssswww::::::::::::::::::::::wwww..";
+	currentLevel += "..wwwD:::::::::lwwssssssswww::::::::::www:::::::::::::::::::::::::::::::wwwww...";
+	currentLevel += "..wwwD:::::::::wwwsssssswww::::::::::www:::::::::::::::::::::::::::::::::::ww...";
+	currentLevel += "..wwwD:::::::::Lwwssssssww:::::::::::::::::::::::::::::::::::::::::::::::::ww...";
+	currentLevel += "..wwwDG::::::::Lwwssssssww:::::::::::::::::::::::::::::::::::::::::::::::::ww...";
+	currentLevel += "..wwwD:::::::::wwwssssssww:::::::::::::U:::::::::::::::::wwwwwwwwwwwwwwwwwwww...";
+	currentLevel += "..wwwD:::::::::lwwsssssswwwwwwwww:::::::::::::::::::U:::::wwwwwwwwwwwwwwwwwww...";
+	currentLevel += "..wwwD:::::::::lwwsssssswwwwwwwwwwwwwwwwwwwwwwww::::::::::::::::::::::wwwwwww...";
+	currentLevel += "..wwwD:::::::::lwwssssssssssssswwwwwwwwwwwwwwwwww:::::::::::::::::::::::wwwwww..";
+	currentLevel += "..wwwD:::::::::wwwwwwwwsssssssssssssssssssssssswww:::::::::::::::::::::::wwwww..";
+	currentLevel += "..wwwL::::::::::wwwwwwwwwwwwwwwwwwwwwwsssssssssswww:::..::::::::::::::::::wwww..";
+	currentLevel += "..wwwL::::G::::::::::wwwwwwwwwwwwwwwwwwwwwwwwsssswww::..::::::::::::::::::wwww..";
 	currentLevel += "...wwL:::::::::::::::::::::::::::::::wwwwwwwwwwssswww::::::::::::::::::::::www..";
 	currentLevel += "...www::::::::::::::::::::::::::::::::::::::wwwwssswww:::::::::::::::::::::www..";
-	currentLevel += "...ww:::::::::::::::::::::::::G:::::::::::::::wwwwsswww::::::::::::::::::::www..";
+	currentLevel += "...ww:::::::::::::::::::::::::G:::::::::::::::wwwwsswww:::::S::::::::::::::www..";
 	currentLevel += "...ww::::::::::::::::::::::::::::::::::::::G::::wwwwwwwwwwwwwwwwww:::::::::www..";
 	currentLevel += "...wwH::::::::::::::::::::::::::::::::::::::::::::wwwwwwwwwwwwwwwwww:::::::www..";
 	currentLevel += "...wwwHHHH::::::::::::::HHHHHHHHHHHHH::::::::::::::::ww::::::::::ww::::::::ww...";
 	currentLevel += "...wwwwwwwHHHHHHHHHHHHHHwwwwwwwwwwwwwHHHHHHH::::::G::::::::::::::::::G:::::ww...";
 	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwHH:::::::::::::::::::::::::::::ww...";
-	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwssssssssssswwwwwwwwwwwwwww::::::::::::::::::wwwwwwww...";
 	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::::::wwwwwwww...";
 	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::::::wwwwwwww...";
-	currentLevel += "...wwww::::::::::::::::::::::::::::::::::::::::::::VB::::::::::::::::=::::www...";
-	currentLevel += "...www:::::::::::::::::::::::::::::::::::::::::::::VB::::::::::::::::=::::www...";
-	currentLevel += "...sss:::::::::::::::::::::::::::::::::::::::::::::VB:::::::C::::::::=::::+ss...";
-	currentLevel += "...sssS::::::::::::::::::::::::::::::::::::::::::::VB:wwwwwwwwwwww:::=::::+ss...";
+	currentLevel += "...wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww::::::::::::::::::wwwwwwww...";
+	currentLevel += "...wwww::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::=::::www...";
+	currentLevel += "...www:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::=::::www...";
+	currentLevel += "...sss::::::::::::::::::::::::::::::::::::::::::::::::::::::C::::::::=::::+ss...";
+	currentLevel += "...sss::::::::::::::::::::::::::::::::::::::::::::::::wwwwwwwwwwww:::=::::+ss...";
 	currentLevel += "%%%wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww%%%";
 	currentLevel += "___wwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwwww___";
 	currentLevel += "___ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss___";
