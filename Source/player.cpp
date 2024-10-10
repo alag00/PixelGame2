@@ -159,6 +159,8 @@ void Player::Render()
 
 		DrawLineBezier(vec1, vec2, GRAPPLING_LINE_THICKNESS, GRAPPLING_COLOR);
 	}
+	//float s = 64.f;
+	//DrawCircle(static_cast<int>(climbLimit.x * s), static_cast<int>(climbLimit.y * s), 5.f, PINK);
 }
 
 void Player::Movement(float dt)
@@ -632,9 +634,21 @@ void Player::Respawn()
 	vel = { ZERO,ZERO };
 }
 
-void Player::EnterClimbMode()
+void Player::EnterClimbMode(Vector2 tilePos)
 {
 	status = STATUS::CLIMB;
+	climbLimit = tilePos;
+	if (lookRight && pos.x > tilePos.x || !lookRight && pos.x < tilePos.x)
+	{
+		FlipPlayer();
+	}
+	/*
+	if (lookRight && rightTile || !lookRight && leftTile)
+	{
+		float margin = 1.f;
+		climbLimit = (lookRight) ? Vector2(pos.x + 1.f, pos.y + margin) : Vector2(pos.x - 1.f, pos.y + margin);
+	}
+	*/
 }
 
 void Player::ClimbControl(float dt)
@@ -652,8 +666,11 @@ void Player::ClimbControl(float dt)
 	}
 	else if (IsKeyDown(KEY_S))
 	{
-		vel.y = SLIDE_DOWN_SPEED;
-		anim.SetAnimation(climbSlideAtlas, 4, true);
+		if (pos.y < climbLimit.y)
+		{
+			vel.y = SLIDE_DOWN_SPEED;
+			anim.SetAnimation(climbSlideAtlas, 4, true);
+		}
 		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
 			//FlipPlayer();

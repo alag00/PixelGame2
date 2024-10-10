@@ -408,7 +408,22 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 		}
 		return false;
 	}
-	
+	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
+	{
+		if (tileTypeOne == L'L')
+		{
+			player.EnterClimbMode(t1);
+		}
+		if (tileTypeTwo == L'L')
+		{
+			player.EnterClimbMode(t2);
+		}
+		// climb block
+		//bool isLeftClimb = (GetTile(player.pos.x - 1.f, player.pos.y + 2.f) == L'L') ? true : false;
+		//bool isRightClimb = (GetTile(player.pos.x + 1.f, player.pos.y + 2.f) == L'L') ? true : false;
+		//player.EnterClimbMode(isLeftClimb, isRightClimb);
+		return true;
+	}
 	if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 	{
 		if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
@@ -535,12 +550,16 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// invisible block
 		return true;
 	}
+	/*
 	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
 	{
 		// climb block
-		player.EnterClimbMode();
+		bool isLeftClimb = (GetTile(player.pos.x - 1.f, player.pos.y + 2.f) == L'L') ? true : false;
+		bool isRightClimb = (GetTile(player.pos.x + 1.f, player.pos.y + 2.f) == L'L') ? true : false;
+		player.EnterClimbMode(isLeftClimb, isRightClimb);
 		return true;
 	}
+	*/
 	if (tileTypeOne == L'B' || tileTypeTwo == L'B')
 	{
 		if (bossDefeated)

@@ -33,8 +33,13 @@ private:
 	float attackTimer = attackCooldown;
 
 	float damagedTimer = 0.f;
-	const Color OPACITY{ 255, 255,255, 200 };
+	const Color NORMAL_COLOR{ 255, 255,255, 200 };
+	const Color ATTACK_COLOR{ 255, 0, 0, 200 };
+
 	const float SPEED = 2.f;
+
+	const float WAIT_TIME = 2.f;
+	float waitTimer = 0.f;
 public:
 
 	~GhostEnemy();

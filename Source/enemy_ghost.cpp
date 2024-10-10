@@ -56,6 +56,11 @@ void GhostEnemy::Act(float dt)
 	{
 		return;
 	}
+	if (waitTimer > 0.f)
+	{
+		waitTimer -= dt;
+		return;
+	}
 	hitBox.x = pos.x;
 	hitBox.y = pos.y;
 	Move(dt);
@@ -65,11 +70,11 @@ void GhostEnemy::Act(float dt)
 void GhostEnemy::Render()
 {
 
-	
+	Color currentColor = (waitTimer <= 0.f && isHunting) ? ATTACK_COLOR : NORMAL_COLOR;
 
 	Rectangle dst = { pos.x * 64.f, pos.y * 64.f, size.x, size.y };
 	Vector2 origin{ 0.f,0.f };
-	anim.DrawAnimationPro(dst, origin, 0.f, OPACITY);
+	anim.DrawAnimationPro(dst, origin, 0.f, currentColor);
 
 	
 	
@@ -80,6 +85,7 @@ void GhostEnemy::CollisionCheck()
 	if (CheckCollisionRecs(playerRef->hitBox, hitBox))
 	{
 		playerRef->GetHit(pos, ATTACK_DAMAGE);
+		waitTimer = WAIT_TIME;
 	}
 }
 
