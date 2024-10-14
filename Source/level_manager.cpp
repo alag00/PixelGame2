@@ -94,7 +94,14 @@ bool LevelManager::Update()
 		player.Die();
 	}
 
-	
+	if (currentLevel == CURRENT_LAST_LEVEL)
+	{
+		if (credits.Update(dt))
+		{
+			filter.StartEffect(FADE_TO_BLACK);
+			currentEvent = CloseGame;
+		}
+	}
 	if (levelDarkMode)
 	{
 		darkMode.Update(dt);
@@ -720,7 +727,7 @@ void LevelManager::Render()
 	RenderHpBars();
 	if (currentLevel == CURRENT_LAST_LEVEL)
 	{
-		RenderCredit();
+		credits.Render();
 	}
 	
 	filter.Render();
@@ -730,6 +737,7 @@ void LevelManager::Render()
 void LevelManager::LevelSetup()
 {
 	particleManager.ClearList();
+
 	levels.CreateLevel(currentLevel);
 	currentSong = levels.GetLevelSong();
 	PlayMusicStream(currentSong);
@@ -766,6 +774,7 @@ void LevelManager::LevelSetup()
 		}
 	}
 	
+	levels.QueueLevelParticles(currentLevel);
 }
 
 void LevelManager::LevelRender()
@@ -866,12 +875,13 @@ void LevelManager::RenderHpBars()
 	enemyManager.RenderBossBar();
 
 }
-
+/*
 void LevelManager::RenderCredit()
 {
-	DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
+	//DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
+	
 }
-
+*/
 void LevelManager::SetupTile(int x, int y)
 {
 	if (GetTile(x, y) == L'C')
@@ -884,6 +894,9 @@ void LevelManager::SetupTile(int x, int y)
 		currentCheckPoint = { (float)x, (float)y };
 		player.SetPosition((float)x, (float)y);
 		SetTile(x, y, levels.GetSpawnChar());
+
+		cameraTargetPos = { (float)x, (float)y }; 
+		cam.target = { (float)x, (float)y };
 		return;
 	}
 	if (GetTile(x, y) == L'K')
@@ -933,6 +946,13 @@ void LevelManager::SetupTile(int x, int y)
 	if (GetTile(x, y) == L'U')
 	{
 		enemyManager.CreateGhost(Vector2((float)x, (float)y));
+		SetTile(x, y, L'.');
+		return;
+	}
+	if (GetTile(x, y) == L'E')
+	{
+		bool isBoss = (GetTile(x, y) == levels.GetBossChar()) ? true : false;
+		enemyManager.CreateGuardian(Vector2((float)x, (float)y), isBoss);
 		SetTile(x, y, L'.');
 		return;
 	}

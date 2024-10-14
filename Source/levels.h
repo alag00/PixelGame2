@@ -44,6 +44,7 @@ public:
 	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }
 	void SetCurrentBackground(int index);
 	void SetParticleRef(ParticleManager& ref) { particleRef = &ref; }
+	void QueueLevelParticles(int level);
 
 
 	void CreateLevel(int level);

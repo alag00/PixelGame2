@@ -62,6 +62,20 @@ void Levels::SetCurrentBackground(int index)
 	currentBackgrounds[2] = backgroundTxrs[index][2];
 }
 
+void Levels::QueueLevelParticles(int level)
+{
+	switch (level)
+	{
+	case 2:
+	case 3:
+		particleRef->QueueParticle(FALLING_LEAVES, Vector2(0.f, 0.f));
+		break;
+	case 13:
+		particleRef->QueueParticle(FALLING_SNOW, Vector2(0.f, 0.f));
+		break;
+	}
+}
+
 void Levels::CreateLevel(int level)
 {
 	switch (level)
@@ -181,7 +195,7 @@ void Levels::CreateLevelTwo()
 	spawnChar = L',';
 	SetCurrentBackground(1);
 
-	particleRef->QueueParticle(FALLING_LEAVES, Vector2(0.f,0.f));
+	
 
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
@@ -223,7 +237,7 @@ void Levels::CreateLevelThree()
 	currentTileTxr = tileTextures[0];
 	SetCurrentBackground(1);
 
-	particleRef->QueueParticle(FALLING_LEAVES, Vector2(0.f, 0.f));
+	//particleRef->QueueParticle(FALLING_LEAVES, Vector2(0.f, 0.f));
 
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
@@ -257,7 +271,7 @@ void Levels::CreateLevelThree()
 void Levels::CreateLevelFour()
 {
 	currentLevel = "";
-	bossChar = L'X';
+	bossChar = L'E';
 	spawnChar = L'-';
 	cutsceneID = -1;
 	currentSong = songList[2];
@@ -270,12 +284,12 @@ void Levels::CreateLevelFour()
 	currentLevel += "............####xxx##########xxxx######xxx#x########xxxx###########xxxx##xxxx............xx#.................xxxxxx#...........#";
 	currentLevel += "............##xxx##########xxx###########xx########xx################xxx###xxx..........x#xx#...............xxxx####...........x";
 	currentLevel += "............#xx----....y---....----....----....----....----....--------xx##--yy.........yy-yy..............yyyy--###...........x";
-	currentLevel += "............xx#----....-yy-....----....----....----....----....---------#x-----VBy....yy-y--yy..........yyyy---y-###...........x";
-	currentLevel += "............###----....--yy....----....----....----....----....---------#x-----VByy..yyy---y--yy......yyy--yy----#x#...........#";
-	currentLevel += "............###----....y---....----....----....---y....----....-------yy##-----VB-yyy--yy----y--y...yy-y---------#xx...........#";
-	currentLevel += "............-------....-yy-....----....----....--yy....----....-----yyy-##y----VB-yy-----------y-yyy---yyy-------##x...........#";
-	currentLevel += "............-------....--yy....----....----....--yy....----....----yy----=-yy--VB-yyy----------.--yy-----yy-------=--.-.-.-.-.-+";
-	currentLevel += "..........#.-C------..----yy..------..------..--yyyy..------..----yyyy---=-yyy-VB---yy--------.X.--yy---yy--------=------------+";
+	currentLevel += "............xx#----....-yy-....----....----....----....----....---------#x-----.By....yy-y--yy..........yyyy---y-###...........x";
+	currentLevel += "............###----....--yy....----....----....----....----....---------#x-----.Byy..yyy---y--yy......yyy--yy----#x#...........#";
+	currentLevel += "............###----....y---....----....----....---y....----....-------yy##-----.B-yyy--yy----y--y...yy-y---------#xx...........#";
+	currentLevel += "............-------....-yy-....----....----....--yy....----....-----yyy-##y----.B-yy-----------y-yyy---yyy-------##x...........#";
+	currentLevel += "............-------....--yy....----....----....--yy....----....----yy----=-yy--.B-yyy----------.--yy-----yy-------=--.-.-.-.-.-+";
+	currentLevel += "..........#.-C------..----yy..------..------..--yyyy..------S.----yyyy---=-yyy-.B---yy--------.E.--yy---yy--------=------------+";
 	currentLevel += "..........######xxxx#######xx#################xxxxx###############xxxxxxxxxxxx#######xx#################xxxx#######xx########xx#";
 	currentLevel += "...........###xxx###########xxx#############xxxx####################xxxxxxx########xxxxxx##################xxx####xx#.........xx";
 	currentLevel += "............#xx---------------yy-----------yyy--------y------yy--------yyyy--------yyyyyy------y------------xxxxxxx#...........x";
@@ -328,7 +342,7 @@ void Levels::CreateLevelFour()
 	currentLevel += "...........#######xxxyy----#####xxx#####xxxx###xx###---------.K.----yyyy########xxx####yy----##sssssssssssssssssssx#yyy.........";
 	currentLevel += "...........#x#####xx--yy--#xx######xxxxx#####xxx#######xxxx#########xxx#x########xxxx##y-y---##sssssssssssssssssss#xyy..........";
 	currentLevel += "............xx#####s---yy#x#sssssssssssssssssssssss######xxxx#########xx#sssssssssss###---yy-##sssssssssssssssssssxxy...........";
-	currentLevel += "............#xxx###sS---###ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssx#-----y##sssssssssssssssssss#x............";
+	currentLevel += "............#xxx###s----###ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssx#-----y##sssssssssssssssssss#x............";
 	currentLevel += "............##xxx#########sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssxx------##sssssssssssssssssss##............";
 	currentLevel += "............###xxxxx#####ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss#xDDDDDD##sssssssssssssssssss##DDDDDDDDDDDD";
 
@@ -796,7 +810,7 @@ void Levels::CreateLevelTwelve()
 	currentLevel += "sssssssssssssssssssssss**,,,,,,,,,HH,,,,,HHH,,,,,**,,,,,,,,,,,,HHHHHHHH,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**sssss**************sssssssssss***********,,,,,,,,,********ssssss********,,,,,,,,********ssssss********,,,,,,,*";
 	currentLevel += "sssssssssssssssssssssss**,,,,,,,,,**,,Z,,***,,Z,,**,,,,,Z,,,,,,********,,,,,,Z,,,,,**,,,,,,,,,,,,,,,,,,K,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,L**ss******,,,,,,,****sssssss********,,,,,,,,,,,,,,,,,,,******ss******,,,,,,,,,,,,,,,,******ss******,,,,,,,,,,,+";
 	currentLevel += "sssssssssssssssssssssss**,,,*********************************************************HHHHHHHH********************HHHHHHHHHHHHHHHHHHH,,,,,,L**s****,,,,,,,,,,,,*****ss******,,,,,,,,,,,,,,,,,,,,,,,,,,********,,,,,,,,,,,,,,,,,,,,,,********,,,,,,,,,,,,,,+";
-	currentLevel += "sssssssssssssssssssssss**,,,********************************************************************************************************,,,,,,L*****,,,,,,,,,,,,,,,*********,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,****,,,,,,,,,,,,,,,,,,,,,,,,,,****,,,,,,,,,,,,,,***";
+	currentLevel += "sssssssssssssssssssssss**,,,********************************************************************************************************,,,,,,L*****,,,,,,,,,,,,,,,*********,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,****,,,,,,,,,,,,,,,,,,,,,,,,,,****,,,,,,,,S,,,,,***";
 	currentLevel += "sssssssssssssssssssssss**,,,,,,,,,,,,,,,,,,,,,,,,***H,,,,,,,,**H,,,,,,,,**H,,,,,,,,**************sssssssssssssss*******************L,,,,,,L****,,,,,,,,,,,,,,,,,,,****,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,*****";
 	currentLevel += "ssssssssssssssssssssss***,,,,,,,,,,,,,,,,,,,,,,,,,,**H,,,,,,,***H,,,,,,,***H,,,,,,,*****************sssssssssssssssssssssssssssss**L,,,,,,L***L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,==,,,,,,,,,,,,,,,,,,,,,,,,,,,,==,,,,,,,,,,,*****ss";
 	currentLevel += "ssssssssssssssssssssss***,,,,,,C,,,,,,,,,,,,,,,,G,,,**H,,,,G,,,**H,,,,G,,,**H,,,,G,,,,,,,,,,,,,,******ssssssssssssssssssssssssssss*L,,,,,,L***L,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,C,,,,,,,,,,,,,,==,,,,,,,,,,,,,,,,,,,,,,,,,,,,==,,,,,,,,,*****ssss";
@@ -815,7 +829,7 @@ void Levels::CreateLevelTwelve()
 	currentLevel += "******,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,H***sssssssssssssssssssssssss**H,,,,,,*****,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "***,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,,,,,,G,,,,,,,,,,,,,,,,,,,,HH***sssssssssssssssssssssssssss**,,,,,,,***,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*s,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,HHH****ssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
-	currentLevel += "*sS,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,HHHH******sssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "*s,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,,Z,,,,,,,,,,,,,,,,,,,,,,,,HHHH******sssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*************,,,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,,,,,,,,**,,,,,,,,,,,,,,,,,HHHHHHH********sssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "*************HHHHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHHHHHHHHH**HHHHHHHHHHHHHHHHH************ssssssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "sssssssssss*********************************************************************************ssssssssssssssssssssssssssssssssssssss*L,,,,,,,,,,,,,,,,,L*sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
@@ -837,33 +851,33 @@ void Levels::CreateLevelThirteen()
 	spawnChar = L'd';
 	SetCurrentBackground(2);
 
-	particleRef->QueueParticle(FALLING_SNOW, Vector2(0.f, 0.f));
+	
 
-	currentLevelWidth = 128;
+	currentLevelWidth = 143;
 	currentevelHeight = 22;
 
-	currentLevel += "................................................................................................................................";
-	currentLevel += "................................................................................................................................";
-	currentLevel += "................................................................................................................................";
-	currentLevel += "%...............................................................................................................................";
-	currentLevel += "_...............................................................................................................................";
-	currentLevel += "_...............................................................................................................................";
-	currentLevel += "_%..............................................................................................................................";
-	currentLevel += "__..............................................................................................................................";
-	currentLevel += "__..............................................................................................................................";
-	currentLevel += "__..............................................................................................................................";
-	currentLevel += "sd..............................................................................................................................";
-	currentLevel += "sS.....................}{..}%%%%%%%%%%..........................................................................................";
-	currentLevel += "*%%%%%%{..[......}%%%%%%%%%%%%%%%%%%%%..........................................................................................";
-	currentLevel += "**%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..........................................................................................";
-	currentLevel += "**%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%..........................................................................................";
-	currentLevel += "*d_%%%%%%%%%%%%%%%%%%%%%%%%%__________..........................................................................................";
-	currentLevel += "*dd____%%%%%%%%%%%__________dddddddddd..........................................................................................";
-	currentLevel += "ssddddd___________dddddddddddsssssssss..........................................................................................";
-	currentLevel += "ssssssdddddddddddddsssssssssssssssssss..........................................................................................";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssss..........................................................................................";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssss..........................................................................................";
-	currentLevel += "ssssssssssssssssssssssssssssssssssssss..........................................................................................";
+	currentLevel += "...............................................................................................................................................";
+	currentLevel += "...............................................................................................................................................";
+	currentLevel += "...............................................................................................................................................";
+	currentLevel += "%..............................................................................................................................................";
+	currentLevel += "_..............................................................................................................................................";
+	currentLevel += "_..............................................................................................................................................";
+	currentLevel += "_%.............................................................................................................................................";
+	currentLevel += "__.............................................................................................................................................";
+	currentLevel += "__.............................................................................................................................................";
+	currentLevel += "__.............................................................................................................................................";
+	currentLevel += "sd.............................................................................................................................................";
+	currentLevel += "sS.....................}{..}%%%%%%%%%%{...................}{..}%%%%%%%%%%{...................}{..}%%%%%%%%%%{...................}{..}%%%%%%%%%%";
+	currentLevel += "*%%%%%%{..[......}%%%%%%%%%%%%%%%%%%%%%%%%{..[......}%%%%%%%%%%%%%%%%%%%%%%%%{..[......}%%%%%%%%%%%%%%%%%%%%%%%%{..[......}%%%%%%%%%%%%%%%%%%%%";
+	currentLevel += "**%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
+	currentLevel += "**%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%";
+	currentLevel += "*d_%%%%%%%%%%%%%%%%%%%%%%%%%__________%%%%%%%%%%%%%%%%%%%%%%%%%__________%%%%%%%%%%%%%%%%%%%%%%%%%__________%%%%%%%%%%%%%%%%%%%%%%%%%__________";
+	currentLevel += "*dd____%%%%%%%%%%%__________dddddddddd____%%%%%%%%%%%__________dddddddddd____%%%%%%%%%%%__________dddddddddd____%%%%%%%%%%%__________dddddddddd";
+	currentLevel += "ssddddd___________dddddddddddsssssssssdddd___________dddddddddddsssssssssdddd___________dddddddddddsssssssssdddd___________dddddddddddsssssssss";
+	currentLevel += "ssssssdddddddddddddssssssssssssssssssssssdddddddddddddssssssssssssssssssssssdddddddddddddssssssssssssssssssssssdddddddddddddsssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
+	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 
 }
 

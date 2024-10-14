@@ -18,6 +18,7 @@
 #include "tutorial_texts.h"
 #include "dark_mode.h"
 #include "particle_manager.h"
+#include "credits.h"
 
 enum Events
 {
@@ -51,7 +52,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 8;
+	int currentLevel = 4;
 
 	Effect filter;
 
@@ -72,7 +73,7 @@ private:
 	Background background;
 
 	Tutorial tutorial;
-
+	Credits credits;
 
 	MiscManager miscManager;
 	bool bossDefeated = false;
@@ -87,7 +88,7 @@ private:
 	DarkMode darkMode;
 	bool levelDarkMode = false;
 	
-	const int CURRENT_LAST_LEVEL = 15;
+	const int CURRENT_LAST_LEVEL = 13;
 	const int MISC_FAIL_CODE = 4444;
 	const float DELTA_FAILSAFE_LIMIT = 0.1f;
 
@@ -128,7 +129,7 @@ public:
 
 	void RenderHpBars();
 	
-	void RenderCredit();
+	//void RenderCredit();
 
 
 

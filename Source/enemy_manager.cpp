@@ -34,6 +34,8 @@ void EnemyManager::Unload()
 		}
 		UnloadTexture(knightTextures[i]);
 		UnloadTexture(necromancerTextures[i]);
+		UnloadTexture(pumpkinTextures[i]);
+		UnloadTexture(guardianTextures[i]);
 	}
 	UnloadTexture(necromancerTextures[6]);
 
@@ -48,10 +50,10 @@ void EnemyManager::Unload()
 	}
 	UnloadTexture(pyromancerP2Textures[10]);
 	UnloadTexture(weepingAngelTxr);
-	for (int i = 0; i < 6; i++)
-	{
-		UnloadTexture(pumpkinTextures[i]);
-	}
+	
+
+	UnloadTexture(ghostTextures);
+	
 }
 
 void EnemyManager::SetBossActive(bool newValue)
@@ -123,6 +125,13 @@ void EnemyManager::LoadEnemyAssets()
 	pumpkinTextures[5] = LoadTexture("Assets/EnemyTextures/Pumpokin/PumpokinDeathAtlas.png");
 
 	ghostTextures = LoadTexture("Assets/EnemyTextures/Specter/Specter.png");
+
+	guardianTextures[0] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerIdleAtlas.png");
+	guardianTextures[1] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerWalkAtlas.png");
+	guardianTextures[2] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerSliceAtlas.png");
+	guardianTextures[3] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerInitGrabAtlas.png");
+	guardianTextures[4] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerGrabHitAtlas.png");
+	guardianTextures[5] = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerDeathAtlas.png");
 	
 	initAttackSound = LoadSound("Assets/Audio/SFX/EnemyAttackInit.mp3");
 	swingAttackSound = LoadSound("Assets/Audio/SFX/EnemySwing.mp3");
@@ -234,6 +243,23 @@ void EnemyManager::CreateGhost(Vector2 pos)
 	newEnemy->SetTextures(ghostTextures);
 	newEnemy->Setup();
 
+	enemyList.push_back(newEnemy);
+}
+
+void EnemyManager::CreateGuardian(Vector2 pos, bool isBoss)
+{
+	GuardianEnemy* newEnemy = new GuardianEnemy();
+	newEnemy->SetPlayerRef(*playerRef);
+	newEnemy->SetStartPos(pos);
+	newEnemy->SetTextures(guardianTextures);
+	newEnemy->SetAudio(deathSound, initAttackSound, swingAttackSound);
+	newEnemy->Setup();
+	if (isBoss)
+	{
+		bossRef = newEnemy;
+		newEnemy->isBoss = true;
+		newEnemy->active = false;
+	}
 	enemyList.push_back(newEnemy);
 }
 

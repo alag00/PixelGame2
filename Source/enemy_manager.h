@@ -8,6 +8,7 @@
 #include "enemy_statue.h"
 #include "enemy_pumpkin.h"
 #include "enemy_ghost.h"
+#include "enemy_guardian.h"
 #include <vector>
 
 class EnemyManager
@@ -21,6 +22,7 @@ private:
 	Texture2D weepingAngelTxr;
 	Texture2D pumpkinTextures[6];
 	Texture2D ghostTextures{};
+	Texture2D guardianTextures[6];
 
 	Sound initAttackSound{};
 	Sound swingAttackSound{};
@@ -46,6 +48,7 @@ public:
 	void CreateWeepingAngel(Vector2 pos);
 	void CreatePumpkin(Vector2 pos, bool isBoss);
 	void CreateGhost(Vector2 pos);
+	void CreateGuardian(Vector2 pos, bool isBoss);
 
 	void Render();
 	void RenderUI();
