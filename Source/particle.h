@@ -92,3 +92,23 @@ public:
 	void Update(float dt) override;
 	void Render() override;
 };
+
+class SteamParticle : public ParticleEffect
+{
+private:
+	Camera2D* camRef = nullptr;
+	const float TIME = 1.5f;
+	const static int PARTICLE_NUM = 4;
+	Particle particles[PARTICLE_NUM]{ 0.f,0.f,0.f,0.f };
+	Vector2 position = { 0.f,0.f };
+
+	const float SPEED = -1.f;
+	
+	const float TILE_SIZE = 64.f;
+	const float MIN_SIZE = 8.f;
+	const float MAX_SIZE = 32.f;
+public:
+	SteamParticle(Vector2 pos, Camera2D& ref);
+	void Update(float dt) override;
+	void Render() override;
+};

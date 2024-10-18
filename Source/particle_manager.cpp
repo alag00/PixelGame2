@@ -37,7 +37,14 @@ void ParticleManager::QueueParticle(PARTICLE_TYPE type, Vector2 position)
 		particleList.push_back(snowFall);
 	}
 		break;
+	case PARTICLE_TYPE::BREATH_STEAM:
+	{
+		SteamParticle* breathSteam = new SteamParticle(position, *camRef);
+		particleList.push_back(breathSteam);
 	}
+	break;
+	}
+
 }
 
 void ParticleManager::Update(float dt)

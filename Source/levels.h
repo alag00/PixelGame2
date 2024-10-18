@@ -25,6 +25,7 @@ private:
 	Texture2D currentTileTxr{};
 	Texture2D tileTextures[4];
 	bool darkMode = false;
+	bool startCutscene = false;
 
 	ParticleManager* particleRef = nullptr;
 public:
@@ -42,6 +43,7 @@ public:
 	Texture2D GetLevelTexture() { return currentTileTxr; }
 	bool GetLevelDarkMode() { return darkMode; }
 	Texture2D* GetBackgroundTextures() { return currentBackgrounds; }
+	bool GetStartCutscene() { return startCutscene; }
 	void SetCurrentBackground(int index);
 	void SetParticleRef(ParticleManager& ref) { particleRef = &ref; }
 	void QueueLevelParticles(int level);

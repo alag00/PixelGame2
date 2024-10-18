@@ -28,6 +28,7 @@ void Player::Unload()
 	UnloadSound(deathSound);
 	UnloadSound(jumpSound);
 	UnloadSound(hookSound);
+	UnloadSound(snowWalkSound);
 }
 
 void Player::Setup()
@@ -57,6 +58,7 @@ void Player::Setup()
 	deathSound = LoadSound("Assets/Audio/SFX/PlayerDeath.mp3");
 	jumpSound = LoadSound("Assets/Audio/SFX/Jump.mp3");
 	hookSound = LoadSound("Assets/Audio/SFX/Hook.mp3");
+	snowWalkSound = LoadSound("Assets/Audio/SFX/SnowWalk.mp3");
 
 	anim.SetAnimation(idleAtlas, 8, true);
 	particleAnim.SetAnimation(deflectParticleAtlas, 5, true);
@@ -73,9 +75,13 @@ void Player::Update(float dt)
 	UpdateParticles();
 	anim.UpdateAnimator(dt);
 	particleAnim.UpdateAnimator(dt);
+	ColdModeCheck(dt);
 	DanceCheck(dt);
 	tickTimer -= dt;
 	hitBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
+
+	jumpTimer += dt;
+	fallingTimer += dt;
 	switch (status)
 	{
 	case STATUS::ATTACK: 
@@ -177,8 +183,6 @@ void Player::Movement(float dt)
 	}
 	
 
-	jumpTimer += dt;
-	fallingTimer += dt;
 
 }
 
@@ -236,23 +240,7 @@ void Player::Control(float dt)
 		}
 	}
 
-	if (IsKeyPressed(KEY_SPACE))
-	{
-		if (onGround)
-		{
-
-			Jump();
-		}
-		else {
-
-			if (fallingTimer > ZERO && fallingTimer < JUMP_TIME_COYOTE)
-			{
-				Jump();
-			}
-
-			jumpTimer = ZERO;
-		}
-	}
+	CheckJumpInput();
 	if (IsKeyReleased(KEY_SPACE) && status == STATUS::JUMPING)
 	{
 		vel.y = (vel.y < END_JUMP_BOOST) ? END_JUMP_BOOST : vel.y;
@@ -314,6 +302,27 @@ void Player::RecoilJump()
 	vel.y = JUMP_FORCE_SMALL;
 	vel.x = (lookRight) ? MOVEMENT_SPEED : -MOVEMENT_SPEED;
 
+}
+
+void Player::CheckJumpInput()
+{
+	if (IsKeyPressed(KEY_SPACE))
+	{
+		if (onGround)
+		{
+
+			Jump();
+		}
+		else {
+
+			if (fallingTimer > ZERO && fallingTimer < JUMP_TIME_COYOTE)
+			{
+				Jump();
+			}
+
+			jumpTimer = ZERO;
+		}
+	}
 }
 
 void Player::Jump()
@@ -402,7 +411,7 @@ void Player::AirAttack(float dt)
 	vel.y += GRAVITY * dt;
 	attackBox = { pos.x, pos.y, BOX_SIZE_IN_TILES, BOX_SIZE_IN_TILES };
 	attackBox.x = (!lookRight) ? pos.x - (attackBox.width) : pos.x + (attackBox.width);
-
+	CheckJumpInput();
 	if (vel.x == ZERO)
 	{
 		FlipPlayer();
@@ -548,8 +557,8 @@ void Player::DamageRecovery(float dt)
 {
 	vel.y += GRAVITY * dt;
 
-	jumpTimer += dt;
-	fallingTimer += dt;
+	//jumpTimer += dt;
+	//fallingTimer += dt;
 
 	if (anim.GetCurrentFrame() >= 7)
 	{
@@ -790,6 +799,7 @@ void Player::ActivateParticles(Vector2 enemyPos)
 	float xOffset = (GetCenter().x - enemyPos.x) / DIVIDER;
 	float yOffset = (GetCenter().y - enemyPos.y) / DIVIDER;
 	particlePos = { GetCenter().x - xOffset, GetCenter().y - yOffset };
+	pM->QueueParticle(SWORD_CLASH, particlePos);
 }
 
 void Player::EndAttack(Entity& enemy)
@@ -809,6 +819,7 @@ void Player::SlowAirControl(float dt)
 {
 	vel.y += GRAVITY_STRONG * dt;
 	
+	CheckJumpInput();
 
 	if (IsKeyDown(KEY_A))
 	{
@@ -836,4 +847,27 @@ bool Player::TakeTickDamage(int damage)
 		return true;
 	}
 	return false;
+}
+
+void Player::ColdModeCheck(float dt)
+{
+	if (!inColdMode)
+	{
+		return;
+	}
+	snowWalkTimer -= dt;
+	if (onGround && vel.x != 0.f && snowWalkTimer <= 0.f)
+	{
+		// Play Snow Sound
+		snowWalkTimer = SNOW_WALK_TIME;
+		PlaySoundWithPitchDiff(snowWalkSound);
+	}
+	steamTimer -= dt;
+	if (steamTimer <= 0.f)
+	{
+		steamTimer = STEAM_TIME;
+		Vector2 location = GetCenter();
+		location.x += (lookRight) ? 0.1f : -0.1f;
+		pM->QueueParticle(BREATH_STEAM, location);
+	}
 }

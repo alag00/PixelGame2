@@ -7,6 +7,7 @@ enum PARTICLE_TYPE
 	FALLING_SNOW,
 	FALLING_LEAVES,
 	SWORD_CLASH,
+	BREATH_STEAM,
 };
 class ParticleManager
 {

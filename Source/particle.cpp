@@ -217,3 +217,48 @@ void SwordClashParticle::Render()
 	}
 }
 
+SteamParticle::SteamParticle(Vector2 pos, Camera2D& ref)
+{
+	position = pos;
+	camRef = &ref;
+	SetTimeAlive(TIME);
+
+	float randOffsetX = 0.f;
+	//float randOffsetY = 0.f;
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		randOffsetX = (float)GetRandomValue(-1, 1) / 10.f;
+		//randOffsetY = (float)GetRandomValue(-1, 1) / 10.f;
+		particles[i].pos = position;// {position.x + randOffsetX, position.y + randOffsetY};
+		particles[i].vel.y = SPEED + randOffsetX;
+		particles[i].vel.x = randOffsetX;
+		
+	}
+}
+
+void SteamParticle::Update(float dt)
+{
+	ParticleEffect::Update(dt);
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		particles[i].pos.x += particles[i].vel.x * dt;
+		particles[i].pos.y += particles[i].vel.y * dt;
+
+		float procent = GetTimeAlive() / TIME;
+		particles[i].col.a = (char)std::lerp(1, 255, procent);
+		particles[i].size.x = (float)std::lerp(MAX_SIZE, MIN_SIZE, procent);
+		particles[i].size.y = (float)std::lerp(MAX_SIZE, MIN_SIZE, procent);
+	}
+}
+
+void SteamParticle::Render()
+{
+	for (int i = 0; i < PARTICLE_NUM; i++)
+	{
+		DrawRectangle(static_cast<int>(particles[i].pos.x * TILE_SIZE),
+			static_cast<int>(particles[i].pos.y * TILE_SIZE),
+			static_cast<int>(particles[i].size.x),
+			static_cast<int>(particles[i].size.y),
+			particles[i].col);
+	}
+}

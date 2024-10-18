@@ -15,6 +15,7 @@ void LevelManager::LoadScene()
 	enemyManager.GetPlayerRef(player);
 	miscManager.Setup(player);
 	levels.Load();
+	player.SetParticleRef(particleManager);
 	levels.SetParticleRef(particleManager);
 	tutorial.SetPlayerRef(player);
 	darkMode.Setup(player, screenWidth, screenHeight);
@@ -762,7 +763,13 @@ void LevelManager::LevelSetup()
 	bossDefeated = false;
 	cutscenePlayed = false;
 	
-
+	if (levels.GetStartCutscene())
+	{
+		isCutscening = true;
+		filter.StartEffect(FADE_FROM_BLACK);
+		currentSong = currentCutsceneSong;
+		PlayMusicStream(currentSong);
+	}
 	
 	//std::vector<Vector2> enemyPos{};
 
@@ -775,6 +782,11 @@ void LevelManager::LevelSetup()
 	}
 	
 	levels.QueueLevelParticles(currentLevel);
+	if (currentLevel == CURRENT_LAST_LEVEL)
+	{
+		player.SetColdMode(true);
+	}
+
 }
 
 void LevelManager::LevelRender()

@@ -35,9 +35,9 @@ void MiscManager::Setup(Entity& ref)
 	txrList[3][1] = LoadTexture("Assets/MiscObjectsTextures/SpookyTree2.png");
 	txrList[3][2] = LoadTexture("Assets/MiscObjectsTextures/SpookyTree3.png");
 
-	txrList[4][0] = txrList[0][0];
-	txrList[4][1] = txrList[0][0];
-	txrList[4][2] = txrList[0][0];
+	txrList[4][0] = LoadTexture("Assets/MiscObjectsTextures/Bookshelf1.png");
+	txrList[4][1] = LoadTexture("Assets/MiscObjectsTextures/PotionTable1.png");
+	txrList[4][2] = LoadTexture("Assets/MiscObjectsTextures/Painting1.png");
 
 	playerRef = &ref;
 }
@@ -105,13 +105,13 @@ void MiscManager::CreateObject(int x, int y, int level, int index)
 		break;
 	case 4:
 	case 5:
+	case 6:
 		worldMisc = 2;
 		break;
-	case 6:
+	case 8:
 		worldMisc = 4;
 		break;
 	case 7:
-	case 8:
 	case 9:
 		worldMisc = 3;
 		break;

@@ -43,7 +43,7 @@ void IntroCutscene::Setup(Vector2& ref)
 	angelCol.a = 0;
 
 	angelTxr = LoadTexture("Assets/NPC/Disguise01.png");
-	angelPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+	angelPort = LoadTexture("Assets/Portraits/AngelPortrait1.png");
 
 	cutsceneStage = 1;
 }
@@ -59,10 +59,18 @@ void IntroCutscene::SetupStageFour()
 	cutsceneStage = 4;
 
 	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "Your prayers has not been in vain.", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Damn! Those guys really f#%&ed you up.", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Ehm, I said! Those guys really f#%&ed you up!", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, ".......", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "(There is no way she died right?)", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "a-are you dead?", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "* SIGH *", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, " Good grief, very well.", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, "I shall lend you some of my power.", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "Now rise.", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Now help me fulfill my goal...", false, YELLOW);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "And wake up.", false, YELLOW);
 }
 
 bool IntroCutscene::Update(float dt)
@@ -238,7 +246,7 @@ void CastleCutscene::Setup(Vector2& ref)
 
 	angelTxr1 = LoadTexture("Assets/NPC/Disguise01.png");
 	angelTxr2 = LoadTexture("Assets/NPC/Disguise02.png");
-	angelPort1 = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+	angelPort1 = LoadTexture("Assets/Portraits/AngelPortrait1.png");
 	angelPort2 = LoadTexture("Assets/Portraits/PlayerPortrait.png");
 
 	cutsceneStage = 1;
@@ -250,10 +258,17 @@ void CastleCutscene::SetupStageThree()
 	cutsceneStage = 3;
 
 	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Your prayers has not been in vain.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "I shall lend you some of my power.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Now rise.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Good job defeating that nasty guardian", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Yeah but what he mean by...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "That guy was a gate keeper and an executioner!", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Don't trust a word he said.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "I guess you are right but...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Anyway! don't worry about...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "But...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "No buts...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "What's going on here?!", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "You want the truth?", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Fine. Here it is.", false, YELLOW);
 
 	pauseTimer = PAUSE_TIME;
 }
@@ -264,11 +279,16 @@ void CastleCutscene::SetupStageFour()
 	dialogue.SetActive(true);
 	cutsceneStage = 4;
 
-	dialogue.QueueDialogue(playerPort, angelPort2, "...", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Your prayers has not been in vain.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "I shall lend you some of my power.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "...", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Now rise.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "I am an servant of the Great One...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "In other words, one of your God's Angels.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "I was sent here to assist you in fullfilling your goal.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Which is killing the 3 Mancers to restore the balance.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Necromancer...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Pyromancer...", false, ORANGE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Cryomancer...", false, SKYBLUE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "You need my help for your revenge...", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Otherwise you wouldn't be at the bottom of that cave.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort2, "A#%&$#@", true, YELLOW);
 
 }
 

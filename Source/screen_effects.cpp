@@ -19,6 +19,8 @@ void Effect::Render()
 		camera->rotation += progress * magnitude;
 		magnitude = -magnitude;
 		return;
+	case NONE:
+		break;
 	case HIT_FREEZE:
 		return;
 	}
@@ -53,6 +55,9 @@ void Effect::StartEffect(EFFECT_TYPE newEffect)
 	progress = 0.f;
 	switch (newEffect)
 	{
+	case NONE:
+		isActive = false;
+		break;
 	case FADE_FROM_BLACK:
 	case FADE_TO_BLACK:
 		duration = screenFadeDuration;

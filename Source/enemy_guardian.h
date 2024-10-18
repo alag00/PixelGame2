@@ -22,7 +22,8 @@ class GuardianEnemy : public Enemy
 	DECISION dec = DECISION::IDLE;
 	float scale = 3.f;
 	float distance = 0.f;
-	float speed = 5.f;
+	float speed = 4.f;
+	const float DASH_SPEED = 20.f;
 	bool lookRight = true;
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
@@ -42,6 +43,10 @@ class GuardianEnemy : public Enemy
 
 	const float HURT_TIME = 0.1f;
 	float hurtTimer = 0.f;
+
+	const float PAUSE_TIME = 1.f;
+	float pauseTimer = PAUSE_TIME;
+	bool grabbing = false;
 public:
 	~GuardianEnemy();
 	void SetTextures(Texture2D txr[]);
@@ -57,7 +62,8 @@ public:
 
 	void Walk(float dt);
 	void Attack(float dt);
-
+	void GrabDash(float dt);
+	void GrabHit(float dt);
 	bool GetHit(Vector2 sourcePos, int potentialDamage);
 
 	void RenderUI();

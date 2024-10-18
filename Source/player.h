@@ -4,7 +4,7 @@
 #include <vector>
 #include "entity.h"
 #include "config.h"
-
+#include "particle_manager.h"
 enum class STATUS
 {
 	IDLE = 0,
@@ -132,6 +132,7 @@ private:
 	// PARTICLE VARIABLES
 	Vector2 particlePos{ 0.f,0.f };
 	bool playParticle = false;
+	ParticleManager* pM = nullptr;
 
 	// TICK DAMAGE
 	const float TICK_TIME = 0.2f;
@@ -143,17 +144,24 @@ private:
 	Sound deathSound{};
 	Sound jumpSound{};
 	Sound hookSound{};
+	Sound snowWalkSound{};
 	const short int PITCH_MIN = 80;
 	const short int PITCH_MAX = 120;
 	const float PERCENT_TO_RATIO = 100.f;
 
+	bool inColdMode = false;
+	float STEAM_TIME = 1.f;
+	float steamTimer = 0.f;
+
+	float SNOW_WALK_TIME = 0.2f;
+	float snowWalkTimer = 0.f;
 public:
 	void Unload();
 	Vector2 GetPosition() { return pos; }
 	void SetPosition(float x, float y) { pos.x = x; pos.y = y; }
 	Vector2 GetVelocity() { return vel; }
 	void SetVelocity(float x, float y) { vel.x = x; vel.y = y; }
-
+	void SetParticleRef(ParticleManager& ref) { pM = &ref; }
 	Vector2 GetNextPos() { return nextPos; }
 
 	void SetOnGround(bool newValue);
@@ -165,7 +173,7 @@ public:
 	void Control(float dt);
 
 
-
+	void CheckJumpInput();
 	void Jump();
 	void RecoilJump();
 
@@ -211,4 +219,7 @@ public:
 
 	void SlowAirControl(float dt);
 	bool TakeTickDamage(int damage) override;
+
+	void ColdModeCheck(float dt);
+	void SetColdMode(bool newValue) { inColdMode = newValue; }
 };
