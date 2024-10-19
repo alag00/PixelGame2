@@ -19,6 +19,9 @@ void Cutscene::RenderSkipText()
 	}
 }
 
+
+
+
 IntroCutscene::IntroCutscene(Effect& filterRef)
 {
 	filter = &filterRef;
@@ -34,6 +37,7 @@ void IntroCutscene::Setup(Vector2& ref)
 	playerSize.x = 48.f * scale;
 	playerSize.y = 48.f * scale;
 	playerPos = { 5.f, 8.f };
+	playerXOrigin = playerPos.x;
 	playerAnim.SetAnimation(playerFall, 8, true);
 
 
@@ -65,6 +69,14 @@ void IntroCutscene::SetupStageFour()
 	dialogue.QueueDialogue(Texture2D(), angelPort, "(There is no way she died right?)", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, "a-are you dead?", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, YELLOW);
+
+}
+
+void IntroCutscene::SetupStageFive()
+{
+	dialogue.SetActive(true);
+	cutsceneStage = 5;
+
 	dialogue.QueueDialogue(Texture2D(), angelPort, "* SIGH *", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, " Good grief, very well.", false, YELLOW);
 	dialogue.QueueDialogue(Texture2D(), angelPort, "I shall lend you some of my power.", false, YELLOW);
@@ -126,12 +138,23 @@ bool IntroCutscene::Update(float dt)
 	case 4:
 		if (!dialogue.GetActive())
 		{
-			cutsceneStage = 5;
+			shakeProgress += dt * 16.f;
+			playerPos.x = playerXOrigin + sin(shakeProgress) / 20.f;
+			if (shakeProgress >= 8.f)
+			{
+				SetupStageFive();
+			}
+		}
+		break;
+	case 5: // after player shakes
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 6;
 			playerAnim.CustomFPS(6.f);
 			pauseTimer = PAUSE_TIME;
 		}
 		break;
-	case 5:
+	case 6:
 	{
 
 		pauseTimer -= dt;
@@ -201,25 +224,226 @@ void IntroCutscene::Unload()
 
 void CastleBossCutscene::Setup(Vector2& ref)
 {
-	ref;
+	camRef = &ref;
+
+
+	playerWalk = LoadTexture("Assets/PlayerTextures/WalkAtlas.png");
+	playerHurt = LoadTexture("Assets/PlayerTextures/DamagedAtlas.png");
+	playerIdle = LoadTexture("Assets/PlayerTextures/IdleAtlasAlter.png");
+
+	playerPort = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+	playerSize.x = 48.f * scale;
+	playerSize.y = 48.f * scale;
+	playerPos = { 80.f, 8.f };
+	playerAnim.SetAnimation(playerWalk, 8, true);
+
+
+	enemyFall = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerFallAtlas.png");
+	enemyDash = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerInitGrabAtlas.png");
+	enemyGrab = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerGrabHitAtlas.png");
+	enemyIdle = LoadTexture("Assets/EnemyTextures/Executioner/ExecutionerIdleAtlas.png");
+
+	enemyPort = LoadTexture("Assets/Portraits/ExecutionerPortrait.png");
+	enemySize.x = 112.f * scale;
+	enemySize.y = 112.f * scale;
+	enemyPos = { 85.f, -5.f };
+	enemyStartX = enemyPos.x;
+	enemyAnim.SetAnimation(enemyFall, 2, true);
+	enemyAnim.FlipAnimationHorizontal();
+
+	angelPos = { 90.f,8.f };
+	angelYOrigin = angelPos.y;
+	angelSize = { 32.f * scale, 32.f * scale };
+	angelCol.a = 0;
+
+	angelTxr = LoadTexture("Assets/NPC/Disguise01.png");
+	angelPort = LoadTexture("Assets/Portraits/AngelPortrait1.png");
+
+	cutsceneStage = 1;
+}
+
+void CastleBossCutscene::SetupStageSix()
+{
+	dialogue.SetActive(true);
+	cutsceneStage = 6;
+
+	dialogue.QueueDialogue(playerPort, enemyPort, "What the hell.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyPort, "Hey You! Let me through.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyPort, "YOU FOOL!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "YOU ARE NO LONGER WELCOME HERE!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "BUT BECAUSE OF YOUR SERVICE...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "I SHALL GIVE YOU ONE LAST WARNING!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "What?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyPort, "LEAVE.", false, PURPLE);
+
+	playerAnim.SetAnimation(playerIdle, 8, true);
+	enemyAnim.FlipAnimationHorizontal();
+}
+
+void CastleBossCutscene::SetupStageEigth()
+{
+	dialogue.SetActive(true);
+	cutsceneStage = 8;
+
+	dialogue.QueueDialogue(angelPort, enemyPort, "That's not happening pal.", true, YELLOW);
+	dialogue.QueueDialogue(angelPort, enemyPort, "Y-YOU! Why are you here?!", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemyPort, "To restore the balance of course.", true, YELLOW);
+	dialogue.QueueDialogue(angelPort, enemyPort, "But you won't be alive to see it.", true, YELLOW);
+	dialogue.QueueDialogue(angelPort, enemyPort, "...", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemyPort, "Change of plans, you aint going anywhere.", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemyPort, "I must stop you before it's too late.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPort, "Look out for his grab techniques.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort, "Aw man.", true, YELLOW);
 }
 
 bool CastleBossCutscene::Update(float dt)
 {
-	dt;
-	return true;
+	UpdateSkipText(dt);
+	if (IsKeyPressed(KEY_P))
+	{
+		dialogue.SetActive(false);
+		return true;
+	}
+	playerAnim.UpdateAnimator(dt);
+	
+	switch (cutsceneStage)
+	{
+	case 1:
+		// player walks
+		playerPos.x += dt * PLAYER_SPEED;
+		if (playerPos.x > 87.f)
+		{
+			cutsceneStage = 2;
+		}
+		break;
+	case 2:
+		// guardian drops down from sky
+		enemyPos.y += dt * ENEMY_FALL_SPEED;
+		playerPos.x += dt * PLAYER_SPEED;
+		if (enemyPos.y >= 7.f)
+		{
+			enemyPos.y = 7.f;
+			cutsceneStage = 3;
+			enemyAnim.SetAnimation(enemyDash, 10, false);
+		}
+		break;
+	case 3:
+		// guardian dashes towards player with grab dash animation
+		playerPos.x += dt * PLAYER_SPEED;
+		if (pauseTimer > 0.f && enemyAnim.GetCurrentFrame() == 1)
+		{
+			pauseTimer -= dt;
+			return false;
+		}
+		enemyDashProgress += dt;
+		enemyPos.x = std::lerp(enemyStartX, playerPos.x, enemyDashProgress);
+		if (enemyDashProgress >= 1.f)
+		{
+			cutsceneStage = 4;
+			enemyAnim.SetAnimation(enemyGrab, 10, false);
+		}
+		break;
+	case 4:
+		// guardian does grab hit animation
+		if (enemyAnim.GetCurrentFrame() >= 9)
+		{
+			cutsceneStage = 5;
+			playerAnim.SetAnimation(playerHurt, 8, false);
+			enemyAnim.SetAnimation(enemyIdle, 4, true);
+			enemyAnim.CustomFPS(6.f);
+			playerVelY = -5.f;
+		}
+		break;
+	case 5:
+		// player flies back
+		playerPos.x -= dt * PLAYER_SPEED;
+		playerPos.y += playerVelY * dt;
+		playerVelY += dt * 5.f;
+		if (playerPos.y >= 8.f)
+		{
+			SetupStageSix();
+		}
+		break;
+	case 6:
+		// dialogue starts
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 7;
+			pauseTimer = PAUSE_TIME;
+		}
+		break;
+	case 7:
+	{
+		// angel appears
+		pauseTimer -= dt;
+		float procent = pauseTimer / PAUSE_TIME;
+		angelCol.a = (char)std::lerp(200, 0, procent);
+		if (pauseTimer <= 0.f)
+		{
+			SetupStageEigth();
+		}
+	}
+		break;
+	case 8:
+		// more dialogue
+		if (!dialogue.GetActive())
+		{
+			return true;
+		}
+		break;
+	}
+
+	enemyAnim.UpdateAnimator(dt);
+	
+	*camRef = { 96.f, 6.f };
+	dialogue.Update(dt);
+	progress += dt;
+	angelPos.y = angelYOrigin + sin(progress) / 2.f;
+
+	
+	
+
+	return false;
 }
 
 void CastleBossCutscene::Render()
 {
+	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f + 128.f , enemySize.x, enemySize.y };
+	Vector2 origin = { dst.width * 0.35f , dst.height  };
+	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+	dst = { playerPos.x * 64.f, playerPos.y * 64.f + 40.f , playerSize.x, playerSize.y };
+	origin = { dst.width / 2.f, dst.height / 2.f };
+	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
+
+	Rectangle src = { 0.f,0.f, (float)angelTxr.width, (float)angelTxr.height };
+	src.width = -src.width;
+	dst = { angelPos.x * 64.f, angelPos.y * 64.f , angelSize.x, angelSize.y };
+	DrawTexturePro(angelTxr, src, dst, origin, 0.f, angelCol);
 }
 
 void CastleBossCutscene::RenderUI()
 {
+	dialogue.Render();
+	RenderSkipText();
 }
 
 void CastleBossCutscene::Unload()
 {
+	UnloadTexture(playerWalk);
+	UnloadTexture(playerHurt);
+	UnloadTexture(playerIdle);
+
+	UnloadTexture(enemyFall);
+	UnloadTexture(enemyDash);
+	UnloadTexture(enemyGrab);
+	UnloadTexture(enemyIdle);
+
+	UnloadTexture(angelTxr);
+
+	UnloadTexture(playerPort);
+	UnloadTexture(enemyPort);
+	UnloadTexture(angelPort);
 }
 
 
@@ -247,7 +471,7 @@ void CastleCutscene::Setup(Vector2& ref)
 	angelTxr1 = LoadTexture("Assets/NPC/Disguise01.png");
 	angelTxr2 = LoadTexture("Assets/NPC/Disguise02.png");
 	angelPort1 = LoadTexture("Assets/Portraits/AngelPortrait1.png");
-	angelPort2 = LoadTexture("Assets/Portraits/PlayerPortrait.png");
+	angelPort2 = LoadTexture("Assets/Portraits/AngelPortrait2.png");
 
 	cutsceneStage = 1;
 }
@@ -414,7 +638,8 @@ void CatCutscene::Setup(Vector2& ref)
 
 	catIdle = LoadTexture("Assets/NPC/CatsIdleAtlas.png");
 	catLeave = LoadTexture("Assets/NPC/CatsLeaveAtlas.png");
-	catPort = LoadTexture("Assets/Portraits/CatPortrait.png");
+	cat1Port = LoadTexture("Assets/Portraits/CatPortrait.png");
+	cat2Port = LoadTexture("Assets/Portraits/Cat2Portrait.png");
 
 	catPos = { 5.f, 17.f };
 	catSize.x = 32.f * scale;
@@ -436,11 +661,21 @@ void CatCutscene::SetupStageTwo()
 	cutsceneStage = 2;
 	dialogue.SetActive(true);
 
-	dialogue.QueueDialogue(playerPort, catPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, catPort, "Your prayers has not been in vain.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, catPort, "I shall lend you some of my power.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, catPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, catPort, "Now rise.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Oh, a visitor?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "A cat with a hat, Cool.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Oh, and a live one at that.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Isn't that right Mr. Whiskyscratch?.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat2Port, "Meow.", false, DARKGRAY);
+	dialogue.QueueDialogue(playerPort, cat1Port, "So true.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Anyway. Welcome to my domain mortal.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "I would have Mr. Whiskyscratch offer you some tea...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "But frankly I am unable to...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "As a necromancer has taken my manor.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "A Necromancer you say?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, cat1Port, "I happened to specialize in terminating such problems.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Is that so?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "That would be wonderful.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Just follow the road and you will be right there.", false, PURPLE);
 }
 
 bool CatCutscene::Update(float dt)
@@ -520,7 +755,8 @@ void CatCutscene::Unload()
 
 	UnloadTexture(catIdle);
 	UnloadTexture(catLeave);
-	UnloadTexture(catPort);
+	UnloadTexture(cat1Port);
+	UnloadTexture(cat2Port);
 }
 
 
@@ -536,15 +772,24 @@ void MansionBossCutscene::Setup(Vector2&ref)
 
 
 	enemyIdle = LoadTexture("Assets/EnemyTextures/NecromancerEnemy/NecromancerEnemyIdleAtlas.png");
+	enemyTeleport = LoadTexture("Assets/NPC/NecromancerTeleportAtlas.png");
 	enemyListenPort = LoadTexture("Assets/Portraits/NecromancerPortrait.png");
 	enemySpeakPort = LoadTexture("Assets/Portraits/NecromancerPortraitTalk.png");
 
-	enemyPos = {53.f, 54.f};
+	angelTxr = LoadTexture("Assets/NPC/Disguise02.png");
+	angelPort = LoadTexture("Assets/Portraits/AngelPortrait2.png");
+
+	angelPos = { 57.f, 58.f };
+	angelYOrigin = angelPos.y;
+	angelSize = { 32.f * scale, 32.f * scale };
+	angelCol.a = 0;
+
+	enemyPos = {60.f, 57.5f};
 	enemySize.x = 144.f * scale;
 	enemySize.y = 112.f * scale;
 	enemyAnim.SetAnimation(enemyIdle, 8, true);
 
-	playerPos = { 40.f, 54.f };
+	playerPos = { 45.f, 59.f };
 	playerSize.x = 48.f * scale;
 	playerSize.y = 48.f * scale;
 	playerAnim.SetAnimation(playerWalk, 8, true);
@@ -573,19 +818,45 @@ void MansionBossCutscene::SetupStageTwo()
 
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Woah!", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How long have you been standing there?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, I remember you!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Oh it's just you..", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Jesus, How long have you been standing there?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Anyway how do you like the new crib, I stole from some...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, You are supposed to be dead.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How are you still alive?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "Divine Intervention", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Is that so?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "I'm back to take what's mine", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Fine, if you want to die so be it", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Just another body for my collection", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "He He He", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Well you look a little different...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "You have a glowing aura around you.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "Thanks, I have been following some guides.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "No I mean like you have a literal glowing aura around you.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "Oh that, that's from my angel.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Angel?", false, PURPLE);
 
 	cutsceneStage = 2;
+}
+
+void MansionBossCutscene::SetupStageFive()
+{
+	dialogue.QueueDialogue(angelPort, enemyListenPort, "Hello Victor, long time no see.", true, YELLOW);
+	dialogue.QueueDialogue(angelPort, enemyListenPort, "Y-you...", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemyListenPort, "Why are you here?", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemyListenPort, "Oh? isn't it obvious?", true, YELLOW);
+	dialogue.QueueDialogue(angelPort, enemySpeakPort, "Than that means that...", false, PURPLE);
+	dialogue.QueueDialogue(angelPort, enemySpeakPort, "Nah man F#%$ this!", false, PURPLE);
+	cutsceneStage = 5;
+	dialogue.SetActive(true);
+}
+
+void MansionBossCutscene::SetupStageSeven()
+{
+	dialogue.QueueDialogue(playerPort, angelPort, "I guess he wasn't as excited for the reunion as I was.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort, "He can't have gotten far.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort, "True that, it is likely that he is still in this building.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, Texture2D(), "N-no I'm not", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, Texture2D(), "Just don't check upstairs.", false, PURPLE);
+	cutsceneStage = 7;
+	dialogue.SetActive(true);
 }
 
 bool MansionBossCutscene::Update(float dt)
@@ -596,10 +867,10 @@ bool MansionBossCutscene::Update(float dt)
 	switch (cutsceneStage)
 	{
 	case 0:
-		if (playerPos.x < 47.f)
+		if (playerPos.x < 50.f)
 		{
 			playerPos.x += dt * 5.f;
-			if (playerPos.x >= 47.f)
+			if (playerPos.x >= 50.f)
 			{
 				SetupStageOne();
 			}
@@ -624,7 +895,7 @@ bool MansionBossCutscene::Update(float dt)
 			}
 
 			enemyPos.x += ENEMY_SCARED_SPEED * dt;
-			if( enemyPos.x >= 53.f)
+			if( enemyPos.x >= 62.f)
 			{
 				dialogue.SetActive(true);
 				cutsceneStage = 3;
@@ -635,14 +906,55 @@ bool MansionBossCutscene::Update(float dt)
 	case 3:
 		if (!dialogue.GetActive())
 		{
+			cutsceneStage = 4;
+		}
+		break;
+	case 4:
+		// angel spawns in
+		pauseTimer -= dt;
+		if (!hasPausedOnce && pauseTimer <= 0.f)
+		{
+			hasPausedOnce = true;
+			pauseTimer = PAUSE_TIME;
+		}
+		if (hasPausedOnce)
+		{
+			float procent = pauseTimer / PAUSE_TIME;
+			angelCol.a = (char)std::lerp(200, 0, procent);
+			if (pauseTimer <= 0.f)
+			{
+				SetupStageFive();
+			}
+		}
+		break;
+	case 5:
+		// more dialogue
+		if (!dialogue.GetActive())
+		{
+			cutsceneStage = 6;
+			enemyAnim.SetAnimation(enemyTeleport, 16, false);
+		}
+		break;
+	case 6:
+		// enemy teleport away
+		if (enemyAnim.GetCurrentFrame() >= 15)
+		{
+			SetupStageSeven();
+		}
+		break;
+	case 7:
+		// final dialogue
+		if (!dialogue.GetActive())
+		{
 			return true;
 		}
 		break;
 	}
 	
 
-	*camRef = { 50.f, 54.f };
-
+	*camRef = { 60.f, 56.f };
+	progress += dt;
+	angelPos.y = angelYOrigin + sin(progress) / 2.f;
 	dialogue.Update(dt);
 
 	if (IsKeyPressed(KEY_P))
@@ -657,7 +969,7 @@ bool MansionBossCutscene::Update(float dt)
 
 void MansionBossCutscene::Render()
 {
-	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f , enemySize.x, enemySize.y };
+	Rectangle dst = { enemyPos.x * 64.f , enemyPos.y * 64.f + 8.f , enemySize.x, enemySize.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	enemyAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
@@ -665,7 +977,10 @@ void MansionBossCutscene::Render()
 	origin = { dst.width / 2.f, dst.height / 2.f };
 	playerAnim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 
-	
+	Rectangle src = { 0.f,0.f, (float)angelTxr.width, (float)angelTxr.height };
+	src.width = -src.width;
+	dst = { angelPos.x * 64.f, angelPos.y * 64.f , angelSize.x, angelSize.y };
+	DrawTexturePro(angelTxr, src, dst, origin, 0.f, angelCol);
 }
 
 void MansionBossCutscene::RenderUI()
@@ -685,6 +1000,9 @@ void MansionBossCutscene::Unload()
 
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
+
+	UnloadTexture(angelPort);
+	UnloadTexture(angelTxr);
 }
 
 

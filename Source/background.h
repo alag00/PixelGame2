@@ -31,4 +31,5 @@ public:
 
 	void CheckPos(float& xPos);
 	
+	void Reset();
 };

@@ -107,3 +107,14 @@ void Background::CheckPos(float& xPos)
 		xPos = screenWidth * margin;
 	}
 }
+
+void Background::Reset()
+{
+	txr2pos[0].x = 0.f;
+	txr2pos[1].x = (float)-screenWidth;
+	txr2pos[2].x = (float)screenWidth;
+
+	txr3pos[0].x = 0.f;
+	txr3pos[1].x = (float)-screenWidth;
+	txr3pos[2].x = (float)screenWidth;
+}

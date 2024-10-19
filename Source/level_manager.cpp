@@ -129,7 +129,7 @@ void LevelManager::UpdateEntities(float dt)
 		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 		{
 			Vector2 pos = miscManager.GetBarrierList().at(i);
-			SetTile(pos.x, pos.y, L'.');
+			SetTile(pos.x, pos.y, levels.GetMiscBgChar());
 		}
 	}
 	for (int i = 0; i < enemyManager.GetEnemyList().size(); i++)
@@ -221,7 +221,7 @@ void LevelManager::CheckEvent()
 		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 		{
 			Vector2 pos = miscManager.GetBarrierList().at(i);
-			SetTile(pos.x, pos.y, L'.');
+			SetTile(pos.x, pos.y, levels.GetMiscBgChar());
 		}
 		
 		break;
@@ -404,18 +404,6 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 	char tileTypeOne = GetTile(t1.x, t1.y);
 	char tileTypeTwo = GetTile(t2.x, t2.y);
 	
-	if (tileTypeOne == L'D' || tileTypeTwo == L'D' || tileTypeOne == L'H' || tileTypeTwo == L'H')
-	{
-		if (tileTypeOne == L'D' || tileTypeOne == L'H')
-		{
-			miscManager.ActivateHurtBlockAt((int)t1.x, (int)t1.y);
-		}
-		if (tileTypeTwo == L'D' || tileTypeTwo == L'H')
-		{
-			miscManager.ActivateHurtBlockAt((int)t2.x, (int)t2.y);
-		}
-		return false;
-	}
 	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
 	{
 		if (tileTypeOne == L'L')
@@ -434,10 +422,23 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 	}
 	if (tileTypeOne != L'.' || tileTypeTwo != L'.')
 	{
-		if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
+
+		if (tileTypeOne == L'D' || tileTypeTwo == L'D' || tileTypeOne == L'H' || tileTypeTwo == L'H')
 		{
-			return true;
+			if (tileTypeOne == L'D' || tileTypeOne == L'H')
+			{
+				miscManager.ActivateHurtBlockAt((int)t1.x, (int)t1.y);
+			}
+			if (tileTypeTwo == L'D' || tileTypeTwo == L'H')
+			{
+				miscManager.ActivateHurtBlockAt((int)t2.x, (int)t2.y);
+			}
+			//return false;
 		}
+		return IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo);
+		//{
+		//	return true;
+		//}
 	}
 	return false;
 }
@@ -605,7 +606,7 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		
 		return false;
 	}
-	/*
+	
 	if (tileTypeOne == L'H' || tileTypeTwo == L'H')
 	{
 
@@ -616,7 +617,7 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 	{
 		return false;
 	}
-	*/
+	
 	if (tileTypeOne == L'+' || tileTypeTwo == L'+')
 	{
 		// Next Level
@@ -754,7 +755,7 @@ void LevelManager::LevelSetup()
 	levelDarkMode = levels.GetLevelDarkMode();
 	
 	background.SetLevelBackground(levels.GetBackgroundTextures());
-	
+	background.Reset();
 
 	filter.StartEffect(FADE_FROM_BLACK);
 	enemyManager.ClearEnemyList();
@@ -971,7 +972,7 @@ void LevelManager::SetupTile(int x, int y)
 	if (GetTile(x, y) == L'=')
 	{
 		miscManager.CreateBarrierPoint(Vector2((float)x, (float)y));
-		SetTile(x, y, L'.');
+		SetTile(x, y, levels.GetMiscBgChar());
 		return;
 	}
 	if (GetTile(x, y) == L'G')
@@ -1052,11 +1053,19 @@ void LevelManager::RenderTile(int x, int y, Rectangle dst)
 	Vector2 origin{ 0.f,0.f };
 
 	wchar_t sTileID = GetTile(x, y);
+
+	if (sTileID == L'B' || sTileID == L'V')
+	{
+		sTileID = levels.GetMiscBgChar();
+	}
 	switch (sTileID)
 	{
+	
+	//case L'B': // Activate Boss
+	//case L'V': // Activate Cutscene
+
+		//break;
 	case L'.': // Sky
-	case L'B': // Activate Boss
-	case L'V': // Activate Cutscene
 		return;
 	case L'#':// Brick
 		src = { 0.f,0.f, 16.f, 16.f };

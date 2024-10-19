@@ -38,7 +38,7 @@ void GuardianEnemy::Setup()
 	rightBorder.y = pos.y;
 
 
-	maxHealth = 50;
+	maxHealth = 100;
 	health = maxHealth;
 
 	anim.SetAnimation(textures[0], 4, true);
@@ -120,7 +120,7 @@ void GuardianEnemy::Act(float dt)
 		PlaySound(deathSound);
 		SetIsAlive(false);
 		anim.SetAnimation(textures[5], 14, false);
-		anim.CustomFPS(6.f);
+		anim.CustomFPS(12.f);
 		hurtTimer = 0.f;
 	}
 	if (grabbing)

@@ -41,7 +41,7 @@ void PumpkinEnemy::Setup()
 	rightBorder.y = pos.y;
 
 
-	maxHealth = 150;
+	maxHealth = 80;
 	health = maxHealth;
 
 	anim.SetAnimation(textures[0], 8, true);

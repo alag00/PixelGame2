@@ -57,11 +57,15 @@ private:
 	const float PAUSE_TIME = 1.0f;
 	float pauseTimer = PAUSE_TIME;
 	float progress = 0.f;
+
+	float playerXOrigin = 0.f;
+	float shakeProgress = 0.f;
 public:
 	IntroCutscene(Effect& filterRef);
 	void Setup(Vector2& ref) override;
 	void SetupStageOne();
 	void SetupStageFour();
+	void SetupStageFive();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;
@@ -72,11 +76,55 @@ public:
 
 class CastleBossCutscene : public Cutscene
 {
-	// lvl 4
-	// player walks past statue(boss), boss picks up player and throws her back
+	Vector2* camRef = nullptr;
+	float scale = 3.f;
+
+	Texture2D playerWalk{};
+	Texture2D playerHurt{};
+	Texture2D playerIdle{};
+	Animator playerAnim;
+
+	Vector2 playerPos{ 0.f,0.f };
+	Vector2 playerSize{ 0.f,0.f };
+
+	Texture2D enemyFall{};
+	Texture2D enemyDash{};
+	Texture2D enemyGrab{};
+	Texture2D enemyIdle{};
+	Animator enemyAnim;
+
+	Vector2 enemyPos{ 0.f,0.f };
+	Vector2 enemySize{ 0.f,0.f };
+
+	Texture2D angelTxr{};
+	Vector2 angelPos{ 0.f,0.f };
+	float angelYOrigin = 0.f;
+	Vector2 angelSize{ 0.f,0.f };
+	Color angelCol = WHITE;
+
+	Texture2D enemyPort{};
+	Texture2D playerPort{};
+	Texture2D angelPort{};
+	Dialogue dialogue;
+
+	int cutsceneStage = 0;
+
+	float enemyStartX = 0.f;
+	const float ENEMY_FALL_SPEED = 20.f;
+	float playerVelY = 0.f;
+	const float PLAYER_SPEED = 5.f;
+
+	float enemyDashProgress = 0.f;
+
+	const float PAUSE_TIME = 1.0f;
+	float pauseTimer = PAUSE_TIME;
+	float progress = 0.f;
+
 private:
 public:
 	void Setup(Vector2& ref) override;
+	void SetupStageSix();
+	void SetupStageEigth();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;
@@ -153,7 +201,8 @@ private:
 	Vector2 catSize{ 0.f,0.f };
 
 	Texture2D playerPort{};
-	Texture2D catPort{};
+	Texture2D cat1Port{};
+	Texture2D cat2Port{};
 	Dialogue dialogue;
 
 	const float PLAYER_SPEED = 3.f;
@@ -185,23 +234,32 @@ private:
 	Vector2 playerSize{ 0.f,0.f };
 
 	Texture2D enemyIdle{};
+	Texture2D enemyTeleport{};
 	Animator enemyAnim;
 	Vector2 enemyPos{ 0.f,0.f };
 	Vector2 enemySize{ 0.f,0.f };
 
+	Texture2D angelTxr{};
+	Vector2 angelPos{ 0.f,0.f };
+	float angelYOrigin = 0.f;
+	Vector2 angelSize{ 0.f,0.f };
+	Color angelCol = WHITE;
+
 	Texture2D playerPort{};
-	
+	Texture2D angelPort{};
 
 	Texture2D enemyListenPort{};
 	Texture2D enemySpeakPort{};
 	Dialogue dialogue;
 
 	
-
+	float progress = 0.f;
 	int cutsceneStage = 0;
 
-	//const float PAUSE_TIMER = 1.f;
-	float pauseTimer = 0.3f;
+	const float PAUSE_TIME = 0.3f;
+	float pauseTimer = PAUSE_TIME;
+	bool hasPausedOnce = false;
+
 	bool enemyFlipped = false;
 	const float ENEMY_SCARED_SPEED = 5.f;
 
@@ -211,6 +269,8 @@ public:
 	void Setup(Vector2& ref) override;
 	void SetupStageOne();
 	void SetupStageTwo();
+	void SetupStageFive();
+	void SetupStageSeven();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;
