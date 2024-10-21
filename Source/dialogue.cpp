@@ -82,7 +82,7 @@ void Dialogue::Render()
 
 	
 	Color nonSpeakColor = DARKGRAY;
-	Rectangle src = { 0.f,0.f, (float)speechList.front().rPort.width, (float)speechList.front().rPort.height };
+	Rectangle src = { 0.f,0.f, (float)speechList.front().lPort.width, (float)speechList.front().lPort.height };
 	Vector2 origin = { 0.f,0.f };
 
 	float width = src.width * SCALE;
@@ -100,8 +100,10 @@ void Dialogue::Render()
 		
 		DrawTexturePro(speechList.front().lPort, src, dst, origin, 0.f, WHITE);
 	}
+	src = { 0.f,0.f, (float)speechList.front().rPort.width, (float)speechList.front().rPort.height };
+	width = src.width * SCALE;
+	height = src.height * SCALE;
 	dst = { textBox.x + textBox.width, (float)GetScreenHeight() - height, width, height };
-
 	if (speechList.front().speakerLeft)
 	{
 		dst.y += NON_SPEAKER_OFFSET;

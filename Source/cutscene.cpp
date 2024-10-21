@@ -47,7 +47,7 @@ void IntroCutscene::Setup(Vector2& ref)
 	angelCol.a = 0;
 
 	angelTxr = LoadTexture("Assets/NPC/Disguise01.png");
-	angelPort = LoadTexture("Assets/Portraits/AngelPortrait1.png");
+	angelPort = LoadTexture("Assets/Portraits/AngelPortrait1R.png");
 
 	cutsceneStage = 1;
 }
@@ -222,6 +222,11 @@ void IntroCutscene::Unload()
 
 
 
+CastleBossCutscene::CastleBossCutscene(Effect& filterRef)
+{
+	filter = &filterRef;
+}
+
 void CastleBossCutscene::Setup(Vector2& ref)
 {
 	camRef = &ref;
@@ -251,13 +256,14 @@ void CastleBossCutscene::Setup(Vector2& ref)
 	enemyAnim.SetAnimation(enemyFall, 2, true);
 	enemyAnim.FlipAnimationHorizontal();
 
-	angelPos = { 90.f,8.f };
+	angelPos = { 95.f,8.f };
 	angelYOrigin = angelPos.y;
 	angelSize = { 32.f * scale, 32.f * scale };
 	angelCol.a = 0;
 
 	angelTxr = LoadTexture("Assets/NPC/Disguise01.png");
-	angelPort = LoadTexture("Assets/Portraits/AngelPortrait1.png");
+	angelPortL = LoadTexture("Assets/Portraits/AngelPortrait1L.png");
+	angelPortR = LoadTexture("Assets/Portraits/AngelPortrait1R.png");
 
 	cutsceneStage = 1;
 }
@@ -271,10 +277,10 @@ void CastleBossCutscene::SetupStageSix()
 	dialogue.QueueDialogue(playerPort, enemyPort, "Hey You! Let me through.", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemyPort, "YOU FOOL!", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyPort, "YOU ARE NO LONGER WELCOME HERE!", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "BUT BECAUSE OF YOUR SERVICE...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "I SHALL GIVE YOU ONE LAST WARNING!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "But because of your service...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "I shall give you one last warning.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyPort, "What?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "LEAVE.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "Leave.", false, PURPLE);
 
 	playerAnim.SetAnimation(playerIdle, 8, true);
 	enemyAnim.FlipAnimationHorizontal();
@@ -285,15 +291,16 @@ void CastleBossCutscene::SetupStageEigth()
 	dialogue.SetActive(true);
 	cutsceneStage = 8;
 
-	dialogue.QueueDialogue(angelPort, enemyPort, "That's not happening pal.", true, YELLOW);
-	dialogue.QueueDialogue(angelPort, enemyPort, "Y-YOU! Why are you here?!", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemyPort, "To restore the balance of course.", true, YELLOW);
-	dialogue.QueueDialogue(angelPort, enemyPort, "But you won't be alive to see it.", true, YELLOW);
-	dialogue.QueueDialogue(angelPort, enemyPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemyPort, "Change of plans, you aint going anywhere.", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemyPort, "I must stop you before it's too late.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, angelPort, "Look out for his grab techniques.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "Aw man.", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "That's not happening pal.", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "Y-YOU! Why are you here?!", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "To restore the balance of course.", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "But you won't be alive to see it.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyPort, "...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "You.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "Change of plans, you aint going anywhere.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "I must stop you before it's too late.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPortR, "Look out for his grab techniques.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPortR, "Aw man.", true, YELLOW);
 }
 
 void CastleBossCutscene::PlayerGrabPosition()
@@ -353,6 +360,7 @@ bool CastleBossCutscene::Update(float dt)
 			enemyPos.y = 7.f;
 			cutsceneStage = 3;
 			enemyAnim.SetAnimation(enemyDash, 10, false);
+			filter->StartEffect(SCREEN_SHAKE);
 		}
 		break;
 	case 3:
@@ -466,7 +474,8 @@ void CastleBossCutscene::Unload()
 
 	UnloadTexture(playerPort);
 	UnloadTexture(enemyPort);
-	UnloadTexture(angelPort);
+	UnloadTexture(angelPortR);
+	UnloadTexture(angelPortL);
 }
 
 
@@ -493,8 +502,8 @@ void CastleCutscene::Setup(Vector2& ref)
 
 	angelTxr1 = LoadTexture("Assets/NPC/Disguise01.png");
 	angelTxr2 = LoadTexture("Assets/NPC/Disguise02.png");
-	angelPort1 = LoadTexture("Assets/Portraits/AngelPortrait1.png");
-	angelPort2 = LoadTexture("Assets/Portraits/AngelPortrait2.png");
+	angelPort1 = LoadTexture("Assets/Portraits/AngelPortrait1R.png");
+	angelPort2 = LoadTexture("Assets/Portraits/AngelPortrait2R.png");
 
 	cutsceneStage = 1;
 }
@@ -530,9 +539,9 @@ void CastleCutscene::SetupStageFour()
 	dialogue.QueueDialogue(playerPort, angelPort2, "In other words, one of your God's Angels.", false, YELLOW);
 	dialogue.QueueDialogue(playerPort, angelPort2, "I was sent here to assist you in fullfilling your goal.", false, YELLOW);
 	dialogue.QueueDialogue(playerPort, angelPort2, "Which is killing the 3 Mancers to restore the balance.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Necromancer...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Pyromancer...", false, ORANGE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Cryomancer...", false, SKYBLUE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Necromancer,", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Pyromancer and...", false, ORANGE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Cryomancer.", false, SKYBLUE);
 	dialogue.QueueDialogue(playerPort, angelPort2, "You need my help for your revenge...", false, YELLOW);
 	dialogue.QueueDialogue(playerPort, angelPort2, "Otherwise you wouldn't be at the bottom of that cave.", false, YELLOW);
 	dialogue.QueueDialogue(playerPort, angelPort2, "A#%&$#@", true, YELLOW);
@@ -800,7 +809,8 @@ void MansionBossCutscene::Setup(Vector2&ref)
 	enemySpeakPort = LoadTexture("Assets/Portraits/NecromancerPortraitTalk.png");
 
 	angelTxr = LoadTexture("Assets/NPC/Disguise02.png");
-	angelPort = LoadTexture("Assets/Portraits/AngelPortrait2.png");
+	angelPortR = LoadTexture("Assets/Portraits/AngelPortrait2R.png");
+	angelPortL = LoadTexture("Assets/Portraits/AngelPortrait2L.png");
 
 	angelPos = { 57.f, 58.f };
 	angelYOrigin = angelPos.y;
@@ -861,21 +871,21 @@ void MansionBossCutscene::SetupStageTwo()
 
 void MansionBossCutscene::SetupStageFive()
 {
-	dialogue.QueueDialogue(angelPort, enemyListenPort, "Hello Victor, long time no see.", true, YELLOW);
-	dialogue.QueueDialogue(angelPort, enemyListenPort, "Y-you...", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemyListenPort, "Why are you here?", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemyListenPort, "Oh? isn't it obvious?", true, YELLOW);
-	dialogue.QueueDialogue(angelPort, enemySpeakPort, "Than that means that...", false, PURPLE);
-	dialogue.QueueDialogue(angelPort, enemySpeakPort, "Nah man F#%$ this!", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Hello Victor, long time no see.", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Y-you...", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Why are you here?", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Oh? isn't it obvious?", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemySpeakPort, "Than that means that...", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemySpeakPort, "Nah man F#%$ this!", false, PURPLE);
 	cutsceneStage = 5;
 	dialogue.SetActive(true);
 }
 
 void MansionBossCutscene::SetupStageSeven()
 {
-	dialogue.QueueDialogue(playerPort, angelPort, "I guess he wasn't as excited for the reunion as I was.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "He can't have gotten far.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "True that, it is likely that he is still in this building.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPortR, "I guess he wasn't as excited for the reunion as I was.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPortR, "He can't have gotten far.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPortR, "True that, it is likely that he is still in this building.", false, YELLOW);
 	dialogue.QueueDialogue(playerPort, Texture2D(), "N-no I'm not", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, Texture2D(), "Just don't check upstairs.", false, PURPLE);
 	cutsceneStage = 7;
@@ -1024,7 +1034,8 @@ void MansionBossCutscene::Unload()
 	UnloadTexture(enemyListenPort);
 	UnloadTexture(enemySpeakPort);
 
-	UnloadTexture(angelPort);
+	UnloadTexture(angelPortR);
+	UnloadTexture(angelPortL);
 	UnloadTexture(angelTxr);
 }
 

@@ -21,7 +21,7 @@ void MiscManager::Setup(Entity& ref)
 
 	txrList[0][0] = LoadTexture("Assets/MiscObjectsTextures/Rock1.png");
 	txrList[0][1] = LoadTexture("Assets/MiscObjectsTextures/Rock2.png");
-	txrList[0][2] = LoadTexture("Assets/MiscObjectsTextures/Bush1.png");
+	txrList[0][2] = LoadTexture("Assets/MiscObjectsTextures/Rock3.png");
 
 	txrList[1][0] = LoadTexture("Assets/MiscObjectsTextures/Tree1.png");
 	txrList[1][1] = LoadTexture("Assets/MiscObjectsTextures/Tree2.png");

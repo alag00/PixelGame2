@@ -77,6 +77,7 @@ public:
 class CastleBossCutscene : public Cutscene
 {
 	Vector2* camRef = nullptr;
+	Effect* filter = nullptr;
 	float scale = 3.f;
 
 	Texture2D playerWalk{};
@@ -104,7 +105,8 @@ class CastleBossCutscene : public Cutscene
 
 	Texture2D enemyPort{};
 	Texture2D playerPort{};
-	Texture2D angelPort{};
+	Texture2D angelPortL{};
+	Texture2D angelPortR{};
 	Dialogue dialogue;
 
 	int cutsceneStage = 0;
@@ -122,6 +124,7 @@ class CastleBossCutscene : public Cutscene
 
 private:
 public:
+	CastleBossCutscene(Effect& filterRef);
 	void Setup(Vector2& ref) override;
 	void SetupStageSix();
 	void SetupStageEigth();
@@ -225,7 +228,7 @@ class MansionBossCutscene : public Cutscene
 {
 private:
 	Vector2* camRef = nullptr;
-
+	
 	float scale = 3.f;
 
 	Texture2D playerIdle{};
@@ -247,7 +250,8 @@ private:
 	Color angelCol = WHITE;
 
 	Texture2D playerPort{};
-	Texture2D angelPort{};
+	Texture2D angelPortL{};
+	Texture2D angelPortR{};
 
 	Texture2D enemyListenPort{};
 	Texture2D enemySpeakPort{};

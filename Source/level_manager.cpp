@@ -112,12 +112,12 @@ bool LevelManager::Update()
 
 void LevelManager::UpdateEntities(float dt)
 {
-
+	/*
 	if (IsKeyPressed(KEY_I))
 	{
 		particleManager.QueueParticle(SWORD_CLASH, player.GetCenter());
 	}
-
+	*/
 	player.Update(dt);
 	AdjustPlayer(dt);
 
@@ -959,7 +959,7 @@ void LevelManager::SetupTile(int x, int y)
 	if (GetTile(x, y) == L'U')
 	{
 		enemyManager.CreateGhost(Vector2((float)x, (float)y));
-		SetTile(x, y, L'.');
+		SetTile(x, y, L':');
 		return;
 	}
 	if (GetTile(x, y) == L'E')

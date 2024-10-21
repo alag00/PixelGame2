@@ -11,14 +11,14 @@ SceneManager::~SceneManager()
 void SceneManager::Setup()
 {
 	// Normal
-	//DeveloperScene* devLogo = new DeveloperScene();
-	//currentScene = devLogo;
-	//currentScene->LoadScene();
+	DeveloperScene* devLogo = new DeveloperScene();
+	currentScene = devLogo;
+	currentScene->LoadScene();
 
 	// Debug
-	LevelManager* debug = new LevelManager();
-	currentScene = debug;
-	currentScene->LoadScene();
+	//LevelManager* debug = new LevelManager();
+	//currentScene = debug;
+	//currentScene->LoadScene();
 }
 void SceneManager::Update() {
 
