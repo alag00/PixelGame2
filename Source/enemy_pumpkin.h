@@ -27,8 +27,8 @@ class PumpkinEnemy : public Enemy
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 
-	bool hasAdvantage = true;
-	int switchAgroCounter = 2;
+	//bool hasAdvantage = true;
+	//int switchAgroCounter = 2;
 
 	const short int ATTACK_DAMAGE = 10;
 	const short int DEFLECTED_DAMAGE = 5;
@@ -39,6 +39,8 @@ class PumpkinEnemy : public Enemy
 	float lDist = 0.f;
 	float rDist = 0.f;
 
+	const float ATTACK_COOLDOWN = 1.f;
+	float cooldownTimer = ATTACK_COOLDOWN;
 	int currentSlice = 1;
 	int currentAttackStage = 1;
 	float spinTime = 2.f;
@@ -63,7 +65,7 @@ public:
 	void Walk(float dt);
 	void Attack(float dt);
 
-	void UpdateAgroSwitch();
+	//void UpdateAgroSwitch();
 
 	bool GetHit(Vector2 sourcePos, int potentialDamage);
 

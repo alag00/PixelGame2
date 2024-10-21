@@ -72,16 +72,18 @@ void PumpkinEnemy::Decide()
 	{
 		return;
 	}
+	/*
 	if (!hasAdvantage)
 	{
 		dec = DECISION::IDLE;
 		return;
 	}
+	*/
 	if (dec == DECISION::ATTACK)
 	{
 		return;
 	}
-	if (distance <= 1.5f)
+	if (distance <= 1.5f && cooldownTimer <= 0.f)
 	{
 		dec = DECISION::ATTACK;
 		anim.SetAnimation(textures[2], 10, false);
@@ -108,6 +110,7 @@ void PumpkinEnemy::Act(float dt)
 	anim.UpdateAnimator(dt);
 	hitBox = { pos.x, pos.y - 1.f , 1.5f,2.f };
 	hitBox.x = (lookRight) ? pos.x - 1.f : pos.x - 0.5f;
+	cooldownTimer -= dt;
 	switch (dec)
 	{
 	case DECISION::IDLE:
@@ -230,12 +233,13 @@ void PumpkinEnemy::Attack(float dt)
 	{
 		dec = IDLE;
 		anim.SetAnimation(textures[0], 8, true);
+		cooldownTimer = ATTACK_COOLDOWN;
 	}
 
 }
 
 
-
+/*
 void PumpkinEnemy::UpdateAgroSwitch()
 {
 	switchAgroCounter--;
@@ -255,7 +259,7 @@ void PumpkinEnemy::UpdateAgroSwitch()
 		}
 	}
 }
-
+*/
 
 bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 {
@@ -277,7 +281,7 @@ bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 	dec = DAMAGED;
 	anim.SetAnimation(textures[4], 5, false);
 
-	UpdateAgroSwitch();
+	//UpdateAgroSwitch();
 
 
 

@@ -21,7 +21,7 @@ private:
 	Music bossSongList[2];
 
 	Texture2D currentBackgrounds[3]{};
-	Texture2D backgroundTxrs[5][3]{};
+	Texture2D backgroundTxrs[6][3]{};
 
 	Texture2D currentTileTxr{};
 	Texture2D tileTextures[4];

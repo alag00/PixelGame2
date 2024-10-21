@@ -47,6 +47,13 @@ class GuardianEnemy : public Enemy
 	const float PAUSE_TIME = 1.f;
 	float pauseTimer = PAUSE_TIME;
 	bool grabbing = false;
+
+	float grabProgress = 0.f;
+	const float SLOW_FRAME_RATE = 6.f;
+	const float FAST_FRAME_RATE = 12.f;
+
+	const float ATTACK_COOLDOWN_TIME = 1.f;
+	float cooldownTimer = ATTACK_COOLDOWN_TIME;
 public:
 	~GuardianEnemy();
 	void SetTextures(Texture2D txr[]);

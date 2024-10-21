@@ -125,6 +125,7 @@ public:
 	void Setup(Vector2& ref) override;
 	void SetupStageSix();
 	void SetupStageEigth();
+	void PlayerGrabPosition();
 	bool Update(float dt) override;
 	void Render() override;
 	void RenderUI() override;

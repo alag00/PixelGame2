@@ -38,6 +38,10 @@ void Levels::Load()
 	backgroundTxrs[4][0] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground1Alter.png");
 	backgroundTxrs[4][1] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground2Alter.png");
 	backgroundTxrs[4][2] = LoadTexture("Assets/BackgroundTextures/SpookyForestBackground3Alter.png");
+
+	backgroundTxrs[5][0] = LoadTexture("Assets/BackgroundTextures/SnowyMountainBackground1.png");
+	backgroundTxrs[5][1] = LoadTexture("Assets/BackgroundTextures/SnowyMountainBackground2.png");
+	backgroundTxrs[5][2] = LoadTexture("Assets/BackgroundTextures/SnowyMountainBackground3.png");
 }
 
 void Levels::Unload()
@@ -294,7 +298,7 @@ void Levels::CreateLevelFour()
 	currentLevel += "............###----....y---....----....----....---y....----....-------yy##-----VB-yyy--yy----y--y...yy-y---------#xx...........#";
 	currentLevel += "............-------....-yy-....----....----....--yy....----....-----yyy-##y----VB-yy-----------y-yyy---yyy-------##x...........#";
 	currentLevel += "............-------....--yy....----....----....--yy....----....----yy----=-yy--VB-yyy----------.--yy-----yy-------=--.-.-.-.-.-+";
-	currentLevel += "..........#.-C------..----yy..------..------..--yyyy..------..----yyyy---=-yyy-VB---yy--------.E.--yy---yy--------=------------+";
+	currentLevel += "..........#.-C------..----yy..------..------..--yyyy..------.S----yyyy---=-yyy-VB---yy--------.E.--yy---yy--------=------------+";
 	currentLevel += "..........######xxxx#######xx#################xxxxx###############xxxxxxxxxxxx#######xx#################xxxx#######xx########xx#";
 	currentLevel += "...........###xxx###########xxx#############xxxx####################xxxxxxx########xxxxxx##################xxx####xx#.........xx";
 	currentLevel += "............#xx---------------yy-----------yyy--------y------yy--------yyyy--------yyyyyy------y------------xxxxxxx#...........x";
@@ -347,7 +351,7 @@ void Levels::CreateLevelFour()
 	currentLevel += "...........#######xxxyy----#####xxx#####xxxx###xx###---------.K.----yyyy########xxx####yy----##sssssssssssssssssssx#yyy.........";
 	currentLevel += "...........#x#####xx--yy--#xx######xxxxx#####xxx#######xxxx#########xxx#x########xxxx##y-y---##sssssssssssssssssss#xyy..........";
 	currentLevel += "............xx#####s---yy#x#sssssssssssssssssssssss######xxxx#########xx#sssssssssss###---yy-##sssssssssssssssssssxxy...........";
-	currentLevel += "............#xxx###sS---###ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssx#-----y##sssssssssssssssssss#x............";
+	currentLevel += "............#xxx###s----###ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssx#-----y##sssssssssssssssssss#x............";
 	currentLevel += "............##xxx#########sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssxx------##sssssssssssssssssss##............";
 	currentLevel += "............###xxxxx#####ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss#xDDDDDD##sssssssssssssssssss##DDDDDDDDDDDD";
 
@@ -860,7 +864,7 @@ void Levels::CreateLevelThirteen()
 	currentSong = songList[1];
 	currentTileTxr = tileTextures[3];
 	spawnChar = L'd';
-	SetCurrentBackground(2);
+	SetCurrentBackground(5);
 
 	
 

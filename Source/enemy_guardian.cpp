@@ -31,7 +31,7 @@ void GuardianEnemy::Setup()
 	size.x = 112.f * scale;
 	size.y = 112.f * scale;
 
-	leftBorder.x = pos.x - 18;
+	leftBorder.x = pos.x - 19;
 	rightBorder.x = pos.x + 17;
 
 	leftBorder.y = pos.y;
@@ -43,7 +43,7 @@ void GuardianEnemy::Setup()
 
 	anim.SetAnimation(textures[0], 4, true);
 
-	anim.CustomFPS(6.f);
+	anim.CustomFPS(SLOW_FRAME_RATE);
 }
 
 void GuardianEnemy::Sense()
@@ -71,7 +71,10 @@ void GuardianEnemy::Decide()
 	{
 		return;
 	}
-	
+	if (cooldownTimer > 0.f)
+	{
+		return;
+	}
 	if (distance <= 3.f)
 	{
 		
@@ -79,10 +82,11 @@ void GuardianEnemy::Decide()
 		anim.SetAnimation(textures[2], 11, false);
 
 		int randNum = GetRandomValue(0, 10);
-		if (randNum > 8)
+		if (randNum < 8)
 		{
 			dec = DECISION::ATTACK;
 			anim.SetAnimation(textures[2], 11, false);
+			//anim.CustomFPS(FAST_FRAME_RATE);
 		}
 		else
 		{
@@ -92,7 +96,7 @@ void GuardianEnemy::Decide()
 		}
 
 	}
-	else if (distance <= 10.f && lookRight && lDist > 1.f || distance <= 10.f && !lookRight && rDist > 1.f)
+	else if ( lookRight && lDist > 1.f ||  !lookRight && rDist > 1.f)
 	{
 		dec = DECISION::WALK;
 		anim.SetAnimation(textures[1], 8, true);
@@ -114,6 +118,7 @@ void GuardianEnemy::Act(float dt)
 	hitBox.y -= hitBox.height * 0.5f;
 	hitBox.x = pos.x - 1.f;// (lookRight) ? pos.x - 1.f : pos.x - 1.0f;
 	hurtTimer -= dt;
+	cooldownTimer -= dt;
 
 	if (health <= 0)
 	{
@@ -157,8 +162,8 @@ void GuardianEnemy::Render()
 	Color color = (hurtTimer <= 0.f) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-	DrawCircle(static_cast<int>(leftBorder.x * 64.f), static_cast<int>(leftBorder.y * 64.f), 5.f, PINK);
-	DrawCircle(static_cast<int>(rightBorder.x * 64.f), static_cast<int>(rightBorder.y * 64.f), 5.f, PINK);
+	//DrawCircle(static_cast<int>(leftBorder.x * 64.f), static_cast<int>(leftBorder.y * 64.f), 5.f, PINK);
+	//DrawCircle(static_cast<int>(rightBorder.x * 64.f), static_cast<int>(rightBorder.y * 64.f), 5.f, PINK);
 
 	//Color testCol = { 255, 255, 0, 100 };
 	//Rectangle testAtkBox{ attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f };
@@ -187,6 +192,8 @@ void GuardianEnemy::CollisionCheck()
 			anim.SetAnimation(textures[0], 4, true);
 			dec = IDLE;
 		}
+		//anim.CustomFPS(SLOW_FRAME_RATE);
+		cooldownTimer = ATTACK_COOLDOWN_TIME;
 	}
 }
 
@@ -218,6 +225,8 @@ void GuardianEnemy::Attack(float dt)
 	{
 		anim.SetAnimation(textures[0], 4, true);
 		dec = IDLE;
+		//anim.CustomFPS(SLOW_FRAME_RATE);
+		cooldownTimer = ATTACK_COOLDOWN_TIME;
 	}
 }
 
@@ -259,27 +268,48 @@ void GuardianEnemy::GrabDash(float dt)
 
 void GuardianEnemy::GrabHit(float dt)
 {
-	dt;
+
+	grabProgress += dt;
+	//if (grabProgress >= 1.f / SLOW_FRAME_RATE)
+	//{
+	//	grabProgress = 0.01f;
+	//}
+	float procent = grabProgress / (3.f / SLOW_FRAME_RATE);
+	if (anim.GetCurrentFrame() >= 0 && anim.GetCurrentFrame() < 3)
+	{
+		playerRef->pos.y = std::lerp(pos.y - 1.f, pos.y - 1.5f, procent);
+		playerRef->pos.x = (lookRight) ? std::lerp(pos.x - 0.5f, pos.x + 0.5f, procent) : std::lerp(pos.x + 1.f, pos.x - 1.f, procent);
+	}
+	/*
 	switch (anim.GetCurrentFrame())
 	{
 	case 0:
-		playerRef->pos.y = pos.y - 1.f;
+		playerRef->pos.y =  pos.y - 1.f;
 		playerRef->pos.x = (lookRight) ? pos.x - 0.5f : pos.x + 1;
 		break;
 	case 1:
 		playerRef->pos.y = pos.y - 1.f;
-		playerRef->pos.x = (lookRight) ? pos.x + 0.0f : pos.x - 0.f;
+		playerRef->pos.x = (lookRight) ? std::lerp(pos.x - 0.5f, pos.x, procent)  : std::lerp(pos.x + 1, pos.x, procent);
 		break;
 	case 2:
+		playerRef->pos.y = std::lerp(pos.y - 1.f, pos.y - 2.f, procent);// pos.y - 2.f;
+		playerRef->pos.x = (lookRight) ? std::lerp(pos.x, pos.x + 0.5f, procent) : std::lerp(pos.x, pos.x - 1.f, procent);
+		break;
+	
+	case 7:
+		playerRef->pos.y = std::lerp(pos.y - 2.f, pos.y - 1.f, procent);
+		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
+		break;
 	case 8:
 		playerRef->pos.y = pos.y - 1.f;
-		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1;
+		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
 		break;
 	}
-	if (anim.GetCurrentFrame() >= 3 && anim.GetCurrentFrame() <= 7)
+	*/
+	if (anim.GetCurrentFrame() >= 3 && anim.GetCurrentFrame() <= 8)
 	{
-		playerRef->pos.y = pos.y - 2.f;
-		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1;
+		playerRef->pos.y = pos.y - 1.5f;
+		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
 		//playerRef->vel = { 0.f,0.f };
 	}
 	if (anim.GetCurrentFrame() >= 9)
@@ -288,6 +318,7 @@ void GuardianEnemy::GrabHit(float dt)
 		anim.SetAnimation(textures[0], 4, true);
 		dec = IDLE;
 		grabbing = false;
+		grabProgress = 0.f;
 	}
 }
 

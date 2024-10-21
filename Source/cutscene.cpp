@@ -296,6 +296,34 @@ void CastleBossCutscene::SetupStageEigth()
 	dialogue.QueueDialogue(playerPort, angelPort, "Aw man.", true, YELLOW);
 }
 
+void CastleBossCutscene::PlayerGrabPosition()
+{
+	
+	if (enemyAnim.GetCurrentFrame() == 0)
+	{
+		playerPos.y = enemyPos.y;
+		playerPos.x = enemyPos.x + 1.5f;
+	}
+	else if (enemyAnim.GetCurrentFrame() == 1)
+	{
+		playerPos.y = enemyPos.y;
+		playerPos.x = enemyPos.x + 0.5f;
+	}
+	else if (enemyAnim.GetCurrentFrame() >= 2 && enemyAnim.GetCurrentFrame() <= 8)
+	{
+		playerPos.y = enemyPos.y - 0.5f;
+		playerPos.x = enemyPos.x - 0.2f;
+	}
+	else if (enemyAnim.GetCurrentFrame() >= 9)
+	{
+		cutsceneStage = 5;
+		playerAnim.SetAnimation(playerHurt, 8, false);
+		enemyAnim.SetAnimation(enemyIdle, 4, true);
+		enemyAnim.CustomFPS(6.f);
+		playerVelY = -5.f;
+	}
+}
+
 bool CastleBossCutscene::Update(float dt)
 {
 	UpdateSkipText(dt);
@@ -311,7 +339,7 @@ bool CastleBossCutscene::Update(float dt)
 	case 1:
 		// player walks
 		playerPos.x += dt * PLAYER_SPEED;
-		if (playerPos.x > 87.f)
+		if (playerPos.x > 92.f)
 		{
 			cutsceneStage = 2;
 		}
@@ -335,24 +363,19 @@ bool CastleBossCutscene::Update(float dt)
 			pauseTimer -= dt;
 			return false;
 		}
-		enemyDashProgress += dt;
-		enemyPos.x = std::lerp(enemyStartX, playerPos.x, enemyDashProgress);
+		enemyDashProgress += dt * 1.5f;
+		enemyPos.x = std::lerp(enemyStartX, playerPos.x - 2.f, enemyDashProgress);
 		if (enemyDashProgress >= 1.f)
 		{
 			cutsceneStage = 4;
 			enemyAnim.SetAnimation(enemyGrab, 10, false);
+			playerAnim.SetAnimation(playerIdle, 8, true);
+			enemyAnim.CustomFPS(6.f);
 		}
 		break;
 	case 4:
 		// guardian does grab hit animation
-		if (enemyAnim.GetCurrentFrame() >= 9)
-		{
-			cutsceneStage = 5;
-			playerAnim.SetAnimation(playerHurt, 8, false);
-			enemyAnim.SetAnimation(enemyIdle, 4, true);
-			enemyAnim.CustomFPS(6.f);
-			playerVelY = -5.f;
-		}
+		PlayerGrabPosition();
 		break;
 	case 5:
 		// player flies back
