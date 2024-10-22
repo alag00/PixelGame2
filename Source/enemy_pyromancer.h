@@ -118,4 +118,6 @@ public:
 
 	void Phase1Decision();
 	void Phase2Decision();
+
+	void BorderCheck();
 };

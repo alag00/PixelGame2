@@ -45,7 +45,9 @@ private:
 	Vector2 angelSize{ 0.f,0.f };
 	Color angelCol = WHITE;
 	//Texture2D angelTxr2{};
+	Color angelTextCol = WHITE;
 
+	Texture2D playerPort{};
 	Texture2D angelPort{};
 	Dialogue dialogue;
 
@@ -102,6 +104,7 @@ class CastleBossCutscene : public Cutscene
 	float angelYOrigin = 0.f;
 	Vector2 angelSize{ 0.f,0.f };
 	Color angelCol = WHITE;
+	
 
 	Texture2D enemyPort{};
 	Texture2D playerPort{};

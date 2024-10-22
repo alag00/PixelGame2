@@ -152,6 +152,9 @@ private:
 	bool inColdMode = false;
 	float STEAM_TIME = 1.f;
 	float steamTimer = 0.f;
+	float OUTPUT_STEAM_TIME = 0.1f;
+	float outPutSteamTimer = 0.f;
+	int breathsLeft = 4;
 
 	float SNOW_WALK_TIME = 0.2f;
 	float snowWalkTimer = 0.f;

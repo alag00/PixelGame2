@@ -64,8 +64,8 @@ private:
 
 	float progress = 0.f;
 	
-	const Color col1 = {128, 91, 51, 255};
-	const Color col2 = {163, 111, 55, 255};
+	const Color col1 = ORANGE;//{128, 91, 51, 255};
+	const Color col2 =  {163, 111, 55, 255};
 	const Color col3 = {202, 135, 62, 255};
 public:
 	LeafParticle(Camera2D& ref);
@@ -101,6 +101,8 @@ private:
 	const static int PARTICLE_NUM = 4;
 	Particle particles[PARTICLE_NUM]{ 0.f,0.f,0.f,0.f };
 	Vector2 position = { 0.f,0.f };
+	//Vector2 velocity = { 0.f,0.f };
+	const float BONUS_VELOCITY_REDUCTION = 10.f;
 
 	const float SPEED = -1.f;
 	
@@ -108,7 +110,7 @@ private:
 	const float MIN_SIZE = 8.f;
 	const float MAX_SIZE = 32.f;
 public:
-	SteamParticle(Vector2 pos, Camera2D& ref);
+	SteamParticle(Vector2 pos, Vector2 vel, Camera2D& ref);
 	void Update(float dt) override;
 	void Render() override;
 };

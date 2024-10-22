@@ -19,6 +19,7 @@ public:
 	void SetCameraRef(Camera2D& ref) { camRef = &ref; }
 	void ClearList();
 	void QueueParticle(PARTICLE_TYPE type, Vector2 position);
+	void QueueParticleBreathSteam(Vector2 pos, Vector2 vel);
 	void Update(float dt);
 	void Render();
 };

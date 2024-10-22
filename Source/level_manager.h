@@ -19,6 +19,7 @@
 #include "dark_mode.h"
 #include "particle_manager.h"
 #include "credits.h"
+#include "score_manager.h"
 
 enum Events
 {
@@ -93,6 +94,8 @@ private:
 	const float DELTA_FAILSAFE_LIMIT = 0.1f;
 
 	ParticleManager particleManager;
+
+	ScoreManager scoreManager;
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }

@@ -103,6 +103,10 @@ bool LevelManager::Update()
 			currentEvent = CloseGame;
 		}
 	}
+	else
+	{
+		scoreManager.UpdateTimeKeeper(dt);
+	}
 	if (levelDarkMode)
 	{
 		darkMode.Update(dt);
@@ -730,6 +734,11 @@ void LevelManager::Render()
 	if (currentLevel == CURRENT_LAST_LEVEL)
 	{
 		credits.Render();
+		scoreManager.RenderStats();
+	}
+	else
+	{
+		scoreManager.RenderTimeKeeper();
 	}
 	
 	filter.Render();

@@ -855,6 +855,7 @@ void Player::ColdModeCheck(float dt)
 	{
 		return;
 	}
+	// AUDIO
 	snowWalkTimer -= dt;
 	if (onGround && vel.x != 0.f && snowWalkTimer <= 0.f)
 	{
@@ -862,12 +863,31 @@ void Player::ColdModeCheck(float dt)
 		snowWalkTimer = SNOW_WALK_TIME;
 		PlaySoundWithPitchDiff(snowWalkSound);
 	}
+
+
+
+	// PARTICLE
+	if (outPutSteamTimer > 0.f)
+	{
+		outPutSteamTimer -= dt;
+		if (outPutSteamTimer <= 0.f && breathsLeft > 0)
+		{
+			Vector2 location = GetCenter();
+			location.x += (lookRight) ? 0.1f : -0.1f;
+			pM->QueueParticleBreathSteam(location, vel);
+
+			breathsLeft--;
+			outPutSteamTimer = OUTPUT_STEAM_TIME;
+		}
+		return;
+	}
 	steamTimer -= dt;
 	if (steamTimer <= 0.f)
 	{
+		breathsLeft = 4;
+		outPutSteamTimer = OUTPUT_STEAM_TIME;
 		steamTimer = STEAM_TIME;
-		Vector2 location = GetCenter();
-		location.x += (lookRight) ? 0.1f : -0.1f;
-		pM->QueueParticle(BREATH_STEAM, location);
+		
+		//pM->QueueParticle(BREATH_STEAM, location);
 	}
 }

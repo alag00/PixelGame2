@@ -217,11 +217,15 @@ void SwordClashParticle::Render()
 	}
 }
 
-SteamParticle::SteamParticle(Vector2 pos, Camera2D& ref)
+SteamParticle::SteamParticle(Vector2 pos, Vector2 vel, Camera2D& ref)
 {
 	position = pos;
+	//velocity = vel;
 	camRef = &ref;
 	SetTimeAlive(TIME);
+
+	vel.x /= BONUS_VELOCITY_REDUCTION;
+	vel.y /= BONUS_VELOCITY_REDUCTION;
 
 	float randOffsetX = 0.f;
 	//float randOffsetY = 0.f;
@@ -230,8 +234,8 @@ SteamParticle::SteamParticle(Vector2 pos, Camera2D& ref)
 		randOffsetX = (float)GetRandomValue(-1, 1) / 10.f;
 		//randOffsetY = (float)GetRandomValue(-1, 1) / 10.f;
 		particles[i].pos = position;// {position.x + randOffsetX, position.y + randOffsetY};
-		particles[i].vel.y = SPEED + randOffsetX;
-		particles[i].vel.x = randOffsetX;
+		particles[i].vel.y = SPEED + randOffsetX + vel.y;
+		particles[i].vel.x = randOffsetX + vel.x;
 		
 	}
 }

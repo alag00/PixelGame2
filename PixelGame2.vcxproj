@@ -170,6 +170,7 @@
     <ClCompile Include="Source\particle_manager.cpp" />
     <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\scene_manager.cpp" />
+    <ClCompile Include="Source\score_manager.cpp" />
     <ClCompile Include="Source\screen_effects.cpp" />
     <ClCompile Include="Source\text_render.cpp" />
     <ClCompile Include="Source\tutorial_texts.cpp" />
@@ -209,6 +210,7 @@
     <ClInclude Include="Source\player.h" />
     <ClInclude Include="Source\scene.h" />
     <ClInclude Include="Source\scene_manager.h" />
+    <ClInclude Include="Source\score_manager.h" />
     <ClInclude Include="Source\screen_effects.h" />
     <ClInclude Include="Source\config.h" />
     <ClInclude Include="Source\text_render.h" />

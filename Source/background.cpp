@@ -117,4 +117,6 @@ void Background::Reset()
 	txr3pos[0].x = 0.f;
 	txr3pos[1].x = (float)-screenWidth;
 	txr3pos[2].x = (float)screenWidth;
+
+	lastCamPos = { 0.f,0.f };
 }
