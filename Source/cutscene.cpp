@@ -311,7 +311,8 @@ void CastleBossCutscene::SetupStageEigth()
 	dialogue.QueueDialogue(playerPort, enemyPort, "...", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyPort, "You.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyPort, "Me?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "Yes you, there been a change of plans, you aint going anywhere.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "Yes you, there been a change of plans...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "You are not going anywhere.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyPort, "I must stop you before it's too late.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, angelPortR, "Prepare for battle.", false, WHITE);
 	dialogue.QueueDialogue(playerPort, angelPortR, "Look out for his grab techniques.", false, WHITE);

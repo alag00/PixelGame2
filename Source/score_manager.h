@@ -13,16 +13,17 @@ private:
 	Color backCol = BLACK;
 	int margin = 50;
 
-	const int MAX_ENEMIES = 10;
+	
 
 	float timeSpent = 0.f;
 
-	int killsCounter = 0;
+
+	//int killsCounter = 0;
 	int hitCounter = 0;
 	int deathCounter = 0;
 public:
 	ScoreManager();
-	void AddKill() { killsCounter++; }
+	//void AddKill() { killsCounter++; }
 	void AddHit() { hitCounter++; }
 	void AddDeath() { deathCounter++; }
 	void UpdateTimeKeeper(float dt) { timeSpent += dt; } // When player can move -lastlevel

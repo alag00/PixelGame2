@@ -53,7 +53,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 13;
+	int currentLevel = 1;
 
 	Effect filter;
 
@@ -96,6 +96,8 @@ private:
 	ParticleManager particleManager;
 
 	ScoreManager scoreManager;
+
+	int previousPlayerHp = 0;
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }

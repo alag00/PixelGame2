@@ -37,6 +37,7 @@ void LevelManager::LoadScene()
 
 	LevelSetup();
 
+	previousPlayerHp = player.maxHealth;
 	//particleManager.QueueParticle(FALLING_SNOW);
 	
 }
@@ -86,6 +87,11 @@ bool LevelManager::Update()
 	UpdateEntities(dt);
 	UpdateMiscs(dt);
 
+	if (player.health < previousPlayerHp)
+	{
+		scoreManager.AddHit();
+		previousPlayerHp = player.health;
+	}
 	float percent = (float)player.health / (float)player.maxHealth;
 	if (percent <= 0.f)
 	{
@@ -222,6 +228,8 @@ void LevelManager::CheckEvent()
 		enemyManager.SetBossActive(false);
 		currentSong = currentLevelSong;
 		PlayMusicStream(currentSong);
+		scoreManager.AddDeath();
+		previousPlayerHp = player.maxHealth;
 		for (int i = 0; i < miscManager.GetBarrierList().size(); i++)
 		{
 			Vector2 pos = miscManager.GetBarrierList().at(i);
