@@ -70,6 +70,8 @@ bool LevelManager::Update()
 		CheckEvent();
 		return exitLevel;
 	}
+	float camMargin = 10.f;
+	camSpace = { cam.target.x - (cam.offset.x + camMargin), cam.target.y - (cam.offset.y + camMargin), (float)screenWidth + camMargin, (float)screenHeight + camMargin };
 	if (isCutscening)
 	{
 		if (cutsceneManager.Update(dt))
@@ -142,6 +144,7 @@ void LevelManager::UpdateEntities(float dt)
 			SetTile(pos.x, pos.y, levels.GetMiscBgChar());
 		}
 	}
+	
 	for (int i = 0; i < enemyManager.GetEnemyList().size(); i++)
 	{
 		if (!enemyManager.GetEnemyList().at(i)->IsAlive())
@@ -158,6 +161,9 @@ void LevelManager::UpdateEntities(float dt)
 			}
 		}
 	}
+
+	//camSpace = { cam.target.x - cam.offset.x, cam.target.y - cam.offset.y, (float)screenWidth, (float)screenHeight };
+
 }
 
 void LevelManager::UpdateMiscs(float dt)
@@ -206,6 +212,7 @@ void LevelManager::UpdateMiscs(float dt)
 		}
 		*/
 	}
+	//miscManager.UpdateObjectRender(camSpace);
 }
 
 void LevelManager::CheckEvent()
@@ -712,11 +719,13 @@ void LevelManager::Render()
 	BeginMode2D(cam);
 
 	LevelRender();
-	miscManager.Render();
+	miscManager.Render(camSpace);
 	if (isCutscening)
 	{
 		cutsceneManager.Render();
 		particleManager.Render();
+		//Color col = { 200, 200, 10, 50 };
+		//DrawRectangleRec(camSpace, col);
 		EndMode2D();
 		cutsceneManager.RenderUI();
 		filter.Render();
@@ -732,6 +741,8 @@ void LevelManager::Render()
 		tutorial.Render();
 	}
 	particleManager.Render();
+	//Color col = { 200, 200, 10, 50 };
+	//DrawRectangleRec(camSpace, col);
 	EndMode2D();
 	if (levelDarkMode)
 	{

@@ -53,13 +53,13 @@ void DartTrap::Update(float dt)
 	}
 }
 
-void DartTrap::Render()
+void DartTrap::Render(Rectangle cam)
 {
-	if (!active)
+	Rectangle dst{bulletPos.x * config.tileSize, bulletPos.y * config.tileSize, BULLET_PIXEL_WIDTH * config.pixelScale, BULLET_PIXEL_HEIGHT * config.pixelScale};
+	if (!active || !CheckCollisionRecs(cam, dst))
 	{
 		return;
 	}
-	Rectangle dst{bulletPos.x * config.tileSize, bulletPos.y * config.tileSize, BULLET_PIXEL_WIDTH * config.pixelScale, BULLET_PIXEL_HEIGHT * config.pixelScale};
 	Vector2 origin{0.f,0.f};
 	anim.DrawAnimationPro(dst, origin, 0.f, WHITE);
 

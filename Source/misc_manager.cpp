@@ -194,7 +194,7 @@ bool MiscManager::UpdateHurtBlocks()
 	return false;
 }
 
-void MiscManager::Render() 
+void MiscManager::Render(Rectangle camSpace)
 {
 	for (int i = 0; i < checkPointList.size(); i++)
 	{
@@ -206,11 +206,11 @@ void MiscManager::Render()
 	}
 	for (int i = 0; i < dartTrapList.size(); i++)
 	{
-		dartTrapList.at(i)->Render();
+		dartTrapList.at(i)->Render(camSpace);
 	}
 	for (int i = 0; i < objectList.size(); i++)
 	{
-		objectList.at(i)->Render();
+		objectList.at(i)->Render(camSpace);
 	}
 	/*
 	for (int i = 0; i < hurtBlockList.size(); i++)
@@ -219,6 +219,16 @@ void MiscManager::Render()
 	}
 	*/
 }
+
+/*
+void MiscManager::UpdateObjectRender(Rectangle camSpace)
+{
+	for (int i = 0; i < objectList.size(); i++)
+	{
+		objectList.at(i)->Update(camSpace);
+	}
+}
+*/
 
 int MiscManager::GetMostViableGrapplingIndex()
 {

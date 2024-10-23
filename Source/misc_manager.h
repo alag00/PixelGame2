@@ -52,5 +52,6 @@ public:
 	int UpdateGrapplingPoints();
 	void UpdateDartTrapsPoints(float dt);
 	bool UpdateHurtBlocks();
-	void Render();
+	void Render(Rectangle camSpace);
+	//void UpdateObjectRender(Rectangle camSpace);
 };

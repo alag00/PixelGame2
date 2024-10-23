@@ -874,7 +874,7 @@ void MansionBossCutscene::SetupStageTwo()
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Jesus, How long have you been standing there?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Anyway how do you like the new crib, I stole from some...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What a minute, You are supposed to be dead.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Wait a minute, You are supposed to be dead.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How are you still alive?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "Divine Intervention", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Is that so?", false, PURPLE);
@@ -902,11 +902,11 @@ void MansionBossCutscene::SetupStageFive()
 
 void MansionBossCutscene::SetupStageSeven()
 {
-	dialogue.QueueDialogue(playerPort, angelPortR, "I guess he wasn't as excited for the reunion as I was.", false, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPortR, "I guess he wasn't as excited for the reunion as I was.", false, WHITE);
 	dialogue.QueueDialogue(playerPort, angelPortR, "He can't have gotten far.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPortR, "True that, it is likely that he is still in this building.", false, YELLOW);
-	dialogue.QueueDialogue(playerPort, Texture2D(), "N-no I'm not", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, Texture2D(), "Just don't check upstairs.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPortR, "True that, it is likely that he is still in this building.", false, WHITE);
+	dialogue.QueueDialogue(Texture2D(), Texture2D(), "N-no I'm not", false, PURPLE);
+	dialogue.QueueDialogue(Texture2D(), Texture2D(), "Just don't check upstairs.", false, PURPLE);
 	cutsceneStage = 7;
 	dialogue.SetActive(true);
 }
@@ -1141,10 +1141,10 @@ void GraveyardCutscene::SetupStageFive()
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "and I don't expect you to forgive me...", false, enemyCol);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Especially after what we took from you", false, enemyCol);
 	dialogue.QueueDialogue(playerPort, enemySpeakPort, "So come and end me...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I am sure Gnome Hell is waiting for me.", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I am sure hell is waiting for me.", false, enemyCol);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "......", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "I sorry but should I know you?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "I'm sorry but should I know you?", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", false, enemyCol);
 
 	dialogue.SetActive(true);

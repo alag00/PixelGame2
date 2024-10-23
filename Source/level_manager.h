@@ -53,7 +53,7 @@ private:
 	Camera2D cam{};
 	Levels levels;
 
-	int currentLevel = 1;
+	int currentLevel = 8;
 
 	Effect filter;
 
@@ -98,6 +98,8 @@ private:
 	ScoreManager scoreManager;
 
 	int previousPlayerHp = 0;
+
+	Rectangle camSpace{ 0.f,0.f,0.f,0.f };
 public:
 	~LevelManager();
 	SCENE_TYPE GetNewScene() override { return nextScene; }

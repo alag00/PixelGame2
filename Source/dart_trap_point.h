@@ -27,5 +27,5 @@ public:
 	void Setup(Vector2 newPos, Entity& ref, bool left);
 	void SetTexture(Texture2D txr);
 	void Update(float dt); 
-	void Render(); 
+	void Render(Rectangle cam);
 };

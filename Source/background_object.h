@@ -14,9 +14,15 @@ private:
 	const float OFFSET_Y = 1.f;
 	const float PIXELS_PER_TILE = 16;
 	const float HALF_OF_TILE = 32;
+	//bool isActive = false;
+
+	Rectangle src{ 0.f,0.f,0.f,0.f };
+	Rectangle dst{ 0.f,0.f,0.f,0.f };
+	//Rectangle hitboxDst{ 0.f,0.f,0.f,0.f };
 public:
 	~BackgroundObject();
 	void Setup(Vector2 newPos);
 	void SetTextue(Texture2D newTxr);
-	void Render();
+	//void Update(Rectangle cam);
+	void Render(Rectangle cam);
 };
