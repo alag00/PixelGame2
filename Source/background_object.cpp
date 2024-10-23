@@ -18,27 +18,20 @@ void BackgroundObject::Setup(Vector2 newPos)
 	src = { 0.f,0.f, (float)txr.width, (float)txr.height };
 	dst = { pos.x * config.tileSize, pos.y * config.tileSize, size.x, size.y };
 
-	//hitboxDst = { pos.x, pos.y, size.x, size.y };
 }
 
 void BackgroundObject::SetTextue(Texture2D newTxr)
 {
 	txr = newTxr;
 }
-/*
-void BackgroundObject::Update(Rectangle cam)
-{
-	isActive = CheckCollisionRecs(cam, dst) ? true : false;
-}
-*/
+
 void BackgroundObject::Render(Rectangle cam)
 {
 	if (!CheckCollisionRecs(cam, dst))
 	{
 		return;
 	}
-	//Rectangle src {0.f,0.f, (float)txr.width, (float)txr.height};
-	//Rectangle dst{pos.x * config.tileSize, pos.y * config.tileSize, size.x, size.y};
+
 	Vector2 origin{0.f,0.f};
 	DrawTexturePro(txr, src, dst, origin, 0.f, WHITE);
 }

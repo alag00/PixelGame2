@@ -165,8 +165,7 @@ void Player::Render()
 
 		DrawLineBezier(vec1, vec2, GRAPPLING_LINE_THICKNESS, GRAPPLING_COLOR);
 	}
-	//float s = 64.f;
-	//DrawCircle(static_cast<int>(climbLimit.x * s), static_cast<int>(climbLimit.y * s), 5.f, PINK);
+	
 }
 
 void Player::Movement(float dt)
@@ -557,8 +556,7 @@ void Player::DamageRecovery(float dt)
 {
 	vel.y += GRAVITY * dt;
 
-	//jumpTimer += dt;
-	//fallingTimer += dt;
+
 
 	if (anim.GetCurrentFrame() >= 7)
 	{
@@ -651,13 +649,7 @@ void Player::EnterClimbMode(Vector2 tilePos)
 	{
 		FlipPlayer();
 	}
-	/*
-	if (lookRight && rightTile || !lookRight && leftTile)
-	{
-		float margin = 1.f;
-		climbLimit = (lookRight) ? Vector2(pos.x + 1.f, pos.y + margin) : Vector2(pos.x - 1.f, pos.y + margin);
-	}
-	*/
+	
 }
 
 void Player::ClimbControl(float dt)
@@ -682,13 +674,11 @@ void Player::ClimbControl(float dt)
 		}
 		if (IsKeyDown(KEY_A) && lookRight || IsKeyDown(KEY_D) && !lookRight)
 		{
-			//FlipPlayer();
-			//status = STATUS::FALLING;
-			//anim.SetAnimation(fallAtlas, 4, true);
+			
 			FlipPlayer();
 
 			RecoilJump();
-			//antiControlTimer = ANTI_CONTROL_TIME;
+		
 			vel.y = CLIMB_JUMP_DOWN;
 			return;
 		}
@@ -859,7 +849,6 @@ void Player::ColdModeCheck(float dt)
 	snowWalkTimer -= dt;
 	if (onGround && vel.x != 0.f && snowWalkTimer <= 0.f)
 	{
-		// Play Snow Sound
 		snowWalkTimer = SNOW_WALK_TIME;
 		PlaySoundWithPitchDiff(snowWalkSound);
 	}
@@ -888,6 +877,5 @@ void Player::ColdModeCheck(float dt)
 		outPutSteamTimer = OUTPUT_STEAM_TIME;
 		steamTimer = STEAM_TIME;
 		
-		//pM->QueueParticle(BREATH_STEAM, location);
 	}
 }

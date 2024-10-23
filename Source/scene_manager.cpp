@@ -1,7 +1,7 @@
 #include "scene_manager.h"
 
 SceneManager::SceneManager() {
-	//Setup();
+	
 }
 SceneManager::~SceneManager()
 {

@@ -18,7 +18,6 @@ private:
 	Animator anim;
 	const float CUSTOM_FPS = 6.f; // 12 defualt
 
-	//const float TIME_TILL_START = 1.f;
 	float startTimer = 1.f;
 
 	const float SIZE_IN_PIXELS = 64.f;

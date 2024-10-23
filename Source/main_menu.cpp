@@ -66,7 +66,7 @@ void MainMenu::Render()
 	{
 		txtRend.RenderText("Press 'Space'", ((int)screenWidth / 2) - OFFSET, GetScreenHeight() - OFFSET, FONT_SIZE, YELLOW, BLACK);
 	}
-	//DrawText(CURRENT_VERSION, FONT_SIZE, GetScreenHeight() - FONT_SIZE, FONT_SIZE, YELLOW);
+
 	txtRend.RenderText(CURRENT_VERSION, FONT_SIZE / 2, GetScreenHeight() - FONT_SIZE, FONT_SIZE, WHITE, BLACK);
 	filter.Render();
 	EndDrawing();
@@ -84,7 +84,7 @@ void MainMenu::DrawBackground()
 	Rectangle src{ 0.f,0.f, (float)bg.width, (float)bg.height };
 	Rectangle dst{ 0.f,0.f,screenWidth, screenHeight };
 	Vector2 ori{ 0.f,0.f };
-	//DrawTexturePro(bg, src, dst, ori, 0.f, WHITE);
+
 	anim.DrawAnimationPro(dst, ori, 0.f, WHITE);
 
 	src = { 0.f, 0.f, (float)title.width, (float)title.height };

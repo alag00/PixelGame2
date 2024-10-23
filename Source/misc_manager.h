@@ -53,5 +53,4 @@ public:
 	void UpdateDartTrapsPoints(float dt);
 	bool UpdateHurtBlocks();
 	void Render(Rectangle camSpace);
-	//void UpdateObjectRender(Rectangle camSpace);
 };

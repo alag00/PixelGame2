@@ -33,7 +33,7 @@ private:
 	float attackTimer = attackCooldown;
 
 	float damagedTimer = 0.f;
-	const Color NORMAL_COLOR = PURPLE;//{ 79, 37, 95, 255 };//{ 118, 66, 138, 255 }; //
+	const Color NORMAL_COLOR = PURPLE;
 	const Color ATTACK_COLOR{ 255, 255,255, 200 };
 
 	const float SPEED = 4.f;

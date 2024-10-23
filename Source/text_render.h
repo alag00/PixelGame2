@@ -1,6 +1,5 @@
 #pragma once
 #include "raylib.h"
-//#include <cstring>
 #include <string>
 
 class TextRenderer

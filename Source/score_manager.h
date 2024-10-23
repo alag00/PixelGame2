@@ -17,16 +17,14 @@ private:
 
 	float timeSpent = 0.f;
 
-
-	//int killsCounter = 0;
 	int hitCounter = 0;
 	int deathCounter = 0;
 public:
 	ScoreManager();
-	//void AddKill() { killsCounter++; }
+
 	void AddHit() { hitCounter++; }
 	void AddDeath() { deathCounter++; }
-	void UpdateTimeKeeper(float dt); // When player can move -lastlevel
+	void UpdateTimeKeeper(float dt); 
 	std::string FilterTime(int value);
 
 	void RenderTimeKeeper(); // Always

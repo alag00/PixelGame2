@@ -34,7 +34,6 @@ void DeveloperScene::LeaveScene()
 }
 bool DeveloperScene::Update()
 {
-	// Check when to change scene
 
 	float dt = GetFrameTime();
 	
@@ -58,7 +57,6 @@ bool DeveloperScene::Update()
 }
 void DeveloperScene::Render()
 {
-	// Render
 	BeginDrawing();
 	ClearBackground(BACKGROUND_COLOR);
 

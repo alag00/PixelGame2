@@ -25,7 +25,6 @@ void Effect::Render()
 		return;
 	}
 
-	//DrawRectangle(static_cast<int>(camera->target.x - camera->offset.x), static_cast<int>(camera->target.y - camera->offset.y), width, height, color);
 	DrawRectangle(0, 0, width, height, color);
 }
 void Effect::Update(float dt)

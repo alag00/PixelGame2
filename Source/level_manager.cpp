@@ -38,7 +38,7 @@ void LevelManager::LoadScene()
 	LevelSetup();
 
 	previousPlayerHp = player.maxHealth;
-	//particleManager.QueueParticle(FALLING_SNOW);
+
 	
 }
 
@@ -124,12 +124,6 @@ bool LevelManager::Update()
 
 void LevelManager::UpdateEntities(float dt)
 {
-	/*
-	if (IsKeyPressed(KEY_I))
-	{
-		particleManager.QueueParticle(SWORD_CLASH, player.GetCenter());
-	}
-	*/
 	player.Update(dt);
 	AdjustPlayer(dt);
 
@@ -162,7 +156,6 @@ void LevelManager::UpdateEntities(float dt)
 		}
 	}
 
-	//camSpace = { cam.target.x - cam.offset.x, cam.target.y - cam.offset.y, (float)screenWidth, (float)screenHeight };
 
 }
 
@@ -199,20 +192,9 @@ void LevelManager::UpdateMiscs(float dt)
 	{
 		currentEvent = ScreenShake;
 		filter.StartEffect(SCREEN_SHAKE);
-		//filter.StartEffect(FADE_TO_BLACK);
-		//currentEvent = Die;
-		//player.Die();
-		/*
-		if (player.TakeTickDamage())
-		{
-			//currentEvent = HitFreeze;
-			//filter.StartEffect(HIT_FREEZE);
-			currentEvent = ScreenShake;
-			filter.StartEffect(SCREEN_SHAKE);
-		}
-		*/
+		
 	}
-	//miscManager.UpdateObjectRender(camSpace);
+
 }
 
 void LevelManager::CheckEvent()
@@ -292,19 +274,6 @@ void LevelManager::AdjustPlayer(float dt)
 			newPlayerPosX = static_cast<float>((int)newPlayerPosX + 1);
 			player.SetVelocity(0.f, player.GetVelocity().y);
 		}
-		/*
-		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.0f);
-		char tileTypeTwo = GetTile(newPlayerPosX + 0.0f, player.GetPosition().y + 0.9f);
-
-		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
-		{
-			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
-			{
-				newPlayerPosX = static_cast<float>((int)newPlayerPosX + 1);
-				player.SetVelocity(0.f, player.GetVelocity().y);
-			}
-		}
-		*/
 	}
 	else if (player.GetVelocity().x > 0)
 	{
@@ -313,20 +282,6 @@ void LevelManager::AdjustPlayer(float dt)
 			newPlayerPosX = static_cast<float>((int)newPlayerPosX);
 			player.SetVelocity(0.f, player.GetVelocity().y);
 		}
-		/*
-		char tileTypeOne = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.0f);
-		char tileTypeTwo = GetTile(newPlayerPosX + 1.0f, player.GetPosition().y + 0.9f);
-
-		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
-		{
-			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
-			{
-				newPlayerPosX = static_cast<float>((int)newPlayerPosX);
-				player.SetVelocity(0.f, player.GetVelocity().y);
-			}
-		}
-		*/
-
 	}
 
 	player.SetOnGround(false);
@@ -337,20 +292,6 @@ void LevelManager::AdjustPlayer(float dt)
 			newPlayerPosY = static_cast<float>((int)newPlayerPosY + 1);
 			player.SetVelocity(player.GetVelocity().x, 0.f);
 		}
-
-		/*
-		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY);
-		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY);
-
-		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
-		{
-			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
-			{
-				newPlayerPosY = static_cast<float>((int)newPlayerPosY + 1);
-				player.SetVelocity(player.GetVelocity().x, 0.f);
-			}
-		}
-	*/
 	}
 	else if (player.GetVelocity().y > 0) 
 	{
@@ -360,26 +301,8 @@ void LevelManager::AdjustPlayer(float dt)
 			player.SetVelocity(player.GetVelocity().x, 0.f);
 			player.SetOnGround(true);
 		}
-
-		/*
-		char tileTypeOne = GetTile(newPlayerPosX + 0.0f, newPlayerPosY + 1.0f);
-		char tileTypeTwo = GetTile(newPlayerPosX + 0.9f, newPlayerPosY + 1.0f);
-
-		if (tileTypeOne != L'.' || tileTypeTwo != L'.')
-		{
-			if (IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo))
-			{
-				newPlayerPosY = static_cast<float>((int)newPlayerPosY);
-				player.SetVelocity(player.GetVelocity().x, 0.f);
-				player.SetOnGround(true);
-			}
-		}
-		*/
-	
 	}
-	//newPlayerPosX = std::clamp(newPlayerPosX, 0.f, (float)levelWidth);
-	//newPlayerPosY = std::clamp(newPlayerPosY, 0.f, (float)levelHeight);
-
+	
 	if (newPlayerPosX < 0.f)
 	{
 		newPlayerPosX = 0.f;
@@ -433,10 +356,6 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 		{
 			player.EnterClimbMode(t2);
 		}
-		// climb block
-		//bool isLeftClimb = (GetTile(player.pos.x - 1.f, player.pos.y + 2.f) == L'L') ? true : false;
-		//bool isRightClimb = (GetTile(player.pos.x + 1.f, player.pos.y + 2.f) == L'L') ? true : false;
-		//player.EnterClimbMode(isLeftClimb, isRightClimb);
 		return true;
 	}
 	if (tileTypeOne != L'.' || tileTypeTwo != L'.')
@@ -452,80 +371,12 @@ bool LevelManager::CheckMovingPlayer(float playerPosX, float playerPosY, float t
 			{
 				miscManager.ActivateHurtBlockAt((int)t2.x, (int)t2.y);
 			}
-			//return false;
 		}
 		return IsPlayerTouchBlockTile(tileTypeOne, tileTypeTwo);
-		//{
-		//	return true;
-		//}
 	}
 	return false;
 }
-/*
-void LevelManager::CheckDeathBlock(Vector2 playerPos, Vector2 tilePos)
-{
-	/*
-	float offset = 0.1f;
-	Rectangle tileBox = {tilePos.x + offset, tilePos.y + offset, 1.f - offset * 2.f, 1.f };
-	
-	//Rectangle tileBox = { tilePos.x , tilePos.y , 1.f , 1.f};
-	Rectangle playerBox = { playerPos.x, playerPos.y, 1.f, 1.f };
-	if (CheckCollisionRecs(tileBox, playerBox))
-	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
-		player.Die();
-	}
-	
-	Vector2 lpos = { tilePos.x, tilePos.y + 1.f };
-	Vector2 mpos = { tilePos.x + 1.f, tilePos.y};
-	//Vector2 rpos = { tilePos.x , tilePos.y + 1.f };
 
-	Rectangle playerBox = {playerPos.x, playerPos.y, 1.f, 1.f};
-	if (LineBoxCollisionCheck(lpos, mpos, playerBox))// || LineBoxCollisionCheck(rpos, mpos, playerBox))
-	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
-		player.Die();
-	}
-	
-	Vector2 center = { tilePos.x + 0.5f, tilePos.y + 1.f };
-	Rectangle playerBox = { playerPos.x, playerPos.y, 1.f, 1.f };
-	if (CheckCollisionCircleRec(center, 0.5f, playerBox))// || LineBoxCollisionCheck(rpos, mpos, playerBox))
-	{
-		filter.StartEffect(FADE_TO_BLACK);
-		currentEvent = Die;
-		player.Die();
-	}
-}
-
-bool LevelManager::LineBoxCollisionCheck(Vector2 l1, Vector2 l2, Rectangle box)
-{
-	Vector2 boxMin = {box.x, box.y}; // Top-left corner
-	Vector2 boxMax = { box.x + box.width, box.y + box.height }; // Bottom-right corner
-
-	float tmin = (boxMin.x - l1.x) / (l2.x - l1.x);
-	float tmax = (boxMax.x - l1.x) / (l2.x - l1.x);
-
-	if (tmin > tmax) std::swap(tmin, tmax);
-
-	float tymin = (boxMin.y - l1.y) / (l2.y - l1.y);
-	float tymax = (boxMax.y - l1.y) / (l2.y - l1.y);
-
-	if (tymin > tymax) std::swap(tymin, tymax);
-
-	// Check for overlap in both x and y axis
-	if ((tmin > tymax) || (tymin > tmax)) return false;
-
-	tmin = std::max(tmin, tymin);
-	tmax = std::min(tmax, tymax);
-
-	// If tmax < 0, the line is completely outside of the AABB
-	if (tmax < 0) return false;
-
-	return true;
-}
-*/
 bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 {
 	if (tileTypeOne == L'#' || tileTypeTwo == L'#')
@@ -578,16 +429,6 @@ bool LevelManager::IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo)
 		// invisible block
 		return true;
 	}
-	/*
-	if (tileTypeOne == L'L' || tileTypeTwo == L'L')
-	{
-		// climb block
-		bool isLeftClimb = (GetTile(player.pos.x - 1.f, player.pos.y + 2.f) == L'L') ? true : false;
-		bool isRightClimb = (GetTile(player.pos.x + 1.f, player.pos.y + 2.f) == L'L') ? true : false;
-		player.EnterClimbMode(isLeftClimb, isRightClimb);
-		return true;
-	}
-	*/
 	if (tileTypeOne == L'B' || tileTypeTwo == L'B')
 	{
 		if (bossDefeated)
@@ -724,8 +565,6 @@ void LevelManager::Render()
 	{
 		cutsceneManager.Render();
 		particleManager.Render();
-		//Color col = { 200, 200, 10, 50 };
-		//DrawRectangleRec(camSpace, col);
 		EndMode2D();
 		cutsceneManager.RenderUI();
 		filter.Render();
@@ -741,8 +580,6 @@ void LevelManager::Render()
 		tutorial.Render();
 	}
 	particleManager.Render();
-	//Color col = { 200, 200, 10, 50 };
-	//DrawRectangleRec(camSpace, col);
 	EndMode2D();
 	if (levelDarkMode)
 	{
@@ -799,8 +636,7 @@ void LevelManager::LevelSetup()
 		currentSong = currentCutsceneSong;
 		PlayMusicStream(currentSong);
 	}
-	
-	//std::vector<Vector2> enemyPos{};
+
 
 	for (int y = 0; y < levelHeight; y++)
 	{
@@ -854,11 +690,6 @@ void LevelManager::LevelRender()
 			
 		}
 	}
-
-	//Color pCol = YELLOW;
-	//pCol.a = 40;
-	//DrawRectangle(static_cast<int>(player.pos.x * tileWidth), static_cast<int>(player.pos.y * tileHeight), tileWidth, tileHeight, pCol);
-
 
 }
 
@@ -916,13 +747,7 @@ void LevelManager::RenderHpBars()
 	enemyManager.RenderBossBar();
 
 }
-/*
-void LevelManager::RenderCredit()
-{
-	//DrawText("Thank you for playing!", 100, screenHeight / 2, 40, YELLOW);
-	
-}
-*/
+
 void LevelManager::SetupTile(int x, int y)
 {
 	if (GetTile(x, y) == L'C')
@@ -1055,21 +880,18 @@ void LevelManager::SetupTile(int x, int y)
 	if (GetTile(x, y) == L'1')
 	{
 		tutorial.Setup(Vector2((float)x, (float)y), 0);
-		//tutorialPos1 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}
 	if (GetTile(x, y) == L'2')
 	{
 		tutorial.Setup(Vector2((float)x, (float)y), 1);
-		//tutorialPos2 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}
 	if (GetTile(x, y) == L'3')
 	{
 		tutorial.Setup(Vector2((float)x, (float)y), 2);
-		//tutorialPos3 = Vector2((float)x, (float)y);
 		SetTile(x, y, L'.');
 		return;
 	}

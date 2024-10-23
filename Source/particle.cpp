@@ -31,14 +31,12 @@ SnowParticle::SnowParticle(Camera2D& ref)
 		particles[i].size.y = PARTICLE_SIZE;
 
 		timeTillFadeTimer[i] = (float)GetRandomValue(0, ((int)TIME_TILL_FADE * ONE_DECIMAL_FLOAT_CONVERT)) / (float)ONE_DECIMAL_FLOAT_CONVERT;
-		//particles[i].col.a = (char)GetRandomValue(10, 255);
 		
 	}
 }
 
 void SnowParticle::Update(float dt)
 {
-	//ParticleEffect::Update(dt);
 	for (int i = 0; i < PARTICLE_NUM; i++)
 	{
 		particles[i].pos.x += particles[i].vel.x * dt;
@@ -49,7 +47,7 @@ void SnowParticle::Update(float dt)
 
 		if (timeTillFadeTimer[i] <= 0.f)
 		{
-			particles[i].col.a--; //-= (char)GetRandomValue(0, 2);
+			particles[i].col.a--; 
 			particles[i].size.x -= dt;
 			particles[i].size.y = particles[i].size.x;
 		}
@@ -102,7 +100,6 @@ LeafParticle::LeafParticle(Camera2D& ref)
 		particles[i].size.y = PARTICLE_SIZE;
 
 		timeTillFadeTimer[i] = (float)GetRandomValue(0, ((int)TIME_TILL_FADE * ONE_DECIMAL_FLOAT_CONVERT)) / (float)ONE_DECIMAL_FLOAT_CONVERT;
-		//particles[i].col.a = (char)GetRandomValue(10, 255);
 
 		int randNum = GetRandomValue(1, 3);
 		switch (randNum)
@@ -122,7 +119,6 @@ LeafParticle::LeafParticle(Camera2D& ref)
 
 void LeafParticle::Update(float dt)
 {
-	//ParticleEffect::Update(dt);
 	progress += dt;
 	for (int i = 0; i < PARTICLE_NUM; i++)
 	{
@@ -137,7 +133,7 @@ void LeafParticle::Update(float dt)
 
 		if (timeTillFadeTimer[i] <= 0.f)
 		{
-			particles[i].col.a--; //-= (char)GetRandomValue(0, 2);
+			particles[i].col.a--; 
 			particles[i].size.x -= dt;
 			particles[i].size.y = particles[i].size.x;
 		}
@@ -200,7 +196,7 @@ void SwordClashParticle::Update(float dt)
 
 		float procent = GetTimeAlive() / TIME;
 		particles[i].col.a = (char)std::lerp(1, 255, procent);
-		//particles[i].col.a--;
+		
 		particles[i].col.g = (char)std::lerp(160, 255, procent);
 	}
 }
@@ -220,7 +216,7 @@ void SwordClashParticle::Render()
 SteamParticle::SteamParticle(Vector2 pos, Vector2 vel, Camera2D& ref)
 {
 	position = pos;
-	//velocity = vel;
+
 	camRef = &ref;
 	SetTimeAlive(TIME);
 
@@ -228,12 +224,12 @@ SteamParticle::SteamParticle(Vector2 pos, Vector2 vel, Camera2D& ref)
 	vel.y /= BONUS_VELOCITY_REDUCTION;
 
 	float randOffsetX = 0.f;
-	//float randOffsetY = 0.f;
+	
 	for (int i = 0; i < PARTICLE_NUM; i++)
 	{
 		randOffsetX = (float)GetRandomValue(-1, 1) / 10.f;
-		//randOffsetY = (float)GetRandomValue(-1, 1) / 10.f;
-		particles[i].pos = position;// {position.x + randOffsetX, position.y + randOffsetY};
+		
+		particles[i].pos = position;
 		particles[i].vel.y = SPEED + randOffsetX + vel.y;
 		particles[i].vel.x = randOffsetX + vel.x;
 		

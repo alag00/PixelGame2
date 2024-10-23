@@ -101,7 +101,6 @@ private:
 	const static int PARTICLE_NUM = 4;
 	Particle particles[PARTICLE_NUM]{ 0.f,0.f,0.f,0.f };
 	Vector2 position = { 0.f,0.f };
-	//Vector2 velocity = { 0.f,0.f };
 	const float BONUS_VELOCITY_REDUCTION = 10.f;
 
 	const float SPEED = -1.f;

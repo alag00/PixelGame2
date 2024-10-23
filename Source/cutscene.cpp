@@ -112,13 +112,10 @@ bool IntroCutscene::Update(float dt)
 			cutsceneStage = 2;
 			playerAnim.SetAnimation(playerRise, 9, false);
 			filter->StartEffect(FADE_TO_BLACK);
-			//SetupStageThree();
 		}
 		*camRef = playerPos;
 		break;
 	case 2:
-		//pauseTimer -= dt;
-
 		if (!filter->IsActive())
 		{
 			
@@ -133,7 +130,6 @@ bool IntroCutscene::Update(float dt)
 				cutsceneStage = 3;
 			}
 		}
-		// FADe out and fade in
 		break;
 	case 3:
 	{
@@ -158,7 +154,7 @@ bool IntroCutscene::Update(float dt)
 			}
 		}
 		break;
-	case 5: // after player shakes
+	case 5: 
 		if (!dialogue.GetActive())
 		{
 			cutsceneStage = 6;
@@ -340,7 +336,6 @@ void CastleBossCutscene::PlayerGrabPosition()
 	else if (enemyAnim.GetCurrentFrame() >= 9)
 	{
 		cutsceneStage = 5;
-		//playerAnim.SetAnimation(playerHurt, 8, false);
 		playerAnim.RestartAnimation();
 		enemyAnim.SetAnimation(enemyIdle, 4, true);
 		enemyAnim.CustomFPS(6.f);
@@ -361,7 +356,6 @@ bool CastleBossCutscene::Update(float dt)
 	switch (cutsceneStage)
 	{
 	case 1:
-		// player walks
 		playerPos.x += dt * PLAYER_SPEED;
 		if (playerPos.x > 92.f)
 		{
@@ -369,7 +363,6 @@ bool CastleBossCutscene::Update(float dt)
 		}
 		break;
 	case 2:
-		// guardian drops down from sky
 		enemyPos.y += dt * ENEMY_FALL_SPEED;
 		playerPos.x += dt * PLAYER_SPEED;
 		if (enemyPos.y >= 7.f)
@@ -381,7 +374,6 @@ bool CastleBossCutscene::Update(float dt)
 		}
 		break;
 	case 3:
-		// guardian dashes towards player with grab dash animation
 		playerPos.x += dt * PLAYER_SPEED;
 		if (pauseTimer > 0.f && enemyAnim.GetCurrentFrame() == 1)
 		{
@@ -399,11 +391,9 @@ bool CastleBossCutscene::Update(float dt)
 		}
 		break;
 	case 4:
-		// guardian does grab hit animation
 		PlayerGrabPosition();
 		break;
 	case 5:
-		// player flies back
 		playerPos.x -= dt * PLAYER_SPEED;
 		playerPos.y += playerVelY * dt;
 		playerVelY += dt * 5.f;
@@ -413,7 +403,6 @@ bool CastleBossCutscene::Update(float dt)
 		}
 		break;
 	case 6:
-		// dialogue starts
 		if (!dialogue.GetActive())
 		{
 			cutsceneStage = 7;
@@ -422,7 +411,6 @@ bool CastleBossCutscene::Update(float dt)
 		break;
 	case 7:
 	{
-		// angel appears
 		pauseTimer -= dt;
 		float procent = pauseTimer / PAUSE_TIME;
 		angelCol.a = (char)std::lerp(200, 0, procent);
@@ -433,7 +421,6 @@ bool CastleBossCutscene::Update(float dt)
 	}
 		break;
 	case 8:
-		// more dialogue
 		if (!dialogue.GetActive())
 		{
 			return true;
@@ -759,7 +746,6 @@ bool CatCutscene::Update(float dt)
 		}
 		break;
 	case 3:
-		// Cat disappears
 		if (catAnim.GetCurrentFrame() >= 9)
 		{
 			pauseTimer -= dt;
@@ -940,7 +926,6 @@ bool MansionBossCutscene::Update(float dt)
 		{
 			if (!enemyFlipped)
 			{
-				//pauseTimer = PAUSE_TIMER;
 				enemyAnim.FlipAnimationHorizontal();
 				enemyPos.x--;
 				enemyFlipped = true;
@@ -962,7 +947,6 @@ bool MansionBossCutscene::Update(float dt)
 		}
 		break;
 	case 4:
-		// angel spawns in
 		pauseTimer -= dt;
 		if (!hasPausedOnce && pauseTimer <= 0.f)
 		{
@@ -980,7 +964,6 @@ bool MansionBossCutscene::Update(float dt)
 		}
 		break;
 	case 5:
-		// more dialogue
 		if (!dialogue.GetActive())
 		{
 			cutsceneStage = 6;
@@ -988,14 +971,12 @@ bool MansionBossCutscene::Update(float dt)
 		}
 		break;
 	case 6:
-		// enemy teleport away
 		if (enemyAnim.GetCurrentFrame() >= 15)
 		{
 			SetupStageSeven();
 		}
 		break;
 	case 7:
-		// final dialogue
 		if (!dialogue.GetActive())
 		{
 			return true;

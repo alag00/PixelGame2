@@ -27,9 +27,6 @@ class PumpkinEnemy : public Enemy
 
 	Rectangle attackBox{ 0.f,0.f,0.f,0.f };
 
-	//bool hasAdvantage = true;
-	//int switchAgroCounter = 2;
-
 	const short int ATTACK_DAMAGE = 10;
 	const short int DEFLECTED_DAMAGE = 5;
 
@@ -65,7 +62,6 @@ public:
 	void Walk(float dt);
 	void Attack(float dt);
 
-	//void UpdateAgroSwitch();
 
 	bool GetHit(Vector2 sourcePos, int potentialDamage);
 

@@ -86,7 +86,6 @@ void GuardianEnemy::Decide()
 		{
 			dec = DECISION::ATTACK;
 			anim.SetAnimation(textures[2], 11, false);
-			//anim.CustomFPS(FAST_FRAME_RATE);
 		}
 		else
 		{
@@ -116,7 +115,7 @@ void GuardianEnemy::Act(float dt)
 	}
 	hitBox = { pos.x, pos.y, 2.f, 4.f };
 	hitBox.y -= hitBox.height * 0.5f;
-	hitBox.x = pos.x - 1.f;// (lookRight) ? pos.x - 1.f : pos.x - 1.0f;
+	hitBox.x = pos.x - 1.f;
 	hurtTimer -= dt;
 	cooldownTimer -= dt;
 
@@ -161,17 +160,6 @@ void GuardianEnemy::Render()
 
 	Color color = (hurtTimer <= 0.f) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
-
-	//DrawCircle(static_cast<int>(leftBorder.x * 64.f), static_cast<int>(leftBorder.y * 64.f), 5.f, PINK);
-	//DrawCircle(static_cast<int>(rightBorder.x * 64.f), static_cast<int>(rightBorder.y * 64.f), 5.f, PINK);
-
-	//Color testCol = { 255, 255, 0, 100 };
-	//Rectangle testAtkBox{ attackBox.x * 64.f, attackBox.y * 64.f, attackBox.width * 64.f, attackBox.height * 64.f };
-	//DrawRectangleRec(testAtkBox, testCol);
-
-	//Rectangle testHitBox{ hitBox.x * 64.f, hitBox.y * 64.f, hitBox.width * 64.f, hitBox.height * 64.f };
-	//testCol.g = 0;
-	//DrawRectangleRec(testHitBox, testCol);
 }
 
 void GuardianEnemy::CollisionCheck()
@@ -192,7 +180,6 @@ void GuardianEnemy::CollisionCheck()
 			anim.SetAnimation(textures[0], 4, true);
 			dec = IDLE;
 		}
-		//anim.CustomFPS(SLOW_FRAME_RATE);
 		cooldownTimer = ATTACK_COOLDOWN_TIME;
 	}
 }
@@ -225,7 +212,6 @@ void GuardianEnemy::Attack(float dt)
 	{
 		anim.SetAnimation(textures[0], 4, true);
 		dec = IDLE;
-		//anim.CustomFPS(SLOW_FRAME_RATE);
 		cooldownTimer = ATTACK_COOLDOWN_TIME;
 	}
 }
@@ -270,47 +256,19 @@ void GuardianEnemy::GrabHit(float dt)
 {
 
 	grabProgress += dt;
-	//if (grabProgress >= 1.f / SLOW_FRAME_RATE)
-	//{
-	//	grabProgress = 0.01f;
-	//}
+
 	float procent = grabProgress / (3.f / SLOW_FRAME_RATE);
 	if (anim.GetCurrentFrame() >= 0 && anim.GetCurrentFrame() < 3)
 	{
 		playerRef->pos.y = std::lerp(pos.y - 1.f, pos.y - 1.5f, procent);
 		playerRef->pos.x = (lookRight) ? std::lerp(pos.x - 0.5f, pos.x + 0.5f, procent) : std::lerp(pos.x + 1.f, pos.x - 1.f, procent);
 	}
-	/*
-	switch (anim.GetCurrentFrame())
-	{
-	case 0:
-		playerRef->pos.y =  pos.y - 1.f;
-		playerRef->pos.x = (lookRight) ? pos.x - 0.5f : pos.x + 1;
-		break;
-	case 1:
-		playerRef->pos.y = pos.y - 1.f;
-		playerRef->pos.x = (lookRight) ? std::lerp(pos.x - 0.5f, pos.x, procent)  : std::lerp(pos.x + 1, pos.x, procent);
-		break;
-	case 2:
-		playerRef->pos.y = std::lerp(pos.y - 1.f, pos.y - 2.f, procent);// pos.y - 2.f;
-		playerRef->pos.x = (lookRight) ? std::lerp(pos.x, pos.x + 0.5f, procent) : std::lerp(pos.x, pos.x - 1.f, procent);
-		break;
 	
-	case 7:
-		playerRef->pos.y = std::lerp(pos.y - 2.f, pos.y - 1.f, procent);
-		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
-		break;
-	case 8:
-		playerRef->pos.y = pos.y - 1.f;
-		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
-		break;
-	}
-	*/
 	if (anim.GetCurrentFrame() >= 3 && anim.GetCurrentFrame() <= 8)
 	{
 		playerRef->pos.y = pos.y - 1.5f;
 		playerRef->pos.x = (lookRight) ? pos.x + 0.5f : pos.x - 1.f;
-		//playerRef->vel = { 0.f,0.f };
+		
 	}
 	if (anim.GetCurrentFrame() >= 9)
 	{

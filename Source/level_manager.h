@@ -14,7 +14,6 @@
 #include "scene.h"
 #include "cutscene_manager.h"
 #include <cmath>
-//#include <algorithm>
 #include "tutorial_texts.h"
 #include "dark_mode.h"
 #include "particle_manager.h"
@@ -128,17 +127,12 @@ public:
 
 	void AdjustPlayer(float dt);
 	bool CheckMovingPlayer(float playerPosX, float playerPosY, float t1Xoffset, float t1Yoffset, float t2Xoffset, float t2Yoffset);
-	//void CheckDeathBlock(Vector2 playerPos, Vector2 tilePos);
-	//bool LineBoxCollisionCheck(Vector2 l1, Vector2 l2, Rectangle box);
 	bool IsPlayerTouchBlockTile(char tileTypeOne, char tileTypeTwo);
 	void CheckEvent();
 	
 
 	void RenderHpBars();
 	
-	//void RenderCredit();
-
-
 
 	void StartBoss();
 };

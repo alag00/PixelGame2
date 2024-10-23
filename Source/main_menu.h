@@ -17,7 +17,6 @@ private:
 	Texture2D title{};
 	SCENE_TYPE nextScene = SCENE_TYPE::NONE;
 
-	//bool isTxrLoaded = false;
 	const int FONT_SIZE = 40;
 	const int OFFSET = 160;
 	const float BLINK_RATE = 0.5f;
@@ -50,6 +49,6 @@ public:
 	void DrawBackground();
 
 	bool CheckEvent();
-	//void LoadTextures();
+
 
 };

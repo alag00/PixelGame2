@@ -72,13 +72,7 @@ void PumpkinEnemy::Decide()
 	{
 		return;
 	}
-	/*
-	if (!hasAdvantage)
-	{
-		dec = DECISION::IDLE;
-		return;
-	}
-	*/
+
 	if (dec == DECISION::ATTACK)
 	{
 		return;
@@ -151,8 +145,6 @@ void PumpkinEnemy::Render()
 	Color color = (dec != DAMAGED) ? WHITE : RED;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
 
-	//DrawCircle((int)leftBorder.x * 64, (int)leftBorder.y * 64, 5.f, PINK);
-	//DrawCircle((int)rightBorder.x * 64, (int)rightBorder.y * 64, 5.f, PINK);
 }
 
 void PumpkinEnemy::CollisionCheck()
@@ -239,27 +231,7 @@ void PumpkinEnemy::Attack(float dt)
 }
 
 
-/*
-void PumpkinEnemy::UpdateAgroSwitch()
-{
-	switchAgroCounter--;
-	if (switchAgroCounter <= 0)
-	{
-		switchAgroCounter = 2;
-		hasAdvantage = !hasAdvantage;
 
-		if (!hasAdvantage)
-		{
-			dec = LOSTADVANTAGE;
-			anim.SetAnimation(textures[4], 5, false);
-		}
-		if (hasAdvantage)
-		{
-			playerRef->LoseAdvantage();
-		}
-	}
-}
-*/
 
 bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 {
@@ -281,7 +253,7 @@ bool PumpkinEnemy::GetHit(Vector2 sourcePos, int potentialDamage)
 	dec = DAMAGED;
 	anim.SetAnimation(textures[4], 5, false);
 
-	//UpdateAgroSwitch();
+	
 
 
 

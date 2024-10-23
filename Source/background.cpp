@@ -82,8 +82,6 @@ void Background::Render()
 	dst = { txr2pos[2].x, txr2pos[2].y, (float)screenWidth, (float)screenHeight };
 	DrawTexturePro(activeTxr[1], src, dst, Vector2(0.f, 0.f), 0.f, WHITE);
 
-
-	//src = { 0.f, 0.f, (float)activeTxr[2].width, (float)activeTxr[2].height };
 	dst = { txr3pos[0].x, txr3pos[0].y, (float)screenWidth, (float)screenHeight };
 	DrawTexturePro(activeTxr[2], src, dst, Vector2(0.f, 0.f), 0.f, WHITE);
 

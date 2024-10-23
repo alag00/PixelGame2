@@ -145,7 +145,6 @@ void GhostEnemy::DashAttack(float dt)
 	{
 		return;
 	}
-	//Move(dt, dashDir, SPEED * 4.f);
 	pos.x += dashDir.x * dt * SPEED * 4.f;
 	yOrigin += dashDir.y * dt * SPEED * 4.f;
 

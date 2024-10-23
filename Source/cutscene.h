@@ -44,7 +44,6 @@ private:
 	float angelYOrigin = 0.f;
 	Vector2 angelSize{ 0.f,0.f };
 	Color angelCol = WHITE;
-	//Texture2D angelTxr2{};
 	Color angelTextCol = WHITE;
 
 	Texture2D playerPort{};
@@ -140,8 +139,6 @@ public:
 
 class CastleCutscene : public Cutscene
 {
-	// lvl 5, tile trigger
-	// angel shows up, 
 private:
 	Vector2* camRef = nullptr;
 	float scale = 3.f;
@@ -160,7 +157,6 @@ private:
 	float angelYOrigin = 0.f;
 	Vector2 angelSize{ 0.f,0.f };
 	Color angelCol = WHITE;
-	//Texture2D angelTxr2{};
 
 	Texture2D angelPort1{};
 	Texture2D angelPort2{};
@@ -188,7 +184,6 @@ public:
 
 class CatCutscene : public Cutscene
 {
-	// lvl 7, level start
 private:
 
 	Vector2* camRef = nullptr;

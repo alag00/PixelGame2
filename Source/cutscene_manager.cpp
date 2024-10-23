@@ -38,7 +38,6 @@ void CutsceneManager::SwitchCutscene(int cutsceneID)
 	case 3:
 		currentCutscene = new CatCutscene();
 		break;
-		// Boss Cutscenes
 	case -1:
 		currentCutscene = new CastleBossCutscene(*filterRef);
 		break;

@@ -212,23 +212,9 @@ void MiscManager::Render(Rectangle camSpace)
 	{
 		objectList.at(i)->Render(camSpace);
 	}
-	/*
-	for (int i = 0; i < hurtBlockList.size(); i++)
-	{
-		hurtBlockList.at(i).Render();
-	}
-	*/
 }
 
-/*
-void MiscManager::UpdateObjectRender(Rectangle camSpace)
-{
-	for (int i = 0; i < objectList.size(); i++)
-	{
-		objectList.at(i)->Update(camSpace);
-	}
-}
-*/
+
 
 int MiscManager::GetMostViableGrapplingIndex()
 {

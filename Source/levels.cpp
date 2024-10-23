@@ -243,7 +243,6 @@ void Levels::CreateLevelThree()
 	currentTileTxr = tileTextures[0];
 	SetCurrentBackground(1);
 	startCutscene = false;
-	//particleRef->QueueParticle(FALLING_LEAVES, Vector2(0.f, 0.f));
 
 	currentLevelWidth = 128;
 	currentevelHeight = 22;
@@ -738,7 +737,7 @@ void Levels::CreateLevelEleven()
 	startCutscene = false;
 
 	darkMode = true;
-	// maze level???
+	
 	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssss**********sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
@@ -815,7 +814,7 @@ void Levels::CreateLevelTwelve()
 	darkMode = false;
 	miscChar = L',';
 
-	// last cave level
+	
 	currentLevel += "sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss********************************sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "ssssssssssssssssssssssssssssssssssssssssssss******************************************************************sssssssss************************************sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
 	currentLevel += "sssssssssssssssssssssssssssssssssssssssssss********************************************************************sssss******,,,,,.................,,,,,,,,*****sssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssssss";
@@ -904,16 +903,3 @@ void Levels::CreateLevelFifteen()
 {
 }
 
-// Level Plans
-// Remove lvl 10 and maybe lvl 5
-// Have a Mansion level with puzzles and ghost enemies between lvl 7 and 8 (the two spooky levels)
-// Have 1-2 more cave levels after level 9 (fight the player's old faction)
-// Have 2-3 Winter levels where player utilizes new Mechanic(wind blow which affects player velocity);
-// Have 1-2 Ice Castle levels Ending with Cryomancer boss fight
-
-// Out of scope plans
-// Cutscene after Cryoancer defeat, fight against final boss (Extremely Difficult)
-// If win, special ending
-// If lose, player dies and goes to hell
-// Some Hell levels, Fight against Lucifer or Satan or something
-// Would be cool to have some feature to show all enemies you have defeated

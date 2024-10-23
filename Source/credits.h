@@ -8,8 +8,6 @@
 class Credits
 {
 private:
-	//std::string currentTitle{};
-	//std::string currentText{};
 	std::vector<std::string> titleList{};
 	std::vector<std::string> textList{};
 	TextRenderer txtRend;
