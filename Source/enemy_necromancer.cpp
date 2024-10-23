@@ -148,15 +148,18 @@ void NecromancerEnemy::UpdateProj(float dt)
 }
 
 void NecromancerEnemy::Render() {
-	if (!IsAlive())
-	{
-		anim.UpdateAnimator(GetFrameTime());
-	}
+	
 	Rectangle dst = { pos.x * 64.f , pos.y * 64.f , size.x, size.y };
 	Vector2 origin = { dst.width * 0.35f , dst.height * 0.75f };
 	dst.x = (lookRight) ? dst.x - 64.f : dst.x;
 	Color color = (dec == DAMAGED || damagedTimer > 0.f) ? RED : WHITE;
 	anim.DrawAnimationPro(dst, origin, 0.f, color);
+
+	if (!IsAlive())
+	{
+		anim.UpdateAnimator(GetFrameTime());
+		return;
+	}
 
 	for (int i = 0; i < projAmount; i++)
 	{

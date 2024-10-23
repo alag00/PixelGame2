@@ -13,7 +13,7 @@ private:
 	Color backCol = BLACK;
 	int margin = 50;
 
-	
+	std::string time = " ";
 
 	float timeSpent = 0.f;
 
@@ -26,7 +26,8 @@ public:
 	//void AddKill() { killsCounter++; }
 	void AddHit() { hitCounter++; }
 	void AddDeath() { deathCounter++; }
-	void UpdateTimeKeeper(float dt) { timeSpent += dt; } // When player can move -lastlevel
+	void UpdateTimeKeeper(float dt); // When player can move -lastlevel
+	std::string FilterTime(int value);
 
 	void RenderTimeKeeper(); // Always
 	void RenderStats(); // Last level
