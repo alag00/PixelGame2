@@ -82,7 +82,7 @@ void GuardianEnemy::Decide()
 		anim.SetAnimation(textures[2], 11, false);
 
 		int randNum = GetRandomValue(0, 10);
-		if (randNum < 8)
+		if (randNum < 6)
 		{
 			dec = DECISION::ATTACK;
 			anim.SetAnimation(textures[2], 11, false);

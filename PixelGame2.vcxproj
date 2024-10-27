@@ -168,6 +168,7 @@
     <ClCompile Include="Source\misc_manager.cpp" />
     <ClCompile Include="Source\particle.cpp" />
     <ClCompile Include="Source\particle_manager.cpp" />
+    <ClCompile Include="Source\pause_menu.cpp" />
     <ClCompile Include="Source\player.cpp" />
     <ClCompile Include="Source\scene_manager.cpp" />
     <ClCompile Include="Source\score_manager.cpp" />
@@ -207,6 +208,7 @@
     <ClInclude Include="Source\misc_manager.h" />
     <ClInclude Include="Source\particle.h" />
     <ClInclude Include="Source\particle_manager.h" />
+    <ClInclude Include="Source\pause_menu.h" />
     <ClInclude Include="Source\player.h" />
     <ClInclude Include="Source\scene.h" />
     <ClInclude Include="Source\scene_manager.h" />

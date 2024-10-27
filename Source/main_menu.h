@@ -10,7 +10,7 @@ class MainMenu : public Scene
 {
 private:
 
-	const char* CURRENT_VERSION = "v0.3.0-beta";
+	const char* CURRENT_VERSION = "v0.3.2-beta";
 	float screenWidth = 0.f;
 	float screenHeight = 0.f;
 	Texture2D bg{};

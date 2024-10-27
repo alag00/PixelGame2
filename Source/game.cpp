@@ -3,7 +3,7 @@
 Game::Game()
 {
 	SetConfigFlags(FLAG_VSYNC_HINT);
-	InitWindow(screenWidth, screenHeight, "Unholy Trek");
+	InitWindow(screenWidth, screenHeight, "The Unholy Trek");
 	InitAudioDevice();
 	SetTargetFPS(60);
 	Image icon = LoadImage("Assets/Icon.png");
@@ -11,18 +11,27 @@ Game::Game()
 	UnloadImage(icon);
 	HideCursor();
 	sceneManager.Setup();
-	int monitor = GetCurrentMonitor();
-	if (GetMonitorWidth(monitor) == screenWidth && GetMonitorHeight(monitor) == screenHeight)
-	{
-		ToggleFullScreenWindow(screenWidth, screenHeight);
-	}
+	CheckToggleWindow();
+
+	pauseMenu.Setup(isRunning, isPaused);
 }
 
 void Game::Run()
 {
-	while (!WindowShouldClose())
+	while (isRunning)
 	{
-		sceneManager.Update();
+		if (IsKeyPressed(KEY_ESCAPE))
+		{
+			TogglePause();
+		}
+		if (!isPaused)
+		{
+			sceneManager.Update();
+		}
+		else
+		{
+			pauseMenu.Update();
+		}
 	}
 }
 
@@ -38,6 +47,29 @@ void Game::ToggleFullScreenWindow(int width, int height)
 	{
 		ToggleFullscreen();
 		SetWindowSize(width, height);
+	}
+}
+
+void Game::CheckToggleWindow()
+{
+	int monitor = GetCurrentMonitor();
+	if (GetMonitorWidth(monitor) == screenWidth && GetMonitorHeight(monitor) == screenHeight)
+	{
+		ToggleFullScreenWindow(screenWidth, screenHeight);
+	}
+}
+
+void Game::TogglePause()
+{
+	isPaused = !isPaused;
+	//CheckToggleWindow();
+	if (isPaused)
+	{
+		ShowCursor();
+	}
+	else
+	{
+		HideCursor();
 	}
 }
 
