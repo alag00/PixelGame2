@@ -122,7 +122,7 @@ void PauseMenu::Setup(bool& running, bool& paused)
 	sfxButton.Setup("Test", Vector2(width * 0.9f, ((float)height / 2.f) - (sfxSize.y / 2.f)), sfxSize, false);
 
 	testSound = LoadSound("Assets/Audio/SFX/Checkpoint.mp3");
-	testMusic = LoadMusicStream("Assets/Audio/Music/OminousSpook.mp3");
+	testMusic = LoadMusicStream("Assets/Audio/Music/CutsceneTheme.mp3");
 	PlayMusicStream(testMusic);
 }
 
@@ -143,6 +143,7 @@ void PauseMenu::Update()
 	{
 		// resume Game
 		*pausedRef = false;
+		HideCursor();
 	}
 	if (quitButton.Update())
 	{

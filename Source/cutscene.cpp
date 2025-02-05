@@ -65,16 +65,8 @@ void IntroCutscene::SetupStageFour()
 	cutsceneStage = 4;
 
 	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "Fear not my child, I am here to help.", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "Ehm, I said!", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "Fear Not My Child, I Am Here To Help!", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "......", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "(Is she dead?)", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "A-Are you dead?", false, angelTextCol);
-	dialogue.QueueDialogue(Texture2D(), angelPort, "...", false, angelTextCol);
+	dialogue.QueueDialogue(Texture2D(), angelPort, "Another one tossed away like a broken doll.", false, angelTextCol);
+	
 
 }
 
@@ -83,18 +75,11 @@ void IntroCutscene::SetupStageFive()
 	dialogue.SetActive(true);
 	cutsceneStage = 5;
 
-	dialogue.QueueDialogue(playerPort, angelPort, "Ugh, W-Where am I?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "W-Who am I?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "What happened to my powers?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "Ugh what powers?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort, "*SIGHS*", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "Don't worry my sweet child.", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "I shall lend you some of my power.", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "So that you may have your revenge.", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "And get back your powers from those who took it from you.", false, angelTextCol);
+	dialogue.QueueDialogue(playerPort, angelPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort, "Ugh.", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, angelPort, "...", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "But in return you will help me fulfill my goal.", false, angelTextCol);
-	dialogue.QueueDialogue(playerPort, angelPort, "Now get up, we have work to do.", false, angelTextCol);
+	dialogue.QueueDialogue(playerPort, angelPort, "It seems that this one still breathes", false, angelTextCol);
+	
 }
 
 bool IntroCutscene::Update(float dt)
@@ -282,14 +267,9 @@ void CastleBossCutscene::SetupStageSix()
 	dialogue.SetActive(true);
 	cutsceneStage = 6;
 
-	dialogue.QueueDialogue(playerPort, enemyPort, "What the hell.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "Hey You! Let me through.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "YOU FOOL!", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "WHY ARE YOU BACK HERE!?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "You are no longer welcome here.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "I will give you one last warning.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "W-What?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "Leave.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyPort, "None shall pass!", false, PURPLE);
+	
 
 	playerAnim.SetAnimation(playerIdle, 8, true);
 	enemyAnim.FlipAnimationHorizontal();
@@ -300,19 +280,9 @@ void CastleBossCutscene::SetupStageEigth()
 	dialogue.SetActive(true);
 	cutsceneStage = 8;
 
-	dialogue.QueueDialogue(angelPortL, enemyPort, "That's not happening pal.", true, WHITE);
-	dialogue.QueueDialogue(angelPortL, enemyPort, "Y-YOU! Why are you here?!", false, PURPLE);
-	dialogue.QueueDialogue(angelPortL, enemyPort, "To restore the balance of course.", true, WHITE);
-	dialogue.QueueDialogue(angelPortL, enemyPort, "But you won't be alive to see it.", true, WHITE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "You.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "Me?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyPort, "Yes you, there been a change of plans...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "You are not going anywhere.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyPort, "I must stop you before it's too late.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, angelPortR, "Prepare for battle.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPortR, "Look out for his grab techniques.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPortR, "Aw man. (Sad Face)", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "Look out for his unstoppable grab.", true, WHITE);
+	dialogue.QueueDialogue(playerPort, angelPortR, "?", true, YELLOW);
+	dialogue.QueueDialogue(angelPortL, enemyPort, "Y-You.", false, PURPLE);
 }
 
 void CastleBossCutscene::PlayerGrabPosition()
@@ -518,16 +488,9 @@ void CastleCutscene::SetupStageThree()
 	cutsceneStage = 3;
 
 	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Good job defeating that nasty old geezer", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Yeah but what he mean by...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "That guy was a gate keeper!", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Don't trust a word he said.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "I guess you are right but...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Anyway! don't worry about...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "But...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort1, "Stop.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort1, "If it troubles you then I shall give you the truth...", false, WHITE);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Splendid work.", false, WHITE);
+	dialogue.QueueDialogue(playerPort, angelPort1, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, angelPort1, "Yes. I shall tell you the truth.", false, WHITE);
 
 	pauseTimer = PAUSE_TIME;
 }
@@ -538,19 +501,12 @@ void CastleCutscene::SetupStageFour()
 	dialogue.SetActive(true);
 	cutsceneStage = 4;
 
-	dialogue.QueueDialogue(playerPort, angelPort2, "I am an angel from the Holy One...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "In other words, one of your God's Servants.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "I was sent here to restore the balance.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "By assisting you in any means necessary in order to...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "Have the 3 Mancers killed.", false, WHITE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "I was sent to dispose of the 3 Mancers:", false, WHITE);
+
 	dialogue.QueueDialogue(playerPort, angelPort2, "Necromancer...", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, angelPort2, "Pyromancer...", false, ORANGE);
 	dialogue.QueueDialogue(playerPort, angelPort2, "and Cryomancer...", false, SKYBLUE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "needs to be dead for the balance to be restored.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "You need my help for this...", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "as they took your powers and threw you down that cave.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPort2, "So where are we heading now?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPort2, "To the Land of the Living where they all reside.", false, WHITE);
+	dialogue.QueueDialogue(playerPort, angelPort2, "Continue towards the land where they all reside.", false, WHITE);
 
 }
 
@@ -700,17 +656,16 @@ void CatCutscene::SetupStageTwo()
 	dialogue.SetActive(true);
 
 	dialogue.QueueDialogue(playerPort, cat1Port, "Oh, a visitor?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, cat1Port, "A cat with a hat, Cool.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, cat1Port, "Oh, and she is a live one at that.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Oh, and a live one at that.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, cat1Port, "Isn't that right Mr. Whiskyscratch?.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, cat2Port, "Meow.", false, DARKGRAY);
 	dialogue.QueueDialogue(playerPort, cat1Port, "So true.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, cat1Port, "Anyway. Welcome to my property, mortal.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, cat1Port, "I would have Mr. Whiskyscratch offer you some tea...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "Anyway. Welcome to my garden, mortal.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "I would like to have Mr. Whiskyscratch pour you some tea...", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, cat1Port, "But frankly I am unable to...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, cat1Port, "As a necromancer has taken my manor.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, cat1Port, "A Necromancer you say?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, cat1Port, "I happened to specialize in removing such problems.", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, cat1Port, "You see, a Necromancer has taken my manor.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, cat1Port, "!!", true, YELLOW);
 	dialogue.QueueDialogue(playerPort, cat1Port, "Is that so?", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, cat1Port, "That would be wonderful.", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, cat1Port, "Just follow the road and you will be right there.", false, PURPLE);
@@ -841,8 +796,9 @@ void MansionBossCutscene::SetupStageOne()
 {
 	playerAnim.SetAnimation(playerIdle, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm, now where did I put my necromancy books?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I could have sworn I put it right here...", false, PURPLE);
+	dialogue.QueueDialogue(Texture2D(), enemySpeakPort, "If this book is correct...", false, PURPLE);
+	dialogue.QueueDialogue(Texture2D(), enemySpeakPort, "then that would mean...", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "!!", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 1;
@@ -854,45 +810,29 @@ void MansionBossCutscene::SetupStageTwo()
 
 
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Woah!", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "!!??", false, PURPLE);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Oh it's just you..", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Jesus, How long have you been standing there?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Anyway how do you like the new crib, I stole from some...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Wait a minute, You are supposed to be dead.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "How are you still alive?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Divine Intervention", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Is that so?", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Well you look a little different...", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "You have a glowing aura around you.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Thanks, I have been following some guides.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "No I mean like you have a literal glowing aura around you.", false, PURPLE);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Oh that, that's from my angel.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Angel?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Who are you?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "What are you doing here?", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Answer me!", false, PURPLE);
 
 	cutsceneStage = 2;
 }
 
 void MansionBossCutscene::SetupStageFive()
 {
-	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Hello Victor, long time no see.", true, WHITE);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Necromancer. Your fate ends here.", true, WHITE);
 	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Y-you...", false, PURPLE);
-	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Why are you here?", false, PURPLE);
-	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Oh? isn't it obvious?", true, WHITE);
-	dialogue.QueueDialogue(angelPortL, enemySpeakPort, "Than that means that...", false, PURPLE);
-	dialogue.QueueDialogue(angelPortL, enemySpeakPort, "Nah man F#%$ this!", false, PURPLE);
+	dialogue.QueueDialogue(angelPortL, enemyListenPort, "Curse you!", false, PURPLE);
+
 	cutsceneStage = 5;
 	dialogue.SetActive(true);
 }
 
 void MansionBossCutscene::SetupStageSeven()
 {
-	dialogue.QueueDialogue(playerPort, angelPortR, "I guess he wasn't as excited for the reunion as I was.", false, WHITE);
-	dialogue.QueueDialogue(playerPort, angelPortR, "He can't have gotten far.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, angelPortR, "True that, it is likely that he is still in this building.", false, WHITE);
-	dialogue.QueueDialogue(Texture2D(), Texture2D(), "N-no I'm not", false, PURPLE);
-	dialogue.QueueDialogue(Texture2D(), Texture2D(), "Just don't check upstairs.", false, PURPLE);
+	dialogue.QueueDialogue(playerPort, angelPortR, "Follow him, it's likely that he is still in this manor.", false, WHITE);
+
 	cutsceneStage = 7;
 	dialogue.SetActive(true);
 }
@@ -1080,7 +1020,7 @@ void GraveyardCutscene::SetupStageTwo()
 {
 	playerAnim.SetAnimation(playerIdle, 8, true);
 
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Hello?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "!?", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 2;
@@ -1091,10 +1031,8 @@ void GraveyardCutscene::SetupStageThree()
 	enemyAnim.FlipAnimationHorizontal();
 	enemyPos.x--;
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Y-You.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Why am I even surprised.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "...", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "It seems that another one has survived.", false, enemyCol);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 3;
@@ -1112,21 +1050,8 @@ void GraveyardCutscene::SetupStageFour()
 void GraveyardCutscene::SetupStageFive()
 {
 	enemyAnim.SetAnimation(enemyIdle, 8, true);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I knew you would be back...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I take it that you have already taken down...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "The Necromancer.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...Yes.", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Truly marvelous.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "......", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "I know you want me dead...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "and I don't expect you to forgive me...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Especially after what we took from you", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "So come and end me...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I am sure hell is waiting for me.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "......", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "I'm sorry but should I know you?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "But something seems different about this one.", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "?", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 5;
@@ -1137,18 +1062,9 @@ void GraveyardCutscene::SetupStageSix()
 	enemyAnim.FlipAnimationHorizontal();
 	enemyPos.x--;
 
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "W-What?...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Have you lost your memory...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Huh?...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "That glow?", false, enemyCol);
+
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Hm the other one didn't glow.", false, enemyCol);
 	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "...", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I see, that's a shame", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "It's just an empty husk, here to torment me.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "The Gods sure are cruel.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "What who are you?", true, YELLOW);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "I am the Pyromancer who is going to cremate you.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Pyromancer?!", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 6;
@@ -1165,9 +1081,8 @@ void GraveyardCutscene::SetupStageEight()
 	enemyAnim.SetAnimation(enemyIdle, 8, true);
 
 	
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Yes and Goodbye.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemySpeakPort, "It was nice seeing you one last time Hagiomancer.", false, enemyCol);
-	dialogue.QueueDialogue(playerPort, enemyListenPort, "Hagiomancer?", true, YELLOW);
+	dialogue.QueueDialogue(playerPort, enemySpeakPort, "Anyway, I won't let this one escape.", false, enemyCol);
+	dialogue.QueueDialogue(playerPort, enemyListenPort, "!?", true, YELLOW);
 
 	dialogue.SetActive(true);
 	cutsceneStage = 8;
